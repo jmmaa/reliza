@@ -60,12 +60,12 @@ export const calculateBareHandBaseAttackSpeed = (
   AGI: number
 ) => 1000 + level + 9.6 * AGI;
 
-const calculateActionTimeReduction = (attackSpeed: number) => {
-  const raw = (attackSpeed - 1000) / 180;
+export const calculateActionTimeReduction = (attackSpeed: number) => {
+  const raw = Math.floor((attackSpeed - 1000) / 180);
 
   const effective = raw > 50 ? 50 : raw;
 
-  return effective;
+  return effective / 100;
 };
 
 // max hp
@@ -112,12 +112,132 @@ export const calculateCastingTimeReduction = (castSpeed: number) =>
 
 export const calculateAMPR = (maxMP: number) => 10 + maxMP / 100;
 
+// weapon attack
+
+const calculateWeaponAttackRefinementBonus = (
+  refinementValue: number,
+  baseWeaponAttack: number
+) => {
+  const percent = refinementValue ** 2 / 100;
+
+  const flat = refinementValue;
+
+  return calculate(baseWeaponAttack, flat, percent);
+};
+
+export const calculateSubWeaponAttackRefinementBonus = (
+  refinementValue: number,
+  baseSubWeaponAttack: number
+) => {
+  /*
+
+  the actual calculation based on phantom library is:
+
+  Sub Weapon ATK = Attack value of subhand sword * 
+  (1 + Weapon ATK%/100 + refine of weapon²/200) + refine of weapon + flat Weapon ATK
+
+  however it seems like its an inconsistency in the coryn.club example, imma search more on this.
+
+  */
+  const percent = refinementValue ** 2 / 200;
+
+  const flat = refinementValue;
+
+  return calculate(baseSubWeaponAttack, flat, percent);
+};
+
+// stability
+
+export const calculateOneHandedSwordStability = (
+  weaponStability: number,
+  STR: number,
+  DEX: number
+) => weaponStability + (STR + 3 * DEX) / 40;
+
+export const calculateTwoHandedSwordStability = (
+  weaponStability: number,
+  DEX: number
+) => weaponStability + DEX / 10;
+
+// essentially the same to ohs stab
+export const calculateDualWieldStability = (
+  weaponStability: number,
+  STR: number,
+  DEX: number
+) => weaponStability + (STR + 3 * DEX) / 40;
+
+export const calculateDualWieldSubStability = (
+  subWeaponStability: number,
+  STR: number,
+  AGI: number
+) => subWeaponStability / 2 + (3 * STR + 2 * AGI) / 50;
+
+export const calculateBowStability = (
+  weaponStability: number,
+  STR: number,
+  DEX: number
+) => weaponStability + (STR + DEX) / 20;
+
+export const calculateBowgunStability = (
+  weaponStability: number,
+  STR: number
+) => weaponStability + STR / 20;
+
+export const calculateStaffStability = (
+  weaponStability: number,
+  STR: number,
+  DEX: number
+) => weaponStability + STR / 20;
+
+export const calculateMagicDeviceStability = (
+  weaponStability: number,
+  DEX: number
+) => weaponStability + DEX / 10;
+
+export const calculateKnuckleStability = (
+  weaponStability: number,
+  DEX: number
+) => weaponStability + DEX / 40;
+
+export const calculateHalberdStability = (
+  weaponStability: number,
+  STR: number,
+  DEX: number
+) => weaponStability + (STR + DEX) / 20;
+
+export const calculateKatanaStability = (
+  weaponStability: number,
+  STR: number,
+  DEX: number
+) => weaponStability + (3 * STR + DEX) / 40;
+
+export const calculateBareHandStability = (
+  weaponStability: number,
+  DEX: number
+) => weaponStability + DEX / 3;
+
+export const calculateMagicStability = (stability: number) =>
+  (100 + stability) / 2;
+
+// helper functions
+export const calculate = (base: number, flat: number, percent: number) =>
+  Math.floor(base * percent) + flat;
+
 // scratch
 
-const actiontime = calculateActionTimeReduction(9341);
+// const actiontime = calculateActionTimeReduction(9341);
 
-const casttime = calculateCastingTimeReduction(10000);
+// const casttime = calculateCastingTimeReduction(10000);
 
-console.log(casttime);
+// console.log(casttime);
 
-console.log(actiontime);
+// console.log(actiontime);
+
+const refinementBonus = calculateWeaponAttackRefinementBonus(0, 226);
+const subrefinementBonus = calculateSubWeaponAttackRefinementBonus(
+  14,
+  226
+);
+console.log(refinementBonus);
+
+console.log(subrefinementBonus);
