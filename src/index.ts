@@ -114,7 +114,7 @@ export const calculateAMPR = (maxMP: number) => 10 + maxMP / 100;
 
 // weapon attack
 
-const calculateWeaponAttackRefinementBonus = (
+export const calculateWeaponAttackRefinementBonus = (
   refinementValue: number,
   baseWeaponAttack: number
 ) => {
@@ -122,7 +122,9 @@ const calculateWeaponAttackRefinementBonus = (
 
   const flat = refinementValue;
 
-  return calculate(baseWeaponAttack, flat, percent);
+  const refinementBonus = Math.floor(baseWeaponAttack * percent + flat);
+
+  return refinementBonus;
 };
 
 export const calculateSubWeaponAttackRefinementBonus = (
@@ -143,7 +145,7 @@ export const calculateSubWeaponAttackRefinementBonus = (
 
   const flat = refinementValue;
 
-  return calculate(baseSubWeaponAttack, flat, percent);
+  return Math.floor(baseSubWeaponAttack * percent + flat);
 };
 
 // stability
@@ -219,25 +221,13 @@ export const calculateBareHandStability = (
 export const calculateMagicStability = (stability: number) =>
   (100 + stability) / 2;
 
-// helper functions
-export const calculate = (base: number, flat: number, percent: number) =>
-  Math.floor(base * percent) + flat;
+// drop rate
+export const calculateBaseDropRate = (LUK: number) => Math.floor(LUK / 5);
+
+// ATK
 
 // scratch
 
-// const actiontime = calculateActionTimeReduction(9341);
+const cspd = calculateCastingTimeReduction(6380);
 
-// const casttime = calculateCastingTimeReduction(10000);
-
-// console.log(casttime);
-
-// console.log(actiontime);
-
-const refinementBonus = calculateWeaponAttackRefinementBonus(0, 226);
-const subrefinementBonus = calculateSubWeaponAttackRefinementBonus(
-  14,
-  226
-);
-console.log(refinementBonus);
-
-console.log(subrefinementBonus);
+console.log(cspd);
