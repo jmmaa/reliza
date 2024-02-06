@@ -2,11 +2,11 @@ type Status = {};
 
 type Prettify<T> = { [K in keyof T]: T[K] } & {}; // idk how does this work
 
-type BaseSTR = (
-  value: number
-) => <T extends Status>(status: T) => Prettify<T & { STR: number }>;
+type WithBaseSTR<T> = Prettify<T & { STR: number }>;
 
-const STR: BaseSTR = (value: number) => {
+type BaseSTR = (value: number) => <T>(status: T) => WithBaseSTR<T>;
+
+const STR: BaseSTR = (value) => {
   return (status) => {
     return { ...status, STR: value };
   };
