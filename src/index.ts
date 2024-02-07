@@ -1,69 +1,47 @@
-type Status = {};
+import * as pino from "@jmmaa/pino";
 
 type Prettify<T> = { [K in keyof T]: T[K] } & {}; // idk how does this work
 
-type WithBaseSTR<T> = Prettify<T & { STR: number }>;
+type Modifier<T> = <S>(status: S) => Prettify<S & T>;
 
-type BaseSTR = (value: number) => <T>(status: T) => WithBaseSTR<T>;
+type DeclareStatFunc = <T>(mapping: T) => Modifier<T>;
 
-const STR: BaseSTR = (value) => {
+export const declareStat: DeclareStatFunc = (mapping) => {
   return (status) => {
-    return { ...status, STR: value };
+    return { ...status, ...mapping };
   };
 };
 
-type BaseAGI = (
-  value: number
-) => <T extends Status>(status: T) => Prettify<T & { AGI: number }>;
+export const baseSTR = (value: number) => declareStat({ STR: value });
 
-const AGI: BaseAGI = (value: number) => {
-  return (status) => {
-    return { ...status, AGI: value };
-  };
+export const baseAGI = (value: number) => declareStat({ AGI: value });
+
+export const baseDEX = (value: number) => declareStat({ DEX: value });
+
+export const baseINT = (value: number) => declareStat({ INT: value });
+
+export const baseVIT = (value: number) => declareStat({ VIT: value });
+
+export const level = (value: number) => declareStat({ level: value });
+
+export const baseCDMG = <S extends { AGI: number; STR: number }>(
+  status: S
+) => {
+  const result = pino.calculateBaseCriticalDamage(status.AGI, status.STR);
+
+  return { ...status, baseCDMG: result };
 };
 
-type BaseDEX = (
-  value: number
-) => <T extends Status>(status: T) => Prettify<T & { DEX: number }>;
+const status = {};
 
-const DEX: BaseDEX = (value: number) => {
-  return (status) => {
-    return { ...status, DEX: value };
-  };
-};
+const weaponType = declareStat({ weaponType: "gg" })(status);
 
-type BaseCriticalDamage = <
-  T extends Status & { AGI: number; STR: number }
->(
-  status: T
-) => Prettify<
-  T & {
-    baseCriticalDamage: number;
-  }
->;
+const withSTR = baseSTR(12)(weaponType);
 
-const baseCriticalDamage: BaseCriticalDamage = (status) => {
-  const STR = status.STR;
+const withAGI = baseAGI(465)(withSTR);
 
-  const AGI = status.AGI;
+const withBaseCDMG = baseCDMG(withAGI);
 
-  const result = STR >= AGI ? 150 + STR / 5 : 150 + (STR + AGI) / 10;
+const withLevel = level(275)(withBaseCDMG);
 
-  return { ...status, baseCriticalDamage: result };
-};
-
-const stat: Status = {};
-
-const agiStat = AGI(9);
-const dexStat = DEX(247);
-const strStat = STR(465);
-
-const withAgi = agiStat(stat);
-const withDex = dexStat(withAgi);
-const withStr = strStat(withDex);
-
-const withbcdmg = baseCriticalDamage(withStr);
-
-console.log(withStr.AGI, withStr.DEX, withStr.STR);
-
-console.log(withbcdmg.baseCriticalDamage);
+console.log(withLevel);
