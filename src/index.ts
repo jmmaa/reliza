@@ -8,44 +8,120 @@ export const declare = <T>(mapping: T) => {
   };
 };
 
-export const CRT = (value: number) => {
-  return <S>(status: S): Prettify<S & { CRT: number }> => ({
+// functors
+
+export class Status<T> {
+  status: T;
+
+  constructor(status: T) {
+    this.status = status;
+  }
+
+  apply<N>(f: (status: T) => N) {
+    return new Status(f(this.status));
+  }
+}
+
+// enum WeaponStability {
+//   ON,
+//   OFF,
+// }
+
+// enum WeaponAttack {
+//   ON,
+//   OFF,
+// }
+
+// enum WeaponType {
+//   ON,
+//   OFF,
+// }
+
+type State = 0 | 1;
+
+export class Weapon<
+  S,
+  WT extends State,
+  WS extends State,
+  WA extends State
+> {
+  status: S;
+
+  constructor(status: S) {
+    this.status = status;
+  }
+
+  type(
+    value: string
+  ): Weapon<Prettify<S & { weaponType: string }>, 1, WS, WA> {
+    return new Weapon({ ...this.status, weaponType: value });
+  }
+
+  stability(
+    value: number
+  ): Weapon<Prettify<S & { weaponStability: number }>, WT, 1, WA> {
+    return new Weapon({ ...this.status, weaponStability: value });
+  }
+
+  attack(
+    value: number
+  ): Weapon<Prettify<S & { weaponAttack: number }>, WT, WS, 1> {
+    return new Weapon({ ...this.status, weaponAttack: value });
+  }
+}
+
+export const baseCRT = (value: number) => {
+  return <S>(status: S): Prettify<S & { baseCRT: number }> => ({
     ...status,
-    CRT: value,
+    baseCRT: value,
   });
 };
 
-export const STR = (value: number) => {
-  return <S>(status: S): Prettify<S & { STR: number }> => ({
+export const baseLUK = (value: number) => {
+  return <S>(status: S): Prettify<S & { baseLUK: number }> => ({
     ...status,
-    STR: value,
+    baseLUK: value,
   });
 };
 
-export const AGI = (value: number) => {
-  return <S>(status: S): Prettify<S & { AGI: number }> => ({
+export const baseMTL = (value: number) => {
+  return <S>(status: S): Prettify<S & { baseMTL: number }> => ({
     ...status,
-    AGI: value,
-  });
-};
-export const DEX = (value: number) => {
-  return <S>(status: S): Prettify<S & { DEX: number }> => ({
-    ...status,
-    DEX: value,
+    baseMTL: value,
   });
 };
 
-export const INT = (value: number) => {
-  return <S>(status: S): Prettify<S & { INT: number }> => ({
+export const baseSTR = (value: number) => {
+  return <S>(status: S): Prettify<S & { baseSTR: number }> => ({
     ...status,
-    INT: value,
+    baseSTR: value,
   });
 };
 
-export const VIT = (value: number) => {
-  return <S>(status: S): Prettify<S & { VIT: number }> => ({
+export const baseAGI = (value: number) => {
+  return <S>(status: S): Prettify<S & { baseAGI: number }> => ({
     ...status,
-    VIT: value,
+    baseAGI: value,
+  });
+};
+export const baseDEX = (value: number) => {
+  return <S>(status: S): Prettify<S & { baseDEX: number }> => ({
+    ...status,
+    baseDEX: value,
+  });
+};
+
+export const baseINT = (value: number) => {
+  return <S>(status: S): Prettify<S & { baseINT: number }> => ({
+    ...status,
+    baseINT: value,
+  });
+};
+
+export const baseVIT = (value: number) => {
+  return <S>(status: S): Prettify<S & { baseVIT: number }> => ({
+    ...status,
+    baseVIT: value,
   });
 };
 
@@ -74,47 +150,106 @@ export const baseCastSpeed = <
   };
 };
 
-export const baseCriticalDamage = <S extends { AGI: number; STR: number }>(
+export const baseCriticalDamage = <
+  S extends { baseAGI: number; baseSTR: number }
+>(
   status: S
 ): Prettify<S & { baseCriticalDamage: number }> => {
   const baseCriticalDamage = pino.calculateBaseCriticalDamage(
-    status.AGI,
-    status.STR
+    status.baseAGI,
+    status.baseSTR
   );
 
   return { ...status, baseCriticalDamage };
 };
 
-export const baseCriticalRate = <S extends { CRT: number }>(
+export const baseCriticalRate = <S extends { baseCRT: number }>(
   status: S
 ): Prettify<S & { baseCriticalRate: number }> => {
-  const baseCriticalRate = pino.calculateBaseCriticalRate(status.CRT);
+  const baseCriticalRate = pino.calculateBaseCriticalRate(status.baseCRT);
 
   return { ...status, baseCriticalRate };
 };
 
+export const totalSTR = <
+  S extends { baseSTR: number; percentSTR: number; flatSTR: number }
+>(
+  status: S
+) => {
+  return {
+    ...status,
+    totalSTR: Math.floor(
+      status.baseSTR * (1 + status.percentSTR) + status.flatSTR
+    ),
+  };
+};
+
 export const totalDEX = <
-  S extends { percentDEX: number; flatDEX: number; DEX: number }
+  S extends { baseDEX: number; percentDEX: number; flatDEX: number }
 >(
   status: S
 ) => {
   return {
     ...status,
     totalDEX: Math.floor(
-      status.DEX * (1 + status.percentDEX) + status.flatDEX
+      status.baseDEX * (1 + status.percentDEX) + status.flatDEX
+    ),
+  };
+};
+
+export const totalVIT = <
+  S extends { baseVIT: number; percentVIT: number; flatVIT: number }
+>(
+  status: S
+) => {
+  return {
+    ...status,
+    totalVIT: Math.floor(
+      status.baseVIT * (1 + status.percentVIT) + status.flatVIT
+    ),
+  };
+};
+
+export const totalINT = <
+  S extends { baseINT: number; percentINT: number; flatINT: number }
+>(
+  status: S
+) => {
+  return {
+    ...status,
+    totalINT: Math.floor(
+      status.baseINT * (1 + status.percentINT) + status.flatINT
     ),
   };
 };
 
 export const totalAGI = <
-  S extends { percentAGI: number; flatAGI: number; AGI: number }
+  S extends { percentAGI: number; flatAGI: number; baseAGI: number }
 >(
   status: S
 ) => {
   return {
     ...status,
     totalAGI: Math.floor(
-      status.AGI * (1 + status.percentAGI) + status.flatAGI
+      status.baseAGI * (1 + status.percentAGI) + status.flatAGI
+    ),
+  };
+};
+
+export const totalCastSpeed = <
+  S extends {
+    percentCastSpeed: number;
+    flatCastSpeed: number;
+    baseCastSpeed: number;
+  }
+>(
+  status: S
+) => {
+  return {
+    ...status,
+    totalCastSpeed: Math.floor(
+      status.baseCastSpeed * (1 + status.percentCastSpeed) +
+        status.flatCastSpeed
     ),
   };
 };
@@ -140,23 +275,46 @@ const sample = createStatusBuilder({
   percentCastSpeed: 1 + 0.05 + 0.35 + 0.75 + -0.7 + 0.21 + 2.5,
   flatCastSpeed: 1550,
 })
-  .apply(STR(1))
-  .apply(INT(1))
-  .apply(VIT(178))
-  .apply(AGI(220))
-  .apply(DEX(315))
-  .apply(CRT(0))
+  .apply(baseSTR(1))
+  .apply(baseDEX(315))
+  .apply(baseINT(1))
+  .apply(baseVIT(178))
+  .apply(baseAGI(220))
+  .apply(baseCRT(0))
   .apply(totalAGI)
   .apply(totalDEX)
   .apply(baseCastSpeed)
-  .apply((status) => {
-    const totalCastSpeed =
-      Math.floor(status.baseCastSpeed * (1 + status.percentCastSpeed)) +
-      status.flatCastSpeed;
-
-    return { ...status, totalCastSpeed };
-  })
   .apply(baseCriticalRate)
-  .apply(baseCriticalDamage);
+  .apply(baseCriticalDamage)
+  .apply(totalCastSpeed);
 
-console.log(sample.status);
+const sample2 = new Status({
+  level: 275,
+  weaponType: "gg",
+  flatAGI: 0,
+  flatDEX: 0,
+  percentDEX: 0.1 + 0.07 + 0.01,
+  percentAGI: 0.1,
+  percentCastSpeed: 1 + 0.05 + 0.35 + 0.75 + -0.7 + 0.21 + 2.5,
+  flatCastSpeed: 1550,
+})
+  .apply(baseSTR(1))
+  .apply(baseDEX(315))
+  .apply(baseINT(1))
+  .apply(baseVIT(178))
+  .apply(baseAGI(220))
+  .apply(baseCRT(0))
+  .apply(totalAGI)
+  .apply(totalDEX)
+  .apply(baseCastSpeed)
+  .apply(baseCriticalRate)
+  .apply(baseCriticalDamage)
+  .apply(totalCastSpeed);
+
+console.log(sample2.status);
+
+const weapon = new Weapon({})
+  .attack(400)
+  .stability(23)
+  .type("one-handed-sword").status;
+// try implementing attack tomorrow
