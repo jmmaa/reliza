@@ -1,3 +1,3 @@
 # Reliza
 
-A collection of Toram Online Calculations
+A microframework for damage calculation in Toram Online
