@@ -1,283 +1,455 @@
 // This involves all the functions used for declaring the stats
 
-import { Flat, Percent, PercentOnly } from "..";
+// JUST DO THIS FOR NOW, CHANGE IT LATER WHEN IT BECOMES A PROBLEM
+
+export const conditional = <T extends {}, S>(
+  stat: T,
+  predicate: (status: S) => boolean
+): T & { predicate: (status: S) => boolean } => {
+  return { ...stat, predicate };
+};
 
 export const flatSTR = (
   value: number
-): Flat<{ name: "STR"; value: number }> => ({
-  name: "STR",
-  type: "flat",
-  value: value,
+): { name: "flatSTR"; value: number } => ({
+  name: "flatSTR",
+  value,
 });
 
 export const percentSTR = (
   value: number
-): Percent<{ name: "STR"; value: number }> => ({
-  name: "STR",
-  type: "percent",
-  value: value,
+): { name: "percentSTR"; value: number } => ({
+  name: "percentSTR",
+  value,
 });
 
 export const flatDEX = (
   value: number
-): Flat<{ name: "DEX"; value: number }> => ({
-  name: "DEX",
-  type: "flat",
-  value: value,
+): { name: "flatDEX"; value: number } => ({
+  name: "flatDEX",
+  value,
 });
 
 export const percentDEX = (
   value: number
-): Percent<{ name: "DEX"; value: number }> => ({
-  name: "DEX",
-  type: "percent",
-  value: value,
+): { name: "percentDEX"; value: number } => ({
+  name: "percentDEX",
+  value,
 });
 
 export const flatINT = (
   value: number
-): Flat<{ name: "INT"; value: number }> => ({
-  name: "INT",
-  type: "flat",
-  value: value,
+): { name: "flatINT"; value: number } => ({
+  name: "flatINT",
+  value,
 });
 
 export const percentINT = (
   value: number
-): Percent<{ name: "INT"; value: number }> => ({
-  name: "INT",
-  type: "percent",
-  value: value,
+): { name: "percentINT"; value: number } => ({
+  name: "percentINT",
+  value,
 });
 
 export const flatVIT = (
   value: number
-): Flat<{ name: "VIT"; value: number }> => ({
-  name: "VIT",
-  type: "flat",
-  value: value,
+): { name: "flatVIT"; value: number } => ({
+  name: "flatVIT",
+  value,
 });
 
 export const percentVIT = (
   value: number
-): Percent<{ name: "VIT"; value: number }> => ({
-  name: "VIT",
-  type: "percent",
-  value: value,
+): { name: "percentVIT"; value: number } => ({
+  name: "percentVIT",
+  value,
 });
 
 export const flatAGI = (
   value: number
-): Flat<{ name: "AGI"; value: number }> => ({
-  name: "AGI",
-  type: "flat",
-  value: value,
+): { name: "flatAGI"; value: number } => ({
+  name: "flatAGI",
+  value,
 });
 
 export const percentAGI = (
   value: number
-): Percent<{ name: "AGI"; value: number }> => ({
-  name: "AGI",
-  type: "percent",
-  value: value,
+): { name: "percentAGI"; value: number } => ({
+  name: "percentAGI",
+  value,
 });
 
 export const flatATK = (
   value: number
-): Flat<{ name: "ATK"; value: number }> => ({
-  name: "ATK",
-  type: "flat",
-  value: value,
+): { name: "flatATK"; value: number } => ({
+  name: "flatATK",
+  value,
 });
 
 export const percentATK = (
   value: number
-): Percent<{ name: "ATK"; value: number }> => ({
-  name: "ATK",
-  type: "percent",
-  value: value,
+): { name: "percentATK"; value: number } => ({
+  name: "percentATK",
+  value,
 });
 
 export const flatMATK = (
   value: number
-): Flat<{ name: "MATK"; value: number }> => ({
-  name: "MATK",
-  type: "flat",
-  value: value,
+): { name: "flatMATK"; value: number } => ({
+  name: "flatMATK",
+  value,
 });
 
 export const percentMATK = (
   value: number
-): Percent<{ name: "MATK"; value: number }> => ({
-  name: "MATK",
-  type: "percent",
-  value: value,
+): { name: "percentMATK"; value: number } => ({
+  name: "percentMATK",
+  value,
 });
 
 export const flatCriticalRate = (
   value: number
-): Flat<{ name: "CriticalRate"; value: number }> => ({
-  name: "CriticalRate",
-  type: "flat",
-  value: value,
+): { name: "flatCriticalRate"; value: number } => ({
+  name: "flatCriticalRate",
+  value,
 });
 
 export const percentCriticalRate = (
   value: number
-): Percent<{ name: "CriticalRate"; value: number }> => ({
-  name: "CriticalRate",
-  type: "percent",
-  value: value,
+): { name: "percentCriticalRate"; value: number } => ({
+  name: "percentCriticalRate",
+  value,
 });
 
 export const flatCriticalDamage = (
   value: number
-): Flat<{ name: "CriticalDamage"; value: number }> => ({
-  name: "CriticalDamage",
-  type: "flat",
-  value: value,
+): { name: "flatCriticalDamage"; value: number } => ({
+  name: "flatCriticalDamage",
+  value,
 });
 
 export const percentCriticalDamage = (
   value: number
-): Percent<{ name: "CriticalDamage"; value: number }> => ({
-  name: "CriticalDamage",
-  type: "percent",
-  value: value,
+): { name: "percentCriticalDamage"; value: number } => ({
+  name: "percentCriticalDamage",
+  value,
 });
 
 export const flatWeaponATK = (
   value: number
-): Flat<{ name: "WeaponATK"; value: number }> => ({
-  name: "WeaponATK",
-  type: "flat",
-  value: value,
+): { name: "flatWeaponATK"; value: number } => ({
+  name: "flatWeaponATK",
+  value,
 });
 
 export const percentWeaponATK = (
   value: number
-): Percent<{ name: "WeaponATK"; value: number }> => ({
-  name: "WeaponATK",
-  type: "percent",
-  value: value,
+): { name: "percentWeaponATK"; value: number } => ({
+  name: "percentWeaponATK",
+  value,
 });
 
 export const flatASPD = (
   value: number
-): Flat<{ name: "ASPD"; value: number }> => ({
-  name: "ASPD",
-  type: "flat",
-  value: value,
+): { name: "flatASPD"; value: number } => ({
+  name: "flatASPD",
+  value,
 });
 
 export const percentASPD = (
   value: number
-): Percent<{ name: "ASPD"; value: number }> => ({
-  name: "ASPD",
-  type: "percent",
-  value: value,
+): { name: "percentASPD"; value: number } => ({
+  name: "percentASPD",
+  value,
 });
 
 export const flatAccuracy = (
   value: number
-): Flat<{ name: "Accuracy"; value: number }> => ({
-  name: "Accuracy",
-  type: "flat",
-  value: value,
+): { name: "flatAccuracy"; value: number } => ({
+  name: "flatAccuracy",
+  value,
 });
 
 export const percentAccuracy = (
   value: number
-): Percent<{ name: "Accuracy"; value: number }> => ({
-  name: "Accuracy",
-  type: "percent",
-  value: value,
+): { name: "percentAccuracy"; value: number } => ({
+  name: "percentAccuracy",
+  value,
 });
 
 export const flatMaxHP = (
   value: number
-): Flat<{ name: "MaxHP"; value: number }> => ({
-  name: "MaxHP",
-  type: "flat",
-  value: value,
+): { name: "flatMaxHP"; value: number } => ({
+  name: "flatMaxHP",
+  value,
 });
 
 export const percentMaxHP = (
   value: number
-): Percent<{ name: "MaxHP"; value: number }> => ({
-  name: "MaxHP",
-  type: "percent",
-  value: value,
+): { name: "percentMaxHP"; value: number } => ({
+  name: "percentMaxHP",
+  value,
 });
 
 export const flatMaxMP = (
   value: number
-): Flat<{ name: "MaxMP"; value: number }> => ({
-  name: "MaxMP",
-  type: "flat",
-  value: value,
+): { name: "flatMaxMP"; value: number } => ({
+  name: "flatMaxMP",
+  value,
 });
 
 export const flatCSPD = (
   value: number
-): Flat<{ name: "CSPD"; value: number }> => ({
-  name: "CSPD",
-  type: "flat",
-  value: value,
+): { name: "flatCSPD"; value: number } => ({
+  name: "flatCSPD",
+  value,
 });
 
 export const percentCSPD = (
   value: number
-): Percent<{ name: "CSPD"; value: number }> => ({
-  name: "CSPD",
-  type: "percent",
-  value: value,
+): { name: "percentCSPD"; value: number } => ({
+  name: "percentCSPD",
+  value,
 });
 
 export const flatDEF = (
   value: number
-): Flat<{ name: "DEF"; value: number }> => ({
-  name: "DEF",
-  type: "flat",
-  value: value,
+): { name: "flatDEF"; value: number } => ({
+  name: "flatDEF",
+  value,
 });
 
 export const percentDEF = (
   value: number
-): Percent<{ name: "DEF"; value: number }> => ({
-  name: "DEF",
-  type: "percent",
-  value: value,
+): { name: "percentDEF"; value: number } => ({
+  name: "percentDEF",
+  value,
 });
 
 export const flatMDEF = (
   value: number
-): Flat<{ name: "MDEF"; value: number }> => ({
-  name: "MDEF",
-  type: "flat",
-  value: value,
+): { name: "flatMDEF"; value: number } => ({
+  name: "flatMDEF",
+  value,
 });
 
 export const percentMDEF = (
   value: number
-): Percent<{ name: "MDEF"; value: number }> => ({
-  name: "MDEF",
-  type: "percent",
-  value: value,
+): { name: "percentMDEF"; value: number } => ({
+  name: "percentMDEF",
+  value,
 });
 
 export const flatDodge = (
   value: number
-): Flat<{ name: "Dodge"; value: number }> => ({
-  name: "Dodge",
-  type: "flat",
-  value: value,
+): { name: "flatDodge"; value: number } => ({
+  name: "flatDodge",
+  value,
 });
 
 export const percentDodge = (
   value: number
-): Percent<{ name: "Dodge"; value: number }> => ({
-  name: "Dodge",
-  type: "percent",
-  value: value,
+): { name: "percentDodge"; value: number } => ({
+  name: "percentDodge",
+  value,
+});
+
+export const flatUnsheatheAttack = (
+  value: number
+): { name: "flatUnsheatheAttack"; value: number } => ({
+  name: "flatUnsheatheAttack",
+  value,
+});
+
+export const percentUnsheatheAttack = (
+  value: number
+): { name: "percentUnsheatheAttack"; value: number } => ({
+  name: "percentUnsheatheAttack",
+  value,
+});
+
+export const stability = (
+  value: number
+): { name: "stability"; value: number } => ({
+  name: "stability",
+  value,
+});
+
+export const physicalPierce = (
+  value: number
+): { name: "physicalPierce"; value: number } => ({
+  name: "physicalPierce",
+  value,
+});
+
+export const magicPierce = (
+  value: number
+): { name: "magicPierce"; value: number } => ({
+  name: "magicPierce",
+  value,
+});
+
+export const longRangeDamage = (
+  value: number
+): { name: "longRangeDamage"; value: number } => ({
+  name: "longRangeDamage",
+  value,
+});
+
+export const shortRangeDamage = (
+  value: number
+): { name: "shortRangeDamage"; value: number } => ({
+  name: "shortRangeDamage",
+  value,
+});
+
+export const motionSpeed = (
+  value: number
+): { name: "motionSpeed"; value: number } => ({
+  name: "motionSpeed",
+  value,
+});
+
+//
+
+export const ATKUPSTR = (
+  value: number
+): { name: "ATKUPSTR"; value: number } => ({
+  name: "ATKUPSTR",
+  value,
+});
+
+export const ATKDOWNSTR = (
+  value: number
+): { name: "ATKDOWNSTR"; value: number } => ({
+  name: "ATKDOWNSTR",
+  value,
+});
+
+export const ATKUPDEX = (
+  value: number
+): { name: "ATKUPDEX"; value: number } => ({
+  name: "ATKUPDEX",
+  value,
+});
+
+export const ATKDOWNDEX = (
+  value: number
+): { name: "ATKDOWNDEX"; value: number } => ({
+  name: "ATKDOWNDEX",
+  value,
+});
+
+export const ATKUPINT = (
+  value: number
+): { name: "ATKUPINT"; value: number } => ({
+  name: "ATKUPINT",
+  value,
+});
+
+export const ATKDOWNINT = (
+  value: number
+): { name: "ATKDOWNINT"; value: number } => ({
+  name: "ATKDOWNINT",
+  value,
+});
+
+export const ATKUPVIT = (
+  value: number
+): { name: "ATKUPVIT"; value: number } => ({
+  name: "ATKUPVIT",
+  value,
+});
+
+export const ATKDOWNVIT = (
+  value: number
+): { name: "ATKDOWNVIT"; value: number } => ({
+  name: "ATKDOWNVIT",
+  value,
+});
+
+export const ATKUPAGI = (
+  value: number
+): { name: "ATKUPAGI"; value: number } => ({
+  name: "ATKUPAGI",
+  value,
+});
+
+export const ATKDOWNAGI = (
+  value: number
+): { name: "ATKDOWNAGI"; value: number } => ({
+  name: "ATKDOWNAGI",
+  value,
+});
+
+//
+
+export const MATKUPSTR = (
+  value: number
+): { name: "MATKUPSTR"; value: number } => ({
+  name: "MATKUPSTR",
+  value,
+});
+
+export const MATKDOWNSTR = (
+  value: number
+): { name: "MATKDOWNSTR"; value: number } => ({
+  name: "MATKDOWNSTR",
+  value,
+});
+
+export const MATKUPDEX = (
+  value: number
+): { name: "MATKUPDEX"; value: number } => ({
+  name: "MATKUPDEX",
+  value,
+});
+
+export const MATKDOWNDEX = (
+  value: number
+): { name: "MATKDOWNDEX"; value: number } => ({
+  name: "MATKDOWNDEX",
+  value,
+});
+
+export const MATKUPINT = (
+  value: number
+): { name: "MATKUPINT"; value: number } => ({
+  name: "MATKUPINT",
+  value,
+});
+
+export const MATKDOWNINT = (
+  value: number
+): { name: "MATKDOWNINT"; value: number } => ({
+  name: "MATKDOWNINT",
+  value,
+});
+
+export const MATKUPVIT = (
+  value: number
+): { name: "MATKUPVIT"; value: number } => ({
+  name: "MATKUPVIT",
+  value,
+});
+
+export const MATKDOWNVIT = (
+  value: number
+): { name: "MATKDOWNVIT"; value: number } => ({
+  name: "MATKDOWNVIT",
+  value,
+});
+
+export const MATKUPAGI = (
+  value: number
+): { name: "MATKUPAGI"; value: number } => ({
+  name: "MATKUPAGI",
+  value,
+});
+
+export const MATKDOWNAGI = (
+  value: number
+): { name: "MATKDOWNAGI"; value: number } => ({
+  name: "MATKDOWNAGI",
+  value,
 });

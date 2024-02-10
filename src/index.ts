@@ -1,6 +1,7 @@
 import * as pino from "@jmmaa/pino";
+import * as d from "./declare";
 
-type Prettify<T> = { [K in keyof T]: T[K] } & {}; // idk how does this work
+type Prettify<T> = { [K in keyof T]: Prettify<T[K]> } & {}; // idk how does this work
 
 export const declare = <T>(mapping: T) => {
   return <S>(status: S): Prettify<S & T> => {
@@ -9,16 +10,6 @@ export const declare = <T>(mapping: T) => {
 };
 
 // declarations
-
-// consts
-
-export type Conditional<T> = T & { predicate: <S>(status: S) => boolean };
-
-export type PercentOnly<T> = T & { type: "percent-only" };
-
-export type Percent<T> = T & { type: "percent" };
-
-export type Flat<T> = T & { type: "flat" };
 
 // functors
 
@@ -29,7 +20,7 @@ export class Status<T> {
     this.mapping = mapping;
   }
 
-  apply<N>(f: (status: T) => N) {
+  add<N>(f: (status: T) => N) {
     return new Status(f(this.mapping));
   }
 }
@@ -351,13 +342,20 @@ export const totalCastSpeed = <
 
 // weapon declaration
 
-export const weaponSlot = <S>(status: S) => ({ ...status, weapon: {} });
+// export const weaponSlot = <S>(
+//   status: S
+// ): Prettify<S & { weapon: {} }> => ({
+//   ...status,
+//   weapon: {},
+// });
+
+export const weaponSlot = declare({ weapon: {} });
 
 export const weaponAttack =
   (value: number) =>
   <S extends { weapon: {} }>(
     status: S
-  ): S & { weapon: { attack: number } } => {
+  ): Prettify<S & { weapon: { attack: number } }> => {
     return { ...status, weapon: { ...status.weapon, attack: value } };
   };
 
@@ -365,84 +363,91 @@ export const weaponStability =
   (value: number) =>
   <S extends { weapon: {} }>(
     status: S
-  ): S & { weapon: { stability: number } } => {
+  ): Prettify<S & { weapon: { stability: number } }> => {
     return { ...status, weapon: { ...status.weapon, stability: value } };
   };
 
-// export const weaponStats =
-//   (arr: (PercentOnlyStat | PercentStat | FlatStat)[]) =>
-//   <S extends { weapon: {} }>(
-//     status: S
-//   ): S & {
-//     weapon: { stats: (PercentOnlyStat | PercentStat | FlatStat)[] };
-//   } => {
-//     return { ...status, weapon: { ...status.weapon, stats: arr } };
-//   };
+export const weaponStats =
+  <A extends { name: string; value: number }[]>(arr: A) =>
+  <S extends { weapon: {} }>(
+    status: S
+  ): Prettify<
+    S & {
+      weapon: { stats: A };
+    }
+  > => {
+    return { ...status, weapon: { ...status.weapon, stats: arr } };
+  };
 
-// export const weaponCrystals =
-//   (arr: (PercentOnlyStat | PercentStat | FlatStat)[]) =>
-//   <S extends { weapon: {} }>(
-//     status: S
-//   ): S & {
-//     weapon: { crystals: (PercentOnlyStat | PercentStat | FlatStat)[] };
-//   } => {
-//     return { ...status, weapon: { ...status.weapon, crystals: arr } };
-//   };
+export const weaponCrystals =
+  (arr: { name: string; value: number }[][]) =>
+  <S extends { weapon: {} }>(
+    status: S
+  ): Prettify<
+    S & {
+      weapon: { crystals: { name: string; value: number }[][] };
+    }
+  > => {
+    return { ...status, weapon: { ...status.weapon, crystals: arr } };
+  };
 
 // scratch
 
 // try implementing attack tomorrow
-const sample2 = new Status({})
-  // .apply(
-  //   declare(
-  //     new Armor({}).type("light").defense(245).stats([]).crystals([])
-  //   )
-  // )
-  // .apply(
-  //   declare(
-  //     new Weapon({})
-  //       .attack(400)
-  //       .stability(23)
-  //       .type("one-handed-sword")
-  //       .stats([
-  //         (status) => ({ ...status, flatDEX: 21 }),
-  //         (status) => ({ ...status, percentDEX: 21 }),
-  //       ])
-  //       .crystals([])
-  //   )
-  // )
-  // .apply(
-  //   declare(new AdditionalGear({}).defense(200).stats([]).crystals([]))
-  // )
-  .apply(weaponSlot)
-  .apply(weaponAttack(462))
-  .apply(weaponStability(100))
-  // .apply(weaponStats([{ type: "flat", id: "DEX", value: 21 }]))
 
-  .apply(level(275))
-  .apply(totalBaseSTR(1))
-  .apply(totalBaseDEX(315))
-  .apply(totalBaseINT(1))
-  .apply(totalBaseVIT(178))
-  .apply(totalBaseAGI(220))
-  .apply(totalBaseCRT(0))
-  .apply(declare({ flatAGI: 0 }))
-  .apply(declare({ percentAGI: 0 }))
-  .apply((status) => ({ ...status, flatDEX: 0 }))
-  .apply((status) => ({ ...status, percentDEX: 0.1 + 0.07 + 0.01 }))
-  .apply(totalAGI)
-  .apply(totalDEX)
-  .apply(totalBaseCastSpeed)
-  .apply((status) => ({
+const sample2 = new Status({})
+  // declarations
+  .add(declare({ armor: {} }))
+  .add(level(275))
+  .add(weaponSlot)
+  .add(weaponAttack(462))
+  .add(weaponStability(100))
+  .add(weaponStats([d.flatAGI(24), d.flatASPD(1000)]))
+  .add(
+    weaponCrystals([
+      [
+        d.percentCriticalRate(0.4),
+        d.percentCSPD(-0.7),
+        d.flatASPD(1100),
+        d.motionSpeed(5),
+      ],
+      [
+        d.shortRangeDamage(6),
+        d.longRangeDamage(6),
+        d.stability(6),
+        d.percentVIT(6),
+        d.percentSTR(6),
+        // d.conditional<>(
+        //   d.shortRangeDamage(5),
+        //   (status) => status.armor.type == "light"
+        // ),
+      ],
+    ])
+  )
+  // calculations
+  .add(totalBaseSTR(1))
+  .add(totalBaseDEX(315))
+  .add(totalBaseINT(1))
+  .add(totalBaseVIT(178))
+  .add(totalBaseAGI(220))
+  .add(totalBaseCRT(0))
+  .add(declare({ flatAGI: 0 }))
+  .add(declare({ percentAGI: 0.1 }))
+  .add((status) => ({ ...status, flatDEX: 0 }))
+  .add((status) => ({ ...status, percentDEX: 0.1 + 0.07 + 0.01 }))
+  .add(totalAGI)
+  .add(totalDEX)
+  .add(totalBaseCastSpeed)
+  .add((status) => ({
     ...status,
     percentCastSpeed: 1 + 0.05 + 0.35 + 0.75 + -0.7 + 0.21 + 2.5,
   }))
-  .apply((status) => ({
+  .add((status) => ({
     ...status,
     flatCastSpeed: 1550,
   }))
-  .apply(totalBaseCriticalRate)
-  .apply(totalBaseCriticalDamage)
-  .apply(totalCastSpeed);
+  .add(totalBaseCriticalRate)
+  .add(totalBaseCriticalDamage)
+  .add(totalCastSpeed);
 
 console.log(sample2.mapping);
