@@ -139,76 +139,6 @@ export class SpecialGear<T> {
   }
 }
 
-export const totalBaseCRT = (value: number) => {
-  return <S>(status: S): Prettify<S & { totalBaseCRT: number }> => ({
-    ...status,
-    totalBaseCRT: value,
-  });
-};
-
-export const totalBaseLUK = (value: number) => {
-  return <S>(status: S): Prettify<S & { totalBaseLUK: number }> => ({
-    ...status,
-    totalBaseLUK: value,
-  });
-};
-
-export const totalBaseMTL = (value: number) => {
-  return <S>(status: S): Prettify<S & { totalBaseMTL: number }> => ({
-    ...status,
-    totalBaseMTL: value,
-  });
-};
-
-export const totalBaseSTR = (value: number) => {
-  return <S>(status: S): Prettify<S & { totalBaseSTR: number }> => ({
-    ...status,
-    totalBaseSTR: value,
-  });
-};
-
-export const totalPercentSTR = (value: number) => {
-  return <S>(status: S): Prettify<S & { totalPercentSTR: number }> => ({
-    ...status,
-    totalPercentSTR: value,
-  });
-};
-
-export const totalBaseAGI = (value: number) => {
-  return <S>(status: S): Prettify<S & { totalBaseAGI: number }> => ({
-    ...status,
-    totalBaseAGI: value,
-  });
-};
-export const totalBaseDEX = (value: number) => {
-  return <S>(status: S): Prettify<S & { totalBaseDEX: number }> => ({
-    ...status,
-    totalBaseDEX: value,
-  });
-};
-
-export const totalBaseINT = (value: number) => {
-  return <S>(status: S): Prettify<S & { totalBaseINT: number }> => ({
-    ...status,
-    totalBaseINT: value,
-  });
-};
-
-export const totalBaseVIT = (value: number) => {
-  return <S>(status: S): Prettify<S & { totalBaseVIT: number }> => ({
-    ...status,
-    totalBaseVIT: value,
-  });
-};
-
-// export const flatDEX = (value: number) => {
-//   return <S>(status: S): Prettify<S & { flatDEX: number}> => {
-
-//     if (status.flatDEX)
-
-//   };
-// };
-
 export const level = (value: number) => {
   return <S>(status: S): Prettify<S & { level: number }> => ({
     ...status,
@@ -216,7 +146,63 @@ export const level = (value: number) => {
   });
 };
 
-// calcs
+//  calcs
+
+export const totalBaseCRT = <S extends { CRT: number }>(
+  status: S
+): Prettify<S & { totalBaseCRT: number }> => ({
+  ...status,
+  totalBaseCRT: status.CRT,
+});
+
+export const totalBaseLUK = <S extends { LUK: number }>(
+  status: S
+): Prettify<S & { totalBaseLUK: number }> => ({
+  ...status,
+  totalBaseLUK: status.LUK,
+});
+
+export const totalBaseMTL = <S extends { MTL: number }>(
+  status: S
+): Prettify<S & { totalBaseMTL: number }> => ({
+  ...status,
+  totalBaseMTL: status.MTL,
+});
+
+export const totalBaseSTR = <S extends { STR: number }>(
+  status: S
+): Prettify<S & { totalBaseSTR: number }> => ({
+  ...status,
+  totalBaseSTR: status.STR,
+});
+
+export const totalBaseAGI = <S extends { AGI: number }>(
+  status: S
+): Prettify<S & { totalBaseAGI: number }> => ({
+  ...status,
+  totalBaseAGI: status.AGI,
+});
+
+export const totalBaseDEX = <S extends { DEX: number }>(
+  status: S
+): Prettify<S & { totalBaseDEX: number }> => ({
+  ...status,
+  totalBaseDEX: status.DEX,
+});
+
+export const totalBaseINT = <S extends { INT: number }>(
+  status: S
+): Prettify<S & { totalBaseINT: number }> => ({
+  ...status,
+  totalBaseINT: status.INT,
+});
+
+export const totalBaseVIT = <S extends { VIT: number }>(
+  status: S
+): Prettify<S & { totalBaseVIT: number }> => ({
+  ...status,
+  totalBaseVIT: status.VIT,
+});
 
 export const totalBaseCastSpeed = <
   S extends { level: number; totalAGI: number; totalDEX: number }
@@ -342,110 +328,104 @@ export const totalCastSpeed = <
 
 // weapon declaration
 
-// export const weaponSlot = <S>(
-//   status: S
-// ): Prettify<S & { weapon: {} }> => ({
-//   ...status,
-//   weapon: {},
-// });
-
-export const weaponSlot = declare({ weapon: {} });
-
 export const weaponAttack =
   (value: number) =>
-  <S extends { weapon: {} }>(
-    status: S
-  ): Prettify<S & { weapon: { attack: number } }> => {
-    return { ...status, weapon: { ...status.weapon, attack: value } };
+  <S>(status: S): Prettify<S & { weaponAttack: number }> => {
+    return { ...status, weaponAttack: value };
   };
 
 export const weaponStability =
   (value: number) =>
-  <S extends { weapon: {} }>(
-    status: S
-  ): Prettify<S & { weapon: { stability: number } }> => {
-    return { ...status, weapon: { ...status.weapon, stability: value } };
+  <S>(status: S): Prettify<S & { weaponStability: number }> => {
+    return { ...status, weaponStability: value };
   };
 
-export const weaponStats =
-  <A extends { name: string; value: number }[]>(arr: A) =>
-  <S extends { weapon: {} }>(
-    status: S
-  ): Prettify<
-    S & {
-      weapon: { stats: A };
-    }
-  > => {
-    return { ...status, weapon: { ...status.weapon, stats: arr } };
+export const weaponRefinement =
+  (value: number) =>
+  <S>(status: S): Prettify<S & { weaponRefinement: number }> => {
+    return { ...status, weaponRefinement: value };
   };
 
-export const weaponCrystals =
-  (arr: { name: string; value: number }[][]) =>
-  <S extends { weapon: {} }>(
-    status: S
-  ): Prettify<
-    S & {
-      weapon: { crystals: { name: string; value: number }[][] };
-    }
-  > => {
-    return { ...status, weapon: { ...status.weapon, crystals: arr } };
+export const weaponStats = <
+  T,
+  S extends {
+    name: string;
+    value: number;
+    predicate: (status: T) => boolean;
+  }
+>(
+  arr: S[]
+) => {
+  return (status: T) => {
+    return { ...status, weaponStats: arr };
   };
+};
 
+export const weaponCrystals = <
+  T,
+  S extends {
+    name: string;
+    value: number;
+    predicate: (status: T) => boolean;
+  }
+>(
+  arr: S[][]
+) => {
+  return (status: T) => {
+    return { ...status, weaponCrystals: arr };
+  };
+};
 // scratch
 
 // try implementing attack tomorrow
 
 const sample2 = new Status({})
   // declarations
-  .add(declare({ armor: {} }))
-  .add(level(275))
-  .add(weaponSlot)
-  .add(weaponAttack(462))
-  .add(weaponStability(100))
-  .add(weaponStats([d.flatAGI(24), d.flatASPD(1000)]))
   .add(
-    weaponCrystals([
-      [
-        d.percentCriticalRate(0.4),
-        d.percentCSPD(-0.7),
-        d.flatASPD(1100),
-        d.motionSpeed(5),
-      ],
-      [
-        d.shortRangeDamage(6),
-        d.longRangeDamage(6),
-        d.stability(6),
-        d.percentVIT(6),
-        d.percentSTR(6),
-        // d.conditional<>(
-        //   d.shortRangeDamage(5),
-        //   (status) => status.armor.type == "light"
-        // ),
-      ],
+    declare({
+      level: 275,
+      STR: 1,
+      DEX: 315,
+      INT: 1,
+      VIT: 178,
+      AGI: 220,
+      CRT: 0,
+      flatAGI: 0,
+      percentAGI: 0.1,
+      flatDEX: 0,
+      percentDEX: 0.1 + 0.07 + 0.01,
+      flatCastSpeed: 1550,
+      percentCastSpeed: 1 + 0.05 + 0.35 + 0.75 + -0.7 + 0.21 + 2.5,
+    })
+  )
+  .add(weaponAttack(400))
+  .add(weaponRefinement(15))
+  .add(weaponStability(50))
+  .add(
+    weaponStats([
+      {
+        name: "flatSTR",
+        value: 21,
+        predicate: (status) => status.weaponRefinement == 15,
+      },
+      {
+        name: "percentSTR",
+        value: 21,
+        predicate: (status) => true,
+      },
     ])
   )
+  .add(weaponCrystals([]))
   // calculations
-  .add(totalBaseSTR(1))
-  .add(totalBaseDEX(315))
-  .add(totalBaseINT(1))
-  .add(totalBaseVIT(178))
-  .add(totalBaseAGI(220))
-  .add(totalBaseCRT(0))
-  .add(declare({ flatAGI: 0 }))
-  .add(declare({ percentAGI: 0.1 }))
-  .add((status) => ({ ...status, flatDEX: 0 }))
-  .add((status) => ({ ...status, percentDEX: 0.1 + 0.07 + 0.01 }))
+  .add(totalBaseSTR)
+  .add(totalBaseDEX)
+  .add(totalBaseINT)
+  .add(totalBaseVIT)
+  .add(totalBaseAGI)
+  .add(totalBaseCRT)
   .add(totalAGI)
   .add(totalDEX)
   .add(totalBaseCastSpeed)
-  .add((status) => ({
-    ...status,
-    percentCastSpeed: 1 + 0.05 + 0.35 + 0.75 + -0.7 + 0.21 + 2.5,
-  }))
-  .add((status) => ({
-    ...status,
-    flatCastSpeed: 1550,
-  }))
   .add(totalBaseCriticalRate)
   .add(totalBaseCriticalDamage)
   .add(totalCastSpeed);

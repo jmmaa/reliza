@@ -2,10 +2,16 @@
 
 // JUST DO THIS FOR NOW, CHANGE IT LATER WHEN IT BECOMES A PROBLEM
 
-export const conditional = <T extends {}, S>(
-  stat: T,
-  predicate: (status: S) => boolean
-): T & { predicate: (status: S) => boolean } => {
+// type Stat<T> = {
+//   name: string;
+//   value: number;
+//   predicate: (status: T) => boolean;
+// };
+
+export const conditional = <T>(
+  stat: { name: string; value: number },
+  predicate: (status: T) => boolean
+) => {
   return { ...stat, predicate };
 };
 
@@ -13,7 +19,7 @@ export const flatSTR = (
   value: number
 ): { name: "flatSTR"; value: number } => ({
   name: "flatSTR",
-  value,
+  value: value,
 });
 
 export const percentSTR = (
