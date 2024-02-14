@@ -277,7 +277,7 @@ export const totalBaseCastSpeed = <
 >(
   status: S
 ): S & { totalBaseCastSpeed: number } => {
-  const totalBaseCastSpeed = pino.calculateBaseCastSpeed(
+  const totalBaseCastSpeed = pino.baseCastSpeed(
     status.level,
     status.totalAGI,
     status.totalDEX
@@ -293,7 +293,7 @@ export const totalBaseCriticalDamage = <
 >(
   status: S
 ): S & { totalBaseCriticalDamage: number } => {
-  const totalBaseCriticalDamage = pino.calculateBaseCriticalDamage(
+  const totalBaseCriticalDamage = pino.baseCriticalDamage(
     status.totalAGI,
     status.totalSTR
   );
@@ -304,9 +304,7 @@ export const totalBaseCriticalDamage = <
 export const totalBaseCriticalRate = <S extends { totalBaseCRT: number }>(
   status: S
 ): S & { totalBaseCriticalRate: number } => {
-  const totalBaseCriticalRate = pino.calculateBaseCriticalRate(
-    status.totalBaseCRT
-  );
+  const totalBaseCriticalRate = pino.baseCriticalRate(status.totalBaseCRT);
 
   return { ...status, totalBaseCriticalRate };
 };
@@ -419,28 +417,25 @@ export const totalCastSpeed = <
   };
 };
 
-export const totalMaxHealthPoints = <
+export const totalBaseMaxHealthPoints = <
   S extends { totalVIT: number; level: number }
 >(
   status: S
 ): S & { totalMaxHealthPoints: number } => {
   return {
     ...status,
-    totalMaxHealthPoints: pino.calculateBaseMaxHP(
-      status.level,
-      status.totalVIT
-    ),
+    totalMaxHealthPoints: pino.baseMaxHP(status.level, status.totalVIT),
   };
 };
 
-export const totalMaxManaPoints = <
+export const totalBaseMaxManaPoints = <
   S extends { totalINT: number; totalBaseTEC: number; level: number }
 >(
   status: S
 ): S & { totalMaxManaPoints: number } => {
   return {
     ...status,
-    totalMaxManaPoints: pino.calculateBaseMaxMP(
+    totalMaxManaPoints: pino.baseMaxMP(
       status.level,
       status.totalINT,
       status.totalBaseTEC
@@ -455,7 +450,7 @@ export const weaponAttackRefinementBonus = <
 ): S & { weaponAttackRefinementBonus: number } => {
   return {
     ...status,
-    weaponAttackRefinementBonus: pino.calculateWeaponAttackRefinementBonus(
+    weaponAttackRefinementBonus: pino.refinementBonusWeaponAttack(
       status.weaponRefinement,
       status.weaponAttack
     ),
@@ -620,18 +615,18 @@ const sample2 = new Status({})
 
   // basic
   .add(totalBaseSTR)
-  .add(totalBaseDEX)
   .add(totalBaseINT)
+  .add(totalBaseDEX)
   .add(totalBaseVIT)
   .add(totalBaseAGI)
-  .add(totalFlatSTR)
-  .add(totalFlatDEX)
   .add(totalPercentSTR)
-  .add(totalPercentDEX)
   .add(totalPercentINT)
+  .add(totalPercentDEX)
   .add(totalPercentVIT)
   .add(totalPercentAGI)
+  .add(totalFlatSTR)
   .add(totalFlatINT)
+  .add(totalFlatDEX)
   .add(totalFlatVIT)
   .add(totalFlatAGI)
   .add(totalSTR)
@@ -646,14 +641,18 @@ const sample2 = new Status({})
   .add(totalBaseTEC)
 
   // hp
-  .add(totalMaxHealthPoints)
-  .add(totalMaxManaPoints)
+  .add(totalBaseMaxHealthPoints)
+  .add(totalBaseMaxManaPoints)
 
   // cast speed
   .add(totalBaseCastSpeed)
-  .add(totalBaseCriticalRate)
-  .add(totalBaseCriticalDamage)
   .add(totalCastSpeed)
+
+  // crit rate
+  .add(totalBaseCriticalRate)
+
+  // crit damage
+  .add(totalBaseCriticalDamage)
 
   // weapon attack
   .add(weaponAttackRefinementBonus);
