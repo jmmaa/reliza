@@ -26,6 +26,6 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@jmmaa/pino": "^0.0.2-dev"
+    "@jmmaa/pino": "^0.0.3-dev"
   }
 }

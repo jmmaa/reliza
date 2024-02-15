@@ -8,6 +8,19 @@
 //   predicate: (status: T) => boolean;
 // };
 
+export * from "./STR";
+export * from "./DEX";
+export * from "./INT";
+export * from "./VIT";
+export * from "./AGI";
+
+export * from "./criticalRate";
+export * from "./criticalDamage";
+export * from "./attackSpeed";
+export * from "./castSpeed";
+export * from "./maxHP";
+export * from "./maxMP";
+
 export const conditional = <T>(
   stat: { name: string; value: number },
   predicate: (status: T) => boolean
@@ -15,75 +28,75 @@ export const conditional = <T>(
   return { ...stat, predicate };
 };
 
-export const flatSTR = (
-  value: number
-): { name: "flatSTR"; value: number } => ({
-  name: "flatSTR",
-  value: value,
-});
+// export const flatSTR = (
+//   value: number
+// ): { name: "flatSTR"; value: number } => ({
+//   name: "flatSTR",
+//   value: value,
+// });
 
-export const percentSTR = (
-  value: number
-): { name: "percentSTR"; value: number } => ({
-  name: "percentSTR",
-  value,
-});
+// export const percentSTR = (
+//   value: number
+// ): { name: "percentSTR"; value: number } => ({
+//   name: "percentSTR",
+//   value,
+// });
 
-export const flatDEX = (
-  value: number
-): { name: "flatDEX"; value: number } => ({
-  name: "flatDEX",
-  value,
-});
+// export const flatDEX = (
+//   value: number
+// ): { name: "flatDEX"; value: number } => ({
+//   name: "flatDEX",
+//   value,
+// });
 
-export const percentDEX = (
-  value: number
-): { name: "percentDEX"; value: number } => ({
-  name: "percentDEX",
-  value,
-});
+// export const percentDEX = (
+//   value: number
+// ): { name: "percentDEX"; value: number } => ({
+//   name: "percentDEX",
+//   value,
+// });
 
-export const flatINT = (
-  value: number
-): { name: "flatINT"; value: number } => ({
-  name: "flatINT",
-  value,
-});
+// export const flatINT = (
+//   value: number
+// ): { name: "flatINT"; value: number } => ({
+//   name: "flatINT",
+//   value,
+// });
 
-export const percentINT = (
-  value: number
-): { name: "percentINT"; value: number } => ({
-  name: "percentINT",
-  value,
-});
+// export const percentINT = (
+//   value: number
+// ): { name: "percentINT"; value: number } => ({
+//   name: "percentINT",
+//   value,
+// });
 
-export const flatVIT = (
-  value: number
-): { name: "flatVIT"; value: number } => ({
-  name: "flatVIT",
-  value,
-});
+// export const flatVIT = (
+//   value: number
+// ): { name: "flatVIT"; value: number } => ({
+//   name: "flatVIT",
+//   value,
+// });
 
-export const percentVIT = (
-  value: number
-): { name: "percentVIT"; value: number } => ({
-  name: "percentVIT",
-  value,
-});
+// export const percentVIT = (
+//   value: number
+// ): { name: "percentVIT"; value: number } => ({
+//   name: "percentVIT",
+//   value,
+// });
 
-export const flatAGI = (
-  value: number
-): { name: "flatAGI"; value: number } => ({
-  name: "flatAGI",
-  value,
-});
+// export const flatAGI = (
+//   value: number
+// ): { name: "flatAGI"; value: number } => ({
+//   name: "flatAGI",
+//   value,
+// });
 
-export const percentAGI = (
-  value: number
-): { name: "percentAGI"; value: number } => ({
-  name: "percentAGI",
-  value,
-});
+// export const percentAGI = (
+//   value: number
+// ): { name: "percentAGI"; value: number } => ({
+//   name: "percentAGI",
+//   value,
+// });
 
 export const flatATK = (
   value: number
@@ -113,19 +126,19 @@ export const percentMATK = (
   value,
 });
 
-export const flatCriticalRate = (
-  value: number
-): { name: "flatCriticalRate"; value: number } => ({
-  name: "flatCriticalRate",
-  value,
-});
+// export const flatCriticalRate = (
+//   value: number
+// ): { name: "flatCriticalRate"; value: number } => ({
+//   name: "flatCriticalRate",
+//   value,
+// });
 
-export const percentCriticalRate = (
-  value: number
-): { name: "percentCriticalRate"; value: number } => ({
-  name: "percentCriticalRate",
-  value,
-});
+// export const percentCriticalRate = (
+//   value: number
+// ): { name: "percentCriticalRate"; value: number } => ({
+//   name: "percentCriticalRate",
+//   value,
+// });
 
 export const flatCriticalDamage = (
   value: number
