@@ -12,16 +12,236 @@ export const declare = <T>(mapping: T) => {
 // functors
 
 export class Status<T> {
-  mapping: T;
+  mapping: T & {
+    level: number;
+    STR: number;
+    DEX: number;
+    INT: number;
+    VIT: number;
+    AGI: number;
+    CRT: number;
+    MTL: number;
+    TEC: number;
+    LUK: number;
+    weaponType:
+      | "one-handed-sword"
+      | "two-handed-sword"
+      | "dual-wield"
+      | "bow"
+      | "bowgun"
+      | "staff"
+      | "magic-device"
+      | "halberd"
+      | "katana"
+      | "knuckle"
+      | "bare-hand";
+    baseWeaponATK: number;
+    weaponRefinement: number;
+    weaponStats?: {
+      name: string;
+      value: number;
+      predicate?: (status: T) => boolean;
+    }[];
+    weaponCrystals?: {
+      name: string;
+      value: number;
+      predicate?: (status: T) => boolean;
+    }[][];
+  };
 
   constructor(mapping: T) {
-    this.mapping = mapping;
+    this.mapping = {
+      level: 1,
+      STR: 0,
+      DEX: 0,
+      INT: 0,
+      VIT: 0,
+      AGI: 0,
+      CRT: 0,
+      MTL: 0,
+      TEC: 0,
+      LUK: 0,
+      weaponType: "bare-hand",
+      baseWeaponATK: 0,
+      weaponRefinement: 0,
+      ...mapping,
+    };
   }
 
-  add<N>(f: (status: T) => N) {
+  add<N>(f: (status: T) => N): Status<N> {
     return new Status(f(this.mapping));
   }
+
+  calculate() {
+    const mapping = this.mapping;
+
+    return (
+      new Status(mapping)
+        .add(d.totalBaseSTR)
+        .add(d.totalBaseINT)
+        .add(d.totalBaseDEX)
+        .add(d.totalBaseVIT)
+        .add(d.totalBaseAGI)
+        .add(d.totalPercentSTR)
+        .add(d.totalPercentINT)
+        .add(d.totalPercentDEX)
+        .add(d.totalPercentVIT)
+        .add(d.totalPercentAGI)
+        .add(d.totalFlatSTR)
+        .add(d.totalFlatINT)
+        .add(d.totalFlatDEX)
+        .add(d.totalFlatVIT)
+        .add(d.totalFlatAGI)
+        .add(d.totalSTR)
+        .add(d.totalINT)
+        .add(d.totalDEX)
+        .add(d.totalVIT)
+        .add(d.totalAGI)
+
+        // personal
+        .add(totalBaseMTL)
+        .add(totalBaseCRT)
+        .add(totalBaseLUK)
+        .add(totalBaseTEC)
+
+        // hp
+        .add(d.totalBaseMaxHP)
+        .add(d.totalBaseMaxMP)
+
+        // cast speed
+        .add(d.totalBaseCSPD)
+        .add(d.totalPercentCSPD)
+        .add(d.totalFlatCSPD)
+        .add(d.totalCSPD)
+        .add(d.totalCastTimeReduction)
+
+        // attack speed
+        .add(d.totalBaseASPD)
+        .add(d.totalPercentASPD)
+        .add(d.totalFlatASPD)
+        .add(d.totalASPD)
+        .add(d.totalActionTimeReduction)
+
+        // crit rate
+        .add(d.totalBaseCriticalRate)
+
+        // crit damage
+        .add(d.totalBaseCriticalDamage)
+
+        // weapon attack
+        .add(d.totalBaseWeaponATK)
+        .add(d.totalPercentWeaponATK)
+        .add(d.totalFlatWeaponATK)
+        .add(d.totalWeaponRefinementBonusWeaponATK)
+        .add(d.totalWeaponATK)
+    );
+  }
+
+  // calculate<
+  //   N,
+  //   T extends {
+  //     level: number;
+  //     STR: number;
+  //     DEX: number;
+  //     INT: number;
+  //     VIT: number;
+  //     AGI: number;
+  //     CRT: number;
+  //     MTL: number;
+  //     TEC: number;
+  //     LUK: number;
+  //     weaponType:
+  //       | "one-handed-sword"
+  //       | "two-handed-sword"
+  //       | "dual-wield"
+  //       | "bow"
+  //       | "bowgun"
+  //       | "staff"
+  //       | "magic-device"
+  //       | "halberd"
+  //       | "katana"
+  //       | "knuckle"
+  //       | "bare-hand";
+  //     baseWeaponATK: number;
+  //     weaponRefinement: number;
+  //     weaponStats?: {
+  //       name: string;
+  //       value: number;
+  //       predicate?: (status: T) => boolean;
+  //     }[];
+  //     weaponCrystals?: {
+  //       name: string;
+  //       value: number;
+  //       predicate?: (status: T) => boolean;
+  //     }[][];
+  //   }
+  // >(): Status<T & N> {
+  //   return (
+  //     this.add(d.totalBaseSTR)
+  //       .add(d.totalBaseINT)
+  //       .add(d.totalBaseDEX)
+  //       .add(d.totalBaseVIT)
+  //       .add(d.totalBaseAGI)
+  //       .add(d.totalPercentSTR)
+  //       .add(d.totalPercentINT)
+  //       .add(d.totalPercentDEX)
+  //       .add(d.totalPercentVIT)
+  //       .add(d.totalPercentAGI)
+  //       .add(d.totalFlatSTR)
+  //       .add(d.totalFlatINT)
+  //       .add(d.totalFlatDEX)
+  //       .add(d.totalFlatVIT)
+  //       .add(d.totalFlatAGI)
+  //       .add(d.totalSTR)
+  //       .add(d.totalINT)
+  //       .add(d.totalDEX)
+  //       .add(d.totalVIT)
+  //       .add(d.totalAGI)
+
+  //       // personal
+  //       .add(totalBaseMTL)
+  //       .add(totalBaseCRT)
+  //       .add(totalBaseLUK)
+  //       .add(totalBaseTEC)
+
+  //       // hp
+  //       .add(d.totalBaseMaxHP)
+  //       .add(d.totalBaseMaxMP)
+
+  //       // cast speed
+  //       .add(d.totalBaseCSPD)
+  //       .add(d.totalPercentCSPD)
+  //       .add(d.totalFlatCSPD)
+  //       .add(d.totalCSPD)
+  //       .add(d.totalCastTimeReduction)
+
+  //       // attack speed
+  //       .add(d.totalBaseASPD)
+  //       .add(d.totalPercentASPD)
+  //       .add(d.totalFlatASPD)
+  //       .add(d.totalASPD)
+  //       .add(d.totalActionTimeReduction)
+
+  //       // crit rate
+  //       .add(d.totalBaseCriticalRate)
+
+  //       // crit damage
+  //       .add(d.totalBaseCriticalDamage)
+
+  //       // weapon attack
+  //       .add(d.totalBaseWeaponATK)
+  //       .add(d.totalPercentWeaponATK)
+  //       .add(d.totalFlatWeaponATK)
+  //       .add(d.totalWeaponRefinementBonusWeaponATK)
+  //       .add(d.totalWeaponATK)
+  //   );
+  // }
 }
+
+// const compose =
+//   <T extends []>(arr: T) =>
+//   <T>(value: T) =>
+//     arr.reduce((p, c) => c(p), value);
 
 // consts
 export const level = (value: number) => {
@@ -444,7 +664,7 @@ export const totalBaseMaxManaPoints = <
 };
 
 export const weaponAttackRefinementBonus = <
-  S extends { weaponRefinement: number; weaponAttack: number }
+  S extends { weaponRefinement: number; baseWeaponAttack: number }
 >(
   status: S
 ): S & { weaponRefinementBonusWeaponAttack: number } => {
@@ -453,7 +673,7 @@ export const weaponAttackRefinementBonus = <
     weaponRefinementBonusWeaponAttack:
       pino.weaponRefinementBonusWeaponAttack(
         status.weaponRefinement,
-        status.weaponAttack
+        status.baseWeaponAttack
       ),
   };
 };
@@ -461,10 +681,10 @@ export const weaponAttackRefinementBonus = <
 // export
 // weapon declaration
 
-export const weaponAttack =
+export const baseWeaponAttack =
   (value: number) =>
-  <S>(status: S): S & { weaponAttack: number } => {
-    return { ...status, weaponAttack: value };
+  <S>(status: S): S & { baseWeaponAttack: number } => {
+    return { ...status, baseWeaponAttack: value };
   };
 
 export const weaponType =
@@ -631,24 +851,23 @@ export const specialGearStats = <
 
 // try implementing attack tomorrow
 
-const sample2 = new Status({})
-  // declarations
-  .add(
-    declare({
-      level: 275,
-      STR: 1,
-      DEX: 315,
-      INT: 1,
-      VIT: 1,
-      AGI: 220,
-      CRT: 0,
-      MTL: 0,
-      TEC: 0,
-      LUK: 0,
-    })
-  )
-  .add(weaponType("two-handed-sword"))
-  .add(weaponAttack(400))
+const magicDeviceSupport = new Status({
+  level: 275,
+  STR: 1,
+  DEX: 315,
+  INT: 1,
+  VIT: 1,
+  AGI: 220,
+  CRT: 0,
+  MTL: 0,
+  TEC: 0,
+  LUK: 0,
+
+  // placeholders
+  baseWeaponATK: 197,
+})
+  .add(weaponType("magic-device"))
+
   .add(weaponRefinement(15))
   .add(weaponStability(50))
   .add(
@@ -659,66 +878,15 @@ const sample2 = new Status({})
       d.percentDEX(10 + 7 + 1),
     ])
   )
+  .calculate();
 
-  // calculations
+const status = magicDeviceSupport.mapping;
 
-  // basic
-  .add(d.totalBaseSTR)
-  .add(d.totalBaseINT)
-  .add(d.totalBaseDEX)
-  .add(d.totalBaseVIT)
-  .add(d.totalBaseAGI)
-  .add(d.totalPercentSTR)
-  .add(d.totalPercentINT)
-  .add(d.totalPercentDEX)
-  .add(d.totalPercentVIT)
-  .add(d.totalPercentAGI)
-  .add(d.totalFlatSTR)
-  .add(d.totalFlatINT)
-  .add(d.totalFlatDEX)
-  .add(d.totalFlatVIT)
-  .add(d.totalFlatAGI)
-  .add(d.totalSTR)
-  .add(d.totalINT)
-  .add(d.totalDEX)
-  .add(d.totalVIT)
-  .add(d.totalAGI)
-  // personal
-  .add(totalBaseMTL)
-  .add(totalBaseCRT)
-  .add(totalBaseLUK)
-  .add(totalBaseTEC)
+console.log(status);
 
-  // hp
-  .add(d.totalBaseMaxHP)
-  .add(d.totalBaseMaxMP)
-
-  // cast speed
-  .add(d.totalBaseCSPD)
-  .add(d.totalPercentCSPD)
-  .add(d.totalFlatCSPD)
-  .add(d.totalCSPD)
-  .add(d.totalCastTimeReduction)
-
-  // attack speed
-  .add(d.totalBaseASPD)
-  .add(d.totalPercentASPD)
-  .add(d.totalFlatASPD)
-  .add(d.totalASPD)
-  .add(d.totalActionTimeReduction)
-
-  // crit rate
-  .add(d.totalBaseCriticalRate)
-
-  // crit damage
-  .add(d.totalBaseCriticalDamage)
-
-  // weapon attack
-  .add(weaponAttackRefinementBonus);
-
-const mapping = sample2.mapping;
-
-console.log(mapping);
+console.log(
+  pino.magicDeviceBaseMagicAttack(275, status.totalWeaponATK, 465, 247)
+);
 
 // TODO
 // - fix cast/action time reduction
