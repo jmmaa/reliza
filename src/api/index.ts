@@ -14,10 +14,11 @@ export * from "./INT";
 export * from "./VIT";
 export * from "./AGI";
 
+export * from "./weaponATK";
 export * from "./criticalRate";
 export * from "./criticalDamage";
-export * from "./attackSpeed";
-export * from "./castSpeed";
+export * from "./ASPD";
+export * from "./CSPD";
 export * from "./maxHP";
 export * from "./maxMP";
 
