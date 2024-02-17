@@ -26,6 +26,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@jmmaa/pino": "^0.0.3-dev"
+    "@jmmaa/pino": "^0.0.3-dev",
+    "immutable": "^5.0.0-beta.5"
   }
 }
