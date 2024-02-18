@@ -189,101 +189,194 @@ export type MainWeapon = {
   stability: number;
 };
 
-export type CompatibleSubWeaponType<T> = T extends {
-  mainWeapon: { type: OneHandedSword };
-}
-  ?
-      | OneHandedSword
-      | Knuckle
-      | MagicDevice
-      | NinjutsuScroll
-      | Arrow
-      | Shield
-      | Dagger
-      | None
-  : T extends { mainWeapon: { type: TwoHandedSword } }
-  ? None
-  : T extends { mainWeapon: { type: Bow } }
-  ? Katana | Arrow | None
-  : T extends { mainWeapon: { type: Bowgun } }
-  ? Knuckle | MagicDevice | Arrow | Shield | Dagger | None
-  : T extends { mainWeapon: { type: Staff } }
-  ? Knuckle | MagicDevice | NinjutsuScroll | Arrow | Shield | Dagger | None
-  : T extends { mainWeapon: { type: MagicDevice } }
-  ? NinjutsuScroll | None
-  : T extends { mainWeapon: { type: Knuckle } }
-  ? MagicDevice | Arrow | Shield | Dagger | None
-  : T extends { mainWeapon: { type: Halberd } }
-  ? Dagger | Arrow | None
-  : T extends { mainWeapon: { type: Katana } }
-  ? Dagger | NinjutsuScroll | None
-  : T extends { mainWeapon: { type: BareHand } }
-  ? Knuckle | MagicDevice | NinjutsuScroll | Shield | Dagger | None
-  : None;
+// export type CompatibleSubWeaponType<T> = T extends {
+//   mainWeaponType: OneHandedSword;
+// }
+//   ?
+//       | OneHandedSword
+//       | Knuckle
+//       | MagicDevice
+//       | NinjutsuScroll
+//       | Arrow
+//       | Shield
+//       | Dagger
+//       | None
+//   : T extends { mainWeaponType: TwoHandedSword }
+//   ? None
+//   : T extends { mainWeaponType: Bow }
+//   ? Katana | Arrow | None
+//   : T extends { mainWeaponType: Bowgun }
+//   ? Knuckle | MagicDevice | Arrow | Shield | Dagger | None
+//   : T extends { mainWeaponType: Staff }
+//   ? Knuckle | MagicDevice | NinjutsuScroll | Arrow | Shield | Dagger | None
+//   : T extends { mainWeaponType: MagicDevice }
+//   ? NinjutsuScroll | None
+//   : T extends { mainWeaponType: Knuckle }
+//   ? MagicDevice | Arrow | Shield | Dagger | None
+//   : T extends { mainWeaponType: Halberd }
+//   ? Dagger | Arrow | None
+//   : T extends { mainWeaponType: Katana }
+//   ? Dagger | NinjutsuScroll | None
+//   : T extends { mainWeaponType: BareHand }
+//   ? Knuckle | MagicDevice | NinjutsuScroll | Shield | Dagger | None
+//   : None;
 
-export type SubWeapon<T extends { mainWeapon: { type: MainWeaponType } }> =
-  {
-    type: CompatibleSubWeaponType<T>;
-    ATK: T extends {
-      subWeapon: {
-        type:
-          | Arrow
-          | Dagger
-          | Katana
-          | OneHandedSword
-          | Knuckle
-          | MagicDevice;
-      };
-    }
-      ? number
-      : undefined;
+// export type CompatibleSubWeaponType<T> = T extends {
+//   mainWeaponType: infer W;
+// }
+//   ? W extends OneHandedSword
+//     ?
+//         | OneHandedSword
+//         | Knuckle
+//         | MagicDevice
+//         | NinjutsuScroll
+//         | Arrow
+//         | Shield
+//         | Dagger
+//         | None
+//     : W extends TwoHandedSword
+//     ? None
+//     : W extends Bow
+//     ? Katana | Arrow | None
+//     : W extends Bowgun
+//     ? Knuckle | MagicDevice | Arrow | Shield | Dagger | None
+//     : W extends Staff
+//     ?
+//         | Knuckle
+//         | MagicDevice
+//         | NinjutsuScroll
+//         | Arrow
+//         | Shield
+//         | Dagger
+//         | None
+//     : W extends MagicDevice
+//     ? NinjutsuScroll | None
+//     : W extends Knuckle
+//     ? MagicDevice | Arrow | Shield | Dagger | None
+//     : W extends Halberd
+//     ? Dagger | Arrow | None
+//     : W extends Katana
+//     ? Dagger | NinjutsuScroll | None
+//     : W extends BareHand
+//     ? Knuckle | MagicDevice | NinjutsuScroll | Shield | Dagger | None
+//     : None
+//   : never;
 
-    DEF: T extends { subWeapon: { type: Shield } } ? number : undefined;
+// export type CompatibleMainWeaponType<S extends SubWeaponType> =
+//   S extends OneHandedSword
+//   ? OneHandedSword
+//   : S extends ;
 
-    refinement: T extends {
-      subWeapon: {
-        type: Katana | OneHandedSword | Knuckle | MagicDevice | Shield;
-      };
-    }
-      ? number
-      : undefined;
+export type CompatibleSubWeaponType<M extends MainWeaponType> =
+  M extends OneHandedSword
+    ?
+        | OneHandedSword
+        | Knuckle
+        | MagicDevice
+        | NinjutsuScroll
+        | Arrow
+        | Shield
+        | Dagger
+        | None
+    : M extends TwoHandedSword
+    ? None
+    : M extends Bow
+    ? Katana | Arrow | None
+    : M extends Bowgun
+    ? Knuckle | MagicDevice | Arrow | Shield | Dagger | None
+    : M extends Staff
+    ?
+        | Knuckle
+        | MagicDevice
+        | NinjutsuScroll
+        | Arrow
+        | Shield
+        | Dagger
+        | None
+    : M extends MagicDevice
+    ? NinjutsuScroll | None
+    : M extends Knuckle
+    ? MagicDevice | Arrow | Shield | Dagger | None
+    : M extends Halberd
+    ? Dagger | Arrow | None
+    : M extends Katana
+    ? Dagger | NinjutsuScroll | None
+    : M extends BareHand
+    ? Knuckle | MagicDevice | NinjutsuScroll | Shield | Dagger | None
+    : None;
 
-    stability: T extends {
-      subWeapon: {
-        type:
-          | Arrow
-          | Dagger
-          | Katana
-          | OneHandedSword
-          | Knuckle
-          | MagicDevice;
-      };
-    }
-      ? number
-      : undefined;
+// export type SubWeaponType<M extends MainWeaponType> =
+//   M extends Sword
+//     ? Sword |  Shield | None
+//     : M extends Bow
+//     ? Arrow | None
+//     : M extends Staff
+//     ? Shield | None
+//     : None;
 
-    scrollMPReduction: T extends {
-      subWeapon: {
-        type: NinjutsuScroll;
-      };
-    }
-      ? number
-      : undefined;
+// export type SubWeapon<T extends { mainWeapon: { type: MainWeaponType } }> =
+//   {
+//     type: CompatibleSubWeaponType<T>;
+//     ATK: T extends {
+//       subWeapon: {
+//         type:
+//           | Arrow
+//           | Dagger
+//           | Katana
+//           | OneHandedSword
+//           | Knuckle
+//           | MagicDevice;
+//       };
+//     }
+//       ? number
+//       : undefined;
 
-    scrollCastTimeReduction: T extends {
-      subWeapon: {
-        type: NinjutsuScroll;
-      };
-    }
-      ? number
-      : undefined;
+//     DEF: T extends { subWeapon: { type: Shield } } ? number : undefined;
 
-    // stats: T extends {
-    //   subWeapon: { type: NinjutsuScroll | Arrow | Dagger };
-    // }
-    //   ? EffectGroup[]
-    //   : undefined;
-  };
+//     refinement: T extends {
+//       subWeapon: {
+//         type: Katana | OneHandedSword | Knuckle | MagicDevice | Shield;
+//       };
+//     }
+//       ? number
+//       : undefined;
+
+//     stability: T extends {
+//       subWeapon: {
+//         type:
+//           | Arrow
+//           | Dagger
+//           | Katana
+//           | OneHandedSword
+//           | Knuckle
+//           | MagicDevice;
+//       };
+//     }
+//       ? number
+//       : undefined;
+
+//     scrollMPReduction: T extends {
+//       subWeapon: {
+//         type: NinjutsuScroll;
+//       };
+//     }
+//       ? number
+//       : undefined;
+
+//     scrollCastTimeReduction: T extends {
+//       subWeapon: {
+//         type: NinjutsuScroll;
+//       };
+//     }
+//       ? number
+//       : undefined;
+
+//     // stats: T extends {
+//     //   subWeapon: { type: NinjutsuScroll | Arrow | Dagger };
+//     // }
+//     //   ? EffectGroup[]
+//     //   : undefined;
+//   };
 
 export type Light = "light";
 export type Heavy = "heavy";
@@ -338,18 +431,3 @@ export type UnsheatheAttack = "unsheathe-attack";
 export type Declared = STR;
 
 export type Status = Declared;
-
-const subweapon: SubWeapon<{
-  mainWeapon: { type: OneHandedSword; ATK: 400; stability: 50 };
-  subWeapon: { type: OneHandedSword };
-}> = {
-  type: "one-handed-sword",
-  ATK: 400,
-  refinement: 15,
-  stability: 100,
-  DEF: undefined,
-  scrollCastTimeReduction: undefined,
-  scrollMPReduction: undefined,
-};
-
-console.log(subweapon);
