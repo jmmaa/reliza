@@ -1,22 +1,7 @@
-import { total } from "./helper";
-import { DeclaredStatContainer, accumulateDeclaredStats } from "./helper";
+import { StatSource } from "../types";
+import { total, accumulateStats } from "./helper";
 
-// stat
-export const flatDEX = (
-  value: number
-): { name: "flatDEX"; value: number } => ({
-  name: "flatDEX",
-  value,
-});
-
-export const percentDEX = (
-  value: number
-): { name: "percentDEX"; value: number } => ({
-  name: "percentDEX",
-  value,
-});
-
-// calc
+// declare
 export const DEX =
   (value: number) =>
   <S>(status: S): S & { DEX: number } => ({
@@ -24,6 +9,7 @@ export const DEX =
     DEX: value,
   });
 
+// calc
 // this calc is just for consistency, but it is redundant
 export const totalBaseDEX = <S extends { DEX: number }>(
   status: S
@@ -51,20 +37,20 @@ export const totalDEX = <
   };
 };
 
-export const totalFlatDEX = <S extends DeclaredStatContainer<S>>(
+export const totalFlatDEX = <S extends StatSource>(
   status: S
 ): S & { totalFlatDEX: number } => {
   return {
     ...status,
-    totalFlatDEX: accumulateDeclaredStats(status, "flatDEX"),
+    totalFlatDEX: accumulateStats(status, "flatDEX"),
   };
 };
 
-export const totalPercentDEX = <S extends DeclaredStatContainer<S>>(
+export const totalPercentDEX = <S extends StatSource>(
   status: S
 ): S & { totalPercentDEX: number } => {
   return {
     ...status,
-    totalPercentDEX: accumulateDeclaredStats(status, "percentDEX"),
+    totalPercentDEX: accumulateStats(status, "percentDEX"),
   };
 };

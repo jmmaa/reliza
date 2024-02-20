@@ -1,22 +1,7 @@
-import { total } from "./helper";
-import { DeclaredStatContainer, accumulateDeclaredStats } from "./helper";
+import { StatSource } from "../types";
+import { total, accumulateStats } from "./helper";
 
-// stat
-export const flatVIT = (
-  value: number
-): { name: "flatVIT"; value: number } => ({
-  name: "flatVIT",
-  value,
-});
-
-export const percentVIT = (
-  value: number
-): { name: "percentVIT"; value: number } => ({
-  name: "percentVIT",
-  value,
-});
-
-// calc
+// declare
 export const VIT =
   (value: number) =>
   <S>(status: S): S & { VIT: number } => ({
@@ -24,6 +9,7 @@ export const VIT =
     VIT: value,
   });
 
+// calc
 // this calc is just for consistency, but it is redundant
 export const totalBaseVIT = <S extends { VIT: number }>(
   status: S
@@ -51,20 +37,20 @@ export const totalVIT = <
   };
 };
 
-export const totalFlatVIT = <S extends DeclaredStatContainer<S>>(
+export const totalFlatVIT = <S extends StatSource>(
   status: S
 ): S & { totalFlatVIT: number } => {
   return {
     ...status,
-    totalFlatVIT: accumulateDeclaredStats(status, "flatVIT"),
+    totalFlatVIT: accumulateStats(status, "flatVIT"),
   };
 };
 
-export const totalPercentVIT = <S extends DeclaredStatContainer<S>>(
+export const totalPercentVIT = <S extends StatSource>(
   status: S
 ): S & { totalPercentVIT: number } => {
   return {
     ...status,
-    totalPercentVIT: accumulateDeclaredStats(status, "percentVIT"),
+    totalPercentVIT: accumulateStats(status, "percentVIT"),
   };
 };

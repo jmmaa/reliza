@@ -1,23 +1,7 @@
-import { total } from "./helper";
-import { DeclaredStatContainer, accumulateDeclaredStats } from "./helper";
+import { StatSource } from "../types";
+import { total, accumulateStats } from "./helper";
 
-// stat
-export const flatSTR = (
-  value: number
-): { name: "flatSTR"; value: number } => ({
-  name: "flatSTR",
-  value: value,
-});
-
-export const percentSTR = (
-  value: number
-): { name: "percentSTR"; value: number } => ({
-  name: "percentSTR",
-  value,
-});
-
-// calc
-
+// declare
 export const STR =
   (value: number) =>
   <S>(status: S): S & { STR: number } => ({
@@ -25,6 +9,7 @@ export const STR =
     STR: value,
   });
 
+// calc
 // this calc is just for consistency, but it is redundant
 export const totalBaseSTR = <S extends { STR: number }>(
   status: S
@@ -52,20 +37,20 @@ export const totalSTR = <
   };
 };
 
-export const totalFlatSTR = <S extends DeclaredStatContainer<S>>(
+export const totalFlatSTR = <S extends StatSource>(
   status: S
 ): S & { totalFlatSTR: number } => {
   return {
     ...status,
-    totalFlatSTR: accumulateDeclaredStats(status, "flatSTR"),
+    totalFlatSTR: accumulateStats(status, "flatSTR"),
   };
 };
 
-export const totalPercentSTR = <S extends DeclaredStatContainer<S>>(
+export const totalPercentSTR = <S extends StatSource>(
   status: S
 ): S & { totalPercentSTR: number } => {
   return {
     ...status,
-    totalPercentSTR: accumulateDeclaredStats(status, "percentSTR"),
+    totalPercentSTR: accumulateStats(status, "percentSTR"),
   };
 };

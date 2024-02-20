@@ -1,133 +1,3 @@
-// export type TotalBaseSTR = { totalBaseSTR: number };
-
-// export type TotalPercentSTR = { totalPercentSTR: number };
-
-// export type TotalFlatSTR = { totalFlatSTR: number };
-
-// export type TotalSTR = { totalSTR: number };
-
-// export type TotalBaseINT = { totalBaseINT: number };
-
-// export type TotalPercentINT = { totalPercentINT: number };
-
-// export type TotalFlatINT = { totalFlatINT: number };
-
-// export type TotalINT = { totalINT: number };
-
-// export type TotalBaseDEX = { totalBaseDEX: number };
-
-// export type TotalPercentDEX = { totalPercentDEX: number };
-
-// export type TotalFlatDEX = { totalFlatDEX: number };
-
-// export type TotalDEX = { totalDEX: number };
-
-// export type TotalBaseVIT = { totalBaseVIT: number };
-
-// export type TotalPercentVIT = { totalPercentVIT: number };
-
-// export type TotalFlatVIT = { totalFlatVIT: number };
-
-// export type TotalVIT = { totalVIT: number };
-
-// export type TotalBaseAGI = { totalBaseAGI: number };
-
-// export type TotalPercentAGI = { totalPercentAGI: number };
-
-// export type TotalFlatAGI = { totalFlatAGI: number };
-
-// export type TotalAGI = { totalAGI: number };
-
-// export type Undeclared = TotalSTR &
-//   TotalBaseSTR &
-//   TotalPercentSTR &
-//   TotalFlatSTR &
-//   TotalINT &
-//   TotalBaseINT &
-//   TotalPercentINT &
-//   TotalFlatINT &
-//   TotalVIT &
-//   TotalBaseVIT &
-//   TotalPercentVIT &
-//   TotalFlatVIT &
-//   TotalAGI &
-//   TotalBaseAGI &
-//   TotalPercentAGI &
-//   TotalFlatAGI &
-//   TotalDEX &
-//   TotalBaseDEX &
-//   TotalPercentDEX &
-//   TotalFlatDEX;
-
-// // char props
-// export type DeclaredSTR = { STR: number };
-// export type DeclaredINT = { INT: number };
-// export type DeclaredVIT = { VIT: number };
-// export type DeclaredAGI = { AGI: number };
-// export type DeclaredDEX = { DEX: number };
-
-// export type DeclaredLevel = { level: number };
-
-// // equipments
-// export type DeclaredMainWeaponType =
-//   | "one-handed-sword"
-//   | "two-handed-sword"
-//   | "bow"
-//   | "bowgun"
-//   | "staff"
-//   | "magic-device"
-//   | "halberd"
-//   | "katana"
-//   | "knuckle"
-//   | "bare-hand";
-
-// export type DeclaredSubWeaponType =
-//   | "one-handed-sword"
-//   | "bow"
-//   | "magic-device"
-//   | "katana"
-//   | "knuckle"
-//   | "shield"
-//   | "ninjutsu-scroll"
-//   | "magic-device";
-
-// export type DeclaredMainWeapon = {
-//   mainWeapon: {
-//     type: DeclaredMainWeaponType;
-//     ATK: number;
-//     stability: number;
-
-//     effects: [];
-//   };
-// };
-
-// export type DeclaredSubWeapon<M extends DeclaredMainWeapon> = {
-//   subWeapon: {
-//     type: DeclaredSubWeaponType;
-//     ATK: number;
-//   };
-// }; // can be improved
-
-export type Flat<T extends string> = `flat-${T}`;
-
-export type Percent<T extends string> = `percent-${T}`;
-
-export type PercentOnly<T extends string> = `percent-only-${T}`;
-
-// modifiers
-
-export type STR = "STR";
-
-export type INT = "INT";
-
-export type VIT = "VIT";
-
-export type AGI = "AGI";
-
-export type DEX = "DEX";
-
-export type Level = "level";
-
 export type OneHandedSword = "one-handed-sword";
 
 export type TwoHandedSword = "two-handed-sword";
@@ -181,18 +51,11 @@ export type SubWeaponType =
   | Dagger
   | None;
 
-export type WeaponATK = "weapon-ATK";
-
-export type MainWeapon = {
-  type: MainWeaponType;
-  ATK: number;
-  stability: number;
-};
-
-// export type CompatibleSubWeaponType<T> = T extends {
-//   mainWeaponType: OneHandedSword;
-// }
-//   ?
+// export type IsCompatible<
+//   Main extends MainWeaponType,
+//   Sub extends SubWeaponType
+// > = Main extends OneHandedSword
+//   ? Sub extends
 //       | OneHandedSword
 //       | Knuckle
 //       | MagicDevice
@@ -201,74 +64,61 @@ export type MainWeapon = {
 //       | Shield
 //       | Dagger
 //       | None
-//   : T extends { mainWeaponType: TwoHandedSword }
-//   ? None
-//   : T extends { mainWeaponType: Bow }
-//   ? Katana | Arrow | None
-//   : T extends { mainWeaponType: Bowgun }
-//   ? Knuckle | MagicDevice | Arrow | Shield | Dagger | None
-//   : T extends { mainWeaponType: Staff }
-//   ? Knuckle | MagicDevice | NinjutsuScroll | Arrow | Shield | Dagger | None
-//   : T extends { mainWeaponType: MagicDevice }
-//   ? NinjutsuScroll | None
-//   : T extends { mainWeaponType: Knuckle }
-//   ? MagicDevice | Arrow | Shield | Dagger | None
-//   : T extends { mainWeaponType: Halberd }
-//   ? Dagger | Arrow | None
-//   : T extends { mainWeaponType: Katana }
-//   ? Dagger | NinjutsuScroll | None
-//   : T extends { mainWeaponType: BareHand }
-//   ? Knuckle | MagicDevice | NinjutsuScroll | Shield | Dagger | None
-//   : None;
+//     ? true
+//     : false
+//   : Main extends TwoHandedSword
+//   ? Sub extends None
+//     ? true
+//     : false
+//   : Main extends Bow
+//   ? Sub extends Katana | Arrow | None
+//     ? true
+//     : false
+//   : Main extends Bowgun
+//   ? Sub extends Knuckle | MagicDevice | Arrow | Shield | Dagger | None
+//     ? true
+//     : false
+//   : Main extends Staff
+//   ? Sub extends
+//       | Knuckle
+//       | MagicDevice
+//       | NinjutsuScroll
+//       | Arrow
+//       | Shield
+//       | Dagger
+//       | None
+//     ? true
+//     : false
+//   : Main extends MagicDevice
+//   ? Sub extends NinjutsuScroll | None
+//     ? true
+//     : false
+//   : Main extends Knuckle
+//   ? Sub extends MagicDevice | Arrow | Shield | Dagger | None
+//     ? true
+//     : false
+//   : Main extends Halberd
+//   ? Sub extends Dagger | Arrow | None
+//     ? true
+//     : false
+//   : Main extends Katana
+//   ? Sub extends Dagger | NinjutsuScroll | None
+//     ? true
+//     : false
+//   : Main extends BareHand
+//   ? Sub extends
+//       | Knuckle
+//       | MagicDevice
+//       | NinjutsuScroll
+//       | Shield
+//       | Dagger
+//       | None
+//     ? true
+//     : false
+//   : false;
 
-// export type CompatibleSubWeaponType<T> = T extends {
-//   mainWeaponType: infer W;
-// }
-//   ? W extends OneHandedSword
-//     ?
-//         | OneHandedSword
-//         | Knuckle
-//         | MagicDevice
-//         | NinjutsuScroll
-//         | Arrow
-//         | Shield
-//         | Dagger
-//         | None
-//     : W extends TwoHandedSword
-//     ? None
-//     : W extends Bow
-//     ? Katana | Arrow | None
-//     : W extends Bowgun
-//     ? Knuckle | MagicDevice | Arrow | Shield | Dagger | None
-//     : W extends Staff
-//     ?
-//         | Knuckle
-//         | MagicDevice
-//         | NinjutsuScroll
-//         | Arrow
-//         | Shield
-//         | Dagger
-//         | None
-//     : W extends MagicDevice
-//     ? NinjutsuScroll | None
-//     : W extends Knuckle
-//     ? MagicDevice | Arrow | Shield | Dagger | None
-//     : W extends Halberd
-//     ? Dagger | Arrow | None
-//     : W extends Katana
-//     ? Dagger | NinjutsuScroll | None
-//     : W extends BareHand
-//     ? Knuckle | MagicDevice | NinjutsuScroll | Shield | Dagger | None
-//     : None
-//   : never;
-
-// export type CompatibleMainWeaponType<S extends SubWeaponType> =
-//   S extends OneHandedSword
-//   ? OneHandedSword
-//   : S extends ;
-
-export type CompatibleSubWeaponType<M extends MainWeaponType> =
-  M extends OneHandedSword
+export type CompatibleSubWeaponType<Main extends MainWeaponType> =
+  Main extends OneHandedSword
     ?
         | OneHandedSword
         | Knuckle
@@ -278,13 +128,13 @@ export type CompatibleSubWeaponType<M extends MainWeaponType> =
         | Shield
         | Dagger
         | None
-    : M extends TwoHandedSword
+    : Main extends TwoHandedSword
     ? None
-    : M extends Bow
+    : Main extends Bow
     ? Katana | Arrow | None
-    : M extends Bowgun
+    : Main extends Bowgun
     ? Knuckle | MagicDevice | Arrow | Shield | Dagger | None
-    : M extends Staff
+    : Main extends Staff
     ?
         | Knuckle
         | MagicDevice
@@ -293,141 +143,125 @@ export type CompatibleSubWeaponType<M extends MainWeaponType> =
         | Shield
         | Dagger
         | None
-    : M extends MagicDevice
+    : Main extends MagicDevice
     ? NinjutsuScroll | None
-    : M extends Knuckle
+    : Main extends Knuckle
     ? MagicDevice | Arrow | Shield | Dagger | None
-    : M extends Halberd
+    : Main extends Halberd
     ? Dagger | Arrow | None
-    : M extends Katana
+    : Main extends Katana
     ? Dagger | NinjutsuScroll | None
-    : M extends BareHand
+    : Main extends BareHand
     ? Knuckle | MagicDevice | NinjutsuScroll | Shield | Dagger | None
-    : None;
+    : never;
 
-// export type SubWeaponType<M extends MainWeaponType> =
-//   M extends Sword
-//     ? Sword |  Shield | None
-//     : M extends Bow
-//     ? Arrow | None
-//     : M extends Staff
-//     ? Shield | None
-//     : None;
+// stats
 
-// export type SubWeapon<T extends { mainWeapon: { type: MainWeaponType } }> =
-//   {
-//     type: CompatibleSubWeaponType<T>;
-//     ATK: T extends {
-//       subWeapon: {
-//         type:
-//           | Arrow
-//           | Dagger
-//           | Katana
-//           | OneHandedSword
-//           | Knuckle
-//           | MagicDevice;
-//       };
-//     }
-//       ? number
-//       : undefined;
+export type StatMap = {
+  // STR
+  flatSTR: number;
+  percentSTR: number;
 
-//     DEF: T extends { subWeapon: { type: Shield } } ? number : undefined;
+  flatINT: number;
+  percentINT: number;
 
-//     refinement: T extends {
-//       subWeapon: {
-//         type: Katana | OneHandedSword | Knuckle | MagicDevice | Shield;
-//       };
-//     }
-//       ? number
-//       : undefined;
+  flatDEX: number;
+  percentDEX: number;
 
-//     stability: T extends {
-//       subWeapon: {
-//         type:
-//           | Arrow
-//           | Dagger
-//           | Katana
-//           | OneHandedSword
-//           | Knuckle
-//           | MagicDevice;
-//       };
-//     }
-//       ? number
-//       : undefined;
+  flatVIT: number;
+  percentVIT: number;
 
-//     scrollMPReduction: T extends {
-//       subWeapon: {
-//         type: NinjutsuScroll;
-//       };
-//     }
-//       ? number
-//       : undefined;
+  flatAGI: number;
+  percentAGI: number;
 
-//     scrollCastTimeReduction: T extends {
-//       subWeapon: {
-//         type: NinjutsuScroll;
-//       };
-//     }
-//       ? number
-//       : undefined;
+  flatWeaponATK: number;
+  percentWeaponATK: number;
 
-//     // stats: T extends {
-//     //   subWeapon: { type: NinjutsuScroll | Arrow | Dagger };
-//     // }
-//     //   ? EffectGroup[]
-//     //   : undefined;
-//   };
+  flatMATK: number;
+  percentMATK: number;
 
-export type Light = "light";
-export type Heavy = "heavy";
-export type Naked = "naked";
-export type Normal = "normal";
+  flatATK: number;
+  percentATK: number;
 
-export type ArmorType = Light | Heavy | Naked | Normal;
+  flatASPD: number;
+  percentASPD: number;
 
-export type Effect = {
+  flatCSPD: number;
+  percentCSPD: number;
+
+  flatCriticalRate: number;
+  percentCriticalRate: number;
+
+  flatCriticalDamage: number;
+  percentCriticalDamage: number;
+
+  flatMaxHP: number;
+  percentMaxHP: number;
+
+  flatMaxMP: number;
+  percentMaxMP: number;
+
+  flatAccuracy: number;
+  percentAccuracy: number;
+
+  flatDodge: number;
+  percentDodge: number;
+
+  flatDEF: number;
+  percentDEF: number;
+
+  flatMDEF: number;
+  percentMDEF: number;
+
+  flatUnsheatheAttack: number;
+  percentUnsheatheAttack: number;
+
+  stability: number;
+
+  magicPierce: number;
+  physicalPierce: number;
+
+  longRangeDamage: number;
+  shortRangeDamage: number;
+
+  motionSpeed: number;
+
+  "ATKUP(STR)": number;
+  "ATKUP(INT)": number;
+  "ATKUP(DEX)": number;
+  "ATKUP(VIT)": number;
+  "ATKUP(AGI)": number;
+
+  "MATKUP(STR)": number;
+  "MATKUP(INT)": number;
+  "MATKUP(DEX)": number;
+  "MATKUP(VIT)": number;
+  "MATKUP(AGI)": number;
+};
+
+export type StatGroupWithPredicate = {
   predicate: <S>(status: S) => boolean;
-  status: {
-    flatMATK?: number;
-    percentMATK?: number;
-    flatATK?: number;
-    percentATK?: number;
-  };
+  stats: StatMap;
 };
 
-`
-an example of the type above would be
+export type StatSource = {
+  mainWeaponStats?: StatGroupWithPredicate[];
 
-.effect(Default, {
-    stability: 25,
-    MATKflat: 21,
-    MATKpercent: 10 
-})
-.effect(HeavyArmorOnly, [
-    flatMATK(7),
-    flatATK(42)
-])
-`;
+  mainWeaponCrystals?: StatGroupWithPredicate[][];
 
-export const effect: Effect = {
-  predicate: (status) => true,
-  status: {
-    flatATK: 1,
-  },
+  armorStats?: StatGroupWithPredicate[];
+
+  armorCrystals?: StatGroupWithPredicate[][];
+
+  additionalGearStats?: StatGroupWithPredicate[];
+
+  additionalGearCrystals?: StatGroupWithPredicate[][];
+
+  specialGearStats?: StatGroupWithPredicate[];
+
+  specialGearCrystals?: StatGroupWithPredicate[][];
+
+  // foodBuffs?: { name: string; value: number }[];
+
+  // consumables?: { name: string; value: number }[][];
 };
-export type Armor = {
-  type: ArmorType;
-  DEF: number;
-};
-
-export type WeaponStability = "weapon-stability";
-
-export type MATK = "MATK";
-
-export type ATK = "ATK";
-
-export type UnsheatheAttack = "unsheathe-attack";
-
-export type Declared = STR;
-
-export type Status = Declared;

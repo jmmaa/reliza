@@ -1,23 +1,6 @@
 import { baseMaxHP } from "@jmmaa/pino";
-import { total } from "./helper";
-import { DeclaredStatContainer, accumulateDeclaredStats } from "./helper";
-
-// stat
-export const flatMaxHP = (
-  value: number
-): { name: "flatMaxHP"; value: number } => ({
-  name: "flatMaxHP",
-  value,
-});
-
-export const percentMaxHP = (
-  value: number
-): { name: "percentMaxHP"; value: number } => ({
-  name: "percentMaxHP",
-  value,
-});
-
-// calc
+import { accumulateStats, total } from "./helper";
+import { StatSource } from "../types";
 
 export const totalBaseMaxHP = <
   S extends { level: number; totalVIT: number }
@@ -47,20 +30,20 @@ export const totalMaxHP = <
   };
 };
 
-export const totalFlatMaxHP = <S extends DeclaredStatContainer<S>>(
+export const totalFlatMaxHP = <S extends StatSource>(
   status: S
 ): S & { totalFlatMaxHP: number } => {
   return {
     ...status,
-    totalFlatMaxHP: accumulateDeclaredStats(status, "flatMaxHP"),
+    totalFlatMaxHP: accumulateStats(status, "flatMaxHP"),
   };
 };
 
-export const totalPercentMaxHP = <S extends DeclaredStatContainer<S>>(
+export const totalPercentMaxHP = <S extends StatSource>(
   status: S
 ): S & { totalPercentMaxHP: number } => {
   return {
     ...status,
-    totalPercentMaxHP: accumulateDeclaredStats(status, "percentMaxHP"),
+    totalPercentMaxHP: accumulateStats(status, "percentMaxHP"),
   };
 };

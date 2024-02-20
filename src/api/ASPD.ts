@@ -12,47 +12,16 @@ import {
   staffBaseAttackSpeed,
   twoHandedSwordBaseAttackSpeed,
 } from "@jmmaa/pino";
-import { total } from "./helper";
-import { DeclaredStatContainer, accumulateDeclaredStats } from "./helper";
-
-// stat
-export const flatASPD = (
-  value: number
-): { name: "flatASPD"; value: number } => ({
-  name: "flatASPD",
-  value,
-});
-
-export const percentASPD = (
-  value: number
-): { name: "percentASPD"; value: number } => ({
-  name: "percentASPD",
-  value,
-});
+import { accumulateStats, total } from "./helper";
+import { MainWeaponType, StatSource, SubWeaponType } from "../types";
 
 // calc
-export const BaseASPD =
-  (value: number) =>
-  <S>(status: S): S & { BaseASPD: number } => ({
-    ...status,
-    BaseASPD: value,
-  });
 
 export const totalBaseASPD = <
   S extends {
     level: number;
-    weaponType:
-      | "one-handed-sword"
-      | "two-handed-sword"
-      | "dual-wield"
-      | "bow"
-      | "bowgun"
-      | "staff"
-      | "magic-device"
-      | "halberd"
-      | "katana"
-      | "knuckle"
-      | "bare-hand";
+    mainWeaponType: MainWeaponType;
+    subWeaponType: SubWeaponType;
     totalSTR: number;
     totalDEX: number;
     totalINT: number;
@@ -61,7 +30,7 @@ export const totalBaseASPD = <
 >(
   status: S
 ): S & { totalBaseASPD: number } => {
-  if (status.weaponType === "one-handed-sword") {
+  if (status.mainWeaponType === "one-handed-sword") {
     return {
       ...status,
       totalBaseASPD: oneHandedSwordBaseAttackSpeed(
@@ -70,7 +39,7 @@ export const totalBaseASPD = <
         status.totalSTR
       ),
     };
-  } else if (status.weaponType === "two-handed-sword") {
+  } else if (status.mainWeaponType === "two-handed-sword") {
     return {
       ...status,
       totalBaseASPD: twoHandedSwordBaseAttackSpeed(
@@ -79,16 +48,7 @@ export const totalBaseASPD = <
         status.totalSTR
       ),
     };
-  } else if (status.weaponType === "dual-wield") {
-    return {
-      ...status,
-      totalBaseASPD: dualWieldBaseAttackSpeed(
-        status.level,
-        status.totalAGI,
-        status.totalSTR
-      ),
-    };
-  } else if (status.weaponType === "bow") {
+  } else if (status.mainWeaponType === "bow") {
     return {
       ...status,
       totalBaseASPD: bowBaseAttackSpeed(
@@ -97,7 +57,7 @@ export const totalBaseASPD = <
         status.totalDEX
       ),
     };
-  } else if (status.weaponType === "bowgun") {
+  } else if (status.mainWeaponType === "bowgun") {
     return {
       ...status,
       totalBaseASPD: bowgunBaseAttackSpeed(
@@ -106,7 +66,7 @@ export const totalBaseASPD = <
         status.totalDEX
       ),
     };
-  } else if (status.weaponType === "staff") {
+  } else if (status.mainWeaponType === "staff") {
     return {
       ...status,
       totalBaseASPD: staffBaseAttackSpeed(
@@ -115,7 +75,7 @@ export const totalBaseASPD = <
         status.totalINT
       ),
     };
-  } else if (status.weaponType === "magic-device") {
+  } else if (status.mainWeaponType === "magic-device") {
     return {
       ...status,
       totalBaseASPD: magicDeviceBaseAttackSpeed(
@@ -124,7 +84,7 @@ export const totalBaseASPD = <
         status.totalINT
       ),
     };
-  } else if (status.weaponType === "knuckle") {
+  } else if (status.mainWeaponType === "knuckle") {
     return {
       ...status,
       totalBaseASPD: knuckleBaseAttackSpeed(
@@ -134,7 +94,7 @@ export const totalBaseASPD = <
         status.totalDEX
       ),
     };
-  } else if (status.weaponType === "halberd") {
+  } else if (status.mainWeaponType === "halberd") {
     return {
       ...status,
       totalBaseASPD: halberdBaseAttackSpeed(
@@ -143,7 +103,7 @@ export const totalBaseASPD = <
         status.totalSTR
       ),
     };
-  } else if (status.weaponType === "katana") {
+  } else if (status.mainWeaponType === "katana") {
     return {
       ...status,
       totalBaseASPD: katanaBaseAttackSpeed(
@@ -152,7 +112,7 @@ export const totalBaseASPD = <
         status.totalSTR
       ),
     };
-  } else if (status.weaponType === "bare-hand") {
+  } else if (status.mainWeaponType === "bare-hand") {
     return {
       ...status,
       totalBaseASPD: bareHandBaseAttackSpeed(
@@ -160,7 +120,20 @@ export const totalBaseASPD = <
         status.totalAGI
       ),
     };
+  } else if (
+    status.subWeaponType === "one-handed-sword" && // dont switch the positions of this condition
+    status.mainWeaponType === "one-handed-sword"
+  ) {
+    return {
+      ...status,
+      totalBaseASPD: dualWieldBaseAttackSpeed(
+        status.level,
+        status.totalAGI,
+        status.totalSTR
+      ),
+    };
   } else {
+    console.log(status);
     throw Error("invalid weaponType type");
   }
 };
@@ -184,21 +157,21 @@ export const totalASPD = <
   };
 };
 
-export const totalFlatASPD = <S extends DeclaredStatContainer<S>>(
+export const totalFlatASPD = <S extends StatSource>(
   status: S
 ): S & { totalFlatASPD: number } => {
   return {
     ...status,
-    totalFlatASPD: accumulateDeclaredStats(status, "flatASPD"),
+    totalFlatASPD: accumulateStats(status, "flatASPD"),
   };
 };
 
-export const totalPercentASPD = <S extends DeclaredStatContainer<S>>(
+export const totalPercentASPD = <S extends StatSource>(
   status: S
 ): S & { totalPercentASPD: number } => {
   return {
     ...status,
-    totalPercentASPD: accumulateDeclaredStats(status, "percentASPD"),
+    totalPercentASPD: accumulateStats(status, "percentASPD"),
   };
 };
 

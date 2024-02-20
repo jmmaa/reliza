@@ -1,22 +1,7 @@
-import { total } from "./helper";
-import { DeclaredStatContainer, accumulateDeclaredStats } from "./helper";
+import { StatSource } from "../types";
+import { total, accumulateStats } from "./helper";
 
-// stat
-export const flatINT = (
-  value: number
-): { name: "flatINT"; value: number } => ({
-  name: "flatINT",
-  value,
-});
-
-export const percentINT = (
-  value: number
-): { name: "percentINT"; value: number } => ({
-  name: "percentINT",
-  value,
-});
-
-// calc
+// declare
 export const INT =
   (value: number) =>
   <S>(status: S): S & { INT: number } => ({
@@ -24,6 +9,7 @@ export const INT =
     INT: value,
   });
 
+// calc
 // this calc is just for consistency, but it is redundant
 export const totalBaseINT = <S extends { INT: number }>(
   status: S
@@ -51,20 +37,20 @@ export const totalINT = <
   };
 };
 
-export const totalFlatINT = <S extends DeclaredStatContainer<S>>(
+export const totalFlatINT = <S extends StatSource>(
   status: S
 ): S & { totalFlatINT: number } => {
   return {
     ...status,
-    totalFlatINT: accumulateDeclaredStats(status, "flatINT"),
+    totalFlatINT: accumulateStats(status, "flatINT"),
   };
 };
 
-export const totalPercentINT = <S extends DeclaredStatContainer<S>>(
+export const totalPercentINT = <S extends StatSource>(
   status: S
 ): S & { totalPercentINT: number } => {
   return {
     ...status,
-    totalPercentINT: accumulateDeclaredStats(status, "percentINT"),
+    totalPercentINT: accumulateStats(status, "percentINT"),
   };
 };

@@ -1,28 +1,15 @@
 import { weaponRefinementBonusWeaponAttack } from "@jmmaa/pino";
-import { total } from "./helper";
-import { DeclaredStatContainer, accumulateDeclaredStats } from "./helper";
+import { StatSource, accumulateStats } from "./helper";
+import { total } from "./helper"; // remove this soon as pino.total gets fixed
 
-// stat
-export const flatWeaponATK = (
-  value: number
-): { name: "flatWeaponATK"; value: number } => ({
-  name: "flatWeaponATK",
-  value,
-});
-
-export const percentWeaponATK = (
-  value: number
-): { name: "percentWeaponATK"; value: number } => ({
-  name: "percentWeaponATK",
-  value,
-});
+// ATK
 
 // this calc is just for consistency, but it is redundant
-export const totalBaseWeaponATK = <S extends { baseWeaponATK: number }>(
+export const totalBaseWeaponATK = <S extends { mainWeaponATK: number }>(
   status: S
 ): S & { totalBaseWeaponATK: number } => ({
   ...status,
-  totalBaseWeaponATK: status.baseWeaponATK,
+  totalBaseWeaponATK: status.mainWeaponATK,
 });
 
 export const totalWeaponATK = <
@@ -46,37 +33,34 @@ export const totalWeaponATK = <
   };
 };
 
-export const totalFlatWeaponATK = <S extends DeclaredStatContainer<S>>(
+export const totalFlatWeaponATK = <S extends StatSource>(
   status: S
 ): S & { totalFlatWeaponATK: number } => {
   return {
     ...status,
-    totalFlatWeaponATK: accumulateDeclaredStats(status, "flatWeaponATK"),
+    totalFlatWeaponATK: accumulateStats(status, "flatWeaponATK"),
   };
 };
 
-export const totalPercentWeaponATK = <S extends DeclaredStatContainer<S>>(
+export const totalPercentWeaponATK = <S extends StatSource>(
   status: S
 ): S & { totalPercentWeaponATK: number } => {
   return {
     ...status,
-    totalPercentWeaponATK: accumulateDeclaredStats(
-      status,
-      "percentWeaponATK"
-    ),
+    totalPercentWeaponATK: accumulateStats(status, "percentWeaponATK"),
   };
 };
 
 export const totalWeaponRefinementBonusWeaponATK = <
-  S extends { weaponRefinement: number; baseWeaponATK: number }
+  S extends { mainWeaponRefinement: number; totalBaseWeaponATK: number }
 >(
   status: S
 ): S & { totalWeaponRefinementBonusWeaponATK: number } => {
   return {
     ...status,
     totalWeaponRefinementBonusWeaponATK: weaponRefinementBonusWeaponAttack(
-      status.weaponRefinement,
-      status.baseWeaponATK
+      status.mainWeaponRefinement,
+      status.totalBaseWeaponATK
     ),
   };
 };

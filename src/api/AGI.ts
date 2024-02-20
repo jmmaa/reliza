@@ -1,22 +1,7 @@
-import { total } from "./helper";
-import { DeclaredStatContainer, accumulateDeclaredStats } from "./helper";
+import { StatSource } from "../types";
+import { total, accumulateStats } from "./helper";
 
-// stat
-export const flatAGI = (
-  value: number
-): { name: "flatAGI"; value: number } => ({
-  name: "flatAGI",
-  value,
-});
-
-export const percentAGI = (
-  value: number
-): { name: "percentAGI"; value: number } => ({
-  name: "percentAGI",
-  value,
-});
-
-// calc
+// declare
 export const AGI =
   (value: number) =>
   <S>(status: S): S & { AGI: number } => ({
@@ -24,6 +9,7 @@ export const AGI =
     AGI: value,
   });
 
+// calc
 // this calc is just for consistency, but it is redundant
 export const totalBaseAGI = <S extends { AGI: number }>(
   status: S
@@ -51,20 +37,20 @@ export const totalAGI = <
   };
 };
 
-export const totalFlatAGI = <S extends DeclaredStatContainer<S>>(
+export const totalFlatAGI = <S extends StatSource>(
   status: S
 ): S & { totalFlatAGI: number } => {
   return {
     ...status,
-    totalFlatAGI: accumulateDeclaredStats(status, "flatAGI"),
+    totalFlatAGI: accumulateStats(status, "flatAGI"),
   };
 };
 
-export const totalPercentAGI = <S extends DeclaredStatContainer<S>>(
+export const totalPercentAGI = <S extends StatSource>(
   status: S
 ): S & { totalPercentAGI: number } => {
   return {
     ...status,
-    totalPercentAGI: accumulateDeclaredStats(status, "percentAGI"),
+    totalPercentAGI: accumulateStats(status, "percentAGI"),
   };
 };

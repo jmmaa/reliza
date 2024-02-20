@@ -1,31 +1,7 @@
 import { baseCriticalDamage } from "@jmmaa/pino";
-import { total } from "./helper";
-import { DeclaredStatContainer, accumulateDeclaredStats } from "./helper";
+import { accumulateStats, total } from "./helper";
+import { StatSource } from "../types";
 
-// stat
-export const flatCriticalDamage = (
-  value: number
-): { name: "flatCriticalDamage"; value: number } => ({
-  name: "flatCriticalDamage",
-  value,
-});
-
-export const percentCriticalDamage = (
-  value: number
-): { name: "percentCriticalDamage"; value: number } => ({
-  name: "percentCriticalDamage",
-  value,
-});
-
-// calc
-export const BaseCriticalDamage =
-  (value: number) =>
-  <S>(status: S): S & { BaseCriticalDamage: number } => ({
-    ...status,
-    BaseCriticalDamage: value,
-  });
-
-// this calc is just for consistency, but it is redundant
 export const totalBaseCriticalDamage = <
   S extends { totalSTR: number; totalAGI: number }
 >(
@@ -57,28 +33,21 @@ export const totalCriticalDamage = <
   };
 };
 
-export const totalFlatCriticalDamage = <
-  S extends DeclaredStatContainer<S>
->(
+export const totalFlatCriticalDamage = <S extends StatSource>(
   status: S
 ): S & { totalFlatCriticalDamage: number } => {
   return {
     ...status,
-    totalFlatCriticalDamage: accumulateDeclaredStats(
-      status,
-      "flatCriticalDamage"
-    ),
+    totalFlatCriticalDamage: accumulateStats(status, "flatCriticalDamage"),
   };
 };
 
-export const totalPercentCriticalDamage = <
-  S extends DeclaredStatContainer<S>
->(
+export const totalPercentCriticalDamage = <S extends StatSource>(
   status: S
 ): S & { totalPercentCriticalDamage: number } => {
   return {
     ...status,
-    totalPercentCriticalDamage: accumulateDeclaredStats(
+    totalPercentCriticalDamage: accumulateStats(
       status,
       "percentCriticalDamage"
     ),

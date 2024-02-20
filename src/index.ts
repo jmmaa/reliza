@@ -2,312 +2,104 @@ import * as pino from "@jmmaa/pino";
 import * as d from "./api";
 
 import {
-  BareHand,
-  CompatibleSubWeaponType,
-  MainWeapon,
   MainWeaponType,
-  None,
-  OneHandedSword,
   SubWeaponType,
-  TwoHandedSword,
+  StatSource,
+  CompatibleSubWeaponType,
 } from "./types";
-
-export const declare = <T>(mapping: T) => {
-  return <S>(status: S): S & T => {
-    return { ...status, ...mapping };
-  };
-};
-
-// declarations
-
-// make a reverse of this
-export const mainWeaponType =
-  <T extends MainWeaponType>(value: T) =>
-  <S extends { subWeaponType: CompatibleSubWeaponType<T> }>(
-    status: S
-  ): S & { mainWeaponType: T } => {
-    return { ...status, mainWeaponType: value };
-  };
-
-export const mainWeaponATK =
-  (value: number) =>
-  <S>(status: S): S & { mainWeaponATK: number } => {
-    return { ...status, mainWeaponATK: value };
-  };
-
-export const mainWeaponStability =
-  (value: number) =>
-  <S>(status: S): S & { mainWeaponStability: number } => {
-    return { ...status, mainWeaponStability: value };
-  };
-
-export const subWeaponType =
-  <T extends SubWeaponType>(value: T) =>
-  <S>(status: S) => ({
-    ...status,
-    subWeaponType: value,
-  });
-
-export const sub = mainWeaponType("halberd")(
-  subWeaponType("ninjutsu-scroll")({})
-);
+import { DEFAULT, DeclaredStatContainer, stats } from "./api/helper";
+import { stat } from "fs";
 
 // functors
 
-export class Status<T> {
-  mapping: T;
-
-  // & {
-  //   level: number;
-  //   STR: number;
-  //   DEX: number;
-  //   INT: number;
-  //   VIT: number;
-  //   AGI: number;
-  //   CRT: number;
-  //   MTL: number;
-  //   TEC: number;
-  //   LUK: number;
-  //   weaponType: MainWeaponType;
-
-  //   baseWeaponATK: number;
-  //   weaponRefinement: number;
-  //   weaponStats?: {
-  //     name: string;
-  //     value: number;
-  //     predicate?: (status: T) => boolean;
-  //   }[];
-  //   weaponCrystals?: {
-  //     name: string;
-  //     value: number;
-  //     predicate?: (status: T) => boolean;
-  //   }[][];
-  // };
-
-  constructor(mapping: T) {
-    this.mapping = {
-      level: 1,
-      STR: 1,
-      DEX: 1,
-      INT: 1,
-      VIT: 1,
-      AGI: 1,
-      CRT: 0,
-      MTL: 0,
-      TEC: 0,
-      LUK: 0,
-      weaponType: "bare-hand",
-      baseWeaponATK: 0,
-      weaponStability: 0,
-      weaponRefinement: 0,
-      ...mapping,
-    };
-  }
-
-  add<N>(f: (status: T) => T & N): Status<T & N> {
-    return new Status(f(this.mapping));
-  }
-
-  default() {
-    const mapping = this.mapping;
-
-    return new Status(mapping)
-      .add(subWeaponType("ninjutsu-scroll"))
-      .add(mainWeaponType("bare-hand"))
-      .add(mainWeaponATK(0))
-      .add(mainWeaponStability(0));
-  }
-
-  // calculate() {
-  //   const mapping = this.mapping;
-
-  //   return (
-  //     new Status(mapping)
-  //       .add(d.totalBaseSTR)
-  //       .add(d.totalBaseINT)
-  //       .add(d.totalBaseDEX)
-  //       .add(d.totalBaseVIT)
-  //       .add(d.totalBaseAGI)
-  //       .add(d.totalPercentSTR)
-  //       .add(d.totalPercentINT)
-  //       .add(d.totalPercentDEX)
-  //       .add(d.totalPercentVIT)
-  //       .add(d.totalPercentAGI)
-  //       .add(d.totalFlatSTR)
-  //       .add(d.totalFlatINT)
-  //       .add(d.totalFlatDEX)
-  //       .add(d.totalFlatVIT)
-  //       .add(d.totalFlatAGI)
-  //       .add(d.totalSTR)
-  //       .add(d.totalINT)
-  //       .add(d.totalDEX)
-  //       .add(d.totalVIT)
-  //       .add(d.totalAGI)
-
-  //       // personal
-  //       .add(totalBaseMTL)
-  //       .add(totalBaseCRT)
-  //       .add(totalBaseLUK)
-  //       .add(totalBaseTEC)
-
-  //       // hp
-  //       .add(d.totalBaseMaxHP)
-  //       .add(d.totalBaseMaxMP)
-
-  //       // cast speed
-  //       .add(d.totalBaseCSPD)
-  //       .add(d.totalPercentCSPD)
-  //       .add(d.totalFlatCSPD)
-  //       .add(d.totalCSPD)
-  //       .add(d.totalCastTimeReduction)
-
-  //       // attack speed
-  //       .add(d.totalBaseASPD)
-  //       .add(d.totalPercentASPD)
-  //       .add(d.totalFlatASPD)
-  //       .add(d.totalASPD)
-  //       .add(d.totalActionTimeReduction)
-
-  //       // crit rate
-  //       .add(d.totalBaseCriticalRate)
-
-  //       // crit damage
-  //       .add(d.totalBaseCriticalDamage)
-
-  //       // weapon attack
-  //       .add(d.totalBaseWeaponATK)
-  //       .add(d.totalPercentWeaponATK)
-  //       .add(d.totalFlatWeaponATK)
-  //       .add(d.totalWeaponRefinementBonusWeaponATK)
-  //       .add(d.totalWeaponATK)
-  //   );
-  // }
-}
-
-// consts
-export const level = (value: number) => {
-  return <S>(status: S): S & { level: number } => ({
-    ...status,
-    level: value,
-  });
+export const compose = <T>(value: T) => {
+  return {
+    value: value,
+    _: <N>(f: (value: T) => N) => compose(f(value)),
+  };
 };
 
-//  calcs
-
-export const totalBaseCRT = <S extends { CRT: number }>(
-  status: S
-): S & { totalBaseCRT: number } => ({
-  ...status,
-  totalBaseCRT: status.CRT,
-});
-
-export const totalBaseLUK = <S extends { LUK: number }>(
-  status: S
-): S & { totalBaseLUK: number } => ({
-  ...status,
-  totalBaseLUK: status.LUK,
-});
-
-export const totalBaseMTL = <S extends { MTL: number }>(
-  status: S
-): S & { totalBaseMTL: number } => ({
-  ...status,
-  totalBaseMTL: status.MTL,
-});
-
-export const totalBaseTEC = <S extends { TEC: number }>(
-  status: S
-): S & { totalBaseTEC: number } => ({
-  ...status,
-  totalBaseTEC: status.TEC,
-});
-
-// export
-// weapon declaration
-
-export const baseWeaponAttack =
-  (value: number) =>
-  <S>(status: S): S & { baseWeaponAttack: number } => {
-    return { ...status, baseWeaponAttack: value };
-  };
-
-export const weaponType =
-  (
-    value:
-      | "one-handed-sword"
-      | "two-handed-sword"
-      | "dual-wield"
-      | "bow"
-      | "bowgun"
-      | "staff"
-      | "magic-device"
-      | "halberd"
-      | "katana"
-      | "knuckle"
-      | "bare-hand"
-  ) =>
-  <S>(
-    status: S
-  ): S & {
-    weaponType:
-      | "one-handed-sword"
-      | "two-handed-sword"
-      | "dual-wield"
-      | "bow"
-      | "bowgun"
-      | "staff"
-      | "magic-device"
-      | "halberd"
-      | "katana"
-      | "knuckle"
-      | "bare-hand";
-  } => {
-    return { ...status, weaponType: value };
-  };
-
-export const weaponStability =
-  (value: number) =>
-  <S>(status: S): S & { weaponStability: number } => {
-    return { ...status, weaponStability: value };
-  };
-
-export const weaponRefinement =
-  (value: number) =>
-  <S>(status: S): S & { weaponRefinement: number } => {
-    return { ...status, weaponRefinement: value };
-  };
-
-export const weaponStats = <
-  S,
+export const calculate = <
   T extends {
-    name: string;
-    value: number;
-    predicate?: (status: S) => boolean;
-  }[]
+    level: number;
+    STR: number;
+    DEX: number;
+    INT: number;
+    VIT: number;
+    AGI: number;
+    CRT: number;
+    MTL: number;
+    TEC: number;
+    LUK: number;
+    mainWeaponType: MainWeaponType;
+    mainWeaponATK: number;
+    mainWeaponRefinement: number;
+    subWeaponType: SubWeaponType;
+  } & StatSource
 >(
-  arr: T
+  status: T
 ) => {
-  return (status: S): S & { weaponStats: T } => {
-    return { ...status, weaponStats: arr };
-  };
-};
+  const allCalculations = compose(status)
+    ._(d.totalBaseSTR)
+    ._(d.totalBaseINT)
+    ._(d.totalBaseDEX)
+    ._(d.totalBaseVIT)
+    ._(d.totalBaseAGI)
+    ._(d.totalPercentSTR)
+    ._(d.totalPercentINT)
+    ._(d.totalPercentDEX)
+    ._(d.totalPercentVIT)
+    ._(d.totalPercentAGI)
+    ._(d.totalFlatSTR)
+    ._(d.totalFlatINT)
+    ._(d.totalFlatDEX)
+    ._(d.totalFlatVIT)
+    ._(d.totalFlatAGI)
+    ._(d.totalSTR)
+    ._(d.totalINT)
+    ._(d.totalDEX)
+    ._(d.totalVIT)
+    ._(d.totalAGI)
 
-export const weaponCrystals = <
-  S,
-  T extends {
-    name: string;
-    value: number;
-    predicate?: (status: S) => boolean;
-  }[][]
->(
-  arr: T
-) => {
-  return (status: S): S & { weaponCrystals: T } => {
-    return { ...status, weaponCrystals: arr };
-  };
-};
+    // personal
+    ._(d.totalBaseMTL)
+    ._(d.totalBaseCRT)
+    ._(d.totalBaseLUK)
+    ._(d.totalBaseTEC)
 
-// armor declaration
+    // hp
+    ._(d.totalBaseMaxHP)
+    ._(d.totalBaseMaxMP)
+
+    // cast speed
+    ._(d.totalBaseCSPD)
+    ._(d.totalPercentCSPD)
+    ._(d.totalFlatCSPD)
+    ._(d.totalCSPD)
+    ._(d.totalCastTimeReduction)
+
+    // attack speed
+    ._(d.totalBaseASPD)
+    ._(d.totalPercentASPD)
+    ._(d.totalFlatASPD)
+    ._(d.totalASPD)
+    ._(d.totalActionTimeReduction)
+
+    // crit rate
+    ._(d.totalBaseCriticalRate)
+
+    // crit damage
+    ._(d.totalBaseCriticalDamage)
+
+    // weapon attack
+    ._(d.totalBaseWeaponATK)
+    ._(d.totalPercentWeaponATK)
+    ._(d.totalFlatWeaponATK)
+    ._(d.totalWeaponRefinementBonusWeaponATK)
+    ._(d.totalWeaponATK);
+
+  return { ...status, ...allCalculations };
+};
 
 export const armorRefinement =
   (value: number) =>
@@ -395,40 +187,28 @@ export const specialGearStats = <
 
 // try implementing attack tomorrow
 
-const magicDeviceSupport = new Status({
-  level: 275,
-  STR: 1,
-  DEX: 315,
-  INT: 1,
-  VIT: 1,
-  AGI: 220,
-  CRT: 0,
-  MTL: 0,
-  TEC: 0,
-  LUK: 0,
+// const magicDeviceSupport = new Status({
+//   level: 275,
+//   STR: 1,
+//   DEX: 315,
+//   INT: 1,
+//   VIT: 1,
+//   AGI: 220,
+//   CRT: 0,
+//   MTL: 0,
+//   TEC: 0,
+//   LUK: 0,
+// })
 
-  // placeholders
-  baseWeaponATK: 197,
-})
+//   .add(mainWeaponType("magic-device"))
+//   .add(mainWeaponRefinement(15))
+//   .add(mainWeaponStability(50))
+//   .add(d.mainWeaponStats([statGroup(DEFAULT, { flatSTR: 21 })]))
+//   .calculate();
 
-  .add(weaponType("magic-device"))
+// const status = magicDeviceSupport.mapping;
 
-  .add(weaponRefinement(15))
-  .add(weaponStability(50))
-  .add(
-    weaponStats([
-      d.flatCSPD(1550),
-      d.percentCSPD(100 + 5 + 35 + 75 + 21 + 250 - 70),
-      d.percentAGI(10),
-      d.percentDEX(10 + 7 + 1),
-    ])
-  );
-
-// .calculate();
-
-const status = magicDeviceSupport.mapping;
-
-console.log(status);
+// console.log(status);
 
 // console.log(
 //   pino.magicDeviceBaseMagicAttack(275, status.totalWeaponATK, 465, 247)
@@ -438,6 +218,122 @@ console.log(status);
 // - fix cast/action time reduction
 // - finish other formulas
 
-export const gg = new Status({})
-  .add(mainWeaponType("bare-hand"))
-  .add(subWeaponType("dagger"));
+export class MainWeapon<S> {
+  status: S;
+
+  constructor(status: S) {
+    this.status = status;
+  }
+
+  type<T extends MainWeaponType>(t: T) {
+    const callback = d.mainWeaponType(t);
+    return new MainWeapon(callback(this.status));
+  }
+
+  ATK(n: number) {
+    const callback = d.mainWeaponATK(n);
+    return new MainWeapon(callback(this.status));
+  }
+
+  refinement(n: number) {
+    const callback = d.mainWeaponRefinement(n);
+    return new MainWeapon(callback(this.status));
+  }
+
+  stability(n: number) {
+    const callback = d.mainWeaponStability(n);
+    return new MainWeapon(callback(this.status));
+  }
+
+  build() {
+    return <S>(status: S) => ({ ...status, ...this.status });
+  }
+}
+
+export class SubWeapon<S extends { mainWeaponType: MainWeaponType }> {
+  status: S;
+
+  constructor(status: S) {
+    this.status = status;
+  }
+
+  type(t: CompatibleSubWeaponType<S["mainWeaponType"]>) {
+    const callback = d.subWeaponType(t);
+    return new SubWeapon(callback(this.status));
+  }
+
+  // WORK ON THIS TOMMORROW
+  // ATK(n: number) {
+  //   const callback = d.subWeaponATK(n);
+  //   return new _SubWeapon(callback(this.status));
+  // }
+
+  // refinement(n: number) {
+  //   const callback = d.subWeaponRefinement(n);
+  //   return new _SubWeapon(callback(this.status));
+  // }
+
+  // stability(n: number) {
+  //   const callback = d.subWeaponStability(n);
+  //   return new _SubWeapon(callback(this.status));
+  // }
+
+  build() {
+    return <S>(status: S) => ({
+      ...status,
+      ...this.status,
+    });
+  }
+}
+
+export class Equipment<S> {
+  status: S;
+
+  constructor(status: S) {
+    this.status = status;
+  }
+
+  mainWeapon(mainWeapon: MainWeapon<S>) {
+    const callback = mainWeapon.build();
+    return new Equipment(callback(this.status));
+  }
+
+  subWeapon<S extends { mainWeaponType: MainWeaponType }>(
+    subWeapon: SubWeapon<S>
+  ) {
+    const callback = subWeapon.build();
+    return new Equipment(callback(this.status));
+  }
+}
+
+const mainWeapon = compose({})
+  ._(d.mainWeaponATK(400))
+  ._(d.mainWeaponStability(50))
+  ._(d.mainWeaponType("magic-device"));
+
+const magicDeviceSupport2 = compose({})
+  ._(d.level(275))
+  ._(d.STR(1))
+  ._(d.DEX(315))
+  ._(d.INT(1))
+  ._(d.VIT(1))
+  ._(d.AGI(220))
+  ._(d.TEC(0))
+  ._(d.MTL(0))
+  ._(d.LUK(0))
+  ._(d.CRT(0))
+  ._(
+    new MainWeapon({})
+      .type("staff")
+      .stability(100)
+      .ATK(400)
+      .refinement(15)
+      .build()
+  )
+
+  ._(d.subWeaponType("ninjutsu-scroll"))
+  ._(d.scrollCastTimeReduction(3))
+  ._(d.mainWeaponStats([stats(DEFAULT, { flatSTR: 21 })]))
+  ._(calculate);
+
+console.log(magicDeviceSupport2.value);

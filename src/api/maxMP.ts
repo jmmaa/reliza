@@ -1,6 +1,6 @@
 import { baseMaxMP } from "@jmmaa/pino";
-import { total } from "./helper";
-import { DeclaredStatContainer, accumulateDeclaredStats } from "./helper";
+import { accumulateStats, total } from "./helper";
+import { StatSource } from "../types";
 
 // stat
 export const flatMaxMP = (
@@ -52,20 +52,20 @@ export const totalMaxMP = <
   };
 };
 
-export const totalFlatMaxMP = <S extends DeclaredStatContainer<S>>(
+export const totalFlatMaxMP = <S extends StatSource>(
   status: S
 ): S & { totalFlatMaxMP: number } => {
   return {
     ...status,
-    totalFlatMaxMP: accumulateDeclaredStats(status, "flatMaxMP"),
+    totalFlatMaxMP: accumulateStats(status, "flatMaxMP"),
   };
 };
 
-export const totalPercentMaxMP = <S extends DeclaredStatContainer<S>>(
+export const totalPercentMaxMP = <S extends StatSource>(
   status: S
 ): S & { totalPercentMaxMP: number } => {
   return {
     ...status,
-    totalPercentMaxMP: accumulateDeclaredStats(status, "percentMaxMP"),
+    totalPercentMaxMP: accumulateStats(status, "percentMaxMP"),
   };
 };
