@@ -155,6 +155,10 @@ export type CompatibleSubWeaponType<Main extends MainWeaponType> =
     ? Knuckle | MagicDevice | NinjutsuScroll | Shield | Dagger | None
     : never;
 
+export type AvailableSubWeaponType<
+  T extends SubWeaponType,
+  S extends { mainWeaponType: MainWeaponType }
+> = T extends CompatibleSubWeaponType<S["mainWeaponType"]> ? T : never;
 // stats
 
 export type StatMap = {

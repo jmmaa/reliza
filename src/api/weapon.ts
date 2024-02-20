@@ -11,6 +11,7 @@ import {
   Shield,
   NinjutsuScroll,
   CompatibleSubWeaponType,
+  AvailableSubWeaponType,
 } from ".././types";
 
 export const mainWeaponType =
@@ -50,6 +51,28 @@ export const mainWeaponStats =
     return { ...status, mainWeaponStats: value };
   };
 
+// export const subWeaponType =
+//   <
+//     T extends SubWeaponType,
+//     S extends {
+//       mainWeaponType: MainWeaponType;
+//     }
+//   >(
+//     value: T extends CompatibleSubWeaponType<S["mainWeaponType"]>
+//       ? T
+//       : never
+//   ) =>
+//   (
+//     status: S
+//   ): S & {
+//     subWeaponType: T extends CompatibleSubWeaponType<S["mainWeaponType"]>
+//       ? T
+//       : never;
+//   } => ({
+//     ...status,
+//     subWeaponType: value,
+//   });
+
 export const subWeaponType =
   <
     T extends SubWeaponType,
@@ -57,16 +80,12 @@ export const subWeaponType =
       mainWeaponType: MainWeaponType;
     }
   >(
-    value: T extends CompatibleSubWeaponType<S["mainWeaponType"]>
-      ? T
-      : never
+    value: AvailableSubWeaponType<T, S>
   ) =>
   (
     status: S
   ): S & {
-    subWeaponType: T extends CompatibleSubWeaponType<S["mainWeaponType"]>
-      ? T
-      : never;
+    subWeaponType: AvailableSubWeaponType<T, S>;
   } => ({
     ...status,
     subWeaponType: value,

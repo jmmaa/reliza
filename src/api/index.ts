@@ -1,13 +1,3 @@
-// This involves all the functions used for declaring the stats
-
-// JUST DO THIS FOR NOW, CHANGE IT LATER WHEN IT BECOMES A PROBLEM
-
-// type Stat<T> = {
-//   name: string;
-//   value: number;
-//   predicate: (status: T) => boolean;
-// };
-
 export * from "./STR";
 export * from "./DEX";
 export * from "./INT";

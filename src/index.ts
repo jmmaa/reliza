@@ -6,9 +6,9 @@ import {
   SubWeaponType,
   StatSource,
   CompatibleSubWeaponType,
+  AvailableSubWeaponType,
 } from "./types";
 import { DEFAULT, DeclaredStatContainer, stats } from "./api/helper";
-import { stat } from "fs";
 
 // functors
 
@@ -306,10 +306,53 @@ export class Equipment<S> {
   }
 }
 
-const mainWeapon = compose({})
+const weapons = compose({})
   ._(d.mainWeaponATK(400))
   ._(d.mainWeaponStability(50))
   ._(d.mainWeaponType("magic-device"));
+
+export const mainWeapon =
+  (value: {
+    stability: number;
+    ATK: number;
+    type: MainWeaponType;
+    refinement: number;
+  }) =>
+  <S>(
+    status: S
+  ): S & {
+    mainWeaponATK: number;
+    mainWeaponType: MainWeaponType;
+    mainWeaponStability: number;
+    mainWeaponRefinement: number;
+  } => {
+    const composed = compose(status)
+      ._(d.mainWeaponATK(value.ATK))
+      ._(d.mainWeaponType(value.type))
+      ._(d.mainWeaponStability(value.stability))
+      ._(d.mainWeaponRefinement(value.refinement));
+
+    return composed.value;
+  };
+
+export const subWeapon =
+  <
+    T extends SubWeaponType,
+    S extends {
+      mainWeaponType: MainWeaponType;
+    }
+  >(value: {
+    type: AvailableSubWeaponType<T, S>;
+  }) =>
+  (
+    status: S
+  ): S & {
+    subWeaponType: AvailableSubWeaponType<T, S>;
+  } => {
+    const composed = compose(status)._(d.subWeaponType(value.type));
+
+    return composed.value;
+  };
 
 const magicDeviceSupport2 = compose({})
   ._(d.level(275))
@@ -323,17 +366,27 @@ const magicDeviceSupport2 = compose({})
   ._(d.LUK(0))
   ._(d.CRT(0))
   ._(
-    new MainWeapon({})
-      .type("staff")
-      .stability(100)
-      .ATK(400)
-      .refinement(15)
-      .build()
+    mainWeapon({
+      ATK: 564,
+      stability: 80,
+      type: "staff",
+      refinement: 15,
+    })
   )
-
-  ._(d.subWeaponType("ninjutsu-scroll"))
-  ._(d.scrollCastTimeReduction(3))
-  ._(d.mainWeaponStats([stats(DEFAULT, { flatSTR: 21 })]))
+  ._(
+    subWeapon({
+      // stability: 100,
+      type: "one-handed-sword",
+      // ATK: 400,
+      // refinement: 15,
+    })
+  )
+  // ._(d.mainWeaponType("bowgun"))
+  ._(d.subWeaponType("one-handed-sword"))
+  // ._(d.mainWeaponStats([stats(DEFAULT, { flatSTR: 21 })]))
   ._(calculate);
+
+// ._(d.subWeaponType("ninjutsu-scroll"))
+// ._(d.scrollCastTimeReduction(3))
 
 console.log(magicDeviceSupport2.value);
