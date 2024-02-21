@@ -7,10 +7,11 @@ export * from "./personal";
 
 export * from "./criticalRate";
 export * from "./criticalDamage";
+export * from "./weaponATK";
 export * from "./ASPD";
 export * from "./CSPD";
 export * from "./maxHP";
 export * from "./maxMP";
 
 export * from "./weapon";
-export * from "./weaponATK";
+export * from "./armor";

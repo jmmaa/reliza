@@ -37,7 +37,7 @@ export const totalINT = <
   };
 };
 
-export const totalFlatINT = <S extends StatSource>(
+export const totalFlatINT = <S extends StatSource<S>>(
   status: S
 ): S & { totalFlatINT: number } => {
   return {
@@ -46,7 +46,7 @@ export const totalFlatINT = <S extends StatSource>(
   };
 };
 
-export const totalPercentINT = <S extends StatSource>(
+export const totalPercentINT = <S extends StatSource<S>>(
   status: S
 ): S & { totalPercentINT: number } => {
   return {

@@ -1,6 +1,7 @@
 import { weaponRefinementBonusWeaponAttack } from "@jmmaa/pino";
-import { StatSource, accumulateStats } from "./helper";
+import { accumulateStats } from "./helper";
 import { total } from "./helper"; // remove this soon as pino.total gets fixed
+import { StatSource } from "../types";
 
 // ATK
 
@@ -33,7 +34,7 @@ export const totalWeaponATK = <
   };
 };
 
-export const totalFlatWeaponATK = <S extends StatSource>(
+export const totalFlatWeaponATK = <S extends StatSource<S>>(
   status: S
 ): S & { totalFlatWeaponATK: number } => {
   return {
@@ -42,7 +43,7 @@ export const totalFlatWeaponATK = <S extends StatSource>(
   };
 };
 
-export const totalPercentWeaponATK = <S extends StatSource>(
+export const totalPercentWeaponATK = <S extends StatSource<S>>(
   status: S
 ): S & { totalPercentWeaponATK: number } => {
   return {

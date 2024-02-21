@@ -30,7 +30,7 @@ export const totalMaxHP = <
   };
 };
 
-export const totalFlatMaxHP = <S extends StatSource>(
+export const totalFlatMaxHP = <S extends StatSource<S>>(
   status: S
 ): S & { totalFlatMaxHP: number } => {
   return {
@@ -39,7 +39,7 @@ export const totalFlatMaxHP = <S extends StatSource>(
   };
 };
 
-export const totalPercentMaxHP = <S extends StatSource>(
+export const totalPercentMaxHP = <S extends StatSource<S>>(
   status: S
 ): S & { totalPercentMaxHP: number } => {
   return {

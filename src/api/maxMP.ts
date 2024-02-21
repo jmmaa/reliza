@@ -52,7 +52,7 @@ export const totalMaxMP = <
   };
 };
 
-export const totalFlatMaxMP = <S extends StatSource>(
+export const totalFlatMaxMP = <S extends StatSource<S>>(
   status: S
 ): S & { totalFlatMaxMP: number } => {
   return {
@@ -61,7 +61,7 @@ export const totalFlatMaxMP = <S extends StatSource>(
   };
 };
 
-export const totalPercentMaxMP = <S extends StatSource>(
+export const totalPercentMaxMP = <S extends StatSource<S>>(
   status: S
 ): S & { totalPercentMaxMP: number } => {
   return {

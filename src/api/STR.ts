@@ -37,7 +37,7 @@ export const totalSTR = <
   };
 };
 
-export const totalFlatSTR = <S extends StatSource>(
+export const totalFlatSTR = <S extends StatSource<S>>(
   status: S
 ): S & { totalFlatSTR: number } => {
   return {
@@ -46,7 +46,7 @@ export const totalFlatSTR = <S extends StatSource>(
   };
 };
 
-export const totalPercentSTR = <S extends StatSource>(
+export const totalPercentSTR = <S extends StatSource<S>>(
   status: S
 ): S & { totalPercentSTR: number } => {
   return {

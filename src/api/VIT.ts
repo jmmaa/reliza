@@ -37,7 +37,7 @@ export const totalVIT = <
   };
 };
 
-export const totalFlatVIT = <S extends StatSource>(
+export const totalFlatVIT = <S extends StatSource<S>>(
   status: S
 ): S & { totalFlatVIT: number } => {
   return {
@@ -46,7 +46,7 @@ export const totalFlatVIT = <S extends StatSource>(
   };
 };
 
-export const totalPercentVIT = <S extends StatSource>(
+export const totalPercentVIT = <S extends StatSource<S>>(
   status: S
 ): S & { totalPercentVIT: number } => {
   return {

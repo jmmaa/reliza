@@ -37,7 +37,7 @@ export const totalAGI = <
   };
 };
 
-export const totalFlatAGI = <S extends StatSource>(
+export const totalFlatAGI = <S extends StatSource<S>>(
   status: S
 ): S & { totalFlatAGI: number } => {
   return {
@@ -46,7 +46,7 @@ export const totalFlatAGI = <S extends StatSource>(
   };
 };
 
-export const totalPercentAGI = <S extends StatSource>(
+export const totalPercentAGI = <S extends StatSource<S>>(
   status: S
 ): S & { totalPercentAGI: number } => {
   return {

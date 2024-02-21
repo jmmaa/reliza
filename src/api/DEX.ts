@@ -37,7 +37,7 @@ export const totalDEX = <
   };
 };
 
-export const totalFlatDEX = <S extends StatSource>(
+export const totalFlatDEX = <S extends StatSource<S>>(
   status: S
 ): S & { totalFlatDEX: number } => {
   return {
@@ -46,7 +46,7 @@ export const totalFlatDEX = <S extends StatSource>(
   };
 };
 
-export const totalPercentDEX = <S extends StatSource>(
+export const totalPercentDEX = <S extends StatSource<S>>(
   status: S
 ): S & { totalPercentDEX: number } => {
   return {

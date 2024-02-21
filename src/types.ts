@@ -51,6 +51,44 @@ export type SubWeaponType =
   | Dagger
   | None;
 
+export type SubWeaponTypeWithATK =
+  | Arrow
+  | Dagger
+  | Katana
+  | OneHandedSword
+  | Knuckle
+  | MagicDevice;
+
+export type SubWeaponTypeWithRefinement =
+  | Katana
+  | OneHandedSword
+  | Knuckle
+  | MagicDevice
+  | Shield;
+
+export type SubWeaponTypeWithStability =
+  | Arrow
+  | Dagger
+  | Katana
+  | OneHandedSword
+  | Knuckle
+  | MagicDevice;
+
+export type IsSubWeaponTypeWithATK<T extends SubWeaponType> =
+  T extends SubWeaponTypeWithATK ? T : never;
+
+export type IsSubWeaponTypeWithRefinement<T extends SubWeaponType> =
+  T extends SubWeaponTypeWithRefinement ? T : never;
+
+export type IsSubWeaponTypeWithStability<T extends SubWeaponType> =
+  T extends SubWeaponTypeWithStability ? T : never;
+
+export type IsShield<T extends SubWeaponType> = T extends Shield
+  ? T
+  : never;
+export type IsNinjutsuScroll<T extends SubWeaponType> =
+  T extends NinjutsuScroll ? T : never;
+
 // export type IsCompatible<
 //   Main extends MainWeaponType,
 //   Sub extends SubWeaponType
@@ -156,9 +194,9 @@ export type CompatibleSubWeaponType<Main extends MainWeaponType> =
     : never;
 
 export type AvailableSubWeaponType<
-  T extends SubWeaponType,
-  S extends { mainWeaponType: MainWeaponType }
-> = T extends CompatibleSubWeaponType<S["mainWeaponType"]> ? T : never;
+  S extends SubWeaponType,
+  M extends MainWeaponType
+> = S extends CompatibleSubWeaponType<M> ? S : never;
 // stats
 
 export type StatMap = {
@@ -243,29 +281,37 @@ export type StatMap = {
   "MATKUP(AGI)": number;
 };
 
-export type StatGroupWithPredicate = {
-  predicate: <S>(status: S) => boolean;
+export type StatGroupWithPredicate<S> = {
+  predicate: (status: S) => boolean;
   stats: StatMap;
 };
 
-export type StatSource = {
-  mainWeaponStats?: StatGroupWithPredicate[];
+export type StatSource<S> = {
+  mainWeaponStats?: StatGroupWithPredicate<S>[];
 
-  mainWeaponCrystals?: StatGroupWithPredicate[][];
+  mainWeaponCrystals?: StatGroupWithPredicate<S>[][];
 
-  armorStats?: StatGroupWithPredicate[];
+  armorStats?: StatGroupWithPredicate<S>[];
 
-  armorCrystals?: StatGroupWithPredicate[][];
+  armorCrystals?: StatGroupWithPredicate<S>[][];
 
-  additionalGearStats?: StatGroupWithPredicate[];
+  additionalGearStats?: StatGroupWithPredicate<S>[];
 
-  additionalGearCrystals?: StatGroupWithPredicate[][];
+  additionalGearCrystals?: StatGroupWithPredicate<S>[][];
 
-  specialGearStats?: StatGroupWithPredicate[];
+  specialGearStats?: StatGroupWithPredicate<S>[];
 
-  specialGearCrystals?: StatGroupWithPredicate[][];
+  specialGearCrystals?: StatGroupWithPredicate<S>[][];
 
   // foodBuffs?: { name: string; value: number }[];
 
   // consumables?: { name: string; value: number }[][];
 };
+
+export type Light = "light";
+
+export type Heavy = "heavy";
+
+export type Normal = "normal";
+
+export type ArmorType = Light | Heavy | Normal | None;

@@ -1,3 +1,5 @@
+import { StatSource } from "../types";
+
 export type DeclaredStatContainer<S> = {
   weaponStats?: {
     name: string;
@@ -139,29 +141,7 @@ export type StatGroupWithPredicate = {
   stats: StatMap;
 };
 
-export type StatSource = {
-  mainWeaponStats?: StatGroupWithPredicate[];
-
-  mainWeaponCrystals?: StatGroupWithPredicate[][];
-
-  armorStats?: StatGroupWithPredicate[];
-
-  armorCrystals?: StatGroupWithPredicate[][];
-
-  additionalGearStats?: StatGroupWithPredicate[];
-
-  additionalGearCrystals?: StatGroupWithPredicate[][];
-
-  specialGearStats?: StatGroupWithPredicate[];
-
-  specialGearCrystals?: StatGroupWithPredicate[][];
-
-  // foodBuffs?: { name: string; value: number }[];
-
-  // consumables?: { name: string; value: number }[][];
-};
-
-export const accumulateStats = <S extends StatSource>(
+export const accumulateStats = <S extends StatSource<S>>(
   status: S,
   key: keyof StatMap
 ) => {
@@ -187,7 +167,82 @@ export const accumulateStats = <S extends StatSource>(
         }, 0)
       : 0;
 
-  return mainWeaponStatsTotal + mainWeaponCrystalStatsTotal;
+  const additionalGearStatsTotal =
+    status.additionalGearStats !== undefined
+      ? status.additionalGearStats.reduce((total, statGroup) => {
+          return statGroup.predicate(status)
+            ? statGroup.stats[key] + total
+            : total;
+        }, 0)
+      : 0;
+
+  const additionalGearCrystalStatsTotal =
+    status.additionalGearCrystals !== undefined
+      ? status.additionalGearCrystals.reduce((total, statGroups) => {
+          const accumulated = statGroups.reduce((total, statGroup) => {
+            return statGroup.predicate(status)
+              ? statGroup.stats[key] + total
+              : total;
+          }, 0);
+
+          return total + accumulated;
+        }, 0)
+      : 0;
+
+  const armorStatsTotal =
+    status.armorStats !== undefined
+      ? status.armorStats.reduce((total, statGroup) => {
+          return statGroup.predicate(status)
+            ? statGroup.stats[key] + total
+            : total;
+        }, 0)
+      : 0;
+
+  const armorCrystalStatsTotal =
+    status.armorCrystals !== undefined
+      ? status.armorCrystals.reduce((total, statGroups) => {
+          const accumulated = statGroups.reduce((total, statGroup) => {
+            return statGroup.predicate(status)
+              ? statGroup.stats[key] + total
+              : total;
+          }, 0);
+
+          return total + accumulated;
+        }, 0)
+      : 0;
+
+  const specialGearStatsTotal =
+    status.specialGearStats !== undefined
+      ? status.specialGearStats.reduce((total, statGroup) => {
+          return statGroup.predicate(status)
+            ? statGroup.stats[key] + total
+            : total;
+        }, 0)
+      : 0;
+
+  const specialGearCrystalStatsTotal =
+    status.specialGearCrystals !== undefined
+      ? status.specialGearCrystals.reduce((total, statGroups) => {
+          const accumulated = statGroups.reduce((total, statGroup) => {
+            return statGroup.predicate(status)
+              ? statGroup.stats[key] + total
+              : total;
+          }, 0);
+
+          return total + accumulated;
+        }, 0)
+      : 0;
+
+  return [
+    mainWeaponStatsTotal,
+    mainWeaponCrystalStatsTotal,
+    additionalGearStatsTotal,
+    additionalGearCrystalStatsTotal,
+    armorStatsTotal,
+    armorCrystalStatsTotal,
+    specialGearStatsTotal,
+    specialGearCrystalStatsTotal,
+  ].reduce((total, curr) => total + curr, 0);
 };
 
 export const total = (base: number, percent: number, flat: number) =>
@@ -274,10 +329,10 @@ export const defaultStatMap = {
   "MATKUP(AGI)": 0,
 };
 
-export const stats = (
-  predicate: <S>(status: S) => boolean,
+export const stats = <S>(
+  predicate: (status: S) => boolean,
   statMap: Partial<StatMap>
-): StatGroupWithPredicate => ({
+) => ({
   predicate,
   stats: { ...defaultStatMap, ...statMap },
 });

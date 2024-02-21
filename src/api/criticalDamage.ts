@@ -33,7 +33,7 @@ export const totalCriticalDamage = <
   };
 };
 
-export const totalFlatCriticalDamage = <S extends StatSource>(
+export const totalFlatCriticalDamage = <S extends StatSource<S>>(
   status: S
 ): S & { totalFlatCriticalDamage: number } => {
   return {
@@ -42,7 +42,7 @@ export const totalFlatCriticalDamage = <S extends StatSource>(
   };
 };
 
-export const totalPercentCriticalDamage = <S extends StatSource>(
+export const totalPercentCriticalDamage = <S extends StatSource<S>>(
   status: S
 ): S & { totalPercentCriticalDamage: number } => {
   return {

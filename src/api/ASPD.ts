@@ -121,7 +121,7 @@ export const totalBaseASPD = <
       ),
     };
   } else if (
-    status.subWeaponType === "one-handed-sword" && // dont switch the positions of this condition
+    status.subWeaponType === "one-handed-sword" &&
     status.mainWeaponType === "one-handed-sword"
   ) {
     return {
@@ -157,7 +157,7 @@ export const totalASPD = <
   };
 };
 
-export const totalFlatASPD = <S extends StatSource>(
+export const totalFlatASPD = <S extends StatSource<S>>(
   status: S
 ): S & { totalFlatASPD: number } => {
   return {
@@ -166,7 +166,7 @@ export const totalFlatASPD = <S extends StatSource>(
   };
 };
 
-export const totalPercentASPD = <S extends StatSource>(
+export const totalPercentASPD = <S extends StatSource<S>>(
   status: S
 ): S & { totalPercentASPD: number } => {
   return {

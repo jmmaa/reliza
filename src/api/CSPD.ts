@@ -34,7 +34,7 @@ export const totalCSPD = <
   };
 };
 
-export const totalFlatCSPD = <S extends StatSource>(
+export const totalFlatCSPD = <S extends StatSource<S>>(
   status: S
 ): S & { totalFlatCSPD: number } => {
   return {
@@ -43,7 +43,7 @@ export const totalFlatCSPD = <S extends StatSource>(
   };
 };
 
-export const totalPercentCSPD = <S extends StatSource>(
+export const totalPercentCSPD = <S extends StatSource<S>>(
   status: S
 ): S & { totalPercentCSPD: number } => {
   return {

@@ -10,7 +10,6 @@ import {
   Dagger,
   Shield,
   NinjutsuScroll,
-  CompatibleSubWeaponType,
   AvailableSubWeaponType,
 } from ".././types";
 
@@ -46,8 +45,8 @@ export const mainWeaponRefinement =
   };
 
 export const mainWeaponStats =
-  (value: StatGroupWithPredicate[]) =>
-  <S>(status: S): S & { mainWeaponStats: StatGroupWithPredicate[] } => {
+  <S>(value: StatGroupWithPredicate<S>[]) =>
+  (status: S): S & { mainWeaponStats: StatGroupWithPredicate<S>[] } => {
     return { ...status, mainWeaponStats: value };
   };
 
@@ -80,12 +79,12 @@ export const subWeaponType =
       mainWeaponType: MainWeaponType;
     }
   >(
-    value: AvailableSubWeaponType<T, S>
+    value: AvailableSubWeaponType<T, S["mainWeaponType"]>
   ) =>
   (
     status: S
   ): S & {
-    subWeaponType: AvailableSubWeaponType<T, S>;
+    subWeaponType: AvailableSubWeaponType<T, S["mainWeaponType"]>;
   } => ({
     ...status,
     subWeaponType: value,
@@ -144,7 +143,7 @@ export const subWeaponStability =
     return { ...status, subWeaponStability: value };
   };
 
-export const subWeaponDefense =
+export const subWeaponDEF =
   (value: number) =>
   <
     S extends {
@@ -152,8 +151,8 @@ export const subWeaponDefense =
     }
   >(
     status: S
-  ): S & { subWeaponDefense: number } => {
-    return { ...status, subWeaponDefense: value };
+  ): S & { subWeaponDEF: number } => {
+    return { ...status, subWeaponDEF: value };
   };
 
 export const scrollMPReduction =
@@ -181,7 +180,7 @@ export const scrollCastTimeReduction =
   };
 
 export const subWeaponStats =
-  (value: StatGroupWithPredicate[]) =>
-  <S>(status: S): S & { subWeaponStats: StatGroupWithPredicate[] } => {
+  <S>(value: StatGroupWithPredicate<S>[]) =>
+  (status: S): S & { subWeaponStats: StatGroupWithPredicate<S>[] } => {
     return { ...status, subWeaponStats: value };
   };
