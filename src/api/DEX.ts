@@ -1,32 +1,49 @@
-import { StatSource } from "../types";
-import { total, accumulateStats } from "./helper";
+import {
+  DEXKey,
+  SubWeaponTypeKey,
+  MainWeaponStatsKey,
+  SubWeaponStatsKey,
+  AdditionalGearStatsKey,
+  ArmorStatsKey,
+  SpecialGearStatsKey,
+  TotalBaseDEXKey,
+  TotalPercentDEXKey,
+  TotalFlatDEXKey,
+  TotalDEXKey,
+} from "../types";
+
+import {
+  total,
+  accumulateFromMainWeaponStats,
+  accumulateFromSubWeaponStats,
+  accumulateFromAdditionalGearStats,
+  accumulateFromArmorStats,
+  accumulateFromSpecialGearStats,
+  pipe,
+} from "./helper";
 
 // declare
 export const DEX =
   (value: number) =>
-  <S>(status: S): S & { DEX: number } => ({
+  <S>(status: S): S & DEXKey => ({
     ...status,
     DEX: value,
   });
 
 // calc
 // this calc is just for consistency, but it is redundant
-export const totalBaseDEX = <S extends { DEX: number }>(
+export const totalBaseDEX = <S extends DEXKey>(
   status: S
-): S & { totalBaseDEX: number } => ({
+): S & TotalBaseDEXKey => ({
   ...status,
   totalBaseDEX: status.DEX,
 });
 
 export const totalDEX = <
-  S extends {
-    totalBaseDEX: number;
-    totalPercentDEX: number;
-    totalFlatDEX: number;
-  }
+  S extends TotalBaseDEXKey & TotalPercentDEXKey & TotalFlatDEXKey
 >(
   status: S
-): S & { totalDEX: number } => {
+): S & TotalDEXKey => {
   return {
     ...status,
     totalDEX: total(
@@ -37,20 +54,46 @@ export const totalDEX = <
   };
 };
 
-export const totalFlatDEX = <S extends StatSource<S>>(
-  status: S
-): S & { totalFlatDEX: number } => {
-  return {
-    ...status,
-    totalFlatDEX: accumulateStats(status, "flatDEX"),
-  };
-};
+// calc
 
-export const totalPercentDEX = <S extends StatSource<S>>(
+export const totalPercentDEX = <
+  S extends SubWeaponTypeKey &
+    MainWeaponStatsKey<S> &
+    SubWeaponStatsKey<S> &
+    AdditionalGearStatsKey<S> &
+    ArmorStatsKey<S> &
+    SpecialGearStatsKey<S>
+>(
   status: S
 ): S & { totalPercentDEX: number } => {
-  return {
-    ...status,
-    totalPercentDEX: accumulateStats(status, "percentDEX"),
-  };
+  const sum = [
+    accumulateFromMainWeaponStats("percentDEX", status),
+    accumulateFromSubWeaponStats("percentDEX", status),
+    accumulateFromAdditionalGearStats("percentDEX", status),
+    accumulateFromArmorStats("percentDEX", status),
+    accumulateFromSpecialGearStats("percentDEX", status),
+  ].reduce((t, c) => t + c, 0);
+
+  return { ...status, totalPercentDEX: sum };
+};
+
+export const totalFlatDEX = <
+  S extends SubWeaponTypeKey &
+    MainWeaponStatsKey<S> &
+    SubWeaponStatsKey<S> &
+    AdditionalGearStatsKey<S> &
+    ArmorStatsKey<S> &
+    SpecialGearStatsKey<S>
+>(
+  status: S
+): S & { totalFlatDEX: number } => {
+  const sum = [
+    accumulateFromMainWeaponStats("flatDEX", status),
+    accumulateFromSubWeaponStats("flatDEX", status),
+    accumulateFromAdditionalGearStats("flatDEX", status),
+    accumulateFromArmorStats("flatDEX", status),
+    accumulateFromSpecialGearStats("flatDEX", status),
+  ].reduce((t, c) => t + c, 0);
+
+  return { ...status, totalFlatDEX: sum };
 };

@@ -50,6 +50,14 @@ export const mainWeaponStats =
     return { ...status, mainWeaponStats: value };
   };
 
+export const mainWeaponCrystals =
+  <S>(value: StatGroupWithPredicate<S>[][]) =>
+  (
+    status: S
+  ): S & { mainWeaponCrystals: StatGroupWithPredicate<S>[][] } => {
+    return { ...status, mainWeaponCrystals: value };
+  };
+
 // export const subWeaponType =
 //   <
 //     T extends SubWeaponType,

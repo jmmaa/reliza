@@ -61,3 +61,25 @@ export const specialGearStats =
   (status: S): S & { specialGearStats: StatGroupWithPredicate<S>[] } => {
     return { ...status, specialGearStats: value };
   };
+
+// calc
+
+export const lightArmorASPDModifier = <
+  S extends { armorType: ArmorType; totalPercentASPD: number }
+>(
+  status: S
+) => {
+  return status.armorType === "light"
+    ? { ...status, totalPercentASPD: status.totalPercentASPD + 50 }
+    : status;
+};
+
+export const heavyArmorASPDModifier = <
+  S extends { armorType: ArmorType; totalPercentASPD: number }
+>(
+  status: S
+) => {
+  return status.armorType === "heavy"
+    ? { ...status, totalPercentASPD: status.totalPercentASPD - 50 }
+    : status;
+};

@@ -1,3 +1,47 @@
+export type AGIKey = { AGI: number };
+
+export type TotalBaseAGIKey = { totalBaseAGI: number };
+
+export type TotalPercentAGIKey = { totalPercentAGI: number };
+
+export type TotalFlatAGIKey = { totalFlatAGI: number };
+
+export type TotalAGIKey = { totalAGI: number };
+
+export type DEXKey = { DEX: number };
+
+export type TotalBaseDEXKey = { totalBaseDEX: number };
+
+export type TotalPercentDEXKey = { totalPercentDEX: number };
+
+export type TotalFlatDEXKey = { totalFlatDEX: number };
+
+export type TotalDEXKey = { totalDEX: number };
+
+export type MainWeaponStatsKey<S> = {
+  mainWeaponStats?: StatGroupWithPredicate<S>[];
+};
+
+export type SubWeaponStatsKey<S> = {
+  subWeaponStats?: StatGroupWithPredicate<S>[];
+};
+
+export type AdditionalGearStatsKey<S> = {
+  additionalGearStats?: StatGroupWithPredicate<S>[];
+};
+
+export type ArmorStatsKey<S> = {
+  armorStats?: StatGroupWithPredicate<S>[];
+};
+
+export type SpecialGearStatsKey<S> = {
+  specialGearStats?: StatGroupWithPredicate<S>[];
+};
+
+export type SubWeaponTypeKey = { subWeaponType: SubWeaponType };
+
+//
+
 export type OneHandedSword = "one-handed-sword";
 
 export type TwoHandedSword = "two-handed-sword";
@@ -279,6 +323,19 @@ export type StatMap = {
   "MATKUP(DEX)": number;
   "MATKUP(VIT)": number;
   "MATKUP(AGI)": number;
+
+  physicalResistance: number;
+  magicResistance: number;
+
+  lightResistance: 0;
+  darkResistance: 0;
+
+  fireResistance: 0;
+  waterResistance: 0;
+  earthResistance: 0;
+  windResistance: 0;
+
+  neutralResistance: 0;
 };
 
 export type StatGroupWithPredicate<S> = {
@@ -290,6 +347,8 @@ export type StatSource<S> = {
   mainWeaponStats?: StatGroupWithPredicate<S>[];
 
   mainWeaponCrystals?: StatGroupWithPredicate<S>[][];
+
+  subWeaponStats?: StatGroupWithPredicate<S>[];
 
   armorStats?: StatGroupWithPredicate<S>[];
 

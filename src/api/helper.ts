@@ -1,145 +1,9 @@
-import { StatSource } from "../types";
-
-export type DeclaredStatContainer<S> = {
-  weaponStats?: {
-    name: string;
-    value: number;
-    predicate?: (status: S) => boolean;
-  }[];
-
-  weaponCrystals?: {
-    name: string;
-    value: number;
-    predicate?: (status: S) => boolean;
-  }[][];
-
-  armorStats?: {
-    name: string;
-    value: number;
-    predicate?: (status: S) => boolean;
-  }[];
-
-  armorCrystals?: {
-    name: string;
-    value: number;
-    predicate?: (status: S) => boolean;
-  }[][];
-
-  additionalGearStats?: {
-    name: string;
-    value: number;
-    predicate?: (status: S) => boolean;
-  }[];
-
-  additionalGearCrystals?: {
-    name: string;
-    value: number;
-    predicate?: (status: S) => boolean;
-  }[][];
-
-  specialGearStats?: {
-    name: string;
-    value: number;
-    predicate?: (status: S) => boolean;
-  }[];
-
-  specialGearCrystals?: {
-    name: string;
-    value: number;
-    predicate?: (status: S) => boolean;
-  }[][];
-
-  foodBuffs?: { name: string; value: number }[];
-
-  consumables?: { name: string; value: number }[][];
-};
-
-export type StatMap = {
-  // STR
-  flatSTR: number;
-  percentSTR: number;
-
-  flatINT: number;
-  percentINT: number;
-
-  flatDEX: number;
-  percentDEX: number;
-
-  flatVIT: number;
-  percentVIT: number;
-
-  flatAGI: number;
-  percentAGI: number;
-
-  flatWeaponATK: number;
-  percentWeaponATK: number;
-
-  flatMATK: number;
-  percentMATK: number;
-
-  flatATK: number;
-  percentATK: number;
-
-  flatASPD: number;
-  percentASPD: number;
-
-  flatCSPD: number;
-  percentCSPD: number;
-
-  flatCriticalRate: number;
-  percentCriticalRate: number;
-
-  flatCriticalDamage: number;
-  percentCriticalDamage: number;
-
-  flatMaxHP: number;
-  percentMaxHP: number;
-
-  flatMaxMP: number;
-  percentMaxMP: number;
-
-  flatAccuracy: number;
-  percentAccuracy: number;
-
-  flatDodge: number;
-  percentDodge: number;
-
-  flatDEF: number;
-  percentDEF: number;
-
-  flatMDEF: number;
-  percentMDEF: number;
-
-  flatUnsheatheAttack: number;
-  percentUnsheatheAttack: number;
-
-  stability: number;
-
-  magicPierce: number;
-  physicalPierce: number;
-
-  longRangeDamage: number;
-  shortRangeDamage: number;
-
-  motionSpeed: number;
-
-  "ATKUP(STR)": number;
-  "ATKUP(INT)": number;
-  "ATKUP(DEX)": number;
-  "ATKUP(VIT)": number;
-  "ATKUP(AGI)": number;
-
-  "MATKUP(STR)": number;
-  "MATKUP(INT)": number;
-  "MATKUP(DEX)": number;
-  "MATKUP(VIT)": number;
-  "MATKUP(AGI)": number;
-};
-
-export type StatGroupWithPredicate = {
-  predicate: <S>(status: S) => boolean;
-  stats: StatMap;
-};
+import {
+  StatSource,
+  StatMap,
+  SubWeaponType,
+  StatGroupWithPredicate,
+} from "../types";
 
 export const accumulateStats = <S extends StatSource<S>>(
   status: S,
@@ -164,6 +28,15 @@ export const accumulateStats = <S extends StatSource<S>>(
           }, 0);
 
           return total + accumulated;
+        }, 0)
+      : 0;
+
+  const subWeaponStatsTotal =
+    status.subWeaponStats !== undefined
+      ? status.subWeaponStats.reduce((total, statGroup) => {
+          return statGroup.predicate(status)
+            ? statGroup.stats[key] + total
+            : total;
         }, 0)
       : 0;
 
@@ -248,7 +121,7 @@ export const accumulateStats = <S extends StatSource<S>>(
 export const total = (base: number, percent: number, flat: number) =>
   Math.floor(base * (1 + percent / 100) + flat);
 
-export const defaultStatMap = {
+export const defaultStatMap: StatMap = {
   flatSTR: 0,
   percentSTR: 0,
 
@@ -327,6 +200,19 @@ export const defaultStatMap = {
   "MATKUP(DEX)": 0,
   "MATKUP(VIT)": 0,
   "MATKUP(AGI)": 0,
+
+  magicResistance: 0,
+  physicalResistance: 0,
+
+  lightResistance: 0,
+  darkResistance: 0,
+
+  fireResistance: 0,
+  waterResistance: 0,
+  earthResistance: 0,
+  windResistance: 0,
+
+  neutralResistance: 0,
 };
 
 export const stats = <S>(
@@ -338,3 +224,112 @@ export const stats = <S>(
 });
 
 export const DEFAULT = <S>(_: S) => true;
+
+export const accumulateFromMainWeaponStats = <
+  S extends { mainWeaponStats?: StatGroupWithPredicate<S>[] }
+>(
+  stat: keyof StatMap,
+  status: S
+) => {
+  const total =
+    status.mainWeaponStats !== undefined
+      ? status.mainWeaponStats.reduce((total, statGroup) => {
+          return statGroup.predicate(status)
+            ? statGroup.stats[stat] + total
+            : total;
+        }, 0)
+      : 0;
+
+  return total;
+};
+
+export const accumulateFromSubWeaponStats = <
+  S extends {
+    subWeaponType: SubWeaponType;
+    subWeaponStats?: StatGroupWithPredicate<S>[];
+  }
+>(
+  stat: keyof StatMap,
+  status: S
+) => {
+  if (
+    status.subWeaponType === "arrow" ||
+    status.subWeaponType === "dagger" ||
+    status.subWeaponType === "shield" ||
+    status.subWeaponType === "ninjutsu-scroll"
+  ) {
+    const total =
+      status.subWeaponStats !== undefined
+        ? status.subWeaponStats.reduce((total, statGroup) => {
+            return statGroup.predicate(status)
+              ? statGroup.stats[stat] + total
+              : total;
+          }, 0)
+        : 0;
+
+    return total;
+  } else {
+    return 0;
+  }
+};
+
+export const accumulateFromAdditionalGearStats = <
+  S extends { additionalGearStats?: StatGroupWithPredicate<S>[] }
+>(
+  stat: keyof StatMap,
+  status: S
+) => {
+  const total =
+    status.additionalGearStats !== undefined
+      ? status.additionalGearStats.reduce((total, statGroup) => {
+          return statGroup.predicate(status)
+            ? statGroup.stats[stat] + total
+            : total;
+        }, 0)
+      : 0;
+
+  return total;
+};
+
+export const accumulateFromArmorStats = <
+  S extends { armorStats?: StatGroupWithPredicate<S>[] }
+>(
+  stat: keyof StatMap,
+  status: S
+) => {
+  const total =
+    status.armorStats !== undefined
+      ? status.armorStats.reduce((total, statGroup) => {
+          return statGroup.predicate(status)
+            ? statGroup.stats[stat] + total
+            : total;
+        }, 0)
+      : 0;
+
+  return total;
+};
+
+export const accumulateFromSpecialGearStats = <
+  S extends { specialGearStats?: StatGroupWithPredicate<S>[] }
+>(
+  stat: keyof StatMap,
+  status: S
+) => {
+  const total =
+    status.specialGearStats !== undefined
+      ? status.specialGearStats.reduce((total, statGroup) => {
+          return statGroup.predicate(status)
+            ? statGroup.stats[stat] + total
+            : total;
+        }, 0)
+      : 0;
+
+  return total;
+};
+
+export const pipe = <T>(value: T) => {
+  return {
+    value: value,
+    _: <N>(f: (value: T) => N) => pipe(f(value)),
+  };
+};
