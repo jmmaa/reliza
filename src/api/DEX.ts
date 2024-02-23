@@ -1,16 +1,4 @@
-import {
-  DEXKey,
-  SubWeaponTypeKey,
-  MainWeaponStatsKey,
-  SubWeaponStatsKey,
-  AdditionalGearStatsKey,
-  ArmorStatsKey,
-  SpecialGearStatsKey,
-  TotalBaseDEXKey,
-  TotalPercentDEXKey,
-  TotalFlatDEXKey,
-  TotalDEXKey,
-} from "../types";
+import { SubWeaponType, StatGroupWithPredicate } from "../types";
 
 import {
   total,
@@ -25,25 +13,29 @@ import {
 // declare
 export const DEX =
   (value: number) =>
-  <S>(status: S): S & DEXKey => ({
+  <S>(status: S): S & { DEX: number } => ({
     ...status,
     DEX: value,
   });
 
 // calc
 // this calc is just for consistency, but it is redundant
-export const totalBaseDEX = <S extends DEXKey>(
+export const totalBaseDEX = <S extends { DEX: number }>(
   status: S
-): S & TotalBaseDEXKey => ({
+): S & { totalBaseDEX: number } => ({
   ...status,
   totalBaseDEX: status.DEX,
 });
 
 export const totalDEX = <
-  S extends TotalBaseDEXKey & TotalPercentDEXKey & TotalFlatDEXKey
+  S extends {
+    totalBaseDEX: number;
+    totalPercentDEX: number;
+    totalFlatDEX: number;
+  }
 >(
   status: S
-): S & TotalDEXKey => {
+): S & { totalDEX: number } => {
   return {
     ...status,
     totalDEX: total(
@@ -57,12 +49,14 @@ export const totalDEX = <
 // calc
 
 export const totalPercentDEX = <
-  S extends SubWeaponTypeKey &
-    MainWeaponStatsKey<S> &
-    SubWeaponStatsKey<S> &
-    AdditionalGearStatsKey<S> &
-    ArmorStatsKey<S> &
-    SpecialGearStatsKey<S>
+  S extends {
+    subWeaponType: SubWeaponType;
+    mainWeaponStats?: StatGroupWithPredicate<S>[];
+    subWeaponStats?: StatGroupWithPredicate<S>[];
+    additionalGearStats?: StatGroupWithPredicate<S>[];
+    armorStats?: StatGroupWithPredicate<S>[];
+    specialGearStats?: StatGroupWithPredicate<S>[];
+  }
 >(
   status: S
 ): S & { totalPercentDEX: number } => {
@@ -78,12 +72,14 @@ export const totalPercentDEX = <
 };
 
 export const totalFlatDEX = <
-  S extends SubWeaponTypeKey &
-    MainWeaponStatsKey<S> &
-    SubWeaponStatsKey<S> &
-    AdditionalGearStatsKey<S> &
-    ArmorStatsKey<S> &
-    SpecialGearStatsKey<S>
+  S extends {
+    subWeaponType: SubWeaponType;
+    mainWeaponStats?: StatGroupWithPredicate<S>[];
+    subWeaponStats?: StatGroupWithPredicate<S>[];
+    additionalGearStats?: StatGroupWithPredicate<S>[];
+    armorStats?: StatGroupWithPredicate<S>[];
+    specialGearStats?: StatGroupWithPredicate<S>[];
+  }
 >(
   status: S
 ): S & { totalFlatDEX: number } => {

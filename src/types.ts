@@ -1,23 +1,3 @@
-export type AGIKey = { AGI: number };
-
-export type TotalBaseAGIKey = { totalBaseAGI: number };
-
-export type TotalPercentAGIKey = { totalPercentAGI: number };
-
-export type TotalFlatAGIKey = { totalFlatAGI: number };
-
-export type TotalAGIKey = { totalAGI: number };
-
-export type DEXKey = { DEX: number };
-
-export type TotalBaseDEXKey = { totalBaseDEX: number };
-
-export type TotalPercentDEXKey = { totalPercentDEX: number };
-
-export type TotalFlatDEXKey = { totalFlatDEX: number };
-
-export type TotalDEXKey = { totalDEX: number };
-
 export type MainWeaponStatsKey<S> = {
   mainWeaponStats?: StatGroupWithPredicate<S>[];
 };
@@ -37,8 +17,6 @@ export type ArmorStatsKey<S> = {
 export type SpecialGearStatsKey<S> = {
   specialGearStats?: StatGroupWithPredicate<S>[];
 };
-
-export type SubWeaponTypeKey = { subWeaponType: SubWeaponType };
 
 //
 

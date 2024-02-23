@@ -170,12 +170,11 @@ const magicDeviceSupport2 = pipe({})
       }),
     ])
   )
-  // ._(
-
-  //   d.armorStats([
-  //     stats((status) => status.armorType === "normal", { flatSTR: 21 }),
-  //   ])
-  // )
+  ._(
+    d.armorStats([
+      stats((status) => status.armorType === "normal", { flatSTR: 21 }),
+    ])
+  )
   ._(calculate);
 
 console.log(magicDeviceSupport2.value);
