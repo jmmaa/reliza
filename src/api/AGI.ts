@@ -79,7 +79,7 @@ export const totalFlatAGI = <
     additionalGearStats?: StatGroupWithPredicate<S>[];
     armorStats?: StatGroupWithPredicate<S>[];
     specialGearStats?: StatGroupWithPredicate<S>[];
-  }
+  } // for some reason its necessary to keep this boilerplate cuz ts typesystem is fragile as fuck
 >(
   status: S
 ): S & { totalFlatAGI: number } => {

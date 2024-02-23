@@ -1,4 +1,7 @@
-import { weaponRefinementBonusWeaponAttack } from "@jmmaa/pino";
+import {
+  subWeaponRefinementBonusSubWeaponAttack,
+  weaponRefinementBonusWeaponAttack,
+} from "@jmmaa/pino";
 import { accumulateStats } from "./helper";
 import { total } from "./helper"; // remove this soon as pino.total gets fixed
 import { StatSource } from "../types";
@@ -6,62 +9,136 @@ import { StatSource } from "../types";
 // ATK
 
 // this calc is just for consistency, but it is redundant
-export const totalBaseWeaponATK = <S extends { mainWeaponATK: number }>(
+export const totalBaseMainWeaponATK = <
+  S extends { mainWeaponATK: number }
+>(
   status: S
-): S & { totalBaseWeaponATK: number } => ({
+): S & { totalBaseMainWeaponATK: number } => ({
   ...status,
-  totalBaseWeaponATK: status.mainWeaponATK,
+  totalBaseMainWeaponATK: status.mainWeaponATK,
 });
 
-export const totalWeaponATK = <
+export const totalMainWeaponATK = <
   S extends {
-    totalBaseWeaponATK: number;
-    totalPercentWeaponATK: number;
-    totalFlatWeaponATK: number;
-    totalWeaponRefinementBonusWeaponATK: number;
+    totalBaseMainWeaponATK: number;
+    totalPercentMainWeaponATK: number;
+    totalFlatMainWeaponATK: number;
+    totalMainWeaponRefinementBonusMainWeaponATK: number;
   }
 >(
   status: S
-): S & { totalWeaponATK: number } => {
+): S & { totalMainWeaponATK: number } => {
   return {
     ...status,
-    totalWeaponATK:
+    totalMainWeaponATK:
       total(
-        status.totalBaseWeaponATK,
-        status.totalPercentWeaponATK,
-        status.totalFlatWeaponATK
-      ) + status.totalWeaponRefinementBonusWeaponATK,
+        status.totalBaseMainWeaponATK,
+        status.totalPercentMainWeaponATK,
+        status.totalFlatMainWeaponATK
+      ) + status.totalMainWeaponRefinementBonusMainWeaponATK,
   };
 };
 
-export const totalFlatWeaponATK = <S extends StatSource<S>>(
+export const totalFlatMainWeaponATK = <S extends StatSource<S>>(
   status: S
-): S & { totalFlatWeaponATK: number } => {
+): S & { totalFlatMainWeaponATK: number } => {
   return {
     ...status,
-    totalFlatWeaponATK: accumulateStats(status, "flatWeaponATK"),
+    totalFlatMainWeaponATK: accumulateStats(status, "flatWeaponATK"),
   };
 };
 
-export const totalPercentWeaponATK = <S extends StatSource<S>>(
+export const totalPercentMainWeaponATK = <S extends StatSource<S>>(
   status: S
-): S & { totalPercentWeaponATK: number } => {
+): S & { totalPercentMainWeaponATK: number } => {
   return {
     ...status,
-    totalPercentWeaponATK: accumulateStats(status, "percentWeaponATK"),
+    totalPercentMainWeaponATK: accumulateStats(status, "percentWeaponATK"),
   };
 };
 
-export const totalWeaponRefinementBonusWeaponATK = <
-  S extends { mainWeaponRefinement: number; totalBaseWeaponATK: number }
+export const totalMainWeaponRefinementBonusMainWeaponATK = <
+  S extends {
+    mainWeaponRefinement: number;
+    totalBaseMainWeaponATK: number;
+  }
 >(
   status: S
-): S & { totalWeaponRefinementBonusWeaponATK: number } => {
+): S & { totalMainWeaponRefinementBonusMainWeaponATK: number } => {
   return {
     ...status,
-    totalWeaponRefinementBonusWeaponATK: weaponRefinementBonusWeaponAttack(
-      status.mainWeaponRefinement,
-      status.totalBaseWeaponATK
-    ),
+    totalMainWeaponRefinementBonusMainWeaponATK:
+      weaponRefinementBonusWeaponAttack(
+        status.mainWeaponRefinement,
+        status.totalBaseMainWeaponATK
+      ),
+  };
+};
+
+// for dual swords
+
+// these funcs are essentially the same with mainWeaponATK variants, i just wrote it for explicitness on
+// dual sword sub calculation
+export const totalBaseSubWeaponATK = <S extends { subWeaponATK: number }>(
+  status: S
+): S & { totalBaseSubWeaponATK: number } => ({
+  ...status,
+  totalBaseSubWeaponATK: status.subWeaponATK,
+});
+
+export const totalSubWeaponATK = <
+  S extends {
+    totalBaseSubWeaponATK: number;
+    totalPercentSubWeaponATK: number;
+    totalFlatSubWeaponATK: number;
+    totalSubWeaponRefinementBonusSubWeaponATK: number;
+  }
+>(
+  status: S
+): S & { totalSubWeaponATK: number } => {
+  return {
+    ...status,
+    totalSubWeaponATK:
+      total(
+        status.totalBaseSubWeaponATK,
+        status.totalPercentSubWeaponATK,
+        status.totalFlatSubWeaponATK
+      ) + status.totalSubWeaponRefinementBonusSubWeaponATK,
+  };
+};
+
+export const totalFlatSubWeaponATK = <S extends StatSource<S>>(
+  status: S
+): S & { totalFlatSubWeaponATK: number } => {
+  return {
+    ...status,
+    totalFlatSubWeaponATK: accumulateStats(status, "flatWeaponATK"),
+  };
+};
+
+export const totalPercentSubWeaponATK = <S extends StatSource<S>>(
+  status: S
+): S & { totalPercentSubWeaponATK: number } => {
+  return {
+    ...status,
+    totalPercentSubWeaponATK: accumulateStats(status, "percentWeaponATK"),
+  };
+};
+
+export const totalSubWeaponRefinementBonusSubWeaponATK = <
+  S extends {
+    subWeaponRefinement: number;
+    totalBaseSubWeaponATK: number;
+  }
+>(
+  status: S
+): S & { totalSubWeaponRefinementBonusSubWeaponATK: number } => {
+  return {
+    ...status,
+    totalSubWeaponRefinementBonusSubWeaponATK:
+      subWeaponRefinementBonusSubWeaponAttack(
+        status.subWeaponRefinement,
+        status.totalBaseSubWeaponATK
+      ),
   };
 };
