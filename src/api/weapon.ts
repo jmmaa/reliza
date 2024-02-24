@@ -11,6 +11,9 @@ import {
   Shield,
   NinjutsuScroll,
   AvailableSubWeaponType,
+  SubWeaponTypeWithATK,
+  SubWeaponTypeWithRefinement,
+  SubWeaponTypeWithStability,
 } from ".././types";
 
 export const mainWeaponType =
@@ -99,55 +102,34 @@ export const subWeaponType =
   });
 
 export const subWeaponATK =
-  (value: number) =>
   <
     S extends {
-      subWeaponType:
-        | Arrow
-        | Dagger
-        | Katana
-        | OneHandedSword
-        | Knuckle
-        | MagicDevice;
+      subWeaponType: SubWeaponType;
     }
   >(
-    status: S
-  ): S & { subWeaponATK: number } => {
+    value: S["subWeaponType"] extends SubWeaponTypeWithATK ? number : 0
+  ) =>
+  (status: S) => {
     return { ...status, subWeaponATK: value };
   };
 
 export const subWeaponRefinement =
-  (value: number) =>
-  <
-    S extends {
-      subWeaponType:
-        | Katana
-        | OneHandedSword
-        | Knuckle
-        | MagicDevice
-        | Shield;
-    }
-  >(
-    status: S
-  ): S & { subWeaponRefinement: number } => {
+  <S extends { subWeaponType: SubWeaponType }>(
+    value: S["subWeaponType"] extends SubWeaponTypeWithRefinement
+      ? number
+      : 0
+  ) =>
+  (status: S) => {
     return { ...status, subWeaponRefinement: value };
   };
 
 export const subWeaponStability =
-  (value: number) =>
-  <
-    S extends {
-      subWeaponType:
-        | Arrow
-        | Dagger
-        | Katana
-        | OneHandedSword
-        | Knuckle
-        | MagicDevice;
-    }
-  >(
-    status: S
-  ): S & { subWeaponStability: number } => {
+  <S extends { subWeaponType: SubWeaponType }>(
+    value: S["subWeaponType"] extends SubWeaponTypeWithStability
+      ? number
+      : 0
+  ) =>
+  (status: S) => {
     return { ...status, subWeaponStability: value };
   };
 

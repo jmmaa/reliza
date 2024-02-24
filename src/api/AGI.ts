@@ -7,7 +7,6 @@ import {
   accumulateFromAdditionalGearStats,
   accumulateFromArmorStats,
   accumulateFromSpecialGearStats,
-  pipe,
 } from "./helper";
 
 // declare
@@ -51,11 +50,11 @@ export const totalAGI = <
 export const totalPercentAGI = <
   S extends {
     subWeaponType: SubWeaponType;
-    mainWeaponStats?: StatGroupWithPredicate<S>[];
-    subWeaponStats?: StatGroupWithPredicate<S>[];
-    additionalGearStats?: StatGroupWithPredicate<S>[];
-    armorStats?: StatGroupWithPredicate<S>[];
-    specialGearStats?: StatGroupWithPredicate<S>[];
+    mainWeaponStats: StatGroupWithPredicate<S>[];
+    subWeaponStats: StatGroupWithPredicate<S>[];
+    additionalGearStats: StatGroupWithPredicate<S>[];
+    armorStats: StatGroupWithPredicate<S>[];
+    specialGearStats: StatGroupWithPredicate<S>[];
   }
 >(
   status: S
@@ -74,11 +73,11 @@ export const totalPercentAGI = <
 export const totalFlatAGI = <
   S extends {
     subWeaponType: SubWeaponType;
-    mainWeaponStats?: StatGroupWithPredicate<S>[];
-    subWeaponStats?: StatGroupWithPredicate<S>[];
-    additionalGearStats?: StatGroupWithPredicate<S>[];
-    armorStats?: StatGroupWithPredicate<S>[];
-    specialGearStats?: StatGroupWithPredicate<S>[];
+    mainWeaponStats: StatGroupWithPredicate<S>[];
+    subWeaponStats: StatGroupWithPredicate<S>[];
+    additionalGearStats: StatGroupWithPredicate<S>[];
+    armorStats: StatGroupWithPredicate<S>[];
+    specialGearStats: StatGroupWithPredicate<S>[];
   } // for some reason its necessary to keep this boilerplate cuz ts typesystem is fragile as fuck
 >(
   status: S

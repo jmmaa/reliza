@@ -4,7 +4,7 @@ import {
 } from "@jmmaa/pino";
 import { accumulateStats } from "./helper";
 import { total } from "./helper"; // remove this soon as pino.total gets fixed
-import { StatSource } from "../types";
+import { StatSource, SubWeaponType } from "../types";
 
 // ATK
 
@@ -79,15 +79,23 @@ export const totalMainWeaponRefinementBonusMainWeaponATK = <
 
 // these funcs are essentially the same with mainWeaponATK variants, i just wrote it for explicitness on
 // dual sword sub calculation
-export const totalBaseSubWeaponATK = <S extends { subWeaponATK: number }>(
+export const totalBaseSubWeaponATK = <
+  S extends { subWeaponType: SubWeaponType; subWeaponATK: number }
+>(
   status: S
-): S & { totalBaseSubWeaponATK: number } => ({
-  ...status,
-  totalBaseSubWeaponATK: status.subWeaponATK,
-});
+): S & { totalBaseSubWeaponATK: number } => {
+  return {
+    ...status,
+    totalBaseSubWeaponATK:
+      status.subWeaponType === "one-handed-sword" // only dual swords get to enjoy this stat
+        ? status.subWeaponATK
+        : 0,
+  };
+};
 
 export const totalSubWeaponATK = <
   S extends {
+    subWeaponType: SubWeaponType;
     totalBaseSubWeaponATK: number;
     totalPercentSubWeaponATK: number;
     totalFlatSubWeaponATK: number;
@@ -98,14 +106,19 @@ export const totalSubWeaponATK = <
 ): S & { totalSubWeaponATK: number } => {
   return {
     ...status,
+
     totalSubWeaponATK:
-      total(
-        status.totalBaseSubWeaponATK,
-        status.totalPercentSubWeaponATK,
-        status.totalFlatSubWeaponATK
-      ) + status.totalSubWeaponRefinementBonusSubWeaponATK,
+      status.subWeaponType === "one-handed-sword" // only dual swords get to enjoy this stat
+        ? total(
+            status.totalBaseSubWeaponATK,
+            status.totalPercentSubWeaponATK,
+            status.totalFlatSubWeaponATK
+          ) + status.totalSubWeaponRefinementBonusSubWeaponATK
+        : 0,
   };
 };
+
+/// CONTINUE HERE FINISH THE SUBWEAPON (make it work only with dualswords)
 
 export const totalFlatSubWeaponATK = <S extends StatSource<S>>(
   status: S

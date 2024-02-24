@@ -226,19 +226,16 @@ export const stats = <S>(
 export const DEFAULT = <S>(_: S) => true;
 
 export const accumulateFromMainWeaponStats = <
-  S extends { mainWeaponStats?: StatGroupWithPredicate<S>[] }
+  S extends { mainWeaponStats: StatGroupWithPredicate<S>[] }
 >(
   stat: keyof StatMap,
   status: S
 ) => {
-  const total =
-    status.mainWeaponStats !== undefined
-      ? status.mainWeaponStats.reduce((total, statGroup) => {
-          return statGroup.predicate(status)
-            ? statGroup.stats[stat] + total
-            : total;
-        }, 0)
-      : 0;
+  const total = status.mainWeaponStats.reduce((total, statGroup) => {
+    return statGroup.predicate(status)
+      ? statGroup.stats[stat] + total
+      : total;
+  }, 0);
 
   return total;
 };
@@ -246,7 +243,7 @@ export const accumulateFromMainWeaponStats = <
 export const accumulateFromSubWeaponStats = <
   S extends {
     subWeaponType: SubWeaponType;
-    subWeaponStats?: StatGroupWithPredicate<S>[];
+    subWeaponStats: StatGroupWithPredicate<S>[];
   }
 >(
   stat: keyof StatMap,
@@ -258,14 +255,11 @@ export const accumulateFromSubWeaponStats = <
     status.subWeaponType === "shield" ||
     status.subWeaponType === "ninjutsu-scroll"
   ) {
-    const total =
-      status.subWeaponStats !== undefined
-        ? status.subWeaponStats.reduce((total, statGroup) => {
-            return statGroup.predicate(status)
-              ? statGroup.stats[stat] + total
-              : total;
-          }, 0)
-        : 0;
+    const total = status.subWeaponStats.reduce((total, statGroup) => {
+      return statGroup.predicate(status)
+        ? statGroup.stats[stat] + total
+        : total;
+    }, 0);
 
     return total;
   } else {
@@ -274,55 +268,46 @@ export const accumulateFromSubWeaponStats = <
 };
 
 export const accumulateFromAdditionalGearStats = <
-  S extends { additionalGearStats?: StatGroupWithPredicate<S>[] }
+  S extends { additionalGearStats: StatGroupWithPredicate<S>[] }
 >(
   stat: keyof StatMap,
   status: S
 ) => {
-  const total =
-    status.additionalGearStats !== undefined
-      ? status.additionalGearStats.reduce((total, statGroup) => {
-          return statGroup.predicate(status)
-            ? statGroup.stats[stat] + total
-            : total;
-        }, 0)
-      : 0;
+  const total = status.additionalGearStats.reduce((total, statGroup) => {
+    return statGroup.predicate(status)
+      ? statGroup.stats[stat] + total
+      : total;
+  }, 0);
 
   return total;
 };
 
 export const accumulateFromArmorStats = <
-  S extends { armorStats?: StatGroupWithPredicate<S>[] }
+  S extends { armorStats: StatGroupWithPredicate<S>[] }
 >(
   stat: keyof StatMap,
   status: S
 ) => {
-  const total =
-    status.armorStats !== undefined
-      ? status.armorStats.reduce((total, statGroup) => {
-          return statGroup.predicate(status)
-            ? statGroup.stats[stat] + total
-            : total;
-        }, 0)
-      : 0;
+  const total = status.armorStats.reduce((total, statGroup) => {
+    return statGroup.predicate(status)
+      ? statGroup.stats[stat] + total
+      : total;
+  }, 0);
 
   return total;
 };
 
 export const accumulateFromSpecialGearStats = <
-  S extends { specialGearStats?: StatGroupWithPredicate<S>[] }
+  S extends { specialGearStats: StatGroupWithPredicate<S>[] }
 >(
   stat: keyof StatMap,
   status: S
 ) => {
-  const total =
-    status.specialGearStats !== undefined
-      ? status.specialGearStats.reduce((total, statGroup) => {
-          return statGroup.predicate(status)
-            ? statGroup.stats[stat] + total
-            : total;
-        }, 0)
-      : 0;
+  const total = status.specialGearStats.reduce((total, statGroup) => {
+    return statGroup.predicate(status)
+      ? statGroup.stats[stat] + total
+      : total;
+  }, 0);
 
   return total;
 };

@@ -81,6 +81,9 @@ export type SubWeaponTypeWithATK =
   | Knuckle
   | MagicDevice;
 
+export type SubWeaponTypeWithATKValue<Sub extends SubWeaponType> =
+  Sub extends SubWeaponTypeWithATK ? number : 0;
+
 export type SubWeaponTypeWithRefinement =
   | Katana
   | OneHandedSword

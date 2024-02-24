@@ -51,11 +51,11 @@ export const totalDEX = <
 export const totalPercentDEX = <
   S extends {
     subWeaponType: SubWeaponType;
-    mainWeaponStats?: StatGroupWithPredicate<S>[];
-    subWeaponStats?: StatGroupWithPredicate<S>[];
-    additionalGearStats?: StatGroupWithPredicate<S>[];
-    armorStats?: StatGroupWithPredicate<S>[];
-    specialGearStats?: StatGroupWithPredicate<S>[];
+    mainWeaponStats: StatGroupWithPredicate<S>[];
+    subWeaponStats: StatGroupWithPredicate<S>[];
+    additionalGearStats: StatGroupWithPredicate<S>[];
+    armorStats: StatGroupWithPredicate<S>[];
+    specialGearStats: StatGroupWithPredicate<S>[];
   }
 >(
   status: S
@@ -74,11 +74,11 @@ export const totalPercentDEX = <
 export const totalFlatDEX = <
   S extends {
     subWeaponType: SubWeaponType;
-    mainWeaponStats?: StatGroupWithPredicate<S>[];
-    subWeaponStats?: StatGroupWithPredicate<S>[];
-    additionalGearStats?: StatGroupWithPredicate<S>[];
-    armorStats?: StatGroupWithPredicate<S>[];
-    specialGearStats?: StatGroupWithPredicate<S>[];
+    mainWeaponStats: StatGroupWithPredicate<S>[];
+    subWeaponStats: StatGroupWithPredicate<S>[];
+    additionalGearStats: StatGroupWithPredicate<S>[];
+    armorStats: StatGroupWithPredicate<S>[];
+    specialGearStats: StatGroupWithPredicate<S>[];
   }
 >(
   status: S

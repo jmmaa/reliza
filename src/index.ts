@@ -9,12 +9,16 @@ import {
   BareHand,
   ArmorType,
   AvailableSubWeaponType,
+  StatGroupWithPredicate,
+  SubWeaponTypeWithATK,
+  SubWeaponTypeWithRefinement,
+  SubWeaponTypeWithStability,
 } from "./types";
 import { DEFAULT, stats } from "./api/helper";
 
 import { pipe } from "./api/helper";
 
-export const calculateDualWieldSubWeapon = <
+export const calculate = <
   Sub extends SubWeaponType,
   S extends {
     level: number;
@@ -31,14 +35,28 @@ export const calculateDualWieldSubWeapon = <
     mainWeaponATK: number;
     mainWeaponRefinement: number;
     subWeaponType: AvailableSubWeaponType<Sub, S["mainWeaponType"]>;
-    subWeaponATK: number;
-    subWeaponRefinement: number;
+
+    subWeaponATK: S["subWeaponType"] extends SubWeaponTypeWithATK
+      ? number
+      : 0;
+    subWeaponRefinement: S["subWeaponType"] extends SubWeaponTypeWithRefinement
+      ? number
+      : 0;
+
+    subWeaponStability: S["subWeaponType"] extends SubWeaponTypeWithStability
+      ? number
+      : 0;
     armorType: ArmorType;
-  } & StatSource<S>
+    mainWeaponStats: StatGroupWithPredicate<S>[];
+    subWeaponStats: StatGroupWithPredicate<S>[];
+    additionalGearStats: StatGroupWithPredicate<S>[];
+    armorStats: StatGroupWithPredicate<S>[];
+    specialGearStats: StatGroupWithPredicate<S>[];
+  }
 >(
   status: S
 ) => {
-  const allCalculationsWithDualSword = pipe(status)
+  const allDefaultCalculations = pipe(status)
     // AGI
     ._(d.totalBaseAGI)
     ._(d.totalPercentAGI)
@@ -115,107 +133,8 @@ export const calculateDualWieldSubWeapon = <
     ._(d.totalSubWeaponRefinementBonusSubWeaponATK)
     ._(d.totalSubWeaponATK);
 
-  return allCalculationsWithDualSword.value;
-};
-
-export const calculate = <
-  Sub extends SubWeaponType,
-  S extends {
-    level: number;
-    STR: number;
-    DEX: number;
-    INT: number;
-    VIT: number;
-    AGI: number;
-    CRT: number;
-    MTL: number;
-    TEC: number;
-    LUK: number;
-    mainWeaponType: MainWeaponType;
-    mainWeaponATK: number;
-    mainWeaponRefinement: number;
-    subWeaponType: AvailableSubWeaponType<Sub, S["mainWeaponType"]>;
-    // subWeaponATK: number;
-    // subWeaponRefinement: number;
-    armorType: ArmorType;
-  } & StatSource<S>
->(
-  status: S
-) => {
-  const allDefaultCalculations = pipe(status)
-    // AGI
-    ._(d.totalBaseAGI)
-    ._(d.totalPercentAGI)
-    ._(d.totalFlatAGI)
-    ._(d.totalAGI)
-
-    // DEX
-    ._(d.totalBaseDEX)
-    ._(d.totalPercentDEX)
-    ._(d.totalFlatDEX)
-    ._(d.totalDEX)
-
-    // REFACTOR ALL OF THESE BELOW
-    ._(d.totalBaseSTR)
-    ._(d.totalBaseINT)
-    ._(d.totalBaseVIT)
-    ._(d.totalPercentSTR)
-    ._(d.totalPercentINT)
-    ._(d.totalPercentVIT)
-    ._(d.totalFlatSTR)
-    ._(d.totalFlatINT)
-    ._(d.totalFlatVIT)
-
-    //
-    ._(d.totalSTR)
-    ._(d.totalINT)
-    ._(d.totalVIT)
-
-    // personal
-    ._(d.totalBaseMTL)
-    ._(d.totalBaseCRT)
-    ._(d.totalBaseLUK)
-    ._(d.totalBaseTEC)
-
-    // hp
-    ._(d.totalBaseMaxHP)
-    ._(d.totalBaseMaxMP)
-
-    // cast speed
-    ._(d.totalBaseCSPD)
-    ._(d.totalPercentCSPD)
-    ._(d.totalFlatCSPD)
-    ._(d.totalCSPD)
-    ._(d.totalCastTimeReduction)
-
-    // attack speed
-    ._(d.totalBaseASPD)
-    ._(d.totalPercentASPD)
-    ._(d.totalFlatASPD)
-    ._(d.lightArmorASPDModifier)
-    ._(d.heavyArmorASPDModifier)
-    ._(d.totalASPD)
-    ._(d.totalActionTimeReduction)
-
-    // equipment type modifier
-
-    // crit rate
-    ._(d.totalBaseCriticalRate)
-
-    // crit damage
-    ._(d.totalBaseCriticalDamage)
-
-    // main weapon attack
-    ._(d.totalBaseMainWeaponATK)
-    ._(d.totalPercentMainWeaponATK)
-    ._(d.totalFlatMainWeaponATK)
-    ._(d.totalMainWeaponRefinementBonusMainWeaponATK)
-    ._(d.totalMainWeaponATK);
-
   return allDefaultCalculations.value;
 };
-
-export const status = () => pipe({});
 
 const magicDeviceSupport2 = pipe({})
   ._(d.level(275))
@@ -229,7 +148,7 @@ const magicDeviceSupport2 = pipe({})
   ._(d.LUK(0))
   ._(d.CRT(0))
 
-  ._(d.mainWeaponType("magic-device"))
+  ._(d.mainWeaponType("bow"))
   ._(d.mainWeaponATK(99))
   ._(d.mainWeaponRefinement(15))
   ._(d.mainWeaponStability(70))
@@ -250,7 +169,10 @@ const magicDeviceSupport2 = pipe({})
       [stats(DEFAULT, { percentDEX: 7, percentMATK: 9, percentCSPD: 5 })],
     ])
   )
-  ._(d.subWeaponType("ninjutsu-scroll"))
+  ._(d.subWeaponType("katana"))
+  ._(d.subWeaponATK(200))
+  ._(d.subWeaponRefinement(15))
+  ._(d.subWeaponStability(0))
   ._(
     d.subWeaponStats([
       stats(DEFAULT, {
@@ -261,8 +183,8 @@ const magicDeviceSupport2 = pipe({})
       }),
     ])
   )
-  ._(d.scrollCastTimeReduction(3))
-  ._(d.scrollMPReduction(2))
+  // ._(d.scrollCastTimeReduction(3))
+  // ._(d.scrollMPReduction(2))
 
   ._(d.additionalGearDEF(140))
   ._(
@@ -322,8 +244,5 @@ const magicDeviceSupport2 = pipe({})
   )
 
   ._(calculate);
-// ._(d.totalFlatSubWeaponATK)
-// ._(d.totalPercentSubWeaponATK)
-// ._(d.totalSubWeaponATK);
 
 console.log(magicDeviceSupport2.value);
