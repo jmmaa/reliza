@@ -131,7 +131,13 @@ export const calculate = <
     ._(d.totalPercentSubWeaponATK)
     ._(d.totalFlatSubWeaponATK)
     ._(d.totalSubWeaponRefinementBonusSubWeaponATK)
-    ._(d.totalSubWeaponATK);
+    ._(d.totalSubWeaponATK)
+
+    // ATK
+    ._(d.totalBaseATK)
+    ._(d.totalPercentATK)
+    ._(d.totalFlatATK)
+    ._(d.totalATK);
 
   return allDefaultCalculations.value;
 };

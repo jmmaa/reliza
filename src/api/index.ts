@@ -15,3 +15,5 @@ export * from "./maxMP";
 
 export * from "./weapon";
 export * from "./armor";
+
+export * from "./ATK";
