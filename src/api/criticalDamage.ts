@@ -1,6 +1,10 @@
 import { baseCriticalDamage } from "@jmmaa/pino";
-import { accumulateStats, total } from "./helper";
-import { StatSource } from "../types";
+import * as h from "./helper";
+import {
+  StatGroupWithPredicate,
+  StatSource,
+  SubWeaponType,
+} from "../types";
 
 export const totalBaseCriticalDamage = <
   S extends { totalSTR: number; totalAGI: number }
@@ -25,10 +29,22 @@ export const totalCriticalDamage = <
 ): S & { totalCriticalDamage: number } => {
   return {
     ...status,
-    totalCriticalDamage: total(
+    totalCriticalDamage: h.total(
       status.totalBaseCriticalDamage,
       status.totalPercentCriticalDamage,
       status.totalFlatCriticalDamage
+    ),
+  };
+};
+
+export const totalPercentCriticalDamage = <S extends StatSource<S>>(
+  status: S
+): S & { totalPercentCriticalDamage: number } => {
+  return {
+    ...status,
+    totalPercentCriticalDamage: h.accumulate(
+      status,
+      "percentCriticalDamage"
     ),
   };
 };
@@ -38,18 +54,6 @@ export const totalFlatCriticalDamage = <S extends StatSource<S>>(
 ): S & { totalFlatCriticalDamage: number } => {
   return {
     ...status,
-    totalFlatCriticalDamage: accumulateStats(status, "flatCriticalDamage"),
-  };
-};
-
-export const totalPercentCriticalDamage = <S extends StatSource<S>>(
-  status: S
-): S & { totalPercentCriticalDamage: number } => {
-  return {
-    ...status,
-    totalPercentCriticalDamage: accumulateStats(
-      status,
-      "percentCriticalDamage"
-    ),
+    totalFlatCriticalDamage: h.accumulate(status, "flatCriticalDamage"),
   };
 };

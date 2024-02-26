@@ -1,5 +1,5 @@
 import { StatSource } from "../types";
-import { total, accumulateStats } from "./helper";
+import { total, accumulate } from "./helper";
 
 // declare
 export const VIT =
@@ -42,7 +42,7 @@ export const totalFlatVIT = <S extends StatSource<S>>(
 ): S & { totalFlatVIT: number } => {
   return {
     ...status,
-    totalFlatVIT: accumulateStats(status, "flatVIT"),
+    totalFlatVIT: accumulate(status, "flatVIT"),
   };
 };
 
@@ -51,6 +51,6 @@ export const totalPercentVIT = <S extends StatSource<S>>(
 ): S & { totalPercentVIT: number } => {
   return {
     ...status,
-    totalPercentVIT: accumulateStats(status, "percentVIT"),
+    totalPercentVIT: accumulate(status, "percentVIT"),
   };
 };

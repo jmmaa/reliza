@@ -1,5 +1,5 @@
 import { baseCastSpeed, castTimeReduction } from "@jmmaa/pino";
-import { accumulateStats, total } from "./helper";
+import { accumulate, total } from "./helper";
 import { StatSource } from "../types";
 
 export const totalBaseCSPD = <
@@ -39,7 +39,7 @@ export const totalFlatCSPD = <S extends StatSource<S>>(
 ): S & { totalFlatCSPD: number } => {
   return {
     ...status,
-    totalFlatCSPD: accumulateStats(status, "flatCSPD"),
+    totalFlatCSPD: accumulate(status, "flatCSPD"),
   };
 };
 
@@ -48,7 +48,7 @@ export const totalPercentCSPD = <S extends StatSource<S>>(
 ): S & { totalPercentCSPD: number } => {
   return {
     ...status,
-    totalPercentCSPD: accumulateStats(status, "percentCSPD"),
+    totalPercentCSPD: accumulate(status, "percentCSPD"),
   };
 };
 

@@ -5,119 +5,6 @@ import {
   StatGroupWithPredicate,
 } from "../types";
 
-export const accumulateStats = <S extends StatSource<S>>(
-  status: S,
-  key: keyof StatMap
-) => {
-  const mainWeaponStatsTotal =
-    status.mainWeaponStats !== undefined
-      ? status.mainWeaponStats.reduce((total, statGroup) => {
-          return statGroup.predicate(status)
-            ? statGroup.stats[key] + total
-            : total;
-        }, 0)
-      : 0;
-
-  const mainWeaponCrystalStatsTotal =
-    status.mainWeaponCrystals !== undefined
-      ? status.mainWeaponCrystals.reduce((total, statGroups) => {
-          const accumulated = statGroups.reduce((total, statGroup) => {
-            return statGroup.predicate(status)
-              ? statGroup.stats[key] + total
-              : total;
-          }, 0);
-
-          return total + accumulated;
-        }, 0)
-      : 0;
-
-  const subWeaponStatsTotal =
-    status.subWeaponStats !== undefined
-      ? status.subWeaponStats.reduce((total, statGroup) => {
-          return statGroup.predicate(status)
-            ? statGroup.stats[key] + total
-            : total;
-        }, 0)
-      : 0;
-
-  const additionalGearStatsTotal =
-    status.additionalGearStats !== undefined
-      ? status.additionalGearStats.reduce((total, statGroup) => {
-          return statGroup.predicate(status)
-            ? statGroup.stats[key] + total
-            : total;
-        }, 0)
-      : 0;
-
-  const additionalGearCrystalStatsTotal =
-    status.additionalGearCrystals !== undefined
-      ? status.additionalGearCrystals.reduce((total, statGroups) => {
-          const accumulated = statGroups.reduce((total, statGroup) => {
-            return statGroup.predicate(status)
-              ? statGroup.stats[key] + total
-              : total;
-          }, 0);
-
-          return total + accumulated;
-        }, 0)
-      : 0;
-
-  const armorStatsTotal =
-    status.armorStats !== undefined
-      ? status.armorStats.reduce((total, statGroup) => {
-          return statGroup.predicate(status)
-            ? statGroup.stats[key] + total
-            : total;
-        }, 0)
-      : 0;
-
-  const armorCrystalStatsTotal =
-    status.armorCrystals !== undefined
-      ? status.armorCrystals.reduce((total, statGroups) => {
-          const accumulated = statGroups.reduce((total, statGroup) => {
-            return statGroup.predicate(status)
-              ? statGroup.stats[key] + total
-              : total;
-          }, 0);
-
-          return total + accumulated;
-        }, 0)
-      : 0;
-
-  const specialGearStatsTotal =
-    status.specialGearStats !== undefined
-      ? status.specialGearStats.reduce((total, statGroup) => {
-          return statGroup.predicate(status)
-            ? statGroup.stats[key] + total
-            : total;
-        }, 0)
-      : 0;
-
-  const specialGearCrystalStatsTotal =
-    status.specialGearCrystals !== undefined
-      ? status.specialGearCrystals.reduce((total, statGroups) => {
-          const accumulated = statGroups.reduce((total, statGroup) => {
-            return statGroup.predicate(status)
-              ? statGroup.stats[key] + total
-              : total;
-          }, 0);
-
-          return total + accumulated;
-        }, 0)
-      : 0;
-
-  return [
-    mainWeaponStatsTotal,
-    mainWeaponCrystalStatsTotal,
-    additionalGearStatsTotal,
-    additionalGearCrystalStatsTotal,
-    armorStatsTotal,
-    armorCrystalStatsTotal,
-    specialGearStatsTotal,
-    specialGearCrystalStatsTotal,
-  ].reduce((total, curr) => total + curr, 0);
-};
-
 export const total = (base: number, percent: number, flat: number) =>
   Math.floor(base * (1 + percent / 100) + flat);
 
@@ -177,15 +64,15 @@ export const defaultStatMap: StatMap = {
   percentMDEF: 0,
 
   flatUnsheatheAttack: 0,
-  percentUnsheatheAttack: 0,
+  percentUnsheatheAttack: 100,
 
   stability: 0,
 
   magicPierce: 0,
   physicalPierce: 0,
 
-  longRangeDamage: 0,
-  shortRangeDamage: 0,
+  longRangeDamage: 100,
+  shortRangeDamage: 100,
 
   motionSpeed: 0,
 
@@ -310,6 +197,21 @@ export const accumulateFromSpecialGearStats = <
   }, 0);
 
   return total;
+};
+
+export const accumulate = <S extends StatSource<S>>(
+  status: S,
+  stat: keyof StatMap
+) => {
+  const sum = [
+    accumulateFromMainWeaponStats(stat, status),
+    accumulateFromSubWeaponStats(stat, status),
+    accumulateFromAdditionalGearStats(stat, status),
+    accumulateFromArmorStats(stat, status),
+    accumulateFromSpecialGearStats(stat, status),
+  ].reduce((t, c) => t + c, 0);
+
+  return sum;
 };
 
 export const pipe = <T>(value: T) => {

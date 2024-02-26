@@ -1,5 +1,5 @@
 import { baseMaxMP } from "@jmmaa/pino";
-import { accumulateStats, total } from "./helper";
+import { accumulate, total } from "./helper";
 import { StatSource } from "../types";
 
 // stat
@@ -57,7 +57,7 @@ export const totalFlatMaxMP = <S extends StatSource<S>>(
 ): S & { totalFlatMaxMP: number } => {
   return {
     ...status,
-    totalFlatMaxMP: accumulateStats(status, "flatMaxMP"),
+    totalFlatMaxMP: accumulate(status, "flatMaxMP"),
   };
 };
 
@@ -66,6 +66,6 @@ export const totalPercentMaxMP = <S extends StatSource<S>>(
 ): S & { totalPercentMaxMP: number } => {
   return {
     ...status,
-    totalPercentMaxMP: accumulateStats(status, "percentMaxMP"),
+    totalPercentMaxMP: accumulate(status, "percentMaxMP"),
   };
 };

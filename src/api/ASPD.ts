@@ -12,8 +12,13 @@ import {
   staffBaseAttackSpeed,
   twoHandedSwordBaseAttackSpeed,
 } from "@jmmaa/pino";
-import { accumulateStats, total } from "./helper";
-import { MainWeaponType, StatSource, SubWeaponType } from "../types";
+import { accumulate, total } from "./helper";
+import {
+  MainWeaponType,
+  StatGroupWithPredicate,
+  StatSource,
+  SubWeaponType,
+} from "../types";
 
 // calc
 
@@ -162,7 +167,7 @@ export const totalFlatASPD = <S extends StatSource<S>>(
 ): S & { totalFlatASPD: number } => {
   return {
     ...status,
-    totalFlatASPD: accumulateStats(status, "flatASPD"),
+    totalFlatASPD: accumulate(status, "flatASPD"),
   };
 };
 
@@ -171,7 +176,7 @@ export const totalPercentASPD = <S extends StatSource<S>>(
 ): S & { totalPercentASPD: number } => {
   return {
     ...status,
-    totalPercentASPD: accumulateStats(status, "percentASPD"),
+    totalPercentASPD: accumulate(status, "percentASPD"),
   };
 };
 

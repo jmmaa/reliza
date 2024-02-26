@@ -1,6 +1,6 @@
 import { resistance } from "@jmmaa/pino";
 import { StatSource } from "../types";
-import { accumulateStats } from "./helper";
+import { accumulate } from "./helper";
 
 // declare
 export const physicalResistance =
@@ -74,7 +74,7 @@ export const totalPhysicalResistance = <S extends StatSource<S>>(
   return {
     ...status,
     totalPhysicalResistance: resistance(
-      accumulateStats(status, "physicalResistance")
+      accumulate(status, "physicalResistance")
     ),
   };
 };
@@ -85,7 +85,7 @@ export const totalMagicResistance = <S extends StatSource<S>>(
   return {
     ...status,
     totalMagicResistance: resistance(
-      accumulateStats(status, "magicResistance")
+      accumulate(status, "magicResistance")
     ),
   };
 };
@@ -96,7 +96,7 @@ export const totalLightResistance = <S extends StatSource<S>>(
   return {
     ...status,
     totalLightResistance: resistance(
-      accumulateStats(status, "lightResistance")
+      accumulate(status, "lightResistance")
     ),
   };
 };
@@ -106,9 +106,7 @@ export const totalDarkResistance = <S extends StatSource<S>>(
 ): S & { totalDarkResistance: number } => {
   return {
     ...status,
-    totalDarkResistance: resistance(
-      accumulateStats(status, "darkResistance")
-    ),
+    totalDarkResistance: resistance(accumulate(status, "darkResistance")),
   };
 };
 
@@ -117,9 +115,7 @@ export const totalFireResistance = <S extends StatSource<S>>(
 ): S & { totalFireResistance: number } => {
   return {
     ...status,
-    totalFireResistance: resistance(
-      accumulateStats(status, "fireResistance")
-    ),
+    totalFireResistance: resistance(accumulate(status, "fireResistance")),
   };
 };
 
@@ -129,7 +125,7 @@ export const totalWaterResistance = <S extends StatSource<S>>(
   return {
     ...status,
     totalWaterResistance: resistance(
-      accumulateStats(status, "waterResistance")
+      accumulate(status, "waterResistance")
     ),
   };
 };
@@ -140,7 +136,7 @@ export const totalEarthResistance = <S extends StatSource<S>>(
   return {
     ...status,
     totalEarthResistance: resistance(
-      accumulateStats(status, "earthResistance")
+      accumulate(status, "earthResistance")
     ),
   };
 };
@@ -150,9 +146,7 @@ export const totalWindResistance = <S extends StatSource<S>>(
 ): S & { totalWindResistance: number } => {
   return {
     ...status,
-    totalWindResistance: resistance(
-      accumulateStats(status, "windResistance")
-    ),
+    totalWindResistance: resistance(accumulate(status, "windResistance")),
   };
 };
 
@@ -162,7 +156,7 @@ export const totalNeutralResistance = <S extends StatSource<S>>(
   return {
     ...status,
     totalNeutralResistance: resistance(
-      accumulateStats(status, "neutralResistance")
+      accumulate(status, "neutralResistance")
     ),
   };
 };

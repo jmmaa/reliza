@@ -1,5 +1,5 @@
 import { StatSource } from "../types";
-import { total, accumulateStats } from "./helper";
+import { total, accumulate } from "./helper";
 
 // declare
 export const INT =
@@ -42,7 +42,7 @@ export const totalFlatINT = <S extends StatSource<S>>(
 ): S & { totalFlatINT: number } => {
   return {
     ...status,
-    totalFlatINT: accumulateStats(status, "flatINT"),
+    totalFlatINT: accumulate(status, "flatINT"),
   };
 };
 
@@ -51,6 +51,6 @@ export const totalPercentINT = <S extends StatSource<S>>(
 ): S & { totalPercentINT: number } => {
   return {
     ...status,
-    totalPercentINT: accumulateStats(status, "percentINT"),
+    totalPercentINT: accumulate(status, "percentINT"),
   };
 };

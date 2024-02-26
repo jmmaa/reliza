@@ -324,28 +324,13 @@ export type StatGroupWithPredicate<S> = {
   stats: StatMap;
 };
 
-export type StatSource<S> = {
-  mainWeaponStats?: StatGroupWithPredicate<S>[];
-
-  mainWeaponCrystals?: StatGroupWithPredicate<S>[][];
-
-  subWeaponStats?: StatGroupWithPredicate<S>[];
-
-  armorStats?: StatGroupWithPredicate<S>[];
-
-  armorCrystals?: StatGroupWithPredicate<S>[][];
-
-  additionalGearStats?: StatGroupWithPredicate<S>[];
-
-  additionalGearCrystals?: StatGroupWithPredicate<S>[][];
-
-  specialGearStats?: StatGroupWithPredicate<S>[];
-
-  specialGearCrystals?: StatGroupWithPredicate<S>[][];
-
-  // foodBuffs?: { name: string; value: number }[];
-
-  // consumables?: { name: string; value: number }[][];
+export type StatSource<S extends {}> = {
+  subWeaponType: SubWeaponType;
+  mainWeaponStats: StatGroupWithPredicate<S>[];
+  subWeaponStats: StatGroupWithPredicate<S>[];
+  additionalGearStats: StatGroupWithPredicate<S>[];
+  armorStats: StatGroupWithPredicate<S>[];
+  specialGearStats: StatGroupWithPredicate<S>[];
 };
 
 export type Light = "light";

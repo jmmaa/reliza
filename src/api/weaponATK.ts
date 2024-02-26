@@ -2,15 +2,8 @@ import {
   subWeaponRefinementBonusSubWeaponAttack,
   weaponRefinementBonusWeaponAttack,
 } from "@jmmaa/pino";
-import { accumulateStats } from "./helper";
-import {
-  accumulateFromMainWeaponStats,
-  accumulateFromSubWeaponStats,
-  accumulateFromAdditionalGearStats,
-  accumulateFromArmorStats,
-  accumulateFromSpecialGearStats,
-} from "./helper";
-import { total } from "./helper"; // remove this soon as pino.total gets fixed
+import { total, accumulate } from "./helper";
+
 import {
   StatGroupWithPredicate,
   StatSource,
@@ -55,7 +48,7 @@ export const totalFlatMainWeaponATK = <S extends StatSource<S>>(
 ): S & { totalFlatMainWeaponATK: number } => {
   return {
     ...status,
-    totalFlatMainWeaponATK: accumulateStats(status, "flatWeaponATK"),
+    totalFlatMainWeaponATK: accumulate(status, "flatWeaponATK"),
   };
 };
 
@@ -64,7 +57,7 @@ export const totalPercentMainWeaponATK = <S extends StatSource<S>>(
 ): S & { totalPercentMainWeaponATK: number } => {
   return {
     ...status,
-    totalPercentMainWeaponATK: accumulateStats(status, "percentWeaponATK"),
+    totalPercentMainWeaponATK: accumulate(status, "percentWeaponATK"),
   };
 };
 
@@ -131,50 +124,22 @@ export const totalSubWeaponATK = <
 
 /// CONTINUE HERE FINISH THE SUBWEAPON (make it work only with dualswords)
 
-export const totalFlatSubWeaponATK = <
-  S extends {
-    subWeaponType: SubWeaponType;
-    mainWeaponStats: StatGroupWithPredicate<S>[];
-    subWeaponStats: StatGroupWithPredicate<S>[];
-    additionalGearStats: StatGroupWithPredicate<S>[];
-    armorStats: StatGroupWithPredicate<S>[];
-    specialGearStats: StatGroupWithPredicate<S>[];
-  }
->(
+export const totalFlatSubWeaponATK = <S extends StatSource<S>>(
   status: S
 ): S & { totalFlatSubWeaponATK: number } => {
-  const sum = [
-    accumulateFromMainWeaponStats("flatWeaponATK", status),
-    accumulateFromSubWeaponStats("flatWeaponATK", status),
-    accumulateFromAdditionalGearStats("flatWeaponATK", status),
-    accumulateFromArmorStats("flatWeaponATK", status),
-    accumulateFromSpecialGearStats("flatWeaponATK", status),
-  ].reduce((t, c) => t + c, 0);
-
-  return { ...status, totalFlatSubWeaponATK: sum };
+  return {
+    ...status,
+    totalFlatSubWeaponATK: accumulate(status, "flatWeaponATK"),
+  };
 };
 
-export const totalPercentSubWeaponATK = <
-  S extends {
-    subWeaponType: SubWeaponType;
-    mainWeaponStats: StatGroupWithPredicate<S>[];
-    subWeaponStats: StatGroupWithPredicate<S>[];
-    additionalGearStats: StatGroupWithPredicate<S>[];
-    armorStats: StatGroupWithPredicate<S>[];
-    specialGearStats: StatGroupWithPredicate<S>[];
-  }
->(
+export const totalPercentSubWeaponATK = <S extends StatSource<S>>(
   status: S
 ): S & { totalPercentSubWeaponATK: number } => {
-  const sum = [
-    accumulateFromMainWeaponStats("percentWeaponATK", status),
-    accumulateFromSubWeaponStats("percentWeaponATK", status),
-    accumulateFromAdditionalGearStats("percentWeaponATK", status),
-    accumulateFromArmorStats("percentWeaponATK", status),
-    accumulateFromSpecialGearStats("percentWeaponATK", status),
-  ].reduce((t, c) => t + c, 0);
-
-  return { ...status, totalPercentSubWeaponATK: sum };
+  return {
+    ...status,
+    totalPercentSubWeaponATK: accumulate(status, "percentWeaponATK"),
+  };
 };
 
 export const totalSubWeaponRefinementBonusSubWeaponATK = <

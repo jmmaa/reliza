@@ -1,4 +1,8 @@
-import { SubWeaponType, StatGroupWithPredicate } from "../types";
+import {
+  SubWeaponType,
+  StatGroupWithPredicate,
+  StatSource,
+} from "../types";
 
 import {
   total,
@@ -8,6 +12,7 @@ import {
   accumulateFromArmorStats,
   accumulateFromSpecialGearStats,
   pipe,
+  accumulate,
 } from "./helper";
 
 // declare
@@ -46,50 +51,14 @@ export const totalDEX = <
   };
 };
 
-// calc
-
-export const totalPercentDEX = <
-  S extends {
-    subWeaponType: SubWeaponType;
-    mainWeaponStats: StatGroupWithPredicate<S>[];
-    subWeaponStats: StatGroupWithPredicate<S>[];
-    additionalGearStats: StatGroupWithPredicate<S>[];
-    armorStats: StatGroupWithPredicate<S>[];
-    specialGearStats: StatGroupWithPredicate<S>[];
-  }
->(
+export const totalPercentDEX = <S extends StatSource<S>>(
   status: S
 ): S & { totalPercentDEX: number } => {
-  const sum = [
-    accumulateFromMainWeaponStats("percentDEX", status),
-    accumulateFromSubWeaponStats("percentDEX", status),
-    accumulateFromAdditionalGearStats("percentDEX", status),
-    accumulateFromArmorStats("percentDEX", status),
-    accumulateFromSpecialGearStats("percentDEX", status),
-  ].reduce((t, c) => t + c, 0);
-
-  return { ...status, totalPercentDEX: sum };
+  return { ...status, totalPercentDEX: accumulate(status, "percentDEX") };
 };
 
-export const totalFlatDEX = <
-  S extends {
-    subWeaponType: SubWeaponType;
-    mainWeaponStats: StatGroupWithPredicate<S>[];
-    subWeaponStats: StatGroupWithPredicate<S>[];
-    additionalGearStats: StatGroupWithPredicate<S>[];
-    armorStats: StatGroupWithPredicate<S>[];
-    specialGearStats: StatGroupWithPredicate<S>[];
-  }
->(
+export const totalFlatDEX = <S extends StatSource<S>>(
   status: S
 ): S & { totalFlatDEX: number } => {
-  const sum = [
-    accumulateFromMainWeaponStats("flatDEX", status),
-    accumulateFromSubWeaponStats("flatDEX", status),
-    accumulateFromAdditionalGearStats("flatDEX", status),
-    accumulateFromArmorStats("flatDEX", status),
-    accumulateFromSpecialGearStats("flatDEX", status),
-  ].reduce((t, c) => t + c, 0);
-
-  return { ...status, totalFlatDEX: sum };
+  return { ...status, totalFlatDEX: accumulate(status, "flatDEX") };
 };

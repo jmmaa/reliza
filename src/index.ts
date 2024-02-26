@@ -136,11 +136,16 @@ export const calculate = <
     // ATK
     ._(d.totalBaseATK)
     ._(d.totalPercentATK)
+    ._(d.subWeaponMagicDeviceATKModifier)
     ._(d.totalFlatATK)
     ._(d.totalATK);
 
   return allDefaultCalculations.value;
 };
+
+export const WickedDragonFazzino = [
+  stats(DEFAULT, { percentDEX: 7, percentMATK: 9, percentCSPD: 5 }),
+];
 
 const magicDeviceSupport2 = pipe({})
   ._(d.level(275))
@@ -153,20 +158,23 @@ const magicDeviceSupport2 = pipe({})
   ._(d.MTL(0))
   ._(d.LUK(0))
   ._(d.CRT(0))
-
-  ._(d.mainWeaponType("bow"))
+  ._(d.mainWeaponType("magic-device"))
   ._(d.mainWeaponATK(99))
-  ._(d.mainWeaponRefinement(15))
+  ._(d.mainWeaponRefinement(0))
   ._(d.mainWeaponStability(70))
   ._(
     d.mainWeaponStats([
       stats(DEFAULT, {
+        // with crystals btw
         percentDEF: 15,
         percentMDEF: 15,
         physicalResistance: 30,
         magicResistance: 30,
         flatCriticalRate: 30,
-        percentCSPD: 100,
+        percentCSPD: 100 + 5,
+
+        percentMATK: 9,
+        percentDEX: 7,
       }),
     ])
   )
@@ -175,9 +183,11 @@ const magicDeviceSupport2 = pipe({})
       [stats(DEFAULT, { percentDEX: 7, percentMATK: 9, percentCSPD: 5 })],
     ])
   )
-  ._(d.subWeaponType("katana"))
-  ._(d.subWeaponATK(200))
-  ._(d.subWeaponRefinement(15))
+  ._(d.subWeaponType("ninjutsu-scroll"))
+  // ._(d.subWeaponATK(200))
+  // ._(d.subWeaponRefinement(15))
+  ._(d.subWeaponATK(0))
+  ._(d.subWeaponRefinement(0))
   ._(d.subWeaponStability(0))
   ._(
     d.subWeaponStats([
@@ -189,9 +199,8 @@ const magicDeviceSupport2 = pipe({})
       }),
     ])
   )
-  // ._(d.scrollCastTimeReduction(3))
-  // ._(d.scrollMPReduction(2))
-
+  ._(d.scrollCastTimeReduction(3))
+  ._(d.scrollMPReduction(2))
   ._(d.additionalGearDEF(140))
   ._(
     d.additionalGearStats([
@@ -221,7 +230,8 @@ const magicDeviceSupport2 = pipe({})
         percentAGI: 10,
         percentDEX: 10,
         percentCSPD: 21 + 35,
-        percentASPD: 21 + 300,
+        percentASPD: 21,
+        flatASPD: 300,
         percentMaxHP: 10,
         flatMaxHP: 1000,
 

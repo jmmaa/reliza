@@ -25,115 +25,114 @@ export const totalBaseATK = <
   if (status.mainWeaponType === "one-handed-sword") {
     return {
       ...status,
-      totalBaseATK: pino.oneHandedSwordBaseAttack(
+      totalBaseATK: pino.oneHandedSwordBaseMagicAttack(
         status.level,
-        status.totalMainWeaponATK,
-        status.totalSTR,
+        status.totalINT,
         status.totalDEX
       ),
     };
   } else if (status.mainWeaponType === "two-handed-sword") {
     return {
       ...status,
-      totalBaseATK: pino.twoHandedSwordBaseAttack(
+      totalBaseATK: pino.twoHandedSwordBaseMagicAttack(
         status.level,
-        status.totalMainWeaponATK,
-        status.totalSTR,
+        status.totalINT,
         status.totalDEX
       ),
     };
   } else if (status.mainWeaponType === "bow") {
     return {
       ...status,
-      totalBaseATK: pino.bowBaseAttack(
+      totalBaseATK: pino.bowBaseMagicAttack(
         status.level,
-        status.totalMainWeaponATK,
-        status.totalSTR,
+        status.totalINT,
         status.totalDEX
       ),
     };
   } else if (status.mainWeaponType === "bowgun") {
     return {
       ...status,
-      totalBaseATK: pino.bowgunBaseAttack(
+      totalBaseATK: pino.bowgunBaseMagicAttack(
         status.level,
-        status.totalMainWeaponATK,
+        status.totalINT,
         status.totalDEX
       ),
     };
   } else if (status.mainWeaponType === "staff") {
     return {
       ...status,
-      totalBaseATK: pino.staffBaseAttack(
+      totalBaseATK: pino.staffBaseMagicAttack(
         status.level,
         status.totalMainWeaponATK,
-        status.totalSTR,
-        status.totalINT
+        status.totalINT,
+        status.totalDEX
       ),
     };
   } else if (status.mainWeaponType === "magic-device") {
     return {
       ...status,
-      totalBaseATK: pino.magicDeviceBaseAttack(
+      totalBaseATK: pino.magicDeviceBaseMagicAttack(
         status.level,
         status.totalMainWeaponATK,
-        status.totalAGI,
-        status.totalINT
+        status.totalINT,
+        status.totalDEX
       ),
     };
   } else if (status.mainWeaponType === "knuckle") {
     return {
       ...status,
-      totalBaseATK: pino.knuckleBaseAttack(
+      totalBaseATK: pino.knuckleBaseMagicAttack(
         status.level,
         status.totalMainWeaponATK,
-        status.totalAGI,
+        status.totalINT,
         status.totalDEX
       ),
     };
   } else if (status.mainWeaponType === "halberd") {
     return {
       ...status,
-      totalBaseATK: pino.halberdBaseAttack(
+      totalBaseATK: pino.halberdBaseMagicAttack(
         status.level,
-        status.totalMainWeaponATK,
-        status.totalSTR,
+        status.totalINT,
+        status.totalDEX,
         status.totalAGI
       ),
     };
   } else if (status.mainWeaponType === "katana") {
     return {
       ...status,
-      totalBaseATK: pino.katanaBaseAttack(
+      totalBaseATK: pino.katanaBaseMagicAttack(
         status.level,
-        status.totalMainWeaponATK,
-        status.totalSTR,
+        status.totalINT,
         status.totalDEX
       ),
     };
   } else if (status.mainWeaponType === "bare-hand") {
-    return {
-      ...status,
-      totalBaseATK: pino.bareHandBaseAttack(
-        status.level,
-        status.totalMainWeaponATK,
-        status.totalSTR
-      ),
-    };
+    // return {
+    //   ...status,
+    //   totalBaseATK: pino.bareHandMagicBaseAttack(
+    //     status.level,
+    //     status.totalMainWeaponATK,
+    //     status.totalSTR
+    //   ),
+    // };
+
+    throw Error("barehand matk calc is not implemented yet in pino!");
   } else if (
     status.subWeaponType === "one-handed-sword" &&
     status.mainWeaponType === "one-handed-sword"
   ) {
-    return {
-      ...status,
-      totalBaseATK: pino.dualWieldBaseAttack(
-        status.level,
-        status.totalMainWeaponATK,
-        status.totalSTR,
-        status.totalDEX,
-        status.totalAGI
-      ),
-    };
+    // return {
+    //   ...status,
+    //   totalBaseATK: pino.dualWieldMagicBaseAttack(
+    //     status.level,
+    //     status.totalMainWeaponATK,
+    //     status.totalSTR,
+    //     status.totalDEX,
+    //     status.totalAGI
+    //   ),
+    // };
+    throw Error("dual wield matk calc is not implemented yet in pino!");
   } else {
     console.log(status);
     throw Error("invalid weaponType type");
