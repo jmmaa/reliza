@@ -71,8 +71,8 @@ export const defaultStatMap: StatMap = {
   magicPierce: 0,
   physicalPierce: 0,
 
-  longRangeDamage: 100,
-  shortRangeDamage: 100,
+  longRangeDamage: 0,
+  shortRangeDamage: 0,
 
   motionSpeed: 0,
 
@@ -102,12 +102,17 @@ export const defaultStatMap: StatMap = {
   neutralResistance: 0,
 };
 
-export const stats = <S>(
-  predicate: (status: S) => boolean,
-  statMap: Partial<StatMap>
-) => ({
-  predicate,
-  stats: { ...defaultStatMap, ...statMap },
+// export const stats = <S>(
+//   predicate: (status: S) => boolean,
+//   statMap: Partial<StatMap>
+// ) => ({
+//   predicate,
+//   stats: { ...defaultStatMap, ...statMap },
+// });
+
+export const stats = (statMap: Partial<StatMap>) => ({
+  ...defaultStatMap,
+  ...statMap,
 });
 
 export const DEFAULT = <S>(_: S) => true;

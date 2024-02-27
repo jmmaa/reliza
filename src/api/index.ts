@@ -17,3 +17,4 @@ export * from "./weapon";
 export * from "./armor";
 
 export * from "./ATK";
+export * from "./MATK";

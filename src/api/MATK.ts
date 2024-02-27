@@ -2,13 +2,9 @@ import * as pino from "@jmmaa/pino";
 
 import { total, accumulate } from "./helper";
 
-import {
-  MainWeaponType,
-  StatGroupWithPredicate,
-  SubWeaponType,
-} from "../types";
+import { MainWeaponType, StatSource, SubWeaponType } from "../types";
 
-export const totalBaseATK = <
+export const totalBaseMATK = <
   S extends {
     level: number;
     mainWeaponType: MainWeaponType;
@@ -21,11 +17,11 @@ export const totalBaseATK = <
   }
 >(
   status: S
-): S & { totalBaseATK: number } => {
+): S & { totalBaseMATK: number } => {
   if (status.mainWeaponType === "one-handed-sword") {
     return {
       ...status,
-      totalBaseATK: pino.oneHandedSwordBaseMagicAttack(
+      totalBaseMATK: pino.oneHandedSwordBaseMagicAttack(
         status.level,
         status.totalINT,
         status.totalDEX
@@ -34,7 +30,7 @@ export const totalBaseATK = <
   } else if (status.mainWeaponType === "two-handed-sword") {
     return {
       ...status,
-      totalBaseATK: pino.twoHandedSwordBaseMagicAttack(
+      totalBaseMATK: pino.twoHandedSwordBaseMagicAttack(
         status.level,
         status.totalINT,
         status.totalDEX
@@ -43,7 +39,7 @@ export const totalBaseATK = <
   } else if (status.mainWeaponType === "bow") {
     return {
       ...status,
-      totalBaseATK: pino.bowBaseMagicAttack(
+      totalBaseMATK: pino.bowBaseMagicAttack(
         status.level,
         status.totalINT,
         status.totalDEX
@@ -52,7 +48,7 @@ export const totalBaseATK = <
   } else if (status.mainWeaponType === "bowgun") {
     return {
       ...status,
-      totalBaseATK: pino.bowgunBaseMagicAttack(
+      totalBaseMATK: pino.bowgunBaseMagicAttack(
         status.level,
         status.totalINT,
         status.totalDEX
@@ -61,7 +57,7 @@ export const totalBaseATK = <
   } else if (status.mainWeaponType === "staff") {
     return {
       ...status,
-      totalBaseATK: pino.staffBaseMagicAttack(
+      totalBaseMATK: pino.staffBaseMagicAttack(
         status.level,
         status.totalMainWeaponATK,
         status.totalINT,
@@ -71,7 +67,7 @@ export const totalBaseATK = <
   } else if (status.mainWeaponType === "magic-device") {
     return {
       ...status,
-      totalBaseATK: pino.magicDeviceBaseMagicAttack(
+      totalBaseMATK: pino.magicDeviceBaseMagicAttack(
         status.level,
         status.totalMainWeaponATK,
         status.totalINT,
@@ -81,7 +77,7 @@ export const totalBaseATK = <
   } else if (status.mainWeaponType === "knuckle") {
     return {
       ...status,
-      totalBaseATK: pino.knuckleBaseMagicAttack(
+      totalBaseMATK: pino.knuckleBaseMagicAttack(
         status.level,
         status.totalMainWeaponATK,
         status.totalINT,
@@ -91,7 +87,7 @@ export const totalBaseATK = <
   } else if (status.mainWeaponType === "halberd") {
     return {
       ...status,
-      totalBaseATK: pino.halberdBaseMagicAttack(
+      totalBaseMATK: pino.halberdBaseMagicAttack(
         status.level,
         status.totalINT,
         status.totalDEX,
@@ -101,7 +97,7 @@ export const totalBaseATK = <
   } else if (status.mainWeaponType === "katana") {
     return {
       ...status,
-      totalBaseATK: pino.katanaBaseMagicAttack(
+      totalBaseMATK: pino.katanaBaseMagicAttack(
         status.level,
         status.totalINT,
         status.totalDEX
@@ -110,7 +106,7 @@ export const totalBaseATK = <
   } else if (status.mainWeaponType === "bare-hand") {
     // return {
     //   ...status,
-    //   totalBaseATK: pino.bareHandMagicBaseAttack(
+    //   totalBaseMATK: pino.bareHandMagicBaseAttack(
     //     status.level,
     //     status.totalMainWeaponATK,
     //     status.totalSTR
@@ -124,7 +120,7 @@ export const totalBaseATK = <
   ) {
     // return {
     //   ...status,
-    //   totalBaseATK: pino.dualWieldMagicBaseAttack(
+    //   totalBaseMATK: pino.dualWieldMagicBaseAttack(
     //     status.level,
     //     status.totalMainWeaponATK,
     //     status.totalSTR,
@@ -134,70 +130,54 @@ export const totalBaseATK = <
     // };
     throw Error("dual wield matk calc is not implemented yet in pino!");
   } else {
-    console.log(status);
     throw Error("invalid weaponType type");
   }
 };
 
-export const totalATK = <
+export const totalMATK = <
   S extends {
-    totalBaseATK: number;
-    totalPercentATK: number;
-    totalFlatATK: number;
+    totalBaseMATK: number;
+    totalPercentMATK: number;
+    totalFlatMATK: number;
   }
 >(
   status: S
-): S & { totalATK: number } => {
+): S & { totalMATK: number } => {
   return {
     ...status,
-    totalATK: total(
-      status.totalBaseATK,
-      status.totalPercentATK,
-      status.totalFlatATK
+    totalMATK: total(
+      status.totalBaseMATK,
+      status.totalPercentMATK,
+      status.totalFlatMATK
     ),
   };
 };
 
-export const totalPercentATK = <
-  S extends {
-    subWeaponType: SubWeaponType;
-    mainWeaponStats: StatGroupWithPredicate<S>[];
-    subWeaponStats: StatGroupWithPredicate<S>[];
-    additionalGearStats: StatGroupWithPredicate<S>[];
-    armorStats: StatGroupWithPredicate<S>[];
-    specialGearStats: StatGroupWithPredicate<S>[];
-  }
->(
+export const totalPercentMATK = <S extends StatSource<S>>(
   status: S
-): S & { totalPercentATK: number } => {
-  return { ...status, totalPercentATK: accumulate(status, "percentATK") };
+): S & { totalPercentMATK: number } => {
+  return {
+    ...status,
+    totalPercentMATK: accumulate(status, "percentMATK"),
+  };
 };
 
-export const totalFlatATK = <
-  S extends {
-    subWeaponType: SubWeaponType;
-    mainWeaponStats: StatGroupWithPredicate<S>[];
-    subWeaponStats: StatGroupWithPredicate<S>[];
-    additionalGearStats: StatGroupWithPredicate<S>[];
-    armorStats: StatGroupWithPredicate<S>[];
-    specialGearStats: StatGroupWithPredicate<S>[];
-  }
->(
+export const totalFlatMATK = <S extends StatSource<S>>(
   status: S
-): S & { totalFlatATK: number } => {
-  return { ...status, totalFlatATK: accumulate(status, "flatATK") };
+): S & { totalFlatMATK: number } => {
+  return { ...status, totalFlatMATK: accumulate(status, "flatMATK") };
 };
 
-export const subWeaponMagicDeviceATKModifier = <
-  S extends { subWeaponType: SubWeaponType; totalPercentATK: number }
+export const subWeaponKnuckleMATKModifier = <
+  S extends { subWeaponType: SubWeaponType; totalPercentMATK: number }
 >(
   status: S
 ) => {
   return {
     ...status,
-    totalPercentATK:
-      status.subWeaponType === "magic-device"
-        ? status.totalPercentATK - 15
-        : status.totalPercentATK,
+    totalPercentMATK:
+      status.subWeaponType === "knuckle"
+        ? status.totalPercentMATK - 15
+        : status.totalPercentMATK,
   };
 };

@@ -13,49 +13,72 @@ import {
   SubWeaponTypeWithATK,
   SubWeaponTypeWithRefinement,
   SubWeaponTypeWithStability,
+  Shield,
+  StatMap,
+  None,
 } from "./types";
 import { DEFAULT, stats } from "./api/helper";
 
 import { pipe } from "./api/helper";
 
-export const calculate = <
-  Sub extends SubWeaponType,
-  S extends {
-    level: number;
-    STR: number;
-    DEX: number;
-    INT: number;
-    VIT: number;
-    AGI: number;
-    CRT: number;
-    MTL: number;
-    TEC: number;
-    LUK: number;
-    mainWeaponType: MainWeaponType;
-    mainWeaponATK: number;
-    mainWeaponRefinement: number;
-    subWeaponType: AvailableSubWeaponType<Sub, S["mainWeaponType"]>;
+export type Effect<S> = {
+  predicate: (status: S) => boolean;
+  stats: StatMap;
+};
 
-    subWeaponATK: S["subWeaponType"] extends SubWeaponTypeWithATK
-      ? number
-      : 0;
-    subWeaponRefinement: S["subWeaponType"] extends SubWeaponTypeWithRefinement
-      ? number
-      : 0;
+export type Status = {
+  level: number;
+  STR: number;
+  DEX: number;
+  INT: number;
+  VIT: number;
+  AGI: number;
+  CRT: number;
+  MTL: number;
+  TEC: number;
+  LUK: number;
 
-    subWeaponStability: S["subWeaponType"] extends SubWeaponTypeWithStability
-      ? number
-      : 0;
-    armorType: ArmorType;
-    mainWeaponStats: StatGroupWithPredicate<S>[];
-    subWeaponStats: StatGroupWithPredicate<S>[];
-    additionalGearStats: StatGroupWithPredicate<S>[];
-    armorStats: StatGroupWithPredicate<S>[];
-    specialGearStats: StatGroupWithPredicate<S>[];
-  }
->(
-  status: S
-) => {
+  mainWeaponType: MainWeaponType;
+  mainWeaponATK: number;
+  mainWeaponRefinement: number;
+  mainWeaponStability: number;
+
+  subWeaponType: SubWeaponType;
+  subWeaponATK: Status["subWeaponType"] extends SubWeaponTypeWithATK
+    ? number
+    : 0;
+  subWeaponRefinement: Status["subWeaponType"] extends SubWeaponTypeWithRefinement
+    ? number
+    : 0;
+
+  subWeaponStability: Status["subWeaponType"] extends SubWeaponTypeWithStability
+    ? number
+    : 0;
+
+  subWeaponDEF: Status["subWeaponType"] extends Shield ? number : 0;
+
+  scrollCastTimeReduction: Status["subWeaponType"] extends NinjutsuScroll
+    ? number
+    : 0;
+
+  scrollMPReduction: Status["subWeaponType"] extends NinjutsuScroll
+    ? number
+    : 0;
+
+  armorDEF: number;
+  armorType: ArmorType;
+
+  additionalGearDEF: number;
+  specialGearDEF: number;
+
+  mainWeaponStats: Effect<Status>[];
+  subWeaponStats: Effect<Status>[];
+  additionalGearStats: Effect<Status>[];
+  armorStats: Effect<Status>[];
+  specialGearStats: Effect<Status>[];
+};
+
+export const calculate = (status: Status) => {
   const allDefaultCalculations = pipe(status)
     // AGI
     ._(d.totalBaseAGI)
@@ -115,9 +138,15 @@ export const calculate = <
 
     // crit rate
     ._(d.totalBaseCriticalRate)
+    ._(d.totalPercentCriticalRate)
+    ._(d.totalFlatCriticalRate)
+    ._(d.totalCriticalRate)
 
     // crit damage
     ._(d.totalBaseCriticalDamage)
+    ._(d.totalPercentCriticalDamage)
+    ._(d.totalFlatCriticalDamage)
+    ._(d.totalCriticalDamage)
 
     // main weapon attack
     ._(d.totalBaseMainWeaponATK)
@@ -138,33 +167,81 @@ export const calculate = <
     ._(d.totalPercentATK)
     ._(d.subWeaponMagicDeviceATKModifier)
     ._(d.totalFlatATK)
-    ._(d.totalATK);
+    ._(d.totalATK)
+
+    // MATK
+    ._(d.totalBaseMATK)
+    ._(d.totalPercentMATK)
+    ._(d.subWeaponKnuckleMATKModifier)
+    ._(d.totalFlatMATK)
+    ._(d.totalMATK);
 
   return allDefaultCalculations.value;
 };
 
-export const WickedDragonFazzino = [
-  stats(DEFAULT, { percentDEX: 7, percentMATK: 9, percentCSPD: 5 }),
-];
+export const defaultDeclarations: Status = {
+  level: 1,
+  STR: 1,
+  DEX: 1,
+  INT: 1,
+  VIT: 1,
+  AGI: 1,
+  TEC: 0,
+  MTL: 0,
+  CRT: 0,
+  LUK: 0,
 
-const magicDeviceSupport2 = pipe({})
-  ._(d.level(275))
-  ._(d.STR(1))
-  ._(d.DEX(315))
-  ._(d.INT(1))
-  ._(d.VIT(178))
-  ._(d.AGI(220))
-  ._(d.TEC(0))
-  ._(d.MTL(0))
-  ._(d.LUK(0))
-  ._(d.CRT(0))
-  ._(d.mainWeaponType("magic-device"))
-  ._(d.mainWeaponATK(99))
-  ._(d.mainWeaponRefinement(0))
-  ._(d.mainWeaponStability(70))
-  ._(
-    d.mainWeaponStats([
-      stats(DEFAULT, {
+  mainWeaponType: "bare-hand",
+  mainWeaponATK: 0,
+  mainWeaponStability: 0,
+  mainWeaponRefinement: 0,
+  mainWeaponStats: [],
+
+  subWeaponType: "none",
+  subWeaponATK: 0,
+  subWeaponDEF: 0,
+  subWeaponRefinement: 0,
+  subWeaponStability: 0,
+  scrollCastTimeReduction: 0,
+  scrollMPReduction: 0,
+  subWeaponStats: [],
+
+  additionalGearDEF: 0,
+  additionalGearStats: [],
+
+  armorDEF: 0,
+  armorType: "none",
+  armorStats: [],
+
+  specialGearDEF: 0,
+  specialGearStats: [],
+};
+
+export const status = (declarations: Partial<Status>): Status => ({
+  ...defaultDeclarations,
+  ...declarations,
+});
+
+export const flatCritRate = (value: number) => ({
+  predicate: (status: Status) => status.armorType === "heavy",
+  stats: stats({ flatCriticalRate: value }),
+});
+
+const magicDeviceSupport = status({
+  level: 275,
+
+  DEX: 315,
+  VIT: 178,
+  AGI: 220,
+
+  mainWeaponType: "magic-device",
+  mainWeaponATK: 99,
+  mainWeaponRefinement: 0,
+  mainWeaponStability: 70,
+  mainWeaponStats: [
+    {
+      predicate: DEFAULT,
+      stats: stats({
         // with crystals btw
         percentDEF: 15,
         percentMDEF: 15,
@@ -176,35 +253,24 @@ const magicDeviceSupport2 = pipe({})
         percentMATK: 9,
         percentDEX: 7,
       }),
-    ])
-  )
-  ._(
-    d.mainWeaponCrystals([
-      [stats(DEFAULT, { percentDEX: 7, percentMATK: 9, percentCSPD: 5 })],
-    ])
-  )
-  ._(d.subWeaponType("ninjutsu-scroll"))
-  // ._(d.subWeaponATK(200))
-  // ._(d.subWeaponRefinement(15))
-  ._(d.subWeaponATK(0))
-  ._(d.subWeaponRefinement(0))
-  ._(d.subWeaponStability(0))
-  ._(
-    d.subWeaponStats([
-      stats(DEFAULT, {
-        flatASPD: 250,
-      }),
-      stats((status) => (status.mainWeaponType as unknown) === "katana", {
-        flatCriticalRate: 5,
-      }),
-    ])
-  )
-  ._(d.scrollCastTimeReduction(3))
-  ._(d.scrollMPReduction(2))
-  ._(d.additionalGearDEF(140))
-  ._(
-    d.additionalGearStats([
-      stats(DEFAULT, {
+    },
+  ],
+
+  subWeaponType: "ninjutsu-scroll",
+
+  subWeaponStats: [
+    { predicate: DEFAULT, stats: stats({ flatASPD: 250 }) },
+    {
+      predicate: (status) => status.mainWeaponType === "katana",
+      stats: stats({ flatCriticalRate: 5 }),
+    },
+  ],
+
+  additionalGearDEF: 0,
+  additionalGearStats: [
+    {
+      predicate: DEFAULT,
+      stats: stats({
         // with crystals btw
         percentINT: 8,
         flatMaxMP: 400 - 300,
@@ -216,15 +282,13 @@ const magicDeviceSupport2 = pipe({})
         percentMATK: 5,
         percentCSPD: 75,
       }),
-    ])
-  )
+    },
+  ],
 
-  ._(d.armorType("light"))
-  ._(d.armorDEF(200))
-  ._(d.armorRefinement(15))
-  ._(
-    d.armorStats([
-      stats(DEFAULT, {
+  armorStats: [
+    {
+      predicate: DEFAULT,
+      stats: stats({
         // with crystals btw
 
         percentAGI: 10,
@@ -240,11 +304,12 @@ const magicDeviceSupport2 = pipe({})
 
         // percentAttackMPRecovery: 10
       }),
-    ])
-  )
-  ._(
-    d.specialGearStats([
-      stats(DEFAULT, {
+    },
+  ],
+  specialGearStats: [
+    {
+      predicate: DEFAULT,
+      stats: stats({
         // with crystals btw
         percentMaxHP: 25,
         flatCriticalRate: 25,
@@ -256,9 +321,15 @@ const magicDeviceSupport2 = pipe({})
         flatCSPD: 1000,
         flatMaxMP: 300,
       }),
-    ])
-  )
+    },
 
-  ._(calculate);
+    flatCritRate(27),
+  ],
 
-console.log(magicDeviceSupport2.value);
+  armorType: "none",
+});
+
+console.log(calculate(magicDeviceSupport));
+
+// - Resort to object based declaration and complete
+// - remove unecessary functions
