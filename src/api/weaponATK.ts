@@ -4,11 +4,7 @@ import {
 } from "@jmmaa/pino";
 import { total, accumulate } from "./helper";
 
-import {
-  StatGroupWithPredicate,
-  StatSource,
-  SubWeaponType,
-} from "../types";
+import { DeclaredStatus, SubWeaponType } from "../types";
 
 // ATK
 
@@ -43,7 +39,7 @@ export const totalMainWeaponATK = <
   };
 };
 
-export const totalFlatMainWeaponATK = <S extends StatSource<S>>(
+export const totalFlatMainWeaponATK = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFlatMainWeaponATK: number } => {
   return {
@@ -52,7 +48,7 @@ export const totalFlatMainWeaponATK = <S extends StatSource<S>>(
   };
 };
 
-export const totalPercentMainWeaponATK = <S extends StatSource<S>>(
+export const totalPercentMainWeaponATK = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPercentMainWeaponATK: number } => {
   return {
@@ -124,7 +120,7 @@ export const totalSubWeaponATK = <
 
 /// CONTINUE HERE FINISH THE SUBWEAPON (make it work only with dualswords)
 
-export const totalFlatSubWeaponATK = <S extends StatSource<S>>(
+export const totalFlatSubWeaponATK = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFlatSubWeaponATK: number } => {
   return {
@@ -133,7 +129,7 @@ export const totalFlatSubWeaponATK = <S extends StatSource<S>>(
   };
 };
 
-export const totalPercentSubWeaponATK = <S extends StatSource<S>>(
+export const totalPercentSubWeaponATK = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPercentSubWeaponATK: number } => {
   return {

@@ -2,11 +2,7 @@ import * as pino from "@jmmaa/pino";
 
 import { total, accumulate } from "./helper";
 
-import {
-  MainWeaponType,
-  StatGroupWithPredicate,
-  SubWeaponType,
-} from "../types";
+import { DeclaredStatus, MainWeaponType, SubWeaponType } from "../types";
 
 export const totalBaseATK = <
   S extends {
@@ -159,31 +155,13 @@ export const totalATK = <
   };
 };
 
-export const totalPercentATK = <
-  S extends {
-    subWeaponType: SubWeaponType;
-    mainWeaponStats: StatGroupWithPredicate<S>[];
-    subWeaponStats: StatGroupWithPredicate<S>[];
-    additionalGearStats: StatGroupWithPredicate<S>[];
-    armorStats: StatGroupWithPredicate<S>[];
-    specialGearStats: StatGroupWithPredicate<S>[];
-  }
->(
+export const totalPercentATK = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPercentATK: number } => {
   return { ...status, totalPercentATK: accumulate(status, "percentATK") };
 };
 
-export const totalFlatATK = <
-  S extends {
-    subWeaponType: SubWeaponType;
-    mainWeaponStats: StatGroupWithPredicate<S>[];
-    subWeaponStats: StatGroupWithPredicate<S>[];
-    additionalGearStats: StatGroupWithPredicate<S>[];
-    armorStats: StatGroupWithPredicate<S>[];
-    specialGearStats: StatGroupWithPredicate<S>[];
-  }
->(
+export const totalFlatATK = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFlatATK: number } => {
   return { ...status, totalFlatATK: accumulate(status, "flatATK") };

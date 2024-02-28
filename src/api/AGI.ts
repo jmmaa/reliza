@@ -1,21 +1,13 @@
-import { SubWeaponType, StatGroupWithPredicate } from "../types";
+import { DeclaredStatus } from "../types";
+import { total, accumulate } from "./helper";
 
-import {
-  total,
-  accumulateFromMainWeaponStats,
-  accumulateFromSubWeaponStats,
-  accumulateFromAdditionalGearStats,
-  accumulateFromArmorStats,
-  accumulateFromSpecialGearStats,
-} from "./helper";
-
-// declare
-export const AGI =
-  (value: number) =>
-  <S>(status: S): S & { AGI: number } => ({
-    ...status,
-    AGI: value,
-  });
+// // declare
+// export const AGI =
+//   (value: number) =>
+//   <S>(status: S): S & { AGI: number } => ({
+//     ...status,
+//     AGI: value,
+//   });
 
 // calc
 // this calc is just for consistency, but it is redundant
@@ -47,48 +39,14 @@ export const totalAGI = <
 
 // calc
 
-export const totalPercentAGI = <
-  S extends {
-    subWeaponType: SubWeaponType;
-    mainWeaponStats: StatGroupWithPredicate<S>[];
-    subWeaponStats: StatGroupWithPredicate<S>[];
-    additionalGearStats: StatGroupWithPredicate<S>[];
-    armorStats: StatGroupWithPredicate<S>[];
-    specialGearStats: StatGroupWithPredicate<S>[];
-  }
->(
+export const totalPercentAGI = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPercentAGI: number } => {
-  const sum = [
-    accumulateFromMainWeaponStats("percentAGI", status),
-    accumulateFromSubWeaponStats("percentAGI", status),
-    accumulateFromAdditionalGearStats("percentAGI", status),
-    accumulateFromArmorStats("percentAGI", status),
-    accumulateFromSpecialGearStats("percentAGI", status),
-  ].reduce((t, c) => t + c, 0);
-
-  return { ...status, totalPercentAGI: sum };
+  return { ...status, totalPercentAGI: accumulate(status, "percentAGI") };
 };
 
-export const totalFlatAGI = <
-  S extends {
-    subWeaponType: SubWeaponType;
-    mainWeaponStats: StatGroupWithPredicate<S>[];
-    subWeaponStats: StatGroupWithPredicate<S>[];
-    additionalGearStats: StatGroupWithPredicate<S>[];
-    armorStats: StatGroupWithPredicate<S>[];
-    specialGearStats: StatGroupWithPredicate<S>[];
-  } // for some reason its necessary to keep this boilerplate cuz ts typesystem is fragile as fuck
->(
+export const totalFlatAGI = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFlatAGI: number } => {
-  const sum = [
-    accumulateFromMainWeaponStats("flatAGI", status),
-    accumulateFromSubWeaponStats("flatAGI", status),
-    accumulateFromAdditionalGearStats("flatAGI", status),
-    accumulateFromArmorStats("flatAGI", status),
-    accumulateFromSpecialGearStats("flatAGI", status),
-  ].reduce((t, c) => t + c, 0);
-
-  return { ...status, totalFlatAGI: sum };
+  return { ...status, totalFlatAGI: accumulate(status, "flatAGI") };
 };

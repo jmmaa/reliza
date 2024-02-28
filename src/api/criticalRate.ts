@@ -1,6 +1,6 @@
 import { baseCriticalRate } from "@jmmaa/pino";
-import * as h from "./helper";
-import { StatGroupWithPredicate, SubWeaponType } from "../types";
+import { accumulate, total } from "./helper";
+import { DeclaredStatus } from "../types";
 
 export const totalBaseCriticalRate = <S extends { totalBaseCRT: number }>(
   status: S
@@ -20,7 +20,7 @@ export const totalCriticalRate = <
 ): S & { totalCriticalRate: number } => {
   return {
     ...status,
-    totalCriticalRate: h.total(
+    totalCriticalRate: total(
       status.totalBaseCriticalRate,
       status.totalPercentCriticalRate,
       status.totalFlatCriticalRate
@@ -28,48 +28,20 @@ export const totalCriticalRate = <
   };
 };
 
-export const totalPercentCriticalRate = <
-  S extends {
-    subWeaponType: SubWeaponType;
-    mainWeaponStats: StatGroupWithPredicate<S>[];
-    subWeaponStats: StatGroupWithPredicate<S>[];
-    additionalGearStats: StatGroupWithPredicate<S>[];
-    armorStats: StatGroupWithPredicate<S>[];
-    specialGearStats: StatGroupWithPredicate<S>[];
-  }
->(
+export const totalPercentCriticalRate = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPercentCriticalRate: number } => {
-  const sum = [
-    h.accumulateFromMainWeaponStats("percentCriticalRate", status),
-    h.accumulateFromSubWeaponStats("percentCriticalRate", status),
-    h.accumulateFromAdditionalGearStats("percentCriticalRate", status),
-    h.accumulateFromArmorStats("percentCriticalRate", status),
-    h.accumulateFromSpecialGearStats("percentCriticalRate", status),
-  ].reduce((t, c) => t + c, 0);
-
-  return { ...status, totalPercentCriticalRate: sum };
+  return {
+    ...status,
+    totalPercentCriticalRate: accumulate(status, "percentCriticalRate"),
+  };
 };
 
-export const totalFlatCriticalRate = <
-  S extends {
-    subWeaponType: SubWeaponType;
-    mainWeaponStats: StatGroupWithPredicate<S>[];
-    subWeaponStats: StatGroupWithPredicate<S>[];
-    additionalGearStats: StatGroupWithPredicate<S>[];
-    armorStats: StatGroupWithPredicate<S>[];
-    specialGearStats: StatGroupWithPredicate<S>[];
-  }
->(
+export const totalFlatCriticalRate = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFlatCriticalRate: number } => {
-  const sum = [
-    h.accumulateFromMainWeaponStats("flatCriticalRate", status),
-    h.accumulateFromSubWeaponStats("flatCriticalRate", status),
-    h.accumulateFromAdditionalGearStats("flatCriticalRate", status),
-    h.accumulateFromArmorStats("flatCriticalRate", status),
-    h.accumulateFromSpecialGearStats("flatCriticalRate", status),
-  ].reduce((t, c) => t + c, 0);
-
-  return { ...status, totalFlatCriticalRate: sum };
+  return {
+    ...status,
+    totalFlatCriticalRate: accumulate(status, "flatCriticalRate"),
+  };
 };

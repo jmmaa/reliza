@@ -1,27 +1,14 @@
-import {
-  SubWeaponType,
-  StatGroupWithPredicate,
-  StatSource,
-} from "../types";
+import { DeclaredStatus, SubWeaponType } from "../types";
 
-import {
-  total,
-  accumulateFromMainWeaponStats,
-  accumulateFromSubWeaponStats,
-  accumulateFromAdditionalGearStats,
-  accumulateFromArmorStats,
-  accumulateFromSpecialGearStats,
-  pipe,
-  accumulate,
-} from "./helper";
+import { total, accumulate } from "./helper";
 
-// declare
-export const DEX =
-  (value: number) =>
-  <S>(status: S): S & { DEX: number } => ({
-    ...status,
-    DEX: value,
-  });
+// // declare
+// export const DEX =
+//   (value: number) =>
+//   <S>(status: S): S & { DEX: number } => ({
+//     ...status,
+//     DEX: value,
+//   });
 
 // calc
 // this calc is just for consistency, but it is redundant
@@ -51,13 +38,13 @@ export const totalDEX = <
   };
 };
 
-export const totalPercentDEX = <S extends StatSource<S>>(
+export const totalPercentDEX = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPercentDEX: number } => {
   return { ...status, totalPercentDEX: accumulate(status, "percentDEX") };
 };
 
-export const totalFlatDEX = <S extends StatSource<S>>(
+export const totalFlatDEX = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFlatDEX: number } => {
   return { ...status, totalFlatDEX: accumulate(status, "flatDEX") };

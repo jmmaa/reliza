@@ -1,21 +1,21 @@
 import { baseMaxMP } from "@jmmaa/pino";
 import { accumulate, total } from "./helper";
-import { StatSource } from "../types";
+import { DeclaredStatus } from "../types";
 
-// stat
-export const flatMaxMP = (
-  value: number
-): { name: "flatMaxMP"; value: number } => ({
-  name: "flatMaxMP",
-  value,
-});
+// // stat
+// export const flatMaxMP = (
+//   value: number
+// ): { name: "flatMaxMP"; value: number } => ({
+//   name: "flatMaxMP",
+//   value,
+// });
 
-export const percentMaxMP = (
-  value: number
-): { name: "percentMaxMP"; value: number } => ({
-  name: "percentMaxMP",
-  value,
-});
+// export const percentMaxMP = (
+//   value: number
+// ): { name: "percentMaxMP"; value: number } => ({
+//   name: "percentMaxMP",
+//   value,
+// });
 
 // calc
 
@@ -52,7 +52,7 @@ export const totalMaxMP = <
   };
 };
 
-export const totalFlatMaxMP = <S extends StatSource<S>>(
+export const totalFlatMaxMP = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFlatMaxMP: number } => {
   return {
@@ -61,7 +61,7 @@ export const totalFlatMaxMP = <S extends StatSource<S>>(
   };
 };
 
-export const totalPercentMaxMP = <S extends StatSource<S>>(
+export const totalPercentMaxMP = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPercentMaxMP: number } => {
   return {

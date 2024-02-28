@@ -1,6 +1,6 @@
 import { baseMaxHP } from "@jmmaa/pino";
 import { accumulate, total } from "./helper";
-import { StatSource } from "../types";
+import { DeclaredStatus } from "../types";
 
 export const totalBaseMaxHP = <
   S extends { level: number; totalVIT: number }
@@ -30,7 +30,7 @@ export const totalMaxHP = <
   };
 };
 
-export const totalFlatMaxHP = <S extends StatSource<S>>(
+export const totalFlatMaxHP = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFlatMaxHP: number } => {
   return {
@@ -39,7 +39,7 @@ export const totalFlatMaxHP = <S extends StatSource<S>>(
   };
 };
 
-export const totalPercentMaxHP = <S extends StatSource<S>>(
+export const totalPercentMaxHP = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPercentMaxHP: number } => {
   return {

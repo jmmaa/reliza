@@ -1,6 +1,6 @@
 import { baseCastSpeed, castTimeReduction } from "@jmmaa/pino";
 import { accumulate, total } from "./helper";
-import { StatSource } from "../types";
+import { DeclaredStatus } from "../types";
 
 export const totalBaseCSPD = <
   S extends { level: number; totalAGI: number; totalDEX: number }
@@ -34,7 +34,7 @@ export const totalCSPD = <
   };
 };
 
-export const totalFlatCSPD = <S extends StatSource<S>>(
+export const totalFlatCSPD = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFlatCSPD: number } => {
   return {
@@ -43,7 +43,7 @@ export const totalFlatCSPD = <S extends StatSource<S>>(
   };
 };
 
-export const totalPercentCSPD = <S extends StatSource<S>>(
+export const totalPercentCSPD = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPercentCSPD: number } => {
   return {

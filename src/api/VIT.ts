@@ -1,13 +1,13 @@
-import { StatSource } from "../types";
+import { DeclaredStatus } from "../types";
 import { total, accumulate } from "./helper";
 
-// declare
-export const VIT =
-  (value: number) =>
-  <S>(status: S): S & { VIT: number } => ({
-    ...status,
-    VIT: value,
-  });
+// // declare
+// export const VIT =
+//   (value: number) =>
+//   (status: S): S & { VIT: number } => ({
+//     ...status,
+//     VIT: value,
+//   });
 
 // calc
 // this calc is just for consistency, but it is redundant
@@ -37,7 +37,7 @@ export const totalVIT = <
   };
 };
 
-export const totalFlatVIT = <S extends StatSource<S>>(
+export const totalFlatVIT = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFlatVIT: number } => {
   return {
@@ -46,7 +46,7 @@ export const totalFlatVIT = <S extends StatSource<S>>(
   };
 };
 
-export const totalPercentVIT = <S extends StatSource<S>>(
+export const totalPercentVIT = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPercentVIT: number } => {
   return {

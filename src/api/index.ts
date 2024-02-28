@@ -13,8 +13,10 @@ export * from "./CSPD";
 export * from "./maxHP";
 export * from "./maxMP";
 
-export * from "./weapon";
-export * from "./armor";
+// export * from "./weapon";
+// export * from "./armor";
 
 export * from "./ATK";
 export * from "./MATK";
+
+export * from "./element";

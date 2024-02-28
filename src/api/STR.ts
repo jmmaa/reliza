@@ -1,13 +1,13 @@
-import { StatSource } from "../types";
+import { DeclaredStatus } from "../types";
 import { total, accumulate } from "./helper";
 
-// declare
-export const STR =
-  (value: number) =>
-  <S>(status: S): S & { STR: number } => ({
-    ...status,
-    STR: value,
-  });
+// // declare
+// export const STR =
+//   (value: number) =>
+//   <S>(status: S): S & { STR: number } => ({
+//     ...status,
+//     STR: value,
+//   });
 
 // calc
 // this calc is just for consistency, but it is redundant
@@ -37,7 +37,7 @@ export const totalSTR = <
   };
 };
 
-export const totalFlatSTR = <S extends StatSource<S>>(
+export const totalFlatSTR = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFlatSTR: number } => {
   return {
@@ -46,7 +46,7 @@ export const totalFlatSTR = <S extends StatSource<S>>(
   };
 };
 
-export const totalPercentSTR = <S extends StatSource<S>>(
+export const totalPercentSTR = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPercentSTR: number } => {
   return {

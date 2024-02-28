@@ -1,85 +1,11 @@
-import * as pino from "@jmmaa/pino";
 import * as d from "./api";
-
-import {
-  MainWeaponType,
-  SubWeaponType,
-  StatSource,
-  NinjutsuScroll,
-  BareHand,
-  ArmorType,
-  AvailableSubWeaponType,
-  StatGroupWithPredicate,
-  SubWeaponTypeWithATK,
-  SubWeaponTypeWithRefinement,
-  SubWeaponTypeWithStability,
-  Shield,
-  StatMap,
-  None,
-} from "./types";
-import { DEFAULT, stats } from "./api/helper";
+import { DeclaredStatus, Effect, StatMap } from "./types";
+import { DEFAULT, defaultStatMap, stats } from "./api/helper";
 
 import { pipe } from "./api/helper";
 
-export type Effect<S> = {
-  predicate: (status: S) => boolean;
-  stats: StatMap;
-};
-
-export type Status = {
-  level: number;
-  STR: number;
-  DEX: number;
-  INT: number;
-  VIT: number;
-  AGI: number;
-  CRT: number;
-  MTL: number;
-  TEC: number;
-  LUK: number;
-
-  mainWeaponType: MainWeaponType;
-  mainWeaponATK: number;
-  mainWeaponRefinement: number;
-  mainWeaponStability: number;
-
-  subWeaponType: SubWeaponType;
-  subWeaponATK: Status["subWeaponType"] extends SubWeaponTypeWithATK
-    ? number
-    : 0;
-  subWeaponRefinement: Status["subWeaponType"] extends SubWeaponTypeWithRefinement
-    ? number
-    : 0;
-
-  subWeaponStability: Status["subWeaponType"] extends SubWeaponTypeWithStability
-    ? number
-    : 0;
-
-  subWeaponDEF: Status["subWeaponType"] extends Shield ? number : 0;
-
-  scrollCastTimeReduction: Status["subWeaponType"] extends NinjutsuScroll
-    ? number
-    : 0;
-
-  scrollMPReduction: Status["subWeaponType"] extends NinjutsuScroll
-    ? number
-    : 0;
-
-  armorDEF: number;
-  armorType: ArmorType;
-
-  additionalGearDEF: number;
-  specialGearDEF: number;
-
-  mainWeaponStats: Effect<Status>[];
-  subWeaponStats: Effect<Status>[];
-  additionalGearStats: Effect<Status>[];
-  armorStats: Effect<Status>[];
-  specialGearStats: Effect<Status>[];
-};
-
-export const calculate = (status: Status) => {
-  const allDefaultCalculations = pipe(status)
+export const calculate = (status: DeclaredStatus) => {
+  const allCalculations = pipe(status)
     // AGI
     ._(d.totalBaseAGI)
     ._(d.totalPercentAGI)
@@ -92,20 +18,22 @@ export const calculate = (status: Status) => {
     ._(d.totalFlatDEX)
     ._(d.totalDEX)
 
-    // REFACTOR ALL OF THESE BELOW
+    // STR
     ._(d.totalBaseSTR)
-    ._(d.totalBaseINT)
-    ._(d.totalBaseVIT)
     ._(d.totalPercentSTR)
-    ._(d.totalPercentINT)
-    ._(d.totalPercentVIT)
     ._(d.totalFlatSTR)
-    ._(d.totalFlatINT)
-    ._(d.totalFlatVIT)
-
-    //
     ._(d.totalSTR)
+
+    // INT
+    ._(d.totalBaseINT)
+    ._(d.totalPercentINT)
+    ._(d.totalFlatINT)
     ._(d.totalINT)
+
+    // VIT
+    ._(d.totalBaseVIT)
+    ._(d.totalPercentVIT)
+    ._(d.totalFlatVIT)
     ._(d.totalVIT)
 
     // personal
@@ -116,7 +44,15 @@ export const calculate = (status: Status) => {
 
     // hp
     ._(d.totalBaseMaxHP)
+    ._(d.totalPercentMaxHP)
+    ._(d.totalFlatMaxHP)
+    ._(d.totalMaxHP)
+
+    // mp
     ._(d.totalBaseMaxMP)
+    ._(d.totalPercentMaxMP)
+    ._(d.totalFlatMaxMP)
+    ._(d.totalMaxMP)
 
     // cast speed
     ._(d.totalBaseCSPD)
@@ -174,12 +110,15 @@ export const calculate = (status: Status) => {
     ._(d.totalPercentMATK)
     ._(d.subWeaponKnuckleMATKModifier)
     ._(d.totalFlatMATK)
-    ._(d.totalMATK);
+    ._(d.totalMATK)
 
-  return allDefaultCalculations.value;
+    // element
+    ._(d.calculateDamageToElement);
+
+  return allCalculations.value;
 };
 
-export const defaultDeclarations: Status = {
+export const defaultDeclarations: DeclaredStatus = {
   level: 1,
   STR: 1,
   DEX: 1,
@@ -196,6 +135,7 @@ export const defaultDeclarations: Status = {
   mainWeaponStability: 0,
   mainWeaponRefinement: 0,
   mainWeaponStats: [],
+  mainWeaponCrystals: [],
 
   subWeaponType: "none",
   subWeaponATK: 0,
@@ -205,27 +145,58 @@ export const defaultDeclarations: Status = {
   scrollCastTimeReduction: 0,
   scrollMPReduction: 0,
   subWeaponStats: [],
+  subWeaponCrystals: [],
 
   additionalGearDEF: 0,
   additionalGearStats: [],
+  additionalGearCrystals: [],
 
   armorDEF: 0,
   armorType: "none",
   armorStats: [],
+  armorCrystals: [],
 
   specialGearDEF: 0,
   specialGearStats: [],
+  specialGearCrystals: [],
+
+  consumables: [],
+  foodBuffs: [],
 };
 
-export const status = (declarations: Partial<Status>): Status => ({
+export const status = (
+  declarations: Partial<DeclaredStatus>
+): DeclaredStatus => ({
   ...defaultDeclarations,
   ...declarations,
 });
 
 export const flatCritRate = (value: number) => ({
-  predicate: (status: Status) => status.armorType === "heavy",
+  predicate: (status: DeclaredStatus) => status.armorType === "heavy",
   stats: stats({ flatCriticalRate: value }),
 });
+
+export const withMagicToolsOnly = (
+  statMap: Partial<StatMap>
+): Effect<DeclaredStatus> => {
+  return {
+    predicate: (status) =>
+      status.mainWeaponType === "staff" ||
+      status.mainWeaponType === "magic-device",
+    stats: stats(statMap),
+  };
+};
+
+export const WickedDragonFazzino = [
+  {
+    predicate: DEFAULT,
+    stats: stats({
+      percentCSPD: 5,
+      percentMATK: 9,
+      percentDEX: 7,
+    }),
+  },
+];
 
 const magicDeviceSupport = status({
   level: 275,
@@ -243,18 +214,18 @@ const magicDeviceSupport = status({
       predicate: DEFAULT,
       stats: stats({
         // with crystals btw
+        element: "light",
         percentDEF: 15,
         percentMDEF: 15,
         physicalResistance: 30,
         magicResistance: 30,
         flatCriticalRate: 30,
-        percentCSPD: 100 + 5,
-
-        percentMATK: 9,
-        percentDEX: 7,
+        percentCSPD: 100,
       }),
     },
   ],
+
+  mainWeaponCrystals: [WickedDragonFazzino],
 
   subWeaponType: "ninjutsu-scroll",
 
@@ -322,14 +293,17 @@ const magicDeviceSupport = status({
         flatMaxMP: 300,
       }),
     },
-
-    flatCritRate(27),
   ],
 
   armorType: "none",
 });
 
+const start = performance.now();
 console.log(calculate(magicDeviceSupport));
 
+const end = performance.now();
+
+const result = end - start;
+
+console.log(result);
 // - Resort to object based declaration and complete
-// - remove unecessary functions

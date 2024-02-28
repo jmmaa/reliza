@@ -1,8 +1,9 @@
 import {
-  StatSource,
+  DeclaredStatus,
+  NonNumericalStats,
+  NumericalStats,
   StatMap,
   SubWeaponType,
-  StatGroupWithPredicate,
 } from "../types";
 
 export const total = (base: number, percent: number, flat: number) =>
@@ -76,17 +77,17 @@ export const defaultStatMap: StatMap = {
 
   motionSpeed: 0,
 
-  "ATKUP(STR)": 0,
-  "ATKUP(INT)": 0,
-  "ATKUP(DEX)": 0,
-  "ATKUP(VIT)": 0,
-  "ATKUP(AGI)": 0,
+  ATKUPSTR: 0,
+  ATKUPINT: 0,
+  ATKUPDEX: 0,
+  ATKUPVIT: 0,
+  ATKUPAGI: 0,
 
-  "MATKUP(STR)": 0,
-  "MATKUP(INT)": 0,
-  "MATKUP(DEX)": 0,
-  "MATKUP(VIT)": 0,
-  "MATKUP(AGI)": 0,
+  MATKUPSTR: 0,
+  MATKUPINT: 0,
+  MATKUPDEX: 0,
+  MATKUPVIT: 0,
+  MATKUPAGI: 0,
 
   magicResistance: 0,
   physicalResistance: 0,
@@ -100,15 +101,20 @@ export const defaultStatMap: StatMap = {
   windResistance: 0,
 
   neutralResistance: 0,
-};
 
-// export const stats = <S>(
-//   predicate: (status: S) => boolean,
-//   statMap: Partial<StatMap>
-// ) => ({
-//   predicate,
-//   stats: { ...defaultStatMap, ...statMap },
-// });
+  damageToDark: 0,
+  damageToLight: 0,
+  damageToEarth: 0,
+  damageToWater: 0,
+  damageToFire: 0,
+  damageToWind: 0,
+
+  tumbleUnavailable: false,
+  flinchUnavailable: false,
+  stunUnavailable: false,
+
+  element: "neutral",
+};
 
 export const stats = (statMap: Partial<StatMap>) => ({
   ...defaultStatMap,
@@ -117,10 +123,8 @@ export const stats = (statMap: Partial<StatMap>) => ({
 
 export const DEFAULT = <S>(_: S) => true;
 
-export const accumulateFromMainWeaponStats = <
-  S extends { mainWeaponStats: StatGroupWithPredicate<S>[] }
->(
-  stat: keyof StatMap,
+export const accumulateFromMainWeaponStats = <S extends DeclaredStatus>(
+  stat: keyof NumericalStats,
   status: S
 ) => {
   const total = status.mainWeaponStats.reduce((total, statGroup) => {
@@ -132,13 +136,25 @@ export const accumulateFromMainWeaponStats = <
   return total;
 };
 
-export const accumulateFromSubWeaponStats = <
-  S extends {
-    subWeaponType: SubWeaponType;
-    subWeaponStats: StatGroupWithPredicate<S>[];
-  }
->(
-  stat: keyof StatMap,
+export const accumulateFromMainWeaponCrystals = <S extends DeclaredStatus>(
+  stat: keyof NumericalStats,
+  status: S
+) => {
+  const total = status.mainWeaponCrystals.reduce((total, statGroups) => {
+    return (
+      statGroups.reduce((total, statGroup) => {
+        return statGroup.predicate(status)
+          ? statGroup.stats[stat] + total
+          : total;
+      }, 0) + total
+    );
+  }, 0);
+
+  return total;
+};
+
+export const accumulateFromSubWeaponStats = <S extends DeclaredStatus>(
+  stat: keyof NumericalStats,
   status: S
 ) => {
   if (
@@ -160,9 +176,9 @@ export const accumulateFromSubWeaponStats = <
 };
 
 export const accumulateFromAdditionalGearStats = <
-  S extends { additionalGearStats: StatGroupWithPredicate<S>[] }
+  S extends DeclaredStatus
 >(
-  stat: keyof StatMap,
+  stat: keyof NumericalStats,
   status: S
 ) => {
   const total = status.additionalGearStats.reduce((total, statGroup) => {
@@ -174,10 +190,8 @@ export const accumulateFromAdditionalGearStats = <
   return total;
 };
 
-export const accumulateFromArmorStats = <
-  S extends { armorStats: StatGroupWithPredicate<S>[] }
->(
-  stat: keyof StatMap,
+export const accumulateFromArmorStats = <S extends DeclaredStatus>(
+  stat: keyof NumericalStats,
   status: S
 ) => {
   const total = status.armorStats.reduce((total, statGroup) => {
@@ -189,10 +203,8 @@ export const accumulateFromArmorStats = <
   return total;
 };
 
-export const accumulateFromSpecialGearStats = <
-  S extends { specialGearStats: StatGroupWithPredicate<S>[] }
->(
-  stat: keyof StatMap,
+export const accumulateFromSpecialGearStats = <S extends DeclaredStatus>(
+  stat: keyof NumericalStats,
   status: S
 ) => {
   const total = status.specialGearStats.reduce((total, statGroup) => {
@@ -204,12 +216,14 @@ export const accumulateFromSpecialGearStats = <
   return total;
 };
 
-export const accumulate = <S extends StatSource<S>>(
+export const accumulate = <S extends DeclaredStatus>(
   status: S,
-  stat: keyof StatMap
+  stat: keyof NumericalStats
 ) => {
   const sum = [
     accumulateFromMainWeaponStats(stat, status),
+    accumulateFromMainWeaponCrystals(stat, status),
+
     accumulateFromSubWeaponStats(stat, status),
     accumulateFromAdditionalGearStats(stat, status),
     accumulateFromArmorStats(stat, status),

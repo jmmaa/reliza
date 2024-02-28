@@ -2,7 +2,7 @@ import * as pino from "@jmmaa/pino";
 
 import { total, accumulate } from "./helper";
 
-import { MainWeaponType, StatSource, SubWeaponType } from "../types";
+import { MainWeaponType, DeclaredStatus, SubWeaponType } from "../types";
 
 export const totalBaseMATK = <
   S extends {
@@ -153,7 +153,7 @@ export const totalMATK = <
   };
 };
 
-export const totalPercentMATK = <S extends StatSource<S>>(
+export const totalPercentMATK = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPercentMATK: number } => {
   return {
@@ -162,7 +162,7 @@ export const totalPercentMATK = <S extends StatSource<S>>(
   };
 };
 
-export const totalFlatMATK = <S extends StatSource<S>>(
+export const totalFlatMATK = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFlatMATK: number } => {
   return { ...status, totalFlatMATK: accumulate(status, "flatMATK") };

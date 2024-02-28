@@ -14,9 +14,9 @@ import {
 } from "@jmmaa/pino";
 import { accumulate, total } from "./helper";
 import {
+  ArmorType,
+  DeclaredStatus,
   MainWeaponType,
-  StatGroupWithPredicate,
-  StatSource,
   SubWeaponType,
 } from "../types";
 
@@ -162,7 +162,7 @@ export const totalASPD = <
   };
 };
 
-export const totalFlatASPD = <S extends StatSource<S>>(
+export const totalFlatASPD = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFlatASPD: number } => {
   return {
@@ -171,7 +171,7 @@ export const totalFlatASPD = <S extends StatSource<S>>(
   };
 };
 
-export const totalPercentASPD = <S extends StatSource<S>>(
+export const totalPercentASPD = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPercentASPD: number } => {
   return {
@@ -191,4 +191,24 @@ export const totalActionTimeReduction = <
     ...status,
     totalActionTimeReduction: actionTimeReduction(status.totalASPD),
   };
+};
+
+export const lightArmorASPDModifier = <
+  S extends { armorType: ArmorType; totalPercentASPD: number }
+>(
+  status: S
+) => {
+  return status.armorType === "light"
+    ? { ...status, totalPercentASPD: status.totalPercentASPD + 50 }
+    : status;
+};
+
+export const heavyArmorASPDModifier = <
+  S extends { armorType: ArmorType; totalPercentASPD: number }
+>(
+  status: S
+) => {
+  return status.armorType === "heavy"
+    ? { ...status, totalPercentASPD: status.totalPercentASPD - 50 }
+    : status;
 };

@@ -1,74 +1,74 @@
 import { resistance } from "@jmmaa/pino";
-import { StatSource } from "../types";
+import { DeclaredStatus } from "../types";
 import { accumulate } from "./helper";
 
-// declare
-export const physicalResistance =
-  (value: number) =>
-  <S>(status: S): S & { physicalResistance: number } => ({
-    ...status,
-    physicalResistance: value,
-  });
+// // declare
+// export const physicalResistance =
+//   (value: number) =>
+//   (status: S): S & { physicalResistance: number } => ({
+//     ...status,
+//     physicalResistance: value,
+//   });
 
-export const magicResistance =
-  (value: number) =>
-  <S>(status: S): S & { magicResistance: number } => ({
-    ...status,
-    magicResistance: value,
-  });
+// export const magicResistance =
+//   (value: number) =>
+//   (status: S): S & { magicResistance: number } => ({
+//     ...status,
+//     magicResistance: value,
+//   });
 
-export const lightResistance =
-  (value: number) =>
-  <S>(status: S): S & { lightResistance: number } => ({
-    ...status,
-    lightResistance: value,
-  });
+// export const lightResistance =
+//   (value: number) =>
+//   (status: S): S & { lightResistance: number } => ({
+//     ...status,
+//     lightResistance: value,
+//   });
 
-export const darkResistance =
-  (value: number) =>
-  <S>(status: S): S & { darkResistance: number } => ({
-    ...status,
-    darkResistance: value,
-  });
+// export const darkResistance =
+//   (value: number) =>
+//   (status: S): S & { darkResistance: number } => ({
+//     ...status,
+//     darkResistance: value,
+//   });
 
-export const fireResistance =
-  (value: number) =>
-  <S>(status: S): S & { fireResistance: number } => ({
-    ...status,
-    fireResistance: value,
-  });
+// export const fireResistance =
+//   (value: number) =>
+//   (status: S): S & { fireResistance: number } => ({
+//     ...status,
+//     fireResistance: value,
+//   });
 
-export const waterResistance =
-  (value: number) =>
-  <S>(status: S): S & { waterResistance: number } => ({
-    ...status,
-    waterResistance: value,
-  });
+// export const waterResistance =
+//   (value: number) =>
+//   (status: S): S & { waterResistance: number } => ({
+//     ...status,
+//     waterResistance: value,
+//   });
 
-export const earthResistance =
-  (value: number) =>
-  <S>(status: S): S & { earthResistance: number } => ({
-    ...status,
-    earthResistance: value,
-  });
+// export const earthResistance =
+//   (value: number) =>
+//   (status: S): S & { earthResistance: number } => ({
+//     ...status,
+//     earthResistance: value,
+//   });
 
-export const windResistance =
-  (value: number) =>
-  <S>(status: S): S & { windResistance: number } => ({
-    ...status,
-    windResistance: value,
-  });
+// export const windResistance =
+//   (value: number) =>
+//   (status: S): S & { windResistance: number } => ({
+//     ...status,
+//     windResistance: value,
+//   });
 
-export const neutralResistance =
-  (value: number) =>
-  <S>(status: S): S & { neutralResistance: number } => ({
-    ...status,
-    neutralResistance: value,
-  });
+// export const neutralResistance =
+//   (value: number) =>
+//   (status: S): S & { neutralResistance: number } => ({
+//     ...status,
+//     neutralResistance: value,
+//   });
 
 // calc
 
-export const totalPhysicalResistance = <S extends StatSource<S>>(
+export const totalPhysicalResistance = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPhysicalResistance: number } => {
   return {
@@ -79,7 +79,7 @@ export const totalPhysicalResistance = <S extends StatSource<S>>(
   };
 };
 
-export const totalMagicResistance = <S extends StatSource<S>>(
+export const totalMagicResistance = <S extends DeclaredStatus>(
   status: S
 ): S & { totalMagicResistance: number } => {
   return {
@@ -90,7 +90,7 @@ export const totalMagicResistance = <S extends StatSource<S>>(
   };
 };
 
-export const totalLightResistance = <S extends StatSource<S>>(
+export const totalLightResistance = <S extends DeclaredStatus>(
   status: S
 ): S & { totalLightResistance: number } => {
   return {
@@ -101,7 +101,7 @@ export const totalLightResistance = <S extends StatSource<S>>(
   };
 };
 
-export const totalDarkResistance = <S extends StatSource<S>>(
+export const totalDarkResistance = <S extends DeclaredStatus>(
   status: S
 ): S & { totalDarkResistance: number } => {
   return {
@@ -110,7 +110,7 @@ export const totalDarkResistance = <S extends StatSource<S>>(
   };
 };
 
-export const totalFireResistance = <S extends StatSource<S>>(
+export const totalFireResistance = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFireResistance: number } => {
   return {
@@ -119,7 +119,7 @@ export const totalFireResistance = <S extends StatSource<S>>(
   };
 };
 
-export const totalWaterResistance = <S extends StatSource<S>>(
+export const totalWaterResistance = <S extends DeclaredStatus>(
   status: S
 ): S & { totalWaterResistance: number } => {
   return {
@@ -130,7 +130,7 @@ export const totalWaterResistance = <S extends StatSource<S>>(
   };
 };
 
-export const totalEarthResistance = <S extends StatSource<S>>(
+export const totalEarthResistance = <S extends DeclaredStatus>(
   status: S
 ): S & { totalEarthResistance: number } => {
   return {
@@ -141,7 +141,7 @@ export const totalEarthResistance = <S extends StatSource<S>>(
   };
 };
 
-export const totalWindResistance = <S extends StatSource<S>>(
+export const totalWindResistance = <S extends DeclaredStatus>(
   status: S
 ): S & { totalWindResistance: number } => {
   return {
@@ -150,7 +150,7 @@ export const totalWindResistance = <S extends StatSource<S>>(
   };
 };
 
-export const totalNeutralResistance = <S extends StatSource<S>>(
+export const totalNeutralResistance = <S extends DeclaredStatus>(
   status: S
 ): S & { totalNeutralResistance: number } => {
   return {
