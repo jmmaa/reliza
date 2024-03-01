@@ -1,6 +1,6 @@
 import * as pino from "@jmmaa/pino";
 
-import { total, accumulate } from "./helper";
+import { total, accumulate, pipe } from "./helper";
 
 import { DeclaredStatus, MainWeaponType, SubWeaponType } from "../types";
 
@@ -141,15 +141,23 @@ export const totalATK = <
     totalBaseATK: number;
     totalPercentATK: number;
     totalFlatATK: number;
+
+    subWeaponMagicDeviceATKModifier: number;
+    magicWarriorMasteryPenaltyNullificationValue: number;
   }
 >(
   status: S
 ): S & { totalATK: number } => {
+  const totalPercentATK =
+    status.totalPercentATK +
+    status.subWeaponMagicDeviceATKModifier +
+    status.magicWarriorMasteryPenaltyNullificationValue;
+
   return {
     ...status,
     totalATK: total(
       status.totalBaseATK,
-      status.totalPercentATK,
+      totalPercentATK,
       status.totalFlatATK
     ),
   };
@@ -158,7 +166,10 @@ export const totalATK = <
 export const totalPercentATK = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPercentATK: number } => {
-  return { ...status, totalPercentATK: accumulate(status, "percentATK") };
+  return {
+    ...status,
+    totalPercentATK: accumulate(status, "percentATK"),
+  };
 };
 
 export const totalFlatATK = <S extends DeclaredStatus>(
@@ -168,15 +179,61 @@ export const totalFlatATK = <S extends DeclaredStatus>(
 };
 
 export const subWeaponMagicDeviceATKModifier = <
-  S extends { subWeaponType: SubWeaponType; totalPercentATK: number }
+  S extends { subWeaponType: SubWeaponType }
 >(
   status: S
-) => {
+): S & { subWeaponMagicDeviceATKModifier: number } => {
   return {
     ...status,
-    totalPercentATK:
-      status.subWeaponType === "magic-device"
-        ? status.totalPercentATK - 15
-        : status.totalPercentATK,
+    subWeaponMagicDeviceATKModifier:
+      status.subWeaponType === "magic-device" ? -15 : 0,
   };
 };
+
+export const magicWarriorMasteryPenaltyNullificationValue = <
+  S extends DeclaredStatus
+>(
+  status: S
+): S & { magicWarriorMasteryPenaltyNullificationValue: number } => {
+  const weapon = status.mainWeaponType;
+
+  const skillLevel = status.magicWarriorMasteryLevel;
+
+  const ohsBonus = 5;
+
+  const value = skillLevel * 10;
+
+  const result = weapon === "one-handed-sword" ? value + ohsBonus : value;
+
+  return {
+    ...status,
+    magicWarriorMasteryPenaltyNullificationValue: result,
+  };
+};
+
+export const calculateATK = <
+  S extends DeclaredStatus & {
+    level: number;
+    totalMainWeaponATK: number;
+    totalSTR: number;
+    totalDEX: number;
+    totalINT: number;
+    totalAGI: number;
+  }
+>(
+  status: S
+): S & {
+  subWeaponMagicDeviceATKModifier: number;
+  magicWarriorMasteryPenaltyNullificationValue: number;
+  totalBaseATK: number;
+  totalPercentATK: number;
+  totalFlatATK: number;
+  totalATK: number;
+} =>
+  pipe(status)
+    ._(subWeaponMagicDeviceATKModifier)
+    ._(magicWarriorMasteryPenaltyNullificationValue)
+    ._(totalBaseATK)
+    ._(totalPercentATK)
+    ._(totalFlatATK)
+    ._(totalATK).value;

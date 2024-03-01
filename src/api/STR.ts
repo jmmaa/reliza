@@ -1,17 +1,9 @@
 import { DeclaredStatus } from "../types";
-import { total, accumulate } from "./helper";
-
-// // declare
-// export const STR =
-//   (value: number) =>
-//   <S>(status: S): S & { STR: number } => ({
-//     ...status,
-//     STR: value,
-//   });
+import { pipe, total, accumulate } from "./helper";
 
 // calc
 // this calc is just for consistency, but it is redundant
-export const totalBaseSTR = <S extends { STR: number }>(
+export const totalBaseSTR = <S extends DeclaredStatus>(
   status: S
 ): S & { totalBaseSTR: number } => ({
   ...status,
@@ -53,4 +45,21 @@ export const totalPercentSTR = <S extends DeclaredStatus>(
     ...status,
     totalPercentSTR: accumulate(status, "percentSTR"),
   };
+};
+
+export const calculateSTR = <S extends DeclaredStatus>(
+  status: S
+): S & {
+  totalBaseSTR: number;
+  totalFlatSTR: number;
+  totalPercentSTR: number;
+  totalSTR: number;
+} => {
+  const STRcalcs = pipe(status)
+    ._(totalBaseSTR)
+    ._(totalPercentSTR)
+    ._(totalFlatSTR)
+    ._(totalSTR);
+
+  return STRcalcs.value;
 };

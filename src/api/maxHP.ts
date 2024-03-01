@@ -3,7 +3,7 @@ import { accumulate, total } from "./helper";
 import { DeclaredStatus } from "../types";
 
 export const totalBaseMaxHP = <
-  S extends { level: number; totalVIT: number }
+  S extends DeclaredStatus & { totalVIT: number }
 >(
   status: S
 ): S & { totalBaseMaxHP: number } => ({

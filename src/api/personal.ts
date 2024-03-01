@@ -1,38 +1,6 @@
-// // declare
-// export const level = (value: number) => {
-//   return <S>(status: S): S & { level: number } => ({
-//     ...status,
-//     level: value,
-//   });
-// };
+import { DeclaredStatus } from "../types";
 
-// export const CRT = (value: number) => {
-//   return <S>(status: S): S & { CRT: number } => ({
-//     ...status,
-//     CRT: value,
-//   });
-// };
-
-// export const TEC = (value: number) => {
-//   return <S>(status: S): S & { TEC: number } => ({
-//     ...status,
-//     TEC: value,
-//   });
-// };
-
-// export const MTL = (value: number) => {
-//   return <S>(status: S): S & { MTL: number } => ({
-//     ...status,
-//     MTL: value,
-//   });
-// };
-
-// export const LUK = (value: number) => {
-//   return <S>(status: S): S & { LUK: number } => ({
-//     ...status,
-//     LUK: value,
-//   });
-// };
+import { pipe } from "./helper";
 
 // calc
 export const totalBaseCRT = <S extends { CRT: number }>(
@@ -62,3 +30,10 @@ export const totalBaseTEC = <S extends { TEC: number }>(
   ...status,
   totalBaseTEC: status.TEC,
 });
+
+export const calculatePersonal = <S extends DeclaredStatus>(status: S) =>
+  pipe(status)
+    ._(totalBaseMTL)
+    ._(totalBaseCRT)
+    ._(totalBaseLUK)
+    ._(totalBaseTEC).value;

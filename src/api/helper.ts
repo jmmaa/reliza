@@ -239,3 +239,5 @@ export const pipe = <T>(value: T) => {
     _: <N>(f: (value: T) => N) => pipe(f(value)),
   };
 };
+
+export type Prettify<T> = { [K in keyof T]: Prettify<T[K]> };

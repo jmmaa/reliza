@@ -21,7 +21,7 @@ import { DeclaredStatus } from "../types";
 
 // this calc is just for consistency, but it is redundant
 export const totalBaseMaxMP = <
-  S extends { level: number; totalINT: number; totalBaseTEC: number }
+  S extends DeclaredStatus & { totalINT: number; totalBaseTEC: number }
 >(
   status: S
 ): S & { totalBaseMaxMP: number } => ({

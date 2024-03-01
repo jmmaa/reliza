@@ -1,5 +1,5 @@
 import { DeclaredStatus } from "../types";
-import { total, accumulate } from "./helper";
+import { pipe, total, accumulate } from "./helper";
 
 // // declare
 // export const VIT =
@@ -53,4 +53,21 @@ export const totalPercentVIT = <S extends DeclaredStatus>(
     ...status,
     totalPercentVIT: accumulate(status, "percentVIT"),
   };
+};
+
+export const calculateVIT = <S extends DeclaredStatus>(
+  status: S
+): S & {
+  totalBaseVIT: number;
+  totalFlatVIT: number;
+  totalPercentVIT: number;
+  totalVIT: number;
+} => {
+  const VITcalcs = pipe(status)
+    ._(totalBaseVIT)
+    ._(totalPercentVIT)
+    ._(totalFlatVIT)
+    ._(totalVIT);
+
+  return VITcalcs.value;
 };

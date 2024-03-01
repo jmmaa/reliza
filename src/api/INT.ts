@@ -1,5 +1,5 @@
 import { DeclaredStatus } from "../types";
-import { total, accumulate } from "./helper";
+import { pipe, total, accumulate } from "./helper";
 
 // // declare
 // export const INT =
@@ -11,7 +11,7 @@ import { total, accumulate } from "./helper";
 
 // calc
 // this calc is just for consistency, but it is redundant
-export const totalBaseINT = <S extends { INT: number }>(
+export const totalBaseINT = <S extends DeclaredStatus>(
   status: S
 ): S & { totalBaseINT: number } => ({
   ...status,
@@ -53,4 +53,21 @@ export const totalPercentINT = <S extends DeclaredStatus>(
     ...status,
     totalPercentINT: accumulate(status, "percentINT"),
   };
+};
+
+export const calculateINT = <S extends DeclaredStatus>(
+  status: S
+): S & {
+  totalBaseINT: number;
+  totalFlatINT: number;
+  totalPercentINT: number;
+  totalINT: number;
+} => {
+  const INTcalcs = pipe(status)
+    ._(totalBaseINT)
+    ._(totalPercentINT)
+    ._(totalFlatINT)
+    ._(totalINT);
+
+  return INTcalcs.value;
 };

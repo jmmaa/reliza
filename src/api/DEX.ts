@@ -1,6 +1,6 @@
 import { DeclaredStatus, SubWeaponType } from "../types";
 
-import { total, accumulate } from "./helper";
+import { pipe, total, accumulate } from "./helper";
 
 // // declare
 // export const DEX =
@@ -12,7 +12,7 @@ import { total, accumulate } from "./helper";
 
 // calc
 // this calc is just for consistency, but it is redundant
-export const totalBaseDEX = <S extends { DEX: number }>(
+export const totalBaseDEX = <S extends DeclaredStatus>(
   status: S
 ): S & { totalBaseDEX: number } => ({
   ...status,
@@ -48,4 +48,21 @@ export const totalFlatDEX = <S extends DeclaredStatus>(
   status: S
 ): S & { totalFlatDEX: number } => {
   return { ...status, totalFlatDEX: accumulate(status, "flatDEX") };
+};
+
+export const calculateDEX = <S extends DeclaredStatus>(
+  status: S
+): S & {
+  totalBaseDEX: number;
+  totalFlatDEX: number;
+  totalPercentDEX: number;
+  totalDEX: number;
+} => {
+  const DEXcalcs = pipe(status)
+    ._(totalBaseDEX)
+    ._(totalPercentDEX)
+    ._(totalFlatDEX)
+    ._(totalDEX);
+
+  return DEXcalcs.value;
 };

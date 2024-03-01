@@ -1,46 +1,21 @@
 import * as d from "./api";
 import { DeclaredStatus, Effect, StatMap } from "./types";
-import { DEFAULT, defaultStatMap, stats } from "./api/helper";
+import { DEFAULT, Prettify, defaultStatMap, stats } from "./api/helper";
 
 import { pipe } from "./api/helper";
 
-export const calculate = (status: DeclaredStatus) => {
+export const calculate = <D extends DeclaredStatus>(
+  status: D
+): Prettify<D> => {
   const allCalculations = pipe(status)
-    // AGI
-    ._(d.totalBaseAGI)
-    ._(d.totalPercentAGI)
-    ._(d.totalFlatAGI)
-    ._(d.totalAGI)
-
-    // DEX
-    ._(d.totalBaseDEX)
-    ._(d.totalPercentDEX)
-    ._(d.totalFlatDEX)
-    ._(d.totalDEX)
-
-    // STR
-    ._(d.totalBaseSTR)
-    ._(d.totalPercentSTR)
-    ._(d.totalFlatSTR)
-    ._(d.totalSTR)
-
-    // INT
-    ._(d.totalBaseINT)
-    ._(d.totalPercentINT)
-    ._(d.totalFlatINT)
-    ._(d.totalINT)
-
-    // VIT
-    ._(d.totalBaseVIT)
-    ._(d.totalPercentVIT)
-    ._(d.totalFlatVIT)
-    ._(d.totalVIT)
+    ._(d.calculateSTR)
+    ._(d.calculateINT)
+    ._(d.calculateDEX)
+    ._(d.calculateVIT)
+    ._(d.calculateAGI)
 
     // personal
-    ._(d.totalBaseMTL)
-    ._(d.totalBaseCRT)
-    ._(d.totalBaseLUK)
-    ._(d.totalBaseTEC)
+    ._(d.calculatePersonal)
 
     // hp
     ._(d.totalBaseMaxHP)
@@ -55,11 +30,7 @@ export const calculate = (status: DeclaredStatus) => {
     ._(d.totalMaxMP)
 
     // cast speed
-    ._(d.totalBaseCSPD)
-    ._(d.totalPercentCSPD)
-    ._(d.totalFlatCSPD)
-    ._(d.totalCSPD)
-    ._(d.totalCastTimeReduction)
+    ._(d.calculateCSPD)
 
     // attack speed
     ._(d.totalBaseASPD)
@@ -69,8 +40,6 @@ export const calculate = (status: DeclaredStatus) => {
     ._(d.heavyArmorASPDModifier)
     ._(d.totalASPD)
     ._(d.totalActionTimeReduction)
-
-    // equipment type modifier
 
     // crit rate
     ._(d.totalBaseCriticalRate)
@@ -99,18 +68,10 @@ export const calculate = (status: DeclaredStatus) => {
     ._(d.totalSubWeaponATK)
 
     // ATK
-    ._(d.totalBaseATK)
-    ._(d.totalPercentATK)
-    ._(d.subWeaponMagicDeviceATKModifier)
-    ._(d.totalFlatATK)
-    ._(d.totalATK)
+    ._(d.calculateATK)
 
     // MATK
-    ._(d.totalBaseMATK)
-    ._(d.totalPercentMATK)
-    ._(d.subWeaponKnuckleMATKModifier)
-    ._(d.totalFlatMATK)
-    ._(d.totalMATK)
+    ._(d.calculateMATK)
 
     // element
     ._(d.calculateDamageToElement);
@@ -162,6 +123,8 @@ export const defaultDeclarations: DeclaredStatus = {
 
   consumables: [],
   foodBuffs: [],
+
+  magicWarriorMasteryLevel: 0,
 };
 
 export const status = (
@@ -205,7 +168,7 @@ const magicDeviceSupport = status({
   VIT: 178,
   AGI: 220,
 
-  mainWeaponType: "magic-device",
+  mainWeaponType: "staff",
   mainWeaponATK: 99,
   mainWeaponRefinement: 0,
   mainWeaponStability: 70,
@@ -227,7 +190,7 @@ const magicDeviceSupport = status({
 
   mainWeaponCrystals: [WickedDragonFazzino],
 
-  subWeaponType: "ninjutsu-scroll",
+  subWeaponType: "magic-device",
 
   subWeaponStats: [
     { predicate: DEFAULT, stats: stats({ flatASPD: 250 }) },

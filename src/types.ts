@@ -324,4 +324,6 @@ export type DeclaredStatus = {
   consumables: Effect<DeclaredStatus>[];
 
   foodBuffs: Effect<DeclaredStatus>[];
+
+  magicWarriorMasteryLevel: number;
 };

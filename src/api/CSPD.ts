@@ -1,5 +1,5 @@
 import { baseCastSpeed, castTimeReduction } from "@jmmaa/pino";
-import { accumulate, total } from "./helper";
+import { pipe, accumulate, total } from "./helper";
 import { DeclaredStatus } from "../types";
 
 export const totalBaseCSPD = <
@@ -20,6 +20,8 @@ export const totalCSPD = <
     totalBaseCSPD: number;
     totalPercentCSPD: number;
     totalFlatCSPD: number;
+
+    magicWarriorMasteryBonusFlatCSPD: number;
   }
 >(
   status: S
@@ -28,7 +30,7 @@ export const totalCSPD = <
     ...status,
     totalCSPD: total(
       status.totalBaseCSPD,
-      status.totalPercentCSPD,
+      status.totalPercentCSPD + status.magicWarriorMasteryBonusFlatCSPD,
       status.totalFlatCSPD
     ),
   };
@@ -64,3 +66,24 @@ export const totalCastTimeReduction = <
     totalCastTimeReduction: castTimeReduction(status.totalCSPD), // should not be floor?
   };
 };
+
+export const magicWarriorMasteryBonusFlatCSPD = <S extends DeclaredStatus>(
+  status: S
+) => {
+  const bonus = status.magicWarriorMasteryLevel * 10;
+
+  return { ...status, magicWarriorMasteryBonusFlatCSPD: bonus };
+};
+
+export const calculateCSPD = <
+  S extends DeclaredStatus & { totalAGI: number; totalDEX: number }
+>(
+  status: S
+) =>
+  pipe(status)
+    ._(totalBaseCSPD)
+    ._(totalPercentCSPD)
+    ._(totalFlatCSPD)
+    ._(magicWarriorMasteryBonusFlatCSPD)
+    ._(totalCSPD)
+    ._(totalCastTimeReduction).value;
