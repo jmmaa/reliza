@@ -16,7 +16,7 @@ export * from "./maxMP";
 export * from "./ATK";
 export * from "./MATK";
 
-export * from "./element";
+export * from "./DTE";
 
 export * from "./resistance";
 
@@ -65,8 +65,8 @@ export const calculate = <S extends DeclaredStatus>(status: S) => {
     // MATK
     ._(d.calculateMATK)
 
-    // element
-    ._(d.calculateDamageToElement)
+    // dte
+    ._(d.calculateDTE)
 
     // resistance
     ._(d.calculateResistance);

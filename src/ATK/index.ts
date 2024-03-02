@@ -230,7 +230,7 @@ export const calculateATK = <
   totalFlatATK: number;
   totalATK: number;
 } => {
-  const ATKcalcs = pipe(status)
+  const calcs = pipe(status)
     ._(subWeaponMagicDevicePercentATKModifier)
     ._(magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue)
     ._(totalBaseATK)
@@ -238,5 +238,5 @@ export const calculateATK = <
     ._(totalFlatATK)
     ._(totalATK);
 
-  return ATKcalcs.value;
+  return calcs.value;
 };

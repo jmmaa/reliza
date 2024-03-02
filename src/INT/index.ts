@@ -47,11 +47,11 @@ export const calculateINT = <S extends DeclaredStatus>(
   totalPercentINT: number;
   totalINT: number;
 } => {
-  const INTcalcs = pipe(status)
+  const calcs = pipe(status)
     ._(totalBaseINT)
     ._(totalPercentINT)
     ._(totalFlatINT)
     ._(totalINT);
 
-  return INTcalcs.value;
+  return calcs.value;
 };

@@ -64,11 +64,11 @@ export const calculateCriticalDamage = <
   totalFlatCriticalDamage: number;
   totalCriticalDamage: number;
 } => {
-  const CDMGcalcs = pipe(status)
+  const calcs = pipe(status)
     ._(totalBaseCriticalDamage)
     ._(totalPercentCriticalDamage)
     ._(totalFlatCriticalDamage)
     ._(totalCriticalDamage);
 
-  return CDMGcalcs.value;
+  return calcs.value;
 };

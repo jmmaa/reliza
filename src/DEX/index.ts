@@ -47,11 +47,11 @@ export const calculateDEX = <S extends DeclaredStatus>(
   totalPercentDEX: number;
   totalDEX: number;
 } => {
-  const DEXcalcs = pipe(status)
+  const calcs = pipe(status)
     ._(totalBaseDEX)
     ._(totalPercentDEX)
     ._(totalFlatDEX)
     ._(totalDEX);
 
-  return DEXcalcs.value;
+  return calcs.value;
 };

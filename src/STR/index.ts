@@ -47,11 +47,11 @@ export const calculateSTR = <S extends DeclaredStatus>(
   totalPercentSTR: number;
   totalSTR: number;
 } => {
-  const STRcalcs = pipe(status)
+  const calcs = pipe(status)
     ._(totalBaseSTR)
     ._(totalPercentSTR)
     ._(totalFlatSTR)
     ._(totalSTR);
 
-  return STRcalcs.value;
+  return calcs.value;
 };

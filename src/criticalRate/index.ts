@@ -51,11 +51,11 @@ export const calculateCriticalRate = <
 >(
   status: S
 ) => {
-  const critRateCalcs = pipe(status)
+  const calcs = pipe(status)
     ._(totalBaseCriticalRate)
     ._(totalPercentCriticalRate)
     ._(totalFlatCriticalRate)
     ._(totalCriticalRate);
 
-  return critRateCalcs.value;
+  return calcs.value;
 };

@@ -47,11 +47,11 @@ export const calculateAGI = <S extends DeclaredStatus>(
   totalPercentAGI: number;
   totalAGI: number;
 } => {
-  const AGIcalcs = pipe(status)
+  const calcs = pipe(status)
     ._(totalBaseAGI)
     ._(totalPercentAGI)
     ._(totalFlatAGI)
     ._(totalAGI);
 
-  return AGIcalcs.value;
+  return calcs.value;
 };

@@ -1,17 +1,17 @@
 export * from "./base";
 export * from "./magic";
 export * from "./physical";
+export * from "./element";
 
 import { pipe } from "../helper";
 import { DeclaredStatus, Element } from "../types";
 import * as calc from ".";
 
-export const calculateDTE = <
-  S extends DeclaredStatus & { mainWeaponElement: Element }
->(
-  status: S
-) => {
-  const DTEcalcs = pipe(status)
+export const calculateDTE = <S extends DeclaredStatus>(status: S) => {
+  const calcs = pipe(status)
+    ._(calc.mainWeaponElement)
+    ._(calc.subWeaponElement)
+
     ._(calc.totalDamageToDark)
     ._(calc.totalDamageToLight)
     ._(calc.totalDamageToFire)
@@ -34,5 +34,5 @@ export const calculateDTE = <
     ._(calc.totalMagicDamageToWind)
     ._(calc.totalMagicDamageToEarth);
 
-  return DTEcalcs.value;
+  return calcs.value;
 };

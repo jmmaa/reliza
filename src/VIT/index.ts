@@ -47,11 +47,11 @@ export const calculateVIT = <S extends DeclaredStatus>(
   totalPercentVIT: number;
   totalVIT: number;
 } => {
-  const VITcalcs = pipe(status)
+  const calcs = pipe(status)
     ._(totalBaseVIT)
     ._(totalPercentVIT)
     ._(totalFlatVIT)
     ._(totalVIT);
 
-  return VITcalcs.value;
+  return calcs.value;
 };

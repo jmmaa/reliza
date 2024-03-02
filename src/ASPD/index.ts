@@ -212,7 +212,7 @@ export const calculateASPD = <
 >(
   status: S
 ) => {
-  const ASPDcalcs = pipe(status)
+  const calcs = pipe(status)
     ._(lightArmorPercentASPDModifier)
     ._(heavyArmorPercentASPDModifier)
     ._(totalBaseASPD)
@@ -221,5 +221,5 @@ export const calculateASPD = <
     ._(totalASPD)
     ._(totalActionTimeReduction);
 
-  return ASPDcalcs.value;
+  return calcs.value;
 };

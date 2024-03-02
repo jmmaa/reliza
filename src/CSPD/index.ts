@@ -93,7 +93,7 @@ export const calculateCSPD = <
   totalCSPD: number;
   totalCastTimeReduction: number;
 } => {
-  const CSPDcalcs = pipe(status)
+  const calcs = pipe(status)
     ._(magicWarriorMasteryBonusFlatCSPD)
     ._(totalBaseCSPD)
     ._(totalPercentCSPD)
@@ -101,5 +101,5 @@ export const calculateCSPD = <
     ._(totalCSPD)
     ._(totalCastTimeReduction);
 
-  return CSPDcalcs.value;
+  return calcs.value;
 };
