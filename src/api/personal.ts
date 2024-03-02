@@ -31,7 +31,14 @@ export const totalBaseTEC = <S extends { TEC: number }>(
   totalBaseTEC: status.TEC,
 });
 
-export const calculatePersonal = <S extends DeclaredStatus>(status: S) =>
+export const calculatePersonal = <S extends DeclaredStatus>(
+  status: S
+): S & {
+  totalBaseMTL: number;
+  totalBaseCRT: number;
+  totalBaseLUK: number;
+  totalBaseTEC: number;
+} =>
   pipe(status)
     ._(totalBaseMTL)
     ._(totalBaseCRT)

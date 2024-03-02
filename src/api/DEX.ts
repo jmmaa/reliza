@@ -2,14 +2,6 @@ import { DeclaredStatus, SubWeaponType } from "../types";
 
 import { pipe, total, accumulate } from "./helper";
 
-// // declare
-// export const DEX =
-//   (value: number) =>
-//   <S>(status: S): S & { DEX: number } => ({
-//     ...status,
-//     DEX: value,
-//   });
-
 // calc
 // this calc is just for consistency, but it is redundant
 export const totalBaseDEX = <S extends DeclaredStatus>(

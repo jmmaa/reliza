@@ -1,5 +1,5 @@
 import { baseCriticalDamage } from "@jmmaa/pino";
-import { total, accumulate } from "./helper";
+import { total, accumulate, pipe } from "./helper";
 import { DeclaredStatus } from "../types";
 
 export const totalBaseCriticalDamage = <
@@ -53,3 +53,19 @@ export const totalFlatCriticalDamage = <S extends DeclaredStatus>(
     totalFlatCriticalDamage: accumulate(status, "flatCriticalDamage"),
   };
 };
+
+export const calculateCriticalDamage = <
+  S extends DeclaredStatus & { totalSTR: number; totalAGI: number }
+>(
+  status: S
+): S & {
+  totalBaseCriticalDamage: number;
+  totalPercentCriticalDamage: number;
+  totalFlatCriticalDamage: number;
+  totalCriticalDamage: number;
+} =>
+  pipe(status)
+    ._(totalBaseCriticalDamage)
+    ._(totalPercentCriticalDamage)
+    ._(totalFlatCriticalDamage)
+    ._(totalCriticalDamage).value;

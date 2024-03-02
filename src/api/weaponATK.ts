@@ -2,7 +2,7 @@ import {
   subWeaponRefinementBonusSubWeaponAttack,
   weaponRefinementBonusWeaponAttack,
 } from "@jmmaa/pino";
-import { total, accumulate } from "./helper";
+import { total, accumulate, pipe } from "./helper";
 
 import { DeclaredStatus, SubWeaponType } from "../types";
 
@@ -155,3 +155,33 @@ export const totalSubWeaponRefinementBonusSubWeaponATK = <
       ),
   };
 };
+
+export const calculateWeaponATK = <S extends DeclaredStatus>(
+  status: S
+): S & {
+  totalBaseMainWeaponATK: number;
+  totalPercentMainWeaponATK: number;
+  totalFlatMainWeaponATK: number;
+  totalMainWeaponRefinementBonusMainWeaponATK: number;
+  totalMainWeaponATK: number;
+
+  totalBaseSubWeaponATK: number;
+  totalPercentSubWeaponATK: number;
+  totalFlatSubWeaponATK: number;
+  totalSubWeaponRefinementBonusSubWeaponATK: number;
+  totalSubWeaponATK: number;
+} =>
+  pipe(status)
+    // main weapon attack
+    ._(totalBaseMainWeaponATK)
+    ._(totalPercentMainWeaponATK)
+    ._(totalFlatMainWeaponATK)
+    ._(totalMainWeaponRefinementBonusMainWeaponATK)
+    ._(totalMainWeaponATK)
+
+    // sub weapon attack
+    ._(totalBaseSubWeaponATK)
+    ._(totalPercentSubWeaponATK)
+    ._(totalFlatSubWeaponATK)
+    ._(totalSubWeaponRefinementBonusSubWeaponATK)
+    ._(totalSubWeaponATK).value;

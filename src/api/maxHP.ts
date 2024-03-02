@@ -1,5 +1,5 @@
 import { baseMaxHP } from "@jmmaa/pino";
-import { accumulate, total } from "./helper";
+import { accumulate, pipe, total } from "./helper";
 import { DeclaredStatus } from "../types";
 
 export const totalBaseMaxHP = <
@@ -47,3 +47,14 @@ export const totalPercentMaxHP = <S extends DeclaredStatus>(
     totalPercentMaxHP: accumulate(status, "percentMaxHP"),
   };
 };
+
+export const calculateHP = <
+  S extends DeclaredStatus & { totalVIT: number }
+>(
+  status: S
+) =>
+  pipe(status)
+    ._(totalBaseMaxHP)
+    ._(totalPercentMaxHP)
+    ._(totalFlatMaxHP)
+    ._(totalMaxHP).value;

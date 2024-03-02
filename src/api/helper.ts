@@ -67,6 +67,9 @@ export const defaultStatMap: StatMap = {
   flatUnsheatheAttack: 0,
   percentUnsheatheAttack: 100,
 
+  flatAttackMPRecovery: 0,
+  percentAttackMPRecovery: 0,
+
   stability: 0,
 
   magicPierce: 0,
@@ -108,6 +111,8 @@ export const defaultStatMap: StatMap = {
   damageToWater: 0,
   damageToFire: 0,
   damageToWind: 0,
+
+  aggro: 0,
 
   tumbleUnavailable: false,
   flinchUnavailable: false,

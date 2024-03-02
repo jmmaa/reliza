@@ -4,10 +4,9 @@ import { DEFAULT, Prettify, defaultStatMap, stats } from "./api/helper";
 
 import { pipe } from "./api/helper";
 
-export const calculate = <D extends DeclaredStatus>(
-  status: D
-): Prettify<D> => {
+export const calculate = <S extends DeclaredStatus>(status: S) => {
   const allCalculations = pipe(status)
+    // basic
     ._(d.calculateSTR)
     ._(d.calculateINT)
     ._(d.calculateDEX)
@@ -18,54 +17,25 @@ export const calculate = <D extends DeclaredStatus>(
     ._(d.calculatePersonal)
 
     // hp
-    ._(d.totalBaseMaxHP)
-    ._(d.totalPercentMaxHP)
-    ._(d.totalFlatMaxHP)
-    ._(d.totalMaxHP)
+    ._(d.calculateHP)
 
     // mp
-    ._(d.totalBaseMaxMP)
-    ._(d.totalPercentMaxMP)
-    ._(d.totalFlatMaxMP)
-    ._(d.totalMaxMP)
+    ._(d.calculateMP)
 
     // cast speed
     ._(d.calculateCSPD)
 
     // attack speed
-    ._(d.totalBaseASPD)
-    ._(d.totalPercentASPD)
-    ._(d.totalFlatASPD)
-    ._(d.lightArmorASPDModifier)
-    ._(d.heavyArmorASPDModifier)
-    ._(d.totalASPD)
-    ._(d.totalActionTimeReduction)
+    ._(d.calculateASPD)
 
     // crit rate
-    ._(d.totalBaseCriticalRate)
-    ._(d.totalPercentCriticalRate)
-    ._(d.totalFlatCriticalRate)
-    ._(d.totalCriticalRate)
+    ._(d.calculateCriticalRate)
 
     // crit damage
-    ._(d.totalBaseCriticalDamage)
-    ._(d.totalPercentCriticalDamage)
-    ._(d.totalFlatCriticalDamage)
-    ._(d.totalCriticalDamage)
+    ._(d.calculateCriticalDamage)
 
-    // main weapon attack
-    ._(d.totalBaseMainWeaponATK)
-    ._(d.totalPercentMainWeaponATK)
-    ._(d.totalFlatMainWeaponATK)
-    ._(d.totalMainWeaponRefinementBonusMainWeaponATK)
-    ._(d.totalMainWeaponATK)
-
-    // sub weapon attack
-    ._(d.totalBaseSubWeaponATK)
-    ._(d.totalPercentSubWeaponATK)
-    ._(d.totalFlatSubWeaponATK)
-    ._(d.totalSubWeaponRefinementBonusSubWeaponATK)
-    ._(d.totalSubWeaponATK)
+    // weaponATK
+    ._(d.calculateWeaponATK)
 
     // ATK
     ._(d.calculateATK)
@@ -74,7 +44,10 @@ export const calculate = <D extends DeclaredStatus>(
     ._(d.calculateMATK)
 
     // element
-    ._(d.calculateDamageToElement);
+    ._(d.calculateDamageToElement)
+
+    // resistance
+    ._(d.calculateResistance);
 
   return allCalculations.value;
 };
@@ -193,7 +166,10 @@ const magicDeviceSupport = status({
   subWeaponType: "magic-device",
 
   subWeaponStats: [
-    { predicate: DEFAULT, stats: stats({ flatASPD: 250 }) },
+    {
+      predicate: DEFAULT,
+      stats: stats({ flatASPD: 250 }),
+    },
     {
       predicate: (status) => status.mainWeaponType === "katana",
       stats: stats({ flatCriticalRate: 5 }),

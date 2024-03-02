@@ -1,14 +1,6 @@
 import { DeclaredStatus } from "../types";
 import { pipe, total, accumulate } from "./helper";
 
-// // declare
-// export const INT =
-//   (value: number) =>
-//   <S>(status: S): S & { INT: number } => ({
-//     ...status,
-//     INT: value,
-//   });
-
 // calc
 // this calc is just for consistency, but it is redundant
 export const totalBaseINT = <S extends DeclaredStatus>(

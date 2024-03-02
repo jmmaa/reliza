@@ -136,41 +136,47 @@ export const totalMATK = <
     totalBaseMATK: number;
     totalPercentMATK: number;
     totalFlatMATK: number;
-
-    subWeaponKnuckleMATKModifier: number;
-    magicWarriorMasteryBonusFlatMATK: number;
   }
 >(
   status: S
 ): S & { totalMATK: number } => {
-  const totalPercentMATK =
-    status.totalPercentMATK + status.subWeaponKnuckleMATKModifier;
-  const totalFlatMATK =
-    status.totalFlatMATK + status.magicWarriorMasteryBonusFlatMATK;
-
   return {
     ...status,
     totalMATK: total(
       status.totalBaseMATK,
-      totalPercentMATK,
-      totalFlatMATK
+      status.totalFlatMATK,
+      status.totalFlatMATK
     ),
   };
 };
 
-export const totalPercentMATK = <S extends DeclaredStatus>(
+export const totalPercentMATK = <
+  S extends DeclaredStatus & { subWeaponKnuckleMATKModifier: number }
+>(
   status: S
 ): S & { totalPercentMATK: number } => {
+  const acquired = accumulate(status, "percentMATK");
+
+  const external = status.subWeaponKnuckleMATKModifier;
+
   return {
     ...status,
-    totalPercentMATK: accumulate(status, "percentMATK"),
+    totalPercentMATK: acquired + external,
   };
 };
 
-export const totalFlatMATK = <S extends DeclaredStatus>(
+export const totalFlatMATK = <
+  S extends DeclaredStatus & {
+    magicWarriorMasteryBonusFlatMATK: number;
+  }
+>(
   status: S
 ): S & { totalFlatMATK: number } => {
-  return { ...status, totalFlatMATK: accumulate(status, "flatMATK") };
+  const acquired = accumulate(status, "flatMATK");
+
+  const external = status.magicWarriorMasteryBonusFlatMATK;
+
+  return { ...status, totalFlatMATK: acquired + external };
 };
 
 export const subWeaponKnuckleMATKModifier = <
@@ -213,7 +219,14 @@ export const calculateMATK = <
   }
 >(
   status: S
-) =>
+): S & {
+  subWeaponKnuckleMATKModifier: number;
+  magicWarriorMasteryBonusFlatMATK: number;
+  totalBaseMATK: number;
+  totalPercentMATK: number;
+  totalFlatMATK: number;
+  totalMATK: number;
+} =>
   pipe(status)
     ._(subWeaponKnuckleMATKModifier)
     ._(magicWarriorMasteryBonusFlatMATK)

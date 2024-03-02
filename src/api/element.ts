@@ -101,7 +101,7 @@ export const totalPhysicalDamageToDark = <
   S extends DeclaredStatus & { totalDamageToDark: number }
 >(
   status: S
-) => {
+): S & { totalPhysicalDamageToDark: number } => {
   return {
     ...status,
     totalPhysicalDamageToDark: status.totalDamageToDark,
@@ -112,7 +112,7 @@ export const totalPhysicalDamageToLight = <
   S extends DeclaredStatus & { totalDamageToLight: number }
 >(
   status: S
-) => {
+): S & { totalPhysicalDamageToLight: number } => {
   return {
     ...status,
     totalPhysicalDamageToLight: status.totalDamageToLight,
@@ -123,7 +123,7 @@ export const totalPhysicalDamageToFire = <
   S extends DeclaredStatus & { totalDamageToFire: number }
 >(
   status: S
-) => {
+): S & { totalPhysicalDamageToFire: number } => {
   return {
     ...status,
     totalPhysicalDamageToFire: status.totalDamageToFire,
@@ -134,7 +134,7 @@ export const totalPhysicalDamageToEarth = <
   S extends DeclaredStatus & { totalDamageToEarth: number }
 >(
   status: S
-) => {
+): S & { totalPhysicalDamageToEarth: number } => {
   return {
     ...status,
     totalPhysicalDamageToEarth: status.totalDamageToEarth,
@@ -145,7 +145,7 @@ export const totalPhysicalDamageToWater = <
   S extends DeclaredStatus & { totalDamageToWater: number }
 >(
   status: S
-) => {
+): S & { totalPhysicalDamageToWater: number } => {
   return {
     ...status,
     totalPhysicalDamageToWater: status.totalDamageToWater,
@@ -165,18 +165,11 @@ export const totalPhysicalDamageToWind = <
 
 // magic dte
 
-const hasMainWeaponElement = <S extends DeclaredStatus>(status: S) => {
-  return determineMainWeaponElement(status) !== "neutral";
-};
-
 const isStaffMain = <S extends DeclaredStatus>(status: S) =>
   status.mainWeaponType === "staff";
 
 const isMagicDeviceMain = <S extends DeclaredStatus>(status: S) =>
   status.mainWeaponType === "magic-device";
-
-const isStrongerElement = <S extends DeclaredStatus>(status: S) =>
-  determineMainWeaponElement(status);
 
 export const bonusDamageToElementFromINT = <S extends DeclaredStatus>(
   status: S
@@ -191,7 +184,7 @@ export const totalMagicDamageToDark = <
   S extends DeclaredStatus & { totalDamageToDark: number }
 >(
   status: S
-) => {
+): S & { totalMagicDamageToDark: number } => {
   return {
     ...status,
     totalMagicDamageToDark:
@@ -208,7 +201,7 @@ export const totalMagicDamageToLight = <
   S extends DeclaredStatus & { totalDamageToLight: number }
 >(
   status: S
-) => {
+): S & { totalMagicDamageToLight: number } => {
   return {
     ...status,
     totalMagicDamageToLight:
@@ -225,7 +218,7 @@ export const totalMagicDamageToFire = <
   S extends DeclaredStatus & { totalDamageToFire: number }
 >(
   status: S
-) => {
+): S & { totalMagicDamageToFire: number } => {
   return {
     ...status,
     totalMagicDamageToFire:
@@ -242,7 +235,7 @@ export const totalMagicDamageToEarth = <
   S extends DeclaredStatus & { totalDamageToEarth: number }
 >(
   status: S
-) => {
+): S & { totalMagicDamageToEarth: number } => {
   return {
     ...status,
     totalMagicDamageToEarth:
@@ -259,7 +252,7 @@ export const totalMagicDamageToWater = <
   S extends DeclaredStatus & { totalDamageToWater: number }
 >(
   status: S
-) => {
+): S & { totalMagicDamageToWater: number } => {
   return {
     ...status,
     totalMagicDamageToWater:
@@ -276,7 +269,7 @@ export const totalMagicDamageToWind = <
   S extends DeclaredStatus & { totalDamageToWind: number }
 >(
   status: S
-) => {
+): S & { totalMagicDamageToWind: number } => {
   return {
     ...status,
     totalMagicDamageToWind:
@@ -291,7 +284,28 @@ export const totalMagicDamageToWind = <
 
 export const calculateDamageToElement = <S extends DeclaredStatus>(
   status: S
-) => {
+): S & {
+  mainWeaponElement: Element;
+  subWeaponElement: Element;
+  totalDamageToDark: number;
+  totalDamageToLight: number;
+  totalDamageToFire: number;
+  totalDamageToEarth: number;
+  totalDamageToWater: number;
+  totalDamageToWind: number;
+  totalPhysicalDamageToDark: number;
+  totalPhysicalDamageToLight: number;
+  totalPhysicalDamageToFire: number;
+  totalPhysicalDamageToEarth: number;
+  totalPhysicalDamageToWater: number;
+  totalPhysicalDamageToWind: number;
+  totalMagicDamageToDark: number;
+  totalMagicDamageToLight: number;
+  totalMagicDamageToFire: number;
+  totalMagicDamageToEarth: number;
+  totalMagicDamageToWater: number;
+  totalMagicDamageToWind: number;
+} => {
   const dteCalcs = pipe(status)
     ._(mainWeaponElement)
     ._(subWeaponElement)

@@ -1,9 +1,8 @@
 import { resistance } from "@jmmaa/pino";
 import { DeclaredStatus } from "../types";
-import { accumulate } from "./helper";
+import { accumulate, pipe } from "./helper";
 
 // calc
-
 export const totalPhysicalResistance = <S extends DeclaredStatus>(
   status: S
 ): S & { totalPhysicalResistance: number } => {
@@ -96,3 +95,25 @@ export const totalNeutralResistance = <S extends DeclaredStatus>(
     ),
   };
 };
+
+export const calculateResistance = <S extends DeclaredStatus>(
+  status: S
+): S & {
+  totalDarkResistance: number;
+  totalLightResistance: number;
+  totalFireResistance: number;
+  totalWaterResistance: number;
+  totalEarthResistance: number;
+  totalWindResistance: number;
+  totalPhysicalResistance: number;
+  totalMagicResistance: number;
+} =>
+  pipe(status)
+    ._(totalDarkResistance)
+    ._(totalLightResistance)
+    ._(totalFireResistance)
+    ._(totalWaterResistance)
+    ._(totalEarthResistance)
+    ._(totalWindResistance)
+    ._(totalPhysicalResistance)
+    ._(totalMagicResistance).value;

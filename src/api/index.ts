@@ -17,3 +17,5 @@ export * from "./ATK";
 export * from "./MATK";
 
 export * from "./element";
+
+export * from "./resistance";

@@ -79,7 +79,14 @@ export const calculateCSPD = <
   S extends DeclaredStatus & { totalAGI: number; totalDEX: number }
 >(
   status: S
-) =>
+): S & {
+  totalBaseCSPD: number;
+  totalPercentCSPD: number;
+  totalFlatCSPD: number;
+  magicWarriorMasteryBonusFlatCSPD: number;
+  totalCSPD: number;
+  totalCastTimeReduction: number;
+} =>
   pipe(status)
     ._(totalBaseCSPD)
     ._(totalPercentCSPD)

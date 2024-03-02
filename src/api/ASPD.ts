@@ -12,7 +12,7 @@ import {
   staffBaseAttackSpeed,
   twoHandedSwordBaseAttackSpeed,
 } from "@jmmaa/pino";
-import { accumulate, total } from "./helper";
+import { accumulate, pipe, total } from "./helper";
 import {
   ArmorType,
   DeclaredStatus,
@@ -212,3 +212,22 @@ export const heavyArmorASPDModifier = <
     ? { ...status, totalPercentASPD: status.totalPercentASPD - 50 }
     : status;
 };
+
+export const calculateASPD = <
+  S extends DeclaredStatus & {
+    totalSTR: number;
+    totalDEX: number;
+    totalINT: number;
+    totalAGI: number;
+  }
+>(
+  status: S
+) =>
+  pipe(status)
+    ._(totalBaseASPD)
+    ._(totalPercentASPD)
+    ._(totalFlatASPD)
+    ._(lightArmorASPDModifier)
+    ._(heavyArmorASPDModifier)
+    ._(totalASPD)
+    ._(totalActionTimeReduction).value;

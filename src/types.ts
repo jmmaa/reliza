@@ -144,7 +144,7 @@ export type Element = Light | Dark | Fire | Water | Wind | Earth | Neutral;
 // > = S extends CompatibleSubWeaponType<M> ? S : never;
 // stats
 
-export type NumericalStats = {
+export interface NumericalStats {
   flatSTR: number;
   percentSTR: number;
 
@@ -202,6 +202,9 @@ export type NumericalStats = {
   flatUnsheatheAttack: number;
   percentUnsheatheAttack: number;
 
+  flatAttackMPRecovery: number;
+  percentAttackMPRecovery: number;
+
   stability: number;
 
   magicPierce: number;
@@ -243,23 +246,25 @@ export type NumericalStats = {
   damageToWind: number;
   damageToDark: number;
   damageToLight: number;
-};
 
-export type NonNumericalStats = {
+  aggro: number;
+}
+
+export interface NonNumericalStats {
   element: Element;
   tumbleUnavailable: boolean;
   flinchUnavailable: boolean;
   stunUnavailable: boolean;
-};
+}
 
-export type StatMap = NumericalStats & NonNumericalStats;
+export interface StatMap extends NumericalStats, NonNumericalStats {}
 
-export type Effect<S> = {
+export interface Effect<S> {
   predicate: (status: S) => boolean;
   stats: StatMap;
-};
+}
 
-export type DeclaredStatus = {
+export interface DeclaredStatus {
   level: number;
   STR: number;
   DEX: number;
@@ -326,4 +331,4 @@ export type DeclaredStatus = {
   foodBuffs: Effect<DeclaredStatus>[];
 
   magicWarriorMasteryLevel: number;
-};
+}

@@ -1,21 +1,6 @@
 import { baseMaxMP } from "@jmmaa/pino";
-import { accumulate, total } from "./helper";
+import { accumulate, pipe, total } from "./helper";
 import { DeclaredStatus } from "../types";
-
-// // stat
-// export const flatMaxMP = (
-//   value: number
-// ): { name: "flatMaxMP"; value: number } => ({
-//   name: "flatMaxMP",
-//   value,
-// });
-
-// export const percentMaxMP = (
-//   value: number
-// ): { name: "percentMaxMP"; value: number } => ({
-//   name: "percentMaxMP",
-//   value,
-// });
 
 // calc
 
@@ -69,3 +54,14 @@ export const totalPercentMaxMP = <S extends DeclaredStatus>(
     totalPercentMaxMP: accumulate(status, "percentMaxMP"),
   };
 };
+
+export const calculateMP = <
+  S extends DeclaredStatus & { totalINT: number; totalBaseTEC: number }
+>(
+  status: S
+) =>
+  pipe(status)
+    ._(totalBaseMaxMP)
+    ._(totalPercentMaxMP)
+    ._(totalFlatMaxMP)
+    ._(totalMaxMP).value;

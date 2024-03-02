@@ -190,26 +190,26 @@ export const subWeaponMagicDeviceATKModifier = <
   };
 };
 
-export const magicWarriorMasteryPenaltyNullificationValue = <
-  S extends DeclaredStatus
->(
-  status: S
-): S & { magicWarriorMasteryPenaltyNullificationValue: number } => {
-  const weapon = status.mainWeaponType;
+export const magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue =
+  <S extends DeclaredStatus>(
+    status: S
+  ): S & { magicWarriorMasteryPenaltyNullificationValue: number } => {
+    const weapon = status.mainWeaponType;
 
-  const skillLevel = status.magicWarriorMasteryLevel;
+    const skillLevel = status.magicWarriorMasteryLevel;
 
-  const ohsBonus = 5;
+    const ohsBonus = 5;
 
-  const value = skillLevel * 10;
+    const value = skillLevel * 10;
 
-  const result = weapon === "one-handed-sword" ? value + ohsBonus : value;
+    const result =
+      weapon === "one-handed-sword" ? value + ohsBonus : value;
 
-  return {
-    ...status,
-    magicWarriorMasteryPenaltyNullificationValue: result,
+    return {
+      ...status,
+      magicWarriorMasteryPenaltyNullificationValue: result,
+    };
   };
-};
 
 export const calculateATK = <
   S extends DeclaredStatus & {
@@ -232,7 +232,7 @@ export const calculateATK = <
 } =>
   pipe(status)
     ._(subWeaponMagicDeviceATKModifier)
-    ._(magicWarriorMasteryPenaltyNullificationValue)
+    ._(magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue)
     ._(totalBaseATK)
     ._(totalPercentATK)
     ._(totalFlatATK)
