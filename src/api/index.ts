@@ -2,7 +2,7 @@ export * from "./STR";
 export * from "./DEX";
 export * from "./INT";
 export * from "./VIT";
-export * from "./AGI";
+// export * from "./AGI";
 export * from "./personal";
 
 export * from "./criticalRate";

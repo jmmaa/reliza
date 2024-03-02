@@ -1,8 +1,5 @@
+import { accumulate, pipe, total } from "../helper";
 import { DeclaredStatus } from "../types";
-import { total, accumulate, pipe } from "./helper";
-
-// calc
-// this calc is just for consistency, but it is redundant
 
 export const totalBaseAGI = <S extends { AGI: number }>(
   status: S
@@ -10,6 +7,18 @@ export const totalBaseAGI = <S extends { AGI: number }>(
   ...status,
   totalBaseAGI: status.AGI,
 });
+
+export const totalPercentAGI = <S extends DeclaredStatus>(
+  status: S
+): S & { totalPercentAGI: number } => {
+  return { ...status, totalPercentAGI: accumulate(status, "percentAGI") };
+};
+
+export const totalFlatAGI = <S extends DeclaredStatus>(
+  status: S
+): S & { totalFlatAGI: number } => {
+  return { ...status, totalFlatAGI: accumulate(status, "flatAGI") };
+};
 
 export const totalAGI = <
   S extends {
@@ -28,20 +37,6 @@ export const totalAGI = <
       status.totalFlatAGI
     ),
   };
-};
-
-// calc
-
-export const totalPercentAGI = <S extends DeclaredStatus>(
-  status: S
-): S & { totalPercentAGI: number } => {
-  return { ...status, totalPercentAGI: accumulate(status, "percentAGI") };
-};
-
-export const totalFlatAGI = <S extends DeclaredStatus>(
-  status: S
-): S & { totalFlatAGI: number } => {
-  return { ...status, totalFlatAGI: accumulate(status, "flatAGI") };
 };
 
 export const calculateAGI = <S extends DeclaredStatus>(
