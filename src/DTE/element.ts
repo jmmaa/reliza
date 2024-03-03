@@ -1,6 +1,6 @@
-import { DeclaredStatus, Element } from "../types";
+import { DeclaredStatusMap, Element } from "../types";
 
-export const determineMainWeaponElement = <S extends DeclaredStatus>(
+export const determineMainWeaponElement = <S extends DeclaredStatusMap>(
   status: S
 ): Element => {
   return status.mainWeaponStats.reduce((ele, statGroup) => {
@@ -8,7 +8,7 @@ export const determineMainWeaponElement = <S extends DeclaredStatus>(
   }, "neutral" as Element);
 };
 
-export const determineSubWeaponElement = <S extends DeclaredStatus>(
+export const determineSubWeaponElement = <S extends DeclaredStatusMap>(
   status: S
 ): Element => {
   return status.subWeaponStats.reduce((ele, statGroup) => {
@@ -16,7 +16,7 @@ export const determineSubWeaponElement = <S extends DeclaredStatus>(
   }, "neutral" as Element);
 };
 
-export const mainWeaponElement = <S extends DeclaredStatus>(
+export const mainWeaponElement = <S extends DeclaredStatusMap>(
   status: S
 ): S & { mainWeaponElement: Element } => {
   return {
@@ -25,7 +25,7 @@ export const mainWeaponElement = <S extends DeclaredStatus>(
   };
 };
 
-export const subWeaponElement = <S extends DeclaredStatus>(
+export const subWeaponElement = <S extends DeclaredStatusMap>(
   status: S
 ): S & { subWeaponElement: Element } => {
   return {

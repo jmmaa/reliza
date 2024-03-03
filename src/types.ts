@@ -240,6 +240,8 @@ export interface NumericalStats {
 
   neutralResistance: number;
 
+  ailmentResistance: number;
+
   damageToFire: number;
   damageToEarth: number;
   damageToWater: number;
@@ -264,7 +266,7 @@ export interface Effect<S> {
   stats: StatMap;
 }
 
-export interface DeclaredStatus {
+export interface DeclaredStatusMap {
   level: number;
   STR: number;
   DEX: number;
@@ -282,26 +284,26 @@ export interface DeclaredStatus {
   mainWeaponStability: number;
 
   subWeaponType: SubWeaponType;
-  subWeaponATK: DeclaredStatus["subWeaponType"] extends SubWeaponTypeWithATK
+  subWeaponATK: DeclaredStatusMap["subWeaponType"] extends SubWeaponTypeWithATK
     ? number
     : 0;
-  subWeaponRefinement: DeclaredStatus["subWeaponType"] extends SubWeaponTypeWithRefinement
-    ? number
-    : 0;
-
-  subWeaponStability: DeclaredStatus["subWeaponType"] extends SubWeaponTypeWithStability
+  subWeaponRefinement: DeclaredStatusMap["subWeaponType"] extends SubWeaponTypeWithRefinement
     ? number
     : 0;
 
-  subWeaponDEF: DeclaredStatus["subWeaponType"] extends Shield
+  subWeaponStability: DeclaredStatusMap["subWeaponType"] extends SubWeaponTypeWithStability
     ? number
     : 0;
 
-  scrollCastTimeReduction: DeclaredStatus["subWeaponType"] extends NinjutsuScroll
+  subWeaponDEF: DeclaredStatusMap["subWeaponType"] extends Shield
     ? number
     : 0;
 
-  scrollMPReduction: DeclaredStatus["subWeaponType"] extends NinjutsuScroll
+  scrollCastTimeReduction: DeclaredStatusMap["subWeaponType"] extends NinjutsuScroll
+    ? number
+    : 0;
+
+  scrollMPReduction: DeclaredStatusMap["subWeaponType"] extends NinjutsuScroll
     ? number
     : 0;
 
@@ -311,24 +313,33 @@ export interface DeclaredStatus {
   additionalGearDEF: number;
   specialGearDEF: number;
 
-  mainWeaponStats: Effect<DeclaredStatus>[];
-  mainWeaponCrystals: Effect<DeclaredStatus>[][];
+  mainWeaponStats: Effect<DeclaredStatusMap>[];
+  mainWeaponCrystals: Effect<DeclaredStatusMap>[][];
 
-  subWeaponStats: Effect<DeclaredStatus>[];
-  subWeaponCrystals: Effect<DeclaredStatus>[][];
+  subWeaponStats: Effect<DeclaredStatusMap>[];
+  subWeaponCrystals: Effect<DeclaredStatusMap>[][];
 
-  additionalGearStats: Effect<DeclaredStatus>[];
-  additionalGearCrystals: Effect<DeclaredStatus>[][];
+  additionalGearStats: Effect<DeclaredStatusMap>[];
+  additionalGearCrystals: Effect<DeclaredStatusMap>[][];
 
-  armorStats: Effect<DeclaredStatus>[];
-  armorCrystals: Effect<DeclaredStatus>[][];
+  armorStats: Effect<DeclaredStatusMap>[];
+  armorCrystals: Effect<DeclaredStatusMap>[][];
 
-  specialGearStats: Effect<DeclaredStatus>[];
-  specialGearCrystals: Effect<DeclaredStatus>[];
+  specialGearStats: Effect<DeclaredStatusMap>[];
+  specialGearCrystals: Effect<DeclaredStatusMap>[][];
 
-  consumables: Effect<DeclaredStatus>[];
+  consumables: Effect<DeclaredStatusMap>[];
 
-  foodBuffs: Effect<DeclaredStatus>[];
+  foodBuffs: Effect<DeclaredStatusMap>[];
 
+  // regislets (must be same like skills too)
+
+  // magic blade skills
   magicWarriorMasteryLevel: number;
+
+  conversionLevel: number;
+  isConversionActive: boolean;
+
+  resonanceLevel: number;
+  isResonanceActive: boolean;
 }

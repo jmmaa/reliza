@@ -1,6 +1,6 @@
 import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 
 // ATK
 
@@ -35,7 +35,7 @@ export const totalMainWeaponATK = <
   };
 };
 
-export const totalFlatMainWeaponATK = <S extends DeclaredStatus>(
+export const totalFlatMainWeaponATK = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalFlatMainWeaponATK: number } => {
   return {
@@ -44,7 +44,7 @@ export const totalFlatMainWeaponATK = <S extends DeclaredStatus>(
   };
 };
 
-export const totalPercentMainWeaponATK = <S extends DeclaredStatus>(
+export const totalPercentMainWeaponATK = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalPercentMainWeaponATK: number } => {
   return {
@@ -75,7 +75,7 @@ export const totalMainWeaponRefinementBonusMainWeaponATK = <
 
 // these funcs are essentially the same with mainWeaponATK variants, i just wrote it for explicitness on
 // dual sword sub calculation
-export const totalBaseSubWeaponATK = <S extends DeclaredStatus>(
+export const totalBaseSubWeaponATK = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalBaseSubWeaponATK: number } => {
   return {
@@ -88,7 +88,7 @@ export const totalBaseSubWeaponATK = <S extends DeclaredStatus>(
 };
 
 export const totalSubWeaponATK = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     totalBaseSubWeaponATK: number;
     totalPercentSubWeaponATK: number;
     totalFlatSubWeaponATK: number;
@@ -113,7 +113,7 @@ export const totalSubWeaponATK = <
 
 /// CONTINUE HERE FINISH THE SUBWEAPON (make it work only with dualswords)
 
-export const totalFlatSubWeaponATK = <S extends DeclaredStatus>(
+export const totalFlatSubWeaponATK = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalFlatSubWeaponATK: number } => {
   return {
@@ -122,7 +122,7 @@ export const totalFlatSubWeaponATK = <S extends DeclaredStatus>(
   };
 };
 
-export const totalPercentSubWeaponATK = <S extends DeclaredStatus>(
+export const totalPercentSubWeaponATK = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalPercentSubWeaponATK: number } => {
   return {
@@ -149,7 +149,7 @@ export const totalSubWeaponRefinementBonusSubWeaponATK = <
   };
 };
 
-export const calculateWeaponATK = <S extends DeclaredStatus>(
+export const calculateWeaponATK = <S extends DeclaredStatusMap>(
   status: S
 ): S & {
   totalBaseMainWeaponATK: number;

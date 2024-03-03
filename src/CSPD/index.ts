@@ -1,6 +1,6 @@
 import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 
 export const totalBaseCSPD = <
   S extends { level: number; totalAGI: number; totalDEX: number }
@@ -16,7 +16,7 @@ export const totalBaseCSPD = <
 });
 
 export const totalFlatCSPD = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     magicWarriorMasteryBonusFlatCSPD: number;
   }
 >(
@@ -32,7 +32,7 @@ export const totalFlatCSPD = <
   };
 };
 
-export const totalPercentCSPD = <S extends DeclaredStatus>(
+export const totalPercentCSPD = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalPercentCSPD: number } => {
   return {
@@ -73,7 +73,9 @@ export const totalCastTimeReduction = <
   };
 };
 
-export const magicWarriorMasteryBonusFlatCSPD = <S extends DeclaredStatus>(
+export const magicWarriorMasteryBonusFlatCSPD = <
+  S extends DeclaredStatusMap
+>(
   status: S
 ) => {
   const bonus = status.magicWarriorMasteryLevel * 10;
@@ -82,7 +84,7 @@ export const magicWarriorMasteryBonusFlatCSPD = <S extends DeclaredStatus>(
 };
 
 export const calculateCSPD = <
-  S extends DeclaredStatus & { totalAGI: number; totalDEX: number }
+  S extends DeclaredStatusMap & { totalAGI: number; totalDEX: number }
 >(
   status: S
 ): S & {

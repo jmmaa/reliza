@@ -1,9 +1,9 @@
 import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 
 export const totalBaseMATK = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     totalMainWeaponATK: number;
     totalSTR: number;
     totalDEX: number;
@@ -130,7 +130,7 @@ export const totalBaseMATK = <
 };
 
 export const totalPercentMATK = <
-  S extends DeclaredStatus & { subWeaponKnuckleMATKModifier: number }
+  S extends DeclaredStatusMap & { subWeaponKnuckleMATKModifier: number }
 >(
   status: S
 ): S & { totalPercentMATK: number } => {
@@ -145,20 +145,24 @@ export const totalPercentMATK = <
 };
 
 export const totalFlatMATK = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     magicWarriorMasteryBonusFlatMATK: number;
+    conversionBonusFlatMATK: number;
   }
 >(
   status: S
 ): S & { totalFlatMATK: number } => {
   const acquired = accumulate(status, "flatMATK");
 
-  const external = status.magicWarriorMasteryBonusFlatMATK;
+  const total =
+    acquired +
+    status.magicWarriorMasteryBonusFlatMATK +
+    status.conversionBonusFlatMATK;
 
-  return { ...status, totalFlatMATK: acquired + external };
+  return { ...status, totalFlatMATK: total };
 };
 
-export const subWeaponKnuckleMATKModifier = <S extends DeclaredStatus>(
+export const subWeaponKnuckleMATKModifier = <S extends DeclaredStatusMap>(
   status: S
 ): S & { subWeaponKnuckleMATKModifier: number } => {
   return {
@@ -168,7 +172,9 @@ export const subWeaponKnuckleMATKModifier = <S extends DeclaredStatus>(
   };
 };
 
-export const magicWarriorMasteryBonusFlatMATK = <S extends DeclaredStatus>(
+export const magicWarriorMasteryBonusFlatMATK = <
+  S extends DeclaredStatusMap
+>(
   status: S
 ): S & { magicWarriorMasteryBonusFlatMATK: number } => {
   const subWeapon = status.subWeaponType;
@@ -186,8 +192,37 @@ export const magicWarriorMasteryBonusFlatMATK = <S extends DeclaredStatus>(
   };
 };
 
+export const conversionBonusFlatMATK = <
+  S extends DeclaredStatusMap & { totalMainWeaponATK: number }
+>(
+  status: S
+): S & { conversionBonusFlatMATK: number } => {
+  const skillLevel = status.conversionLevel;
+
+  const isAllowed =
+    status.mainWeaponType === "two-handed-sword" ||
+    status.mainWeaponType === "bowgun" ||
+    status.mainWeaponType === "knuckle" ||
+    status.mainWeaponType === "one-handed-sword";
+
+  const fromWeaponATK = Math.floor(
+    ((skillLevel * skillLevel) / 100) *
+      (status.mainWeaponType === "knuckle"
+        ? status.totalMainWeaponATK * 0.5
+        : status.totalMainWeaponATK)
+  );
+  const bonusFlatMATK = skillLevel * 2;
+
+  const total = isAllowed ? bonusFlatMATK + fromWeaponATK : 0;
+
+  return {
+    ...status,
+    conversionBonusFlatMATK: total,
+  };
+};
+
 export const totalMATK = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     totalBaseMATK: number;
     totalPercentMATK: number;
     totalFlatMATK: number;
@@ -206,7 +241,7 @@ export const totalMATK = <
 };
 
 export const calculateMATK = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     totalMainWeaponATK: number;
     totalSTR: number;
     totalDEX: number;
@@ -226,6 +261,7 @@ export const calculateMATK = <
   const calcs = pipe(status)
     ._(subWeaponKnuckleMATKModifier)
     ._(magicWarriorMasteryBonusFlatMATK)
+    ._(conversionBonusFlatMATK)
     ._(totalBaseMATK)
     ._(totalPercentMATK)
     ._(totalFlatMATK)

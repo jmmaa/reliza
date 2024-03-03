@@ -1,6 +1,6 @@
 import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 
 export const totalBaseCriticalRate = <S extends { totalBaseCRT: number }>(
   status: S
@@ -9,7 +9,7 @@ export const totalBaseCriticalRate = <S extends { totalBaseCRT: number }>(
   totalBaseCriticalRate: pino.baseCriticalRate(status.totalBaseCRT),
 });
 
-export const totalPercentCriticalRate = <S extends DeclaredStatus>(
+export const totalPercentCriticalRate = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalPercentCriticalRate: number } => {
   return {
@@ -18,7 +18,7 @@ export const totalPercentCriticalRate = <S extends DeclaredStatus>(
   };
 };
 
-export const totalFlatCriticalRate = <S extends DeclaredStatus>(
+export const totalFlatCriticalRate = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalFlatCriticalRate: number } => {
   return {
@@ -47,7 +47,7 @@ export const totalCriticalRate = <
 };
 
 export const calculateCriticalRate = <
-  S extends DeclaredStatus & { totalBaseCRT: number }
+  S extends DeclaredStatusMap & { totalBaseCRT: number }
 >(
   status: S
 ) => {

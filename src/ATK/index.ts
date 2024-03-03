@@ -1,9 +1,9 @@
 import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 
 export const totalBaseATK = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     totalMainWeaponATK: number;
     totalSTR: number;
     totalDEX: number;
@@ -132,7 +132,7 @@ export const totalBaseATK = <
 };
 
 export const totalPercentATK = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     subWeaponMagicDevicePercentATKModifier: number;
     magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue: number;
   }
@@ -152,14 +152,14 @@ export const totalPercentATK = <
   };
 };
 
-export const totalFlatATK = <S extends DeclaredStatus>(
+export const totalFlatATK = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalFlatATK: number } => {
   return { ...status, totalFlatATK: accumulate(status, "flatATK") };
 };
 
 export const subWeaponMagicDevicePercentATKModifier = <
-  S extends DeclaredStatus
+  S extends DeclaredStatusMap
 >(
   status: S
 ): S & { subWeaponMagicDevicePercentATKModifier: number } => {
@@ -171,7 +171,7 @@ export const subWeaponMagicDevicePercentATKModifier = <
 };
 
 export const magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue =
-  <S extends DeclaredStatus>(
+  <S extends DeclaredStatusMap>(
     status: S
   ): S & {
     magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue: number;
@@ -213,7 +213,7 @@ export const totalATK = <
 };
 
 export const calculateATK = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     totalMainWeaponATK: number;
     totalSTR: number;
     totalDEX: number;

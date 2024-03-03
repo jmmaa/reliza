@@ -1,9 +1,18 @@
 import * as pino from "@jmmaa/pino";
 import { accumulate, pipe } from "../helper";
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 
-// calc
-export const totalPhysicalResistance = <S extends DeclaredStatus>(
+export const totalAilmentResistance = <S extends DeclaredStatusMap>(
+  status: S
+): S & { totalAilmentResistance: number } => {
+  const accumulated = accumulate(status, "ailmentResistance");
+  const base = pino.baseAilmentResistance(status.MTL);
+
+  const total = base + accumulated;
+  return { ...status, totalAilmentResistance: total };
+};
+
+export const totalPhysicalResistance = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalPhysicalResistance: number } => {
   return {
@@ -14,7 +23,7 @@ export const totalPhysicalResistance = <S extends DeclaredStatus>(
   };
 };
 
-export const totalMagicResistance = <S extends DeclaredStatus>(
+export const totalMagicResistance = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalMagicResistance: number } => {
   return {
@@ -25,7 +34,7 @@ export const totalMagicResistance = <S extends DeclaredStatus>(
   };
 };
 
-export const totalLightResistance = <S extends DeclaredStatus>(
+export const totalLightResistance = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalLightResistance: number } => {
   return {
@@ -36,7 +45,7 @@ export const totalLightResistance = <S extends DeclaredStatus>(
   };
 };
 
-export const totalDarkResistance = <S extends DeclaredStatus>(
+export const totalDarkResistance = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalDarkResistance: number } => {
   return {
@@ -47,7 +56,7 @@ export const totalDarkResistance = <S extends DeclaredStatus>(
   };
 };
 
-export const totalFireResistance = <S extends DeclaredStatus>(
+export const totalFireResistance = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalFireResistance: number } => {
   return {
@@ -58,7 +67,7 @@ export const totalFireResistance = <S extends DeclaredStatus>(
   };
 };
 
-export const totalWaterResistance = <S extends DeclaredStatus>(
+export const totalWaterResistance = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalWaterResistance: number } => {
   return {
@@ -69,7 +78,7 @@ export const totalWaterResistance = <S extends DeclaredStatus>(
   };
 };
 
-export const totalEarthResistance = <S extends DeclaredStatus>(
+export const totalEarthResistance = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalEarthResistance: number } => {
   return {
@@ -80,7 +89,7 @@ export const totalEarthResistance = <S extends DeclaredStatus>(
   };
 };
 
-export const totalWindResistance = <S extends DeclaredStatus>(
+export const totalWindResistance = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalWindResistance: number } => {
   return {
@@ -91,7 +100,7 @@ export const totalWindResistance = <S extends DeclaredStatus>(
   };
 };
 
-export const totalNeutralResistance = <S extends DeclaredStatus>(
+export const totalNeutralResistance = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalNeutralResistance: number } => {
   return {
@@ -102,7 +111,7 @@ export const totalNeutralResistance = <S extends DeclaredStatus>(
   };
 };
 
-export const calculateResistance = <S extends DeclaredStatus>(
+export const calculateResistance = <S extends DeclaredStatusMap>(
   status: S
 ): S & {
   totalDarkResistance: number;
@@ -113,6 +122,9 @@ export const calculateResistance = <S extends DeclaredStatus>(
   totalWindResistance: number;
   totalPhysicalResistance: number;
   totalMagicResistance: number;
+
+  totalNeutralResistance: number;
+  totalAilmentResistance: number;
 } => {
   const calcs = pipe(status)
     ._(totalDarkResistance)
@@ -122,7 +134,9 @@ export const calculateResistance = <S extends DeclaredStatus>(
     ._(totalEarthResistance)
     ._(totalWindResistance)
     ._(totalPhysicalResistance)
-    ._(totalMagicResistance);
+    ._(totalMagicResistance)
+    ._(totalNeutralResistance)
+    ._(totalAilmentResistance);
 
   return calcs.value;
 };

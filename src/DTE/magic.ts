@@ -1,13 +1,13 @@
 import * as pino from "@jmmaa/pino";
-import { DeclaredStatus, Element } from "../types";
+import { DeclaredStatusMap, Element } from "../types";
 
-const isStaffMain = <S extends DeclaredStatus>(status: S) =>
+const isStaffMain = <S extends DeclaredStatusMap>(status: S) =>
   status.mainWeaponType === "staff";
 
-const isMagicDeviceMain = <S extends DeclaredStatus>(status: S) =>
+const isMagicDeviceMain = <S extends DeclaredStatusMap>(status: S) =>
   status.mainWeaponType === "magic-device";
 
-export const bonusDamageToElementFromINT = <S extends DeclaredStatus>(
+export const bonusDamageToElementFromINT = <S extends DeclaredStatusMap>(
   status: S
 ) => {
   return {
@@ -17,7 +17,7 @@ export const bonusDamageToElementFromINT = <S extends DeclaredStatus>(
 };
 
 export const isAwakenedElementStaffOrMagicMain = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     mainWeaponElement: Element;
   }
 >(
@@ -27,7 +27,7 @@ export const isAwakenedElementStaffOrMagicMain = <
   (isMagicDeviceMain(status) && status.mainWeaponElement !== "neutral");
 
 export const totalMagicDamageToDark = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     mainWeaponElement: Element;
     totalDamageToDark: number;
     bonusDamageToElementFromINT: number;
@@ -50,7 +50,7 @@ export const totalMagicDamageToDark = <
 };
 
 export const totalMagicDamageToLight = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     mainWeaponElement: Element;
     totalDamageToLight: number;
     bonusDamageToElementFromINT: number;
@@ -73,7 +73,7 @@ export const totalMagicDamageToLight = <
 };
 
 export const totalMagicDamageToFire = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     mainWeaponElement: Element;
     totalDamageToFire: number;
     bonusDamageToElementFromINT: number;
@@ -96,7 +96,7 @@ export const totalMagicDamageToFire = <
 };
 
 export const totalMagicDamageToWater = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     mainWeaponElement: Element;
     totalDamageToWater: number;
     bonusDamageToElementFromINT: number;
@@ -119,7 +119,7 @@ export const totalMagicDamageToWater = <
 };
 
 export const totalMagicDamageToWind = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     mainWeaponElement: Element;
     totalDamageToWind: number;
     bonusDamageToElementFromINT: number;
@@ -142,7 +142,7 @@ export const totalMagicDamageToWind = <
 };
 
 export const totalMagicDamageToEarth = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     mainWeaponElement: Element;
     totalDamageToEarth: number;
     bonusDamageToElementFromINT: number;

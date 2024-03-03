@@ -1,4 +1,4 @@
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 import { pipe } from "../helper";
 
 // calc
@@ -30,7 +30,7 @@ export const totalBaseTEC = <S extends { TEC: number }>(
   totalBaseTEC: status.TEC,
 });
 
-export const calculatePersonal = <S extends DeclaredStatus>(
+export const calculatePersonal = <S extends DeclaredStatusMap>(
   status: S
 ): S & {
   totalBaseMTL: number;

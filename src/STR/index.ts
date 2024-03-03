@@ -1,5 +1,5 @@
 import { accumulate, pipe, total } from "../helper";
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 
 export const totalBaseSTR = <S extends { STR: number }>(
   status: S
@@ -8,13 +8,13 @@ export const totalBaseSTR = <S extends { STR: number }>(
   totalBaseSTR: status.STR,
 });
 
-export const totalPercentSTR = <S extends DeclaredStatus>(
+export const totalPercentSTR = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalPercentSTR: number } => {
   return { ...status, totalPercentSTR: accumulate(status, "percentSTR") };
 };
 
-export const totalFlatSTR = <S extends DeclaredStatus>(
+export const totalFlatSTR = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalFlatSTR: number } => {
   return { ...status, totalFlatSTR: accumulate(status, "flatSTR") };
@@ -39,7 +39,7 @@ export const totalSTR = <
   };
 };
 
-export const calculateSTR = <S extends DeclaredStatus>(
+export const calculateSTR = <S extends DeclaredStatusMap>(
   status: S
 ): S & {
   totalBaseSTR: number;

@@ -1,12 +1,12 @@
 import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 
 // calc
 
 // this calc is just for consistency, but it is redundant
 export const totalBaseMaxMP = <
-  S extends DeclaredStatus & { totalINT: number; totalBaseTEC: number }
+  S extends DeclaredStatusMap & { totalINT: number; totalBaseTEC: number }
 >(
   status: S
 ): S & { totalBaseMaxMP: number } => ({
@@ -37,7 +37,7 @@ export const totalMaxMP = <
   };
 };
 
-export const totalFlatMaxMP = <S extends DeclaredStatus>(
+export const totalFlatMaxMP = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalFlatMaxMP: number } => {
   return {
@@ -46,7 +46,7 @@ export const totalFlatMaxMP = <S extends DeclaredStatus>(
   };
 };
 
-export const totalPercentMaxMP = <S extends DeclaredStatus>(
+export const totalPercentMaxMP = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalPercentMaxMP: number } => {
   return {
@@ -56,7 +56,7 @@ export const totalPercentMaxMP = <S extends DeclaredStatus>(
 };
 
 export const calculateMP = <
-  S extends DeclaredStatus & { totalINT: number; totalBaseTEC: number }
+  S extends DeclaredStatusMap & { totalINT: number; totalBaseTEC: number }
 >(
   status: S
 ) => {

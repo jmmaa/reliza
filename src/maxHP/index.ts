@@ -1,9 +1,9 @@
 import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 
 export const totalBaseMaxHP = <
-  S extends DeclaredStatus & { totalVIT: number }
+  S extends DeclaredStatusMap & { totalVIT: number }
 >(
   status: S
 ): S & { totalBaseMaxHP: number } => ({
@@ -30,7 +30,7 @@ export const totalMaxHP = <
   };
 };
 
-export const totalFlatMaxHP = <S extends DeclaredStatus>(
+export const totalFlatMaxHP = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalFlatMaxHP: number } => {
   return {
@@ -39,7 +39,7 @@ export const totalFlatMaxHP = <S extends DeclaredStatus>(
   };
 };
 
-export const totalPercentMaxHP = <S extends DeclaredStatus>(
+export const totalPercentMaxHP = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalPercentMaxHP: number } => {
   return {
@@ -49,7 +49,7 @@ export const totalPercentMaxHP = <S extends DeclaredStatus>(
 };
 
 export const calculateHP = <
-  S extends DeclaredStatus & { totalVIT: number }
+  S extends DeclaredStatusMap & { totalVIT: number }
 >(
   status: S
 ): S & {

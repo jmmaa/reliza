@@ -1,11 +1,11 @@
 import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 
 // calc
 
 export const totalBaseASPD = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     totalSTR: number;
     totalDEX: number;
     totalINT: number;
@@ -123,7 +123,7 @@ export const totalBaseASPD = <
 };
 
 export const totalPercentASPD = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     lightArmorPercentASPDModifier: number;
     heavyArmorPercentASPDModifier: number;
   }
@@ -143,7 +143,7 @@ export const totalPercentASPD = <
   };
 };
 
-export const totalFlatASPD = <S extends DeclaredStatus>(
+export const totalFlatASPD = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalFlatASPD: number } => {
   return {
@@ -165,7 +165,7 @@ export const totalActionTimeReduction = <
   };
 };
 
-export const lightArmorPercentASPDModifier = <S extends DeclaredStatus>(
+export const lightArmorPercentASPDModifier = <S extends DeclaredStatusMap>(
   status: S
 ) => {
   return {
@@ -174,7 +174,7 @@ export const lightArmorPercentASPDModifier = <S extends DeclaredStatus>(
   };
 };
 
-export const heavyArmorPercentASPDModifier = <S extends DeclaredStatus>(
+export const heavyArmorPercentASPDModifier = <S extends DeclaredStatusMap>(
   status: S
 ) => {
   return {
@@ -203,7 +203,7 @@ export const totalASPD = <
 };
 
 export const calculateASPD = <
-  S extends DeclaredStatus & {
+  S extends DeclaredStatusMap & {
     totalSTR: number;
     totalDEX: number;
     totalINT: number;

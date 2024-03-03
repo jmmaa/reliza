@@ -1,5 +1,5 @@
 import { accumulate, pipe, total } from "../helper";
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 
 export const totalBaseVIT = <S extends { VIT: number }>(
   status: S
@@ -8,13 +8,13 @@ export const totalBaseVIT = <S extends { VIT: number }>(
   totalBaseVIT: status.VIT,
 });
 
-export const totalPercentVIT = <S extends DeclaredStatus>(
+export const totalPercentVIT = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalPercentVIT: number } => {
   return { ...status, totalPercentVIT: accumulate(status, "percentVIT") };
 };
 
-export const totalFlatVIT = <S extends DeclaredStatus>(
+export const totalFlatVIT = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalFlatVIT: number } => {
   return { ...status, totalFlatVIT: accumulate(status, "flatVIT") };
@@ -39,7 +39,7 @@ export const totalVIT = <
   };
 };
 
-export const calculateVIT = <S extends DeclaredStatus>(
+export const calculateVIT = <S extends DeclaredStatusMap>(
   status: S
 ): S & {
   totalBaseVIT: number;

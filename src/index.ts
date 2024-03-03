@@ -20,129 +20,34 @@ export * from "./DTE";
 
 export * from "./resistance";
 
+export * from "./aggro";
+
 import * as d from ".";
-import { DeclaredStatus, Effect, StatMap } from "./types";
-import { DEFAULT, stats } from "./api/helper";
+import { pipe, stats, status, DEFAULT } from "./helper";
+import { DeclaredStatusMap } from "./types";
 
-import { pipe } from "./api/helper";
-
-export const calculate = <S extends DeclaredStatus>(status: S) => {
+export const calculate = <S extends DeclaredStatusMap>(status: S) => {
   const allCalculations = pipe(status)
-    // basic
     ._(d.calculateSTR)
     ._(d.calculateINT)
     ._(d.calculateDEX)
     ._(d.calculateVIT)
     ._(d.calculateAGI)
-
-    // personal
     ._(d.calculatePersonal)
-
-    // hp
     ._(d.calculateHP)
-
-    // mp
     ._(d.calculateMP)
-
-    // cast speed
     ._(d.calculateCSPD)
-
-    // attack speed
     ._(d.calculateASPD)
-
-    // crit rate
     ._(d.calculateCriticalRate)
-
-    // crit damage
     ._(d.calculateCriticalDamage)
-
-    // weaponATK
     ._(d.calculateWeaponATK)
-
-    // ATK
     ._(d.calculateATK)
-
-    // MATK
     ._(d.calculateMATK)
-
-    // dte
     ._(d.calculateDTE)
-
-    // resistance
-    ._(d.calculateResistance);
+    ._(d.calculateResistance)
+    ._(d.calculateAggro);
 
   return allCalculations.value;
-};
-
-export const defaultDeclarations: DeclaredStatus = {
-  level: 1,
-  STR: 1,
-  DEX: 1,
-  INT: 1,
-  VIT: 1,
-  AGI: 1,
-  TEC: 0,
-  MTL: 0,
-  CRT: 0,
-  LUK: 0,
-
-  mainWeaponType: "bare-hand",
-  mainWeaponATK: 0,
-  mainWeaponStability: 0,
-  mainWeaponRefinement: 0,
-  mainWeaponStats: [],
-  mainWeaponCrystals: [],
-
-  subWeaponType: "none",
-  subWeaponATK: 0,
-  subWeaponDEF: 0,
-  subWeaponRefinement: 0,
-  subWeaponStability: 0,
-  scrollCastTimeReduction: 0,
-  scrollMPReduction: 0,
-  subWeaponStats: [],
-  subWeaponCrystals: [],
-
-  additionalGearDEF: 0,
-  additionalGearStats: [],
-  additionalGearCrystals: [],
-
-  armorDEF: 0,
-  armorType: "none",
-  armorStats: [],
-  armorCrystals: [],
-
-  specialGearDEF: 0,
-  specialGearStats: [],
-  specialGearCrystals: [],
-
-  consumables: [],
-  foodBuffs: [],
-
-  magicWarriorMasteryLevel: 0,
-};
-
-export const status = (
-  declarations: Partial<DeclaredStatus>
-): DeclaredStatus => ({
-  ...defaultDeclarations,
-  ...declarations,
-});
-
-export const flatCritRate = (value: number) => ({
-  predicate: (status: DeclaredStatus) => status.armorType === "heavy",
-  stats: stats({ flatCriticalRate: value }),
-});
-
-export const withMagicToolsOnly = (
-  statMap: Partial<StatMap>
-): Effect<DeclaredStatus> => {
-  return {
-    predicate: (status) =>
-      status.mainWeaponType === "staff" ||
-      status.mainWeaponType === "magic-device",
-    stats: stats(statMap),
-  };
 };
 
 export const WickedDragonFazzino = [
@@ -257,6 +162,8 @@ const magicDeviceSupport = status({
   ],
 
   armorType: "none",
+
+  conversionLevel: 10,
 });
 
 const start = performance.now();

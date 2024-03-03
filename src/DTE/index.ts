@@ -4,10 +4,10 @@ export * from "./physical";
 export * from "./element";
 
 import { pipe } from "../helper";
-import { DeclaredStatus, Element } from "../types";
+import { DeclaredStatusMap } from "../types";
 import * as calc from ".";
 
-export const calculateDTE = <S extends DeclaredStatus>(status: S) => {
+export const calculateDTE = <S extends DeclaredStatusMap>(status: S) => {
   const calcs = pipe(status)
     ._(calc.mainWeaponElement)
     ._(calc.subWeaponElement)

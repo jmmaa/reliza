@@ -1,5 +1,5 @@
 import { accumulate, pipe, total } from "../helper";
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 
 export const totalBaseDEX = <S extends { DEX: number }>(
   status: S
@@ -8,13 +8,13 @@ export const totalBaseDEX = <S extends { DEX: number }>(
   totalBaseDEX: status.DEX,
 });
 
-export const totalPercentDEX = <S extends DeclaredStatus>(
+export const totalPercentDEX = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalPercentDEX: number } => {
   return { ...status, totalPercentDEX: accumulate(status, "percentDEX") };
 };
 
-export const totalFlatDEX = <S extends DeclaredStatus>(
+export const totalFlatDEX = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalFlatDEX: number } => {
   return { ...status, totalFlatDEX: accumulate(status, "flatDEX") };
@@ -39,7 +39,7 @@ export const totalDEX = <
   };
 };
 
-export const calculateDEX = <S extends DeclaredStatus>(
+export const calculateDEX = <S extends DeclaredStatusMap>(
   status: S
 ): S & {
   totalBaseDEX: number;

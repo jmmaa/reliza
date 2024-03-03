@@ -1,5 +1,5 @@
 import { accumulate, pipe, total } from "../helper";
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 
 export const totalBaseAGI = <S extends { AGI: number }>(
   status: S
@@ -8,13 +8,13 @@ export const totalBaseAGI = <S extends { AGI: number }>(
   totalBaseAGI: status.AGI,
 });
 
-export const totalPercentAGI = <S extends DeclaredStatus>(
+export const totalPercentAGI = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalPercentAGI: number } => {
   return { ...status, totalPercentAGI: accumulate(status, "percentAGI") };
 };
 
-export const totalFlatAGI = <S extends DeclaredStatus>(
+export const totalFlatAGI = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalFlatAGI: number } => {
   return { ...status, totalFlatAGI: accumulate(status, "flatAGI") };
@@ -39,7 +39,7 @@ export const totalAGI = <
   };
 };
 
-export const calculateAGI = <S extends DeclaredStatus>(
+export const calculateAGI = <S extends DeclaredStatusMap>(
   status: S
 ): S & {
   totalBaseAGI: number;

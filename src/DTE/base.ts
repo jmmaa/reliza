@@ -1,8 +1,8 @@
-import { DeclaredStatus, Element } from "../types";
+import { DeclaredStatusMap, Element } from "../types";
 import { accumulate } from "../helper";
 
 export const totalDamageToDark = <
-  S extends DeclaredStatus & { mainWeaponElement: Element }
+  S extends DeclaredStatusMap & { mainWeaponElement: Element }
 >(
   status: S
 ): S & { totalDamageToDark: number } => {
@@ -19,7 +19,7 @@ export const totalDamageToDark = <
 };
 
 export const totalDamageToLight = <
-  S extends DeclaredStatus & { mainWeaponElement: Element }
+  S extends DeclaredStatusMap & { mainWeaponElement: Element }
 >(
   status: S
 ): S & { totalDamageToLight: number } => {
@@ -36,7 +36,7 @@ export const totalDamageToLight = <
 };
 
 export const totalDamageToFire = <
-  S extends DeclaredStatus & { mainWeaponElement: Element }
+  S extends DeclaredStatusMap & { mainWeaponElement: Element }
 >(
   status: S
 ): S & { totalDamageToFire: number } => {
@@ -53,7 +53,7 @@ export const totalDamageToFire = <
 };
 
 export const totalDamageToWater = <
-  S extends DeclaredStatus & { mainWeaponElement: Element }
+  S extends DeclaredStatusMap & { mainWeaponElement: Element }
 >(
   status: S
 ): S & { totalDamageToWater: number } => {
@@ -70,7 +70,7 @@ export const totalDamageToWater = <
 };
 
 export const totalDamageToWind = <
-  S extends DeclaredStatus & { mainWeaponElement: Element }
+  S extends DeclaredStatusMap & { mainWeaponElement: Element }
 >(
   status: S
 ): S & { totalDamageToWind: number } => {
@@ -87,7 +87,7 @@ export const totalDamageToWind = <
 };
 
 export const totalDamageToEarth = <
-  S extends DeclaredStatus & { mainWeaponElement: Element }
+  S extends DeclaredStatusMap & { mainWeaponElement: Element }
 >(
   status: S
 ): S & { totalDamageToEarth: number } => {

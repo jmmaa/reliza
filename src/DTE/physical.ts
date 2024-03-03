@@ -1,7 +1,7 @@
-import { DeclaredStatus } from "../types";
+import { DeclaredStatusMap } from "../types";
 
 export const totalPhysicalDamageToDark = <
-  S extends DeclaredStatus & { totalDamageToDark: number }
+  S extends DeclaredStatusMap & { totalDamageToDark: number }
 >(
   status: S
 ): S & { totalPhysicalDamageToDark: number } => {
@@ -12,7 +12,7 @@ export const totalPhysicalDamageToDark = <
 };
 
 export const totalPhysicalDamageToLight = <
-  S extends DeclaredStatus & { totalDamageToLight: number }
+  S extends DeclaredStatusMap & { totalDamageToLight: number }
 >(
   status: S
 ): S & { totalPhysicalDamageToLight: number } => {
@@ -23,7 +23,7 @@ export const totalPhysicalDamageToLight = <
 };
 
 export const totalPhysicalDamageToFire = <
-  S extends DeclaredStatus & { totalDamageToFire: number }
+  S extends DeclaredStatusMap & { totalDamageToFire: number }
 >(
   status: S
 ): S & { totalPhysicalDamageToFire: number } => {
@@ -34,7 +34,7 @@ export const totalPhysicalDamageToFire = <
 };
 
 export const totalPhysicalDamageToWater = <
-  S extends DeclaredStatus & { totalDamageToWater: number }
+  S extends DeclaredStatusMap & { totalDamageToWater: number }
 >(
   status: S
 ): S & { totalPhysicalDamageToWater: number } => {
@@ -45,7 +45,7 @@ export const totalPhysicalDamageToWater = <
 };
 
 export const totalPhysicalDamageToWind = <
-  S extends DeclaredStatus & { totalDamageToWind: number }
+  S extends DeclaredStatusMap & { totalDamageToWind: number }
 >(
   status: S
 ): S & { totalPhysicalDamageToWind: number } => {
@@ -56,7 +56,7 @@ export const totalPhysicalDamageToWind = <
 };
 
 export const totalPhysicalDamageToEarth = <
-  S extends DeclaredStatus & { totalDamageToEarth: number }
+  S extends DeclaredStatusMap & { totalDamageToEarth: number }
 >(
   status: S
 ): S & { totalPhysicalDamageToEarth: number } => {
