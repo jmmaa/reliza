@@ -18,13 +18,17 @@ export const totalBaseCSPD = <
 export const totalFlatCSPD = <
   S extends DeclaredStatusMap & {
     magicWarriorMasteryBonusFlatCSPD: number;
+    resonanceBonusFlatCSPD: number;
   }
 >(
   status: S
 ): S & { totalFlatCSPD: number } => {
   const acquired = accumulate(status, "flatCSPD");
 
-  const total = acquired + status.magicWarriorMasteryBonusFlatCSPD;
+  const total =
+    acquired +
+    status.magicWarriorMasteryBonusFlatCSPD +
+    status.resonanceBonusFlatCSPD;
 
   return {
     ...status,
@@ -38,6 +42,30 @@ export const totalPercentCSPD = <S extends DeclaredStatusMap>(
   return {
     ...status,
     totalPercentCSPD: accumulate(status, "percentCSPD"),
+  };
+};
+
+export const resonanceBonusFlatCSPD = <
+  S extends DeclaredStatusMap & {
+    resonanceLevel: number;
+    isResonanceActive: boolean;
+  }
+>(
+  status: S
+) => {
+  const isAllowed =
+    status.subWeaponType === "magic-device" && status.isResonanceActive;
+
+  const skillLevel = status.resonanceLevel;
+  const mdRefine = status.subWeaponRefinement;
+
+  const bonusFlatCSPD = skillLevel * 25 + mdRefine * 50;
+
+  const total = isAllowed ? bonusFlatCSPD : 0;
+
+  return {
+    ...status,
+    resonanceBonusFlatCSPD: total,
   };
 };
 
@@ -97,6 +125,7 @@ export const calculateCSPD = <
 } => {
   const calcs = pipe(status)
     ._(magicWarriorMasteryBonusFlatCSPD)
+    ._(resonanceBonusFlatCSPD)
     ._(totalBaseCSPD)
     ._(totalPercentCSPD)
     ._(totalFlatCSPD)

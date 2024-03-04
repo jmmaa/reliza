@@ -61,9 +61,6 @@ export type SubWeaponTypeWithATK =
   | Knuckle
   | MagicDevice;
 
-export type SubWeaponTypeWithATKValue<Sub extends SubWeaponType> =
-  Sub extends SubWeaponTypeWithATK ? number : 0;
-
 export type SubWeaponTypeWithRefinement =
   | Katana
   | OneHandedSword
@@ -100,49 +97,6 @@ export type Dark = "dark";
 export type Neutral = "neutral";
 
 export type Element = Light | Dark | Fire | Water | Wind | Earth | Neutral;
-// export type CompatibleSubWeaponType<Main extends MainWeaponType> =
-//   Main extends OneHandedSword
-//     ?
-//         | OneHandedSword
-//         | Knuckle
-//         | MagicDevice
-//         | NinjutsuScroll
-//         | Arrow
-//         | Shield
-//         | Dagger
-//         | None
-//     : Main extends TwoHandedSword
-//     ? None
-//     : Main extends Bow
-//     ? Katana | Arrow | None
-//     : Main extends Bowgun
-//     ? Knuckle | MagicDevice | Arrow | Shield | Dagger | None
-//     : Main extends Staff
-//     ?
-//         | Knuckle
-//         | MagicDevice
-//         | NinjutsuScroll
-//         | Arrow
-//         | Shield
-//         | Dagger
-//         | None
-//     : Main extends MagicDevice
-//     ? NinjutsuScroll | None
-//     : Main extends Knuckle
-//     ? MagicDevice | Arrow | Shield | Dagger | None
-//     : Main extends Halberd
-//     ? Dagger | Arrow | None
-//     : Main extends Katana
-//     ? Dagger | NinjutsuScroll | None
-//     : Main extends BareHand
-//     ? Knuckle | MagicDevice | NinjutsuScroll | Shield | Dagger | None
-//     : never;
-
-// export type AvailableSubWeaponType<
-//   S extends SubWeaponType,
-//   M extends MainWeaponType
-// > = S extends CompatibleSubWeaponType<M> ? S : never;
-// stats
 
 export interface NumericalStats {
   flatSTR: number;
@@ -284,28 +238,16 @@ export interface DeclaredStatusMap {
   mainWeaponStability: number;
 
   subWeaponType: SubWeaponType;
-  subWeaponATK: DeclaredStatusMap["subWeaponType"] extends SubWeaponTypeWithATK
-    ? number
-    : 0;
-  subWeaponRefinement: DeclaredStatusMap["subWeaponType"] extends SubWeaponTypeWithRefinement
-    ? number
-    : 0;
+  subWeaponATK: number;
+  subWeaponRefinement: number;
 
-  subWeaponStability: DeclaredStatusMap["subWeaponType"] extends SubWeaponTypeWithStability
-    ? number
-    : 0;
+  subWeaponStability: number;
 
-  subWeaponDEF: DeclaredStatusMap["subWeaponType"] extends Shield
-    ? number
-    : 0;
+  subWeaponDEF: number;
 
-  scrollCastTimeReduction: DeclaredStatusMap["subWeaponType"] extends NinjutsuScroll
-    ? number
-    : 0;
+  scrollCastTimeReduction: number;
 
-  scrollMPReduction: DeclaredStatusMap["subWeaponType"] extends NinjutsuScroll
-    ? number
-    : 0;
+  scrollMPReduction: number;
 
   armorDEF: number;
   armorType: ArmorType;
@@ -343,3 +285,115 @@ export interface DeclaredStatusMap {
   resonanceLevel: number;
   isResonanceActive: boolean;
 }
+
+// export type CompatibleSubWeaponType<Main extends MainWeaponType> =
+//   Main extends OneHandedSword
+//     ?
+//         | OneHandedSword
+//         | Knuckle
+//         | MagicDevice
+//         | NinjutsuScroll
+//         | Arrow
+//         | Shield
+//         | Dagger
+//         | None
+//     : Main extends TwoHandedSword
+//     ? None
+//     : Main extends Bow
+//     ? Katana | Arrow | None
+//     : Main extends Bowgun
+//     ? Knuckle | MagicDevice | Arrow | Shield | Dagger | None
+//     : Main extends Staff
+//     ?
+//         | Knuckle
+//         | MagicDevice
+//         | NinjutsuScroll
+//         | Arrow
+//         | Shield
+//         | Dagger
+//         | None
+//     : Main extends MagicDevice
+//     ? NinjutsuScroll | None
+//     : Main extends Knuckle
+//     ? MagicDevice | Arrow | Shield | Dagger | None
+//     : Main extends Halberd
+//     ? Dagger | Arrow | None
+//     : Main extends Katana
+//     ? Dagger | NinjutsuScroll | None
+//     : Main extends BareHand
+//     ? Knuckle | MagicDevice | NinjutsuScroll | Shield | Dagger | None
+//     : None;
+
+// export type DeclaredStatusMap = {
+//   [M in MainWeaponType]: {
+//     [S in CompatibleSubWeaponType<M>]: {
+//       level: number;
+//       STR: number;
+//       DEX: number;
+//       INT: number;
+//       VIT: number;
+//       AGI: number;
+//       CRT: number;
+//       MTL: number;
+//       TEC: number;
+//       LUK: number;
+
+//       mainWeaponType: M;
+//       mainWeaponATK: number;
+//       mainWeaponRefinement: number;
+//       mainWeaponStability: number;
+
+//       subWeaponType: S;
+//       subWeaponATK: S extends SubWeaponTypeWithATK ? number : 0;
+//       subWeaponRefinement: S extends SubWeaponTypeWithRefinement
+//         ? number
+//         : 0;
+
+//       subWeaponStability: S extends SubWeaponTypeWithStability
+//         ? number
+//         : 0;
+
+//       subWeaponDEF: S extends Shield ? number : 0;
+
+//       scrollCastTimeReduction: S extends NinjutsuScroll ? number : 0;
+
+//       scrollMPReduction: S extends NinjutsuScroll ? number : 0;
+
+//       armorDEF: number;
+//       armorType: ArmorType;
+
+//       additionalGearDEF: number;
+//       specialGearDEF: number;
+
+//       mainWeaponStats: Effect<DeclaredStatusMap>[];
+//       mainWeaponCrystals: Effect<DeclaredStatusMap>[][];
+
+//       subWeaponStats: Effect<DeclaredStatusMap>[];
+//       subWeaponCrystals: Effect<DeclaredStatusMap>[][];
+
+//       additionalGearStats: Effect<DeclaredStatusMap>[];
+//       additionalGearCrystals: Effect<DeclaredStatusMap>[][];
+
+//       armorStats: Effect<DeclaredStatusMap>[];
+//       armorCrystals: Effect<DeclaredStatusMap>[][];
+
+//       specialGearStats: Effect<DeclaredStatusMap>[];
+//       specialGearCrystals: Effect<DeclaredStatusMap>[][];
+
+//       consumables: Effect<DeclaredStatusMap>[];
+
+//       foodBuffs: Effect<DeclaredStatusMap>[];
+
+//       // regislets (must be same like skills too)
+
+//       // magic blade skills
+//       magicWarriorMasteryLevel: number;
+
+//       conversionLevel: number;
+//       isConversionActive: boolean;
+
+//       resonanceLevel: number;
+//       isResonanceActive: boolean;
+//     };
+//   }[CompatibleSubWeaponType<M>];
+// }[MainWeaponType];

@@ -148,6 +148,7 @@ export const totalFlatMATK = <
   S extends DeclaredStatusMap & {
     magicWarriorMasteryBonusFlatMATK: number;
     conversionBonusFlatMATK: number;
+    resonanceBonusFlatMATK: number;
   }
 >(
   status: S
@@ -157,7 +158,8 @@ export const totalFlatMATK = <
   const total =
     acquired +
     status.magicWarriorMasteryBonusFlatMATK +
-    status.conversionBonusFlatMATK;
+    status.conversionBonusFlatMATK +
+    status.resonanceBonusFlatMATK;
 
   return { ...status, totalFlatMATK: total };
 };
@@ -221,6 +223,25 @@ export const conversionBonusFlatMATK = <
   };
 };
 
+export const resonanceBonusFlatMATK = <S extends DeclaredStatusMap>(
+  status: S
+) => {
+  const isAllowed =
+    status.subWeaponType === "magic-device" && status.isResonanceActive;
+
+  const mdRefine = status.subWeaponRefinement;
+  const skillLevel = status.resonanceLevel;
+
+  const bonusFlatMATK = skillLevel * 2 + mdRefine * 2;
+
+  const total = isAllowed ? bonusFlatMATK : 0;
+
+  return {
+    ...status,
+    resonanceBonusFlatMATK: total,
+  };
+};
+
 export const totalMATK = <
   S extends DeclaredStatusMap & {
     totalBaseMATK: number;
@@ -262,6 +283,7 @@ export const calculateMATK = <
     ._(subWeaponKnuckleMATKModifier)
     ._(magicWarriorMasteryBonusFlatMATK)
     ._(conversionBonusFlatMATK)
+    ._(resonanceBonusFlatMATK)
     ._(totalBaseMATK)
     ._(totalPercentMATK)
     ._(totalFlatMATK)

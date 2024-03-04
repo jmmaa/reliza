@@ -152,10 +152,18 @@ export const totalPercentATK = <
   };
 };
 
-export const totalFlatATK = <S extends DeclaredStatusMap>(
+export const totalFlatATK = <
+  S extends DeclaredStatusMap & {
+    resonanceBonusFlatATK: number;
+  }
+>(
   status: S
 ): S & { totalFlatATK: number } => {
-  return { ...status, totalFlatATK: accumulate(status, "flatATK") };
+  const acquired = accumulate(status, "flatATK");
+
+  const total = acquired + status.resonanceBonusFlatATK;
+
+  return { ...status, totalFlatATK: total };
 };
 
 export const subWeaponMagicDevicePercentATKModifier = <
@@ -192,6 +200,25 @@ export const magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue =
         result,
     };
   };
+
+export const resonanceBonusFlatATK = <S extends DeclaredStatusMap>(
+  status: S
+) => {
+  const isAllowed =
+    status.subWeaponType === "magic-device" && status.isResonanceActive;
+
+  const mdRefine = status.subWeaponRefinement;
+  const skillLevel = status.resonanceLevel;
+
+  const bonusFlatATK = skillLevel * 2 + mdRefine * 2;
+
+  const total = isAllowed ? bonusFlatATK : 0;
+
+  return {
+    ...status,
+    resonanceBonusFlatATK: total,
+  };
+};
 
 export const totalATK = <
   S extends {
@@ -233,6 +260,7 @@ export const calculateATK = <
   const calcs = pipe(status)
     ._(subWeaponMagicDevicePercentATKModifier)
     ._(magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue)
+    ._(resonanceBonusFlatATK)
     ._(totalBaseATK)
     ._(totalPercentATK)
     ._(totalFlatATK)

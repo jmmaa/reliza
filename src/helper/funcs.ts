@@ -185,14 +185,17 @@ export const accumulate = <S extends DeclaredStatusMap>(
 
   return sum;
 };
-
-export const status = (declarations: Partial<DeclaredStatusMap>) => ({
-  ...defaultDeclaredStatusMap,
+export const status = (
+  declarations: Partial<DeclaredStatusMap>
+): Partial<DeclaredStatusMap> & DeclaredStatusMap => ({
+  ...(defaultDeclaredStatusMap as DeclaredStatusMap),
   ...declarations,
 });
 
-export const stats = (stats: Partial<StatMap>) => ({
-  ...defaultStatMap,
+export const stats = (
+  stats: Partial<StatMap>
+): Partial<StatMap> & StatMap => ({
+  ...(defaultStatMap as StatMap),
   ...stats,
 });
 

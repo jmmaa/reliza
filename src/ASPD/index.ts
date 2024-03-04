@@ -143,12 +143,20 @@ export const totalPercentASPD = <
   };
 };
 
-export const totalFlatASPD = <S extends DeclaredStatusMap>(
+export const totalFlatASPD = <
+  S extends DeclaredStatusMap & {
+    resonanceBonusFlatASPD: number;
+  }
+>(
   status: S
 ): S & { totalFlatASPD: number } => {
+  const acquired = accumulate(status, "flatASPD");
+
+  const total = acquired + status.resonanceBonusFlatASPD;
+
   return {
     ...status,
-    totalFlatASPD: accumulate(status, "flatASPD"),
+    totalFlatASPD: total,
   };
 };
 
@@ -180,6 +188,30 @@ export const heavyArmorPercentASPDModifier = <S extends DeclaredStatusMap>(
   return {
     ...status,
     heavyArmorPercentASPDModifier: status.armorType === "heavy" ? -50 : 0,
+  };
+};
+
+export const resonanceBonusFlatASPD = <
+  S extends DeclaredStatusMap & {
+    resonanceLevel: number;
+    isResonanceActive: boolean;
+  }
+>(
+  status: S
+) => {
+  const isAllowed =
+    status.subWeaponType === "magic-device" && status.isResonanceActive;
+
+  const skillLevel = status.resonanceLevel;
+  const mdRefine = status.subWeaponRefinement;
+
+  const bonusFlatASPD = skillLevel * 25 + mdRefine * 50;
+
+  const total = isAllowed ? bonusFlatASPD : 0;
+
+  return {
+    ...status,
+    resonanceBonusFlatASPD: total,
   };
 };
 
@@ -215,6 +247,9 @@ export const calculateASPD = <
   const calcs = pipe(status)
     ._(lightArmorPercentASPDModifier)
     ._(heavyArmorPercentASPDModifier)
+
+    ._(resonanceBonusFlatASPD)
+
     ._(totalBaseASPD)
     ._(totalPercentASPD)
     ._(totalFlatASPD)

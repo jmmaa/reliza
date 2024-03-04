@@ -12,7 +12,7 @@ export const totalBaseMaxHP = <
 });
 
 export const totalMaxHP = <
-  S extends {
+  S extends DeclaredStatusMap & {
     totalBaseMaxHP: number;
     totalPercentMaxHP: number;
     totalFlatMaxHP: number;

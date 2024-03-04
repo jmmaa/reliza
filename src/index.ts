@@ -175,3 +175,13 @@ const result = end - start;
 
 console.log(result);
 // - Resort to object based declaration and complete
+
+const sample = status({
+  mainWeaponType: "one-handed-sword",
+  subWeaponType: "magic-device",
+  subWeaponRefinement: 15,
+  resonanceLevel: 10,
+  isResonanceActive: true,
+});
+
+console.log(calculate(sample).totalASPD);

@@ -5,9 +5,7 @@ import { DeclaredStatusMap } from "../types";
 // ATK
 
 // this calc is just for consistency, but it is redundant
-export const totalBaseMainWeaponATK = <
-  S extends { mainWeaponATK: number }
->(
+export const totalBaseMainWeaponATK = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalBaseMainWeaponATK: number } => ({
   ...status,
@@ -15,7 +13,7 @@ export const totalBaseMainWeaponATK = <
 });
 
 export const totalMainWeaponATK = <
-  S extends {
+  S extends DeclaredStatusMap & {
     totalBaseMainWeaponATK: number;
     totalPercentMainWeaponATK: number;
     totalFlatMainWeaponATK: number;
@@ -54,8 +52,7 @@ export const totalPercentMainWeaponATK = <S extends DeclaredStatusMap>(
 };
 
 export const totalMainWeaponRefinementBonusMainWeaponATK = <
-  S extends {
-    mainWeaponRefinement: number;
+  S extends DeclaredStatusMap & {
     totalBaseMainWeaponATK: number;
   }
 >(
