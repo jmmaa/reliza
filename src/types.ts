@@ -284,6 +284,21 @@ export interface DeclaredStatusMap {
 
   resonanceLevel: number;
   isResonanceActive: boolean;
+
+  dualBringerLevel: number;
+  isDualBringerActive: boolean;
+
+  // battle skills
+  spellBurstLevel: number;
+
+  // // target
+  // targetLevel: number;
+  // targetDEF: number;
+  // targetMDEF: number;
+  // targetPhysicalResistance: number;
+  // targetMagicResistance: number;
+  // targetWeaponResistance: number;
+  // targetElement: Element;
 }
 
 // export type CompatibleSubWeaponType<Main extends MainWeaponType> =

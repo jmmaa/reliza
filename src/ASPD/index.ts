@@ -160,19 +160,6 @@ export const totalFlatASPD = <
   };
 };
 
-export const totalActionTimeReduction = <
-  S extends {
-    totalASPD: number;
-  }
->(
-  status: S
-): S & { totalActionTimeReduction: number } => {
-  return {
-    ...status,
-    totalActionTimeReduction: pino.actionTimeReduction(status.totalASPD),
-  };
-};
-
 export const lightArmorPercentASPDModifier = <S extends DeclaredStatusMap>(
   status: S
 ) => {
@@ -253,8 +240,7 @@ export const calculateASPD = <
     ._(totalBaseASPD)
     ._(totalPercentASPD)
     ._(totalFlatASPD)
-    ._(totalASPD)
-    ._(totalActionTimeReduction);
+    ._(totalASPD);
 
   return calcs.value;
 };

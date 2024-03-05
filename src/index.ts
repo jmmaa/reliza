@@ -16,6 +16,13 @@ export * from "./maxMP";
 export * from "./ATK";
 export * from "./MATK";
 
+export * from "./unsheatheAttack";
+export * from "./shortRangeDamage";
+export * from "./longRangeDamage";
+export * from "./stability";
+
+export * from "./motionSpeed";
+
 export * from "./DTE";
 
 export * from "./resistance";
@@ -38,12 +45,17 @@ export const calculate = <S extends DeclaredStatusMap>(status: S) => {
     ._(d.calculateMP)
     ._(d.calculateCSPD)
     ._(d.calculateASPD)
+    ._(d.calculateMotionSpeed)
     ._(d.calculateCriticalRate)
     ._(d.calculateCriticalDamage)
     ._(d.calculateWeaponATK)
     ._(d.calculateATK)
     ._(d.calculateMATK)
     ._(d.calculateDTE)
+    ._(d.calculateUnsheatheAttack)
+    ._(d.calculateLongRangeDamage)
+    ._(d.calculateShortRangeDamage)
+    ._(d.calculateStability)
     ._(d.calculateResistance)
     ._(d.calculateAggro);
 
@@ -68,7 +80,7 @@ const magicDeviceSupport = status({
   VIT: 178,
   AGI: 220,
 
-  mainWeaponType: "staff",
+  mainWeaponType: "magic-device",
   mainWeaponATK: 99,
   mainWeaponRefinement: 0,
   mainWeaponStability: 70,
@@ -90,7 +102,7 @@ const magicDeviceSupport = status({
 
   mainWeaponCrystals: [WickedDragonFazzino],
 
-  subWeaponType: "magic-device",
+  subWeaponType: "ninjutsu-scroll",
 
   subWeaponStats: [
     {
@@ -161,7 +173,7 @@ const magicDeviceSupport = status({
     },
   ],
 
-  armorType: "none",
+  armorType: "light",
 
   conversionLevel: 10,
 });
@@ -176,12 +188,13 @@ const result = end - start;
 console.log(result);
 // - Resort to object based declaration and complete
 
-const sample = status({
-  mainWeaponType: "one-handed-sword",
-  subWeaponType: "magic-device",
-  subWeaponRefinement: 15,
-  resonanceLevel: 10,
-  isResonanceActive: true,
-});
+// const sample = status({
+//   mainWeaponType: "one-handed-sword",
+//   subWeaponType: "magic-device",
+//   subWeaponRefinement: 15,
 
-console.log(calculate(sample).totalASPD);
+//   resonanceLevel: 10,
+//   isResonanceActive: false,
+// });
+
+// console.log(calculate(sample));

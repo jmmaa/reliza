@@ -56,7 +56,7 @@ export const defaultStatMap: StatMap = {
   percentMDEF: 0,
 
   flatUnsheatheAttack: 0,
-  percentUnsheatheAttack: 100,
+  percentUnsheatheAttack: 0,
 
   flatAttackMPRecovery: 0,
   percentAttackMPRecovery: 0,
@@ -166,4 +166,10 @@ export const defaultDeclaredStatusMap: DeclaredStatusMap = {
 
   resonanceLevel: 0,
   isResonanceActive: false,
+
+  dualBringerLevel: 0,
+  isDualBringerActive: false,
+
+  // battle skills
+  spellBurstLevel: 0,
 };
