@@ -201,3 +201,14 @@ export const stats = (
 
 export const total = (base: number, percent: number, flat: number) =>
   Math.floor(base * (1 + percent / 100) + flat);
+
+export const accumulateEquipmentDef = <S extends DeclaredStatusMap>(
+  status: S
+) => {
+  return (
+    status.armorDEF +
+    status.additionalGearDEF +
+    status.specialGearDEF +
+    (status.subWeaponType === "shield" ? status.subWeaponDEF : 0)
+  ); // add md def here if magic skin lvl10
+};

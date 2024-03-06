@@ -83,6 +83,18 @@ export const defaultStatMap: StatMap = {
   MATKUPVIT: 0,
   MATKUPAGI: 0,
 
+  ATKDOWNSTR: 0,
+  ATKDOWNINT: 0,
+  ATKDOWNDEX: 0,
+  ATKDOWNVIT: 0,
+  ATKDOWNAGI: 0,
+
+  MATKDOWNSTR: 0,
+  MATKDOWNINT: 0,
+  MATKDOWNDEX: 0,
+  MATKDOWNVIT: 0,
+  MATKDOWNAGI: 0,
+
   magicResistance: 0,
   physicalResistance: 0,
 

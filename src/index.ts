@@ -26,7 +26,14 @@ export * from "./motionSpeed";
 export * from "./DTE";
 
 export * from "./resistance";
+export * from "./DEF";
+export * from "./MDEF";
+export * from "./MATKUP";
+export * from "./MATKDOWN";
+export * from "./accuracy";
 
+export * from "./physicalPierce";
+export * from "./magicPierce";
 export * from "./aggro";
 
 import * as d from ".";
@@ -49,15 +56,22 @@ export const calculate = <S extends DeclaredStatusMap>(status: S) => {
     ._(d.calculateCriticalRate)
     ._(d.calculateCriticalDamage)
     ._(d.calculateWeaponATK)
-    ._(d.calculateATK)
-    ._(d.calculateMATK)
     ._(d.calculateDTE)
     ._(d.calculateUnsheatheAttack)
     ._(d.calculateLongRangeDamage)
     ._(d.calculateShortRangeDamage)
     ._(d.calculateStability)
     ._(d.calculateResistance)
-    ._(d.calculateAggro);
+    ._(d.calculateAggro)
+    ._(d.calculateDEF)
+    ._(d.calculateMDEF)
+    ._(d.calculateAccuracy)
+    ._(d.calculateMATKUP)
+    ._(d.calculateMATKDOWN)
+    ._(d.calculateATK)
+    ._(d.calculateMATK)
+    ._(d.calculatePhysicalPierce)
+    ._(d.calculateMagicPierce);
 
   return allCalculations.value;
 };
@@ -115,7 +129,7 @@ const magicDeviceSupport = status({
     },
   ],
 
-  additionalGearDEF: 0,
+  additionalGearDEF: 140,
   additionalGearStats: [
     {
       predicate: DEFAULT,
@@ -134,6 +148,7 @@ const magicDeviceSupport = status({
     },
   ],
 
+  armorDEF: 9,
   armorStats: [
     {
       predicate: DEFAULT,
@@ -155,6 +170,8 @@ const magicDeviceSupport = status({
       }),
     },
   ],
+
+  specialGearDEF: 10,
   specialGearStats: [
     {
       predicate: DEFAULT,

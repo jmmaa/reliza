@@ -181,6 +181,18 @@ export interface NumericalStats {
   MATKUPVIT: number;
   MATKUPAGI: number;
 
+  ATKDOWNSTR: number;
+  ATKDOWNINT: number;
+  ATKDOWNDEX: number;
+  ATKDOWNVIT: number;
+  ATKDOWNAGI: number;
+
+  MATKDOWNSTR: number;
+  MATKDOWNINT: number;
+  MATKDOWNDEX: number;
+  MATKDOWNVIT: number;
+  MATKDOWNAGI: number;
+
   physicalResistance: number;
   magicResistance: number;
 
@@ -299,6 +311,8 @@ export interface DeclaredStatusMap {
   // targetMagicResistance: number;
   // targetWeaponResistance: number;
   // targetElement: Element;
+
+  // maybe passives only?
 }
 
 // export type CompatibleSubWeaponType<Main extends MainWeaponType> =
