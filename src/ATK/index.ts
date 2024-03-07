@@ -220,6 +220,49 @@ export const resonanceBonusFlatATK = <S extends DeclaredStatusMap>(
   };
 };
 
+export const totalFlatATKFromATKUP = <
+  S extends DeclaredStatusMap & {
+    totalATKUPSTR: number;
+    totalATKUPINT: number;
+    totalATKUPDEX: number;
+    totalATKUPVIT: number;
+    totalATKUPAGI: number;
+  }
+>(
+  status: S
+) => {
+  const fromSTR = Math.floor((status.totalATKUPSTR / 100) * status.STR); // confirm the floor
+  const fromINT = Math.floor((status.totalATKUPINT / 100) * status.INT); // confirm the floor
+  const fromDEX = Math.floor((status.totalATKUPDEX / 100) * status.DEX); // confirm the floor
+  const fromVIT = Math.floor((status.totalATKUPVIT / 100) * status.VIT); // confirm the floor
+  const fromAGI = Math.floor((status.totalATKUPAGI / 100) * status.AGI); // confirm the floor
+
+  const total = fromSTR + fromINT + fromDEX + fromVIT + fromAGI;
+  return { ...status, totalFlatATKFromATKUP: total };
+};
+
+export const totalFlatATKFromATKDOWN = <
+  S extends DeclaredStatusMap & {
+    totalATKDOWNSTR: number;
+    totalATKDOWNINT: number;
+    totalATKDOWNDEX: number;
+    totalATKDOWNVIT: number;
+    totalATKDOWNAGI: number;
+  }
+>(
+  status: S
+) => {
+  const fromSTR = Math.floor((status.totalATKDOWNSTR / 100) * status.STR); // confirm the floor
+  const fromINT = Math.floor((status.totalATKDOWNINT / 100) * status.INT); // confirm the floor
+  const fromDEX = Math.floor((status.totalATKDOWNDEX / 100) * status.DEX); // confirm the floor
+  const fromVIT = Math.floor((status.totalATKDOWNVIT / 100) * status.VIT); // confirm the floor
+  const fromAGI = Math.floor((status.totalATKDOWNAGI / 100) * status.AGI); // confirm the floor
+
+  const total = fromSTR + fromINT + fromDEX + fromVIT + fromAGI;
+
+  return { ...status, totalFlatATKFromATKDOWN: total };
+};
+
 export const totalATK = <
   S extends {
     totalBaseATK: number;
@@ -246,6 +289,18 @@ export const calculateATK = <
     totalDEX: number;
     totalINT: number;
     totalAGI: number;
+
+    totalATKUPSTR: number;
+    totalATKUPINT: number;
+    totalATKUPDEX: number;
+    totalATKUPVIT: number;
+    totalATKUPAGI: number;
+
+    totalATKDOWNSTR: number;
+    totalATKDOWNINT: number;
+    totalATKDOWNDEX: number;
+    totalATKDOWNVIT: number;
+    totalATKDOWNAGI: number;
   }
 >(
   status: S
@@ -258,6 +313,8 @@ export const calculateATK = <
   totalATK: number;
 } => {
   const calcs = pipe(status)
+    ._(totalFlatATKFromATKUP)
+    ._(totalFlatATKFromATKDOWN)
     ._(subWeaponMagicDevicePercentATKModifier)
     ._(magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue)
     ._(resonanceBonusFlatATK)

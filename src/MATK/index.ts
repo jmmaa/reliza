@@ -149,6 +149,8 @@ export const totalFlatMATK = <
     magicWarriorMasteryBonusFlatMATK: number;
     conversionBonusFlatMATK: number;
     resonanceBonusFlatMATK: number;
+    totalFlatMATKFromMATKUP: number;
+    totalFlatMATKFromMATKDOWN: number;
   }
 >(
   status: S
@@ -159,7 +161,9 @@ export const totalFlatMATK = <
     acquired +
     status.magicWarriorMasteryBonusFlatMATK +
     status.conversionBonusFlatMATK +
-    status.resonanceBonusFlatMATK;
+    status.resonanceBonusFlatMATK +
+    status.totalFlatMATKFromMATKDOWN +
+    status.totalFlatMATKFromMATKUP;
 
   return { ...status, totalFlatMATK: total };
 };
@@ -242,6 +246,48 @@ export const resonanceBonusFlatMATK = <S extends DeclaredStatusMap>(
   };
 };
 
+export const totalFlatMATKFromMATKDOWN = <
+  S extends DeclaredStatusMap & {
+    totalMATKDOWNSTR: number;
+    totalMATKDOWNINT: number;
+    totalMATKDOWNDEX: number;
+    totalMATKDOWNVIT: number;
+    totalMATKDOWNAGI: number;
+  }
+>(
+  status: S
+) => {
+  const fromSTR = Math.floor((status.totalMATKDOWNSTR / 100) * status.STR); // confirm the floor
+  const fromINT = Math.floor((status.totalMATKDOWNINT / 100) * status.INT); // confirm the floor
+  const fromDEX = Math.floor((status.totalMATKDOWNDEX / 100) * status.DEX); // confirm the floor
+  const fromVIT = Math.floor((status.totalMATKDOWNVIT / 100) * status.VIT); // confirm the floor
+  const fromAGI = Math.floor((status.totalMATKDOWNAGI / 100) * status.AGI); // confirm the floor
+
+  const total = fromSTR + fromINT + fromDEX + fromVIT + fromAGI;
+  return { ...status, totalFlatMATKFromMATKDOWN: total };
+};
+
+export const totalFlatMATKFromMATKUP = <
+  S extends DeclaredStatusMap & {
+    totalMATKUPSTR: number;
+    totalMATKUPINT: number;
+    totalMATKUPDEX: number;
+    totalMATKUPVIT: number;
+    totalMATKUPAGI: number;
+  }
+>(
+  status: S
+) => {
+  const fromSTR = Math.floor((status.totalMATKUPSTR / 100) * status.STR); // confirm the floor
+  const fromINT = Math.floor((status.totalMATKUPINT / 100) * status.INT); // confirm the floor
+  const fromDEX = Math.floor((status.totalMATKUPDEX / 100) * status.DEX); // confirm the floor
+  const fromVIT = Math.floor((status.totalMATKUPVIT / 100) * status.VIT); // confirm the floor
+  const fromAGI = Math.floor((status.totalMATKUPAGI / 100) * status.AGI); // confirm the floor
+
+  const total = fromSTR + fromINT + fromDEX + fromVIT + fromAGI;
+  return { ...status, totalFlatMATKFromMATKUP: total };
+};
+
 export const totalMATK = <
   S extends DeclaredStatusMap & {
     totalBaseMATK: number;
@@ -255,7 +301,7 @@ export const totalMATK = <
     ...status,
     totalMATK: total(
       status.totalBaseMATK,
-      status.totalFlatMATK,
+      status.totalPercentMATK,
       status.totalFlatMATK
     ),
   };
@@ -268,6 +314,18 @@ export const calculateMATK = <
     totalDEX: number;
     totalINT: number;
     totalAGI: number;
+
+    totalMATKDOWNSTR: number;
+    totalMATKDOWNINT: number;
+    totalMATKDOWNDEX: number;
+    totalMATKDOWNVIT: number;
+    totalMATKDOWNAGI: number;
+
+    totalMATKUPSTR: number;
+    totalMATKUPINT: number;
+    totalMATKUPDEX: number;
+    totalMATKUPVIT: number;
+    totalMATKUPAGI: number;
   }
 >(
   status: S
@@ -280,10 +338,13 @@ export const calculateMATK = <
   totalMATK: number;
 } => {
   const calcs = pipe(status)
+    ._(totalFlatMATKFromMATKUP)
+    ._(totalFlatMATKFromMATKDOWN)
     ._(subWeaponKnuckleMATKModifier)
     ._(magicWarriorMasteryBonusFlatMATK)
     ._(conversionBonusFlatMATK)
     ._(resonanceBonusFlatMATK)
+
     ._(totalBaseMATK)
     ._(totalPercentMATK)
     ._(totalFlatMATK)

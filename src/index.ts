@@ -22,7 +22,7 @@ export * from "./longRangeDamage";
 export * from "./stability";
 
 export * from "./motionSpeed";
-
+export * from "./dodge";
 export * from "./DTE";
 
 export * from "./resistance";
@@ -30,6 +30,8 @@ export * from "./DEF";
 export * from "./MDEF";
 export * from "./MATKUP";
 export * from "./MATKDOWN";
+export * from "./ATKUP";
+export * from "./ATKDOWN";
 export * from "./accuracy";
 
 export * from "./physicalPierce";
@@ -68,8 +70,11 @@ export const calculate = <S extends DeclaredStatusMap>(status: S) => {
     ._(d.calculateAccuracy)
     ._(d.calculateMATKUP)
     ._(d.calculateMATKDOWN)
+    ._(d.calculateATKUP)
+    ._(d.calculateATKDOWN)
     ._(d.calculateATK)
     ._(d.calculateMATK)
+    ._(d.calculateDodge)
     ._(d.calculatePhysicalPierce)
     ._(d.calculateMagicPierce);
 
@@ -102,8 +107,6 @@ const magicDeviceSupport = status({
     {
       predicate: DEFAULT,
       stats: stats({
-        // with crystals btw
-        element: "light",
         percentDEF: 15,
         percentMDEF: 15,
         physicalResistance: 30,
@@ -134,60 +137,100 @@ const magicDeviceSupport = status({
     {
       predicate: DEFAULT,
       stats: stats({
-        // with crystals btw
+        flatMaxMP: 400,
         percentINT: 8,
-        flatMaxMP: 400 - 300,
         percentATK: 8,
-        // flatAttackMPRecovery: 4
-
-        flatASPD: 800,
-        percentMaxHP: 30,
-        percentMATK: 5,
-        percentCSPD: 75,
+        flatAttackMPRecovery: 4,
       }),
     },
   ],
 
+  additionalGearCrystals: [
+    [
+      {
+        predicate: DEFAULT,
+        stats: stats({
+          percentMATK: 5,
+          percentCSPD: 75,
+          longRangeDamage: -16,
+        }),
+      },
+      {
+        predicate: DEFAULT,
+        stats: stats({ flatASPD: 800, percentMaxHP: 30, flatMaxMP: -300 }),
+      },
+    ],
+  ],
   armorDEF: 9,
   armorStats: [
     {
       predicate: DEFAULT,
       stats: stats({
-        // with crystals btw
-
         percentAGI: 10,
         percentDEX: 10,
-        percentCSPD: 21 + 35,
+        percentCSPD: 21,
         percentASPD: 21,
-        flatASPD: 300,
         percentMaxHP: 10,
-        flatMaxHP: 1000,
-
-        percentINT: 3,
-        percentMATK: 7,
-
-        // percentAttackMPRecovery: 10
       }),
     },
   ],
 
+  armorCrystals: [
+    [
+      {
+        predicate: DEFAULT,
+        stats: stats({
+          percentINT: 3,
+          percentMATK: 7,
+          percentCSPD: 35,
+          percentAttackMPRecovery: 10,
+        }),
+      },
+    ],
+    [
+      {
+        predicate: DEFAULT,
+        stats: stats({
+          flatMaxHP: 1000,
+          flatASPD: 300,
+          tumbleUnavailable: true,
+        }),
+      },
+    ],
+  ],
   specialGearDEF: 10,
   specialGearStats: [
     {
       predicate: DEFAULT,
       stats: stats({
-        // with crystals btw
         percentMaxHP: 25,
         flatCriticalRate: 25,
-        // percentAggro : 25
-        flatASPD: 1100,
-        motionSpeed: 5,
-        percentCriticalRate: 40 + 20,
-        percentCSPD: -70,
-        flatCSPD: 1000,
-        flatMaxMP: 300,
+        aggro: 25,
       }),
     },
+  ],
+
+  specialGearCrystals: [
+    [
+      {
+        predicate: DEFAULT,
+        stats: stats({
+          percentCSPD: -70,
+          percentCriticalRate: 40,
+          motionSpeed: 5,
+        }),
+      },
+    ],
+    [
+      {
+        predicate: DEFAULT,
+        stats: stats({
+          flatCSPD: 1000,
+          flatMaxMP: 300,
+          percentCriticalRate: 20,
+        }),
+      },
+    ],
   ],
 
   armorType: "light",
