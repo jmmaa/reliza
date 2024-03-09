@@ -258,3 +258,9 @@ console.log(result);
 // });
 
 // console.log(calculate(sample));
+
+// NOTE
+// think about how to lay out the skills
+//
+// UPDATE
+// FUCk IT, WE CODIN!

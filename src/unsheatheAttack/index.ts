@@ -1,4 +1,4 @@
-import { accumulate, pipe, total } from "../helper";
+import { accumulate, pipe } from "../helper";
 import { DeclaredStatusMap } from "../types";
 
 export const totalFlatUnsheatheAttack = <S extends DeclaredStatusMap>(
@@ -19,7 +19,10 @@ export const totalPercentUnsheatheAttack = <S extends DeclaredStatusMap>(
 
 export const calculateUnsheatheAttack = <S extends DeclaredStatusMap>(
   status: S
-) => {
+): S & {
+  totalFlatUnsheatheAttack: number;
+  totalPercentUnsheatheAttack: number;
+} => {
   const calcs = pipe(status)
     ._(totalFlatUnsheatheAttack)
     ._(totalPercentUnsheatheAttack);

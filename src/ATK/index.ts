@@ -313,11 +313,12 @@ export const calculateATK = <
   totalATK: number;
 } => {
   const calcs = pipe(status)
+    ._(magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue)
+    ._(resonanceBonusFlatATK)
+
     ._(totalFlatATKFromATKUP)
     ._(totalFlatATKFromATKDOWN)
     ._(subWeaponMagicDevicePercentATKModifier)
-    ._(magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue)
-    ._(resonanceBonusFlatATK)
     ._(totalBaseATK)
     ._(totalPercentATK)
     ._(totalFlatATK)

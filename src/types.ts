@@ -288,6 +288,126 @@ export interface DeclaredStatusMap {
 
   // regislets (must be same like skills too)
 
+  // blade skills
+
+  hardHitLevel: number;
+  astuteLevel: number;
+  triggerSlashLevel: number;
+  rampageLevel: number;
+  meteorBreakerLevel: number;
+  shutOutLevel: number;
+  lunarSlashLevel: number;
+  sonicBladeLevel: number;
+  spiralAirLevel: number;
+  swordTempestLevel: number;
+  busterBladeLevel: number;
+  auraBladeLevel: number;
+  swordMasteryLevel: number;
+  quickSlashLevel: number;
+  swordTechniquesLevel: number;
+  warCryLevel: number;
+  berserkLevel: number;
+  gladiateLevel: number;
+  swiftAttackLevel: number;
+
+  // shot skills
+  powerShotLevel: number;
+  bullseyeLevel: number;
+  arrowRainLevel: number;
+  snipeLevel: number;
+  crossFireLevel: number;
+  vanquisherLevel: number;
+  twinStormLevel: number;
+  retrogradeShotLevel: number;
+  moebaShotLevel: number;
+  paralysisShotLevel: number;
+  smokeDustLevel: number;
+  armBreakLevel: number;
+  parabolaCannonLevel: number;
+  shotMasteryLevel: number;
+  samuraiArcheryLevel: number;
+  sneakAttackLevel: number;
+  longRangeLevel: number;
+  quickDrawLevel: number;
+  decoyShotLevel: number;
+  fatalShotLevel: number;
+
+  // magic skills
+
+  magicArrowsLevel: number;
+  magicJavelinLevel: number;
+  magicLancesLevel: number;
+  magicImpactLevel: number;
+  magicFinaleLevel: number;
+  chronosShiftLevel: number;
+  magicWallLevel: number;
+  magicBlastLevel: number;
+  magicStormLevel: number;
+  magicBurstLevel: number;
+  magicCannonLevel: number;
+  magicCrashLevel: number;
+  magicMasteryLevel: number;
+  magicKnifeLevel: number;
+  qadalLevel: number;
+  MPChargeLevel: number;
+  chainCastLevel: number;
+  powerWaveLevel: number;
+  maximizerLevel: number;
+  rapidChargeLevel: number;
+  enchantedBarriersLevel: number;
+  magicGuardianBeamLevel: number;
+
+  // survival skills
+
+  playDeadLevel: number;
+  EXPGainUPLevel: number;
+  dropRateUPLevel: number;
+  safeRestLevel: number;
+  HPBoostLevel: number;
+  fightersHighLevel: number;
+  shortRestLevel: number;
+  MPBoostLevel: number;
+  soberAnalysisLevel: number;
+
+  // support skills
+  firstAidLevel: number;
+  miniHealLevel: number;
+  recoveryLevel: number;
+  sanctuaryLevel: number;
+  healLevel: number;
+  lifeRecoveryLevel: number;
+  braveAuraLevel: number;
+  highCycleLevel: number;
+  quickMotionLevel: number;
+  manaRechargeLevel: number;
+  magicBarrierLevel: number;
+  immunityLevel: number;
+  fastReactionLevel: number;
+
+  // battle skills
+  magicUPLevel: number;
+  concentrateLevel: number;
+  AttackUPLevel: number;
+  whackLevel: number;
+  defenseUPLevel: number;
+  dodgeUPLevel: number;
+  desperateResistLevel: number;
+  criticalUPLevel: number;
+  accuracyUPLevel: number;
+  increasedEnergyLevel: number;
+  intimidatingPowerLevel: number;
+  defenseMasteryLevel: number;
+  spellBurstLevel: number;
+  secretChaseAttackLevel: number;
+  superGripLevel: number;
+
+  // mononofu skills
+  bushidoLevel: number;
+
+  // dual sword skills
+  flashBlastLevel: number;
+  godspeedLevel: number;
+
   // magic blade skills
   magicWarriorMasteryLevel: number;
 
@@ -297,11 +417,19 @@ export interface DeclaredStatusMap {
   resonanceLevel: number;
   isResonanceActive: boolean;
 
-  dualBringerLevel: number;
-  isDualBringerActive: boolean;
+  enchantedSpellLevel: number;
 
-  // battle skills
-  spellBurstLevel: number;
+  dualBringerLevel: number;
+  etherFlareLevel: number;
+  elementSlashLevel: number;
+  enchantSwordLevel: number;
+  enchantedBurstLevel: number;
+  unionSwordLevel: number;
+  siphonBarrierLevel: number;
+  teleportLevel: number;
+  siphonRecallLevel: number;
+  floatDashLevel: number;
+  magicSkinLevel: number;
 
   // // target
   // targetLevel: number;

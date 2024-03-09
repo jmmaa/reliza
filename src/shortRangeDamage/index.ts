@@ -1,18 +1,18 @@
 import { accumulate, pipe } from "../helper";
 import { DeclaredStatusMap } from "../types";
 
-export const totalLongRangeDamage = <S extends DeclaredStatusMap>(
+export const totalShortRangeDamage = <S extends DeclaredStatusMap>(
   status: S
 ) => {
-  const accumulated = accumulate(status, "longRangeDamage");
+  const accumulated = accumulate(status, "shortRangeDamage");
 
-  return { ...status, totalLongRangeDamage: accumulated };
+  return { ...status, totalShortRangeDamage: accumulated };
 };
 
-export const calculateLongRangeDamage = <S extends DeclaredStatusMap>(
+export const calculateShortRangeDamage = <S extends DeclaredStatusMap>(
   status: S
-) => {
-  const calcs = pipe(status)._(totalLongRangeDamage);
+): S & { totalShortRangeDamage: number } => {
+  const calcs = pipe(status)._(totalShortRangeDamage);
 
   return calcs.value;
 };

@@ -11,7 +11,7 @@ export const totalPhysicalPierce = <S extends DeclaredStatusMap>(
 
 export const calculatePhysicalPierce = <S extends DeclaredStatusMap>(
   status: S
-) => {
+): S & { totalPhysicalPierce: number } => {
   const calcs = pipe(status)._(totalPhysicalPierce);
 
   return calcs.value;

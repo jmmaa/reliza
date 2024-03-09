@@ -234,7 +234,6 @@ export const calculateASPD = <
   const calcs = pipe(status)
     ._(lightArmorPercentASPDModifier)
     ._(heavyArmorPercentASPDModifier)
-
     ._(resonanceBonusFlatASPD)
 
     ._(totalBaseASPD)
