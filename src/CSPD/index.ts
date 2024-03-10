@@ -2,6 +2,11 @@ import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
 import { DeclaredStatusMap } from "../types";
 
+import {
+  magicWarriorMasteryFlatCSPD,
+  resonanceFlatCSPD,
+} from "./fromMagicBladeSkills";
+
 export const totalBaseCSPD = <
   S extends { level: number; totalAGI: number; totalDEX: number }
 >(
@@ -17,8 +22,8 @@ export const totalBaseCSPD = <
 
 export const totalFlatCSPD = <
   S extends DeclaredStatusMap & {
-    magicWarriorMasteryBonusFlatCSPD: number;
-    resonanceBonusFlatCSPD: number;
+    magicWarriorMasteryFlatCSPD: number;
+    resonanceFlatCSPD: number;
   }
 >(
   status: S
@@ -27,8 +32,8 @@ export const totalFlatCSPD = <
 
   const total =
     acquired +
-    status.magicWarriorMasteryBonusFlatCSPD +
-    status.resonanceBonusFlatCSPD;
+    status.magicWarriorMasteryFlatCSPD +
+    status.resonanceFlatCSPD;
 
   return {
     ...status,
@@ -42,30 +47,6 @@ export const totalPercentCSPD = <S extends DeclaredStatusMap>(
   return {
     ...status,
     totalPercentCSPD: accumulate(status, "percentCSPD"),
-  };
-};
-
-export const resonanceBonusFlatCSPD = <
-  S extends DeclaredStatusMap & {
-    resonanceLevel: number;
-    isResonanceActive: boolean;
-  }
->(
-  status: S
-) => {
-  const isAllowed =
-    status.subWeaponType === "magic-device" && status.isResonanceActive;
-
-  const skillLevel = status.resonanceLevel;
-  const mdRefine = status.subWeaponRefinement;
-
-  const bonusFlatCSPD = skillLevel * 25 + mdRefine * 50;
-
-  const total = isAllowed ? bonusFlatCSPD : 0;
-
-  return {
-    ...status,
-    resonanceBonusFlatCSPD: total,
   };
 };
 
@@ -101,22 +82,12 @@ export const totalCastTimeReduction = <
   };
 };
 
-export const magicWarriorMasteryBonusFlatCSPD = <
-  S extends DeclaredStatusMap
->(
-  status: S
-) => {
-  const bonus = status.magicWarriorMasteryLevel * 10;
-
-  return { ...status, magicWarriorMasteryBonusFlatCSPD: bonus };
-};
-
 export const calculateCSPD = <
   S extends DeclaredStatusMap & { totalAGI: number; totalDEX: number }
 >(
   status: S
 ): S & {
-  magicWarriorMasteryBonusFlatCSPD: number;
+  magicWarriorMasteryFlatCSPD: number;
   totalBaseCSPD: number;
   totalPercentCSPD: number;
   totalFlatCSPD: number;
@@ -124,8 +95,10 @@ export const calculateCSPD = <
   totalCastTimeReduction: number;
 } => {
   const calcs = pipe(status)
-    ._(magicWarriorMasteryBonusFlatCSPD)
-    ._(resonanceBonusFlatCSPD)
+    // magic blade
+    ._(magicWarriorMasteryFlatCSPD)
+    ._(resonanceFlatCSPD)
+    //
     ._(totalBaseCSPD)
     ._(totalPercentCSPD)
     ._(totalFlatCSPD)

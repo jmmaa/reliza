@@ -2,6 +2,12 @@ import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
 import { DeclaredStatusMap } from "../types";
 
+import {
+  magicWarriorMasteryFlatMATK,
+  conversionFlatMATK,
+  resonanceFlatMATK,
+} from "./fromMagicBladeSkills";
+
 export const totalBaseMATK = <
   S extends DeclaredStatusMap & {
     totalMainWeaponATK: number;
@@ -146,9 +152,9 @@ export const totalPercentMATK = <
 
 export const totalFlatMATK = <
   S extends DeclaredStatusMap & {
-    magicWarriorMasteryBonusFlatMATK: number;
-    conversionBonusFlatMATK: number;
-    resonanceBonusFlatMATK: number;
+    magicWarriorMasteryFlatMATK: number;
+    conversionFlatMATK: number;
+    resonanceFlatMATK: number;
     totalFlatMATKFromMATKUP: number;
     totalFlatMATKFromMATKDOWN: number;
   }
@@ -159,9 +165,9 @@ export const totalFlatMATK = <
 
   const total =
     acquired +
-    status.magicWarriorMasteryBonusFlatMATK +
-    status.conversionBonusFlatMATK +
-    status.resonanceBonusFlatMATK +
+    status.magicWarriorMasteryFlatMATK +
+    status.conversionFlatMATK +
+    status.resonanceFlatMATK +
     status.totalFlatMATKFromMATKDOWN +
     status.totalFlatMATKFromMATKUP;
 
@@ -175,74 +181,6 @@ export const subWeaponKnuckleMATKModifier = <S extends DeclaredStatusMap>(
     ...status,
     subWeaponKnuckleMATKModifier:
       status.subWeaponType === "knuckle" ? -15 : 0,
-  };
-};
-
-export const magicWarriorMasteryBonusFlatMATK = <
-  S extends DeclaredStatusMap
->(
-  status: S
-): S & { magicWarriorMasteryBonusFlatMATK: number } => {
-  const subWeapon = status.subWeaponType;
-
-  const skillLevel = status.magicWarriorMasteryLevel;
-
-  const value =
-    subWeapon === "magic-device"
-      ? skillLevel * 1 + (skillLevel - 5 > 0 ? skillLevel - 5 : 0)
-      : 0;
-
-  return {
-    ...status,
-    magicWarriorMasteryBonusFlatMATK: value,
-  };
-};
-
-export const conversionBonusFlatMATK = <
-  S extends DeclaredStatusMap & { totalMainWeaponATK: number }
->(
-  status: S
-): S & { conversionBonusFlatMATK: number } => {
-  const skillLevel = status.conversionLevel;
-
-  const isAllowed =
-    status.mainWeaponType === "two-handed-sword" ||
-    status.mainWeaponType === "bowgun" ||
-    status.mainWeaponType === "knuckle" ||
-    status.mainWeaponType === "one-handed-sword";
-
-  const fromWeaponATK = Math.floor(
-    ((skillLevel * skillLevel) / 100) *
-      (status.mainWeaponType === "knuckle"
-        ? status.totalMainWeaponATK * 0.5
-        : status.totalMainWeaponATK)
-  );
-  const bonusFlatMATK = skillLevel * 2;
-
-  const total = isAllowed ? bonusFlatMATK + fromWeaponATK : 0;
-
-  return {
-    ...status,
-    conversionBonusFlatMATK: total,
-  };
-};
-
-export const resonanceBonusFlatMATK = <S extends DeclaredStatusMap>(
-  status: S
-) => {
-  const isAllowed =
-    status.subWeaponType === "magic-device" && status.isResonanceActive;
-
-  const mdRefine = status.subWeaponRefinement;
-  const skillLevel = status.resonanceLevel;
-
-  const bonusFlatMATK = skillLevel * 2 + mdRefine * 2;
-
-  const total = isAllowed ? bonusFlatMATK : 0;
-
-  return {
-    ...status,
-    resonanceBonusFlatMATK: total,
   };
 };
 
@@ -331,19 +269,22 @@ export const calculateMATK = <
   status: S
 ): S & {
   subWeaponKnuckleMATKModifier: number;
-  magicWarriorMasteryBonusFlatMATK: number;
+  magicWarriorMasteryFlatMATK: number;
   totalBaseMATK: number;
   totalPercentMATK: number;
   totalFlatMATK: number;
   totalMATK: number;
 } => {
   const calcs = pipe(status)
+    // magic blade
+    ._(magicWarriorMasteryFlatMATK)
+    ._(conversionFlatMATK)
+    ._(resonanceFlatMATK)
+    //
+
     ._(totalFlatMATKFromMATKUP)
     ._(totalFlatMATKFromMATKDOWN)
     ._(subWeaponKnuckleMATKModifier)
-    ._(magicWarriorMasteryBonusFlatMATK)
-    ._(conversionBonusFlatMATK)
-    ._(resonanceBonusFlatMATK)
 
     ._(totalBaseMATK)
     ._(totalPercentMATK)

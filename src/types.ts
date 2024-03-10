@@ -358,7 +358,6 @@ export interface DeclaredStatusMap {
   magicGuardianBeamLevel: number;
 
   // survival skills
-
   playDeadLevel: number;
   EXPGainUPLevel: number;
   dropRateUPLevel: number;
@@ -408,18 +407,17 @@ export interface DeclaredStatusMap {
   flashBlastLevel: number;
   godspeedLevel: number;
 
+  // ignore the other skills for now on the top
+
   // magic blade skills
   magicWarriorMasteryLevel: number;
-
   conversionLevel: number;
-  isConversionActive: boolean;
-
+  conversionIsActive: boolean;
   resonanceLevel: number;
-  isResonanceActive: boolean;
-
+  resonanceIsActive: boolean;
   enchantedSpellLevel: number;
-
   dualBringerLevel: number;
+  dualBringerIsActive: boolean;
   etherFlareLevel: number;
   elementSlashLevel: number;
   enchantSwordLevel: number;

@@ -1,6 +1,10 @@
 import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
 import { DeclaredStatusMap } from "../types";
+import {
+  magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue,
+  resonanceFlatATK,
+} from "./fromMagicBladeSkills";
 
 export const totalBaseATK = <
   S extends DeclaredStatusMap & {
@@ -154,14 +158,14 @@ export const totalPercentATK = <
 
 export const totalFlatATK = <
   S extends DeclaredStatusMap & {
-    resonanceBonusFlatATK: number;
+    resonanceFlatATK: number;
   }
 >(
   status: S
 ): S & { totalFlatATK: number } => {
   const acquired = accumulate(status, "flatATK");
 
-  const total = acquired + status.resonanceBonusFlatATK;
+  const total = acquired + status.resonanceFlatATK;
 
   return { ...status, totalFlatATK: total };
 };
@@ -175,48 +179,6 @@ export const subWeaponMagicDevicePercentATKModifier = <
     ...status,
     subWeaponMagicDevicePercentATKModifier:
       status.subWeaponType === "magic-device" ? -15 : 0,
-  };
-};
-
-export const magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue =
-  <S extends DeclaredStatusMap>(
-    status: S
-  ): S & {
-    magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue: number;
-  } => {
-    const weapon = status.mainWeaponType;
-    const skillLevel = status.magicWarriorMasteryLevel;
-
-    const ohsBonus = 5;
-
-    const value = skillLevel * 10;
-
-    const result =
-      weapon === "one-handed-sword" ? value + ohsBonus : value;
-
-    return {
-      ...status,
-      magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue:
-        result,
-    };
-  };
-
-export const resonanceBonusFlatATK = <S extends DeclaredStatusMap>(
-  status: S
-) => {
-  const isAllowed =
-    status.subWeaponType === "magic-device" && status.isResonanceActive;
-
-  const mdRefine = status.subWeaponRefinement;
-  const skillLevel = status.resonanceLevel;
-
-  const bonusFlatATK = skillLevel * 2 + mdRefine * 2;
-
-  const total = isAllowed ? bonusFlatATK : 0;
-
-  return {
-    ...status,
-    resonanceBonusFlatATK: total,
   };
 };
 
@@ -313,8 +275,10 @@ export const calculateATK = <
   totalATK: number;
 } => {
   const calcs = pipe(status)
+    // magic blade
     ._(magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue)
-    ._(resonanceBonusFlatATK)
+    ._(resonanceFlatATK)
+    //
 
     ._(totalFlatATKFromATKUP)
     ._(totalFlatATKFromATKDOWN)

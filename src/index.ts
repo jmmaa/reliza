@@ -37,6 +37,7 @@ export * from "./accuracy";
 export * from "./physicalPierce";
 export * from "./magicPierce";
 export * from "./aggro";
+export * from "./final";
 
 import * as d from ".";
 import { pipe, stats, status, DEFAULT } from "./helper";
@@ -76,7 +77,8 @@ export const calculate = <S extends DeclaredStatusMap>(status: S) => {
     ._(d.calculateMATK)
     ._(d.calculateDodge)
     ._(d.calculatePhysicalPierce)
-    ._(d.calculateMagicPierce);
+    ._(d.calculateMagicPierce)
+    ._(d.calculateFinal);
 
   return allCalculations.value;
 };
@@ -92,55 +94,60 @@ export const WickedDragonFazzino = [
   },
 ];
 
-const magicDeviceSupport = status({
-  level: 275,
+const ohsMwarr = status({
+  level: 280,
 
-  DEX: 315,
-  VIT: 178,
-  AGI: 220,
+  INT: 475,
+  STR: 247,
 
-  mainWeaponType: "magic-device",
-  mainWeaponATK: 99,
-  mainWeaponRefinement: 0,
-  mainWeaponStability: 70,
+  mainWeaponType: "one-handed-sword",
+  mainWeaponATK: 504,
+  mainWeaponRefinement: 15,
+  mainWeaponStability: 80,
   mainWeaponStats: [
     {
       predicate: DEFAULT,
       stats: stats({
-        percentDEF: 15,
-        percentMDEF: 15,
-        physicalResistance: 30,
-        magicResistance: 30,
-        flatCriticalRate: 30,
-        percentCSPD: 100,
+        percentMATK: 10,
+        percentINT: 10,
+        percentCriticalDamage: 10,
+        flatCriticalDamage: 22,
+        flatCriticalRate: 27,
       }),
     },
   ],
 
-  mainWeaponCrystals: [WickedDragonFazzino],
+  mainWeaponCrystals: [
+    [
+      {
+        predicate: DEFAULT,
+        stats: stats({
+          stability: 5,
+          magicPierce: 20,
+          aggro: -15,
+        }),
+      },
+    ],
+  ],
 
-  subWeaponType: "ninjutsu-scroll",
-
+  subWeaponType: "magic-device",
+  subWeaponATK: 333,
+  subWeaponRefinement: 15,
   subWeaponStats: [
     {
       predicate: DEFAULT,
-      stats: stats({ flatASPD: 250 }),
-    },
-    {
-      predicate: (status) => status.mainWeaponType === "katana",
-      stats: stats({ flatCriticalRate: 5 }),
+      stats: stats({ element: "light" }),
     },
   ],
 
-  additionalGearDEF: 140,
+  additionalGearDEF: 200,
   additionalGearStats: [
     {
       predicate: DEFAULT,
       stats: stats({
-        flatMaxMP: 400,
-        percentINT: 8,
-        percentATK: 8,
-        flatAttackMPRecovery: 4,
+        percentCriticalRate: 50,
+        flatCriticalRate: 25,
+        magicPierce: 20,
       }),
     },
   ],
@@ -150,27 +157,33 @@ const magicDeviceSupport = status({
       {
         predicate: DEFAULT,
         stats: stats({
-          percentMATK: 5,
-          percentCSPD: 75,
-          longRangeDamage: -16,
+          shortRangeDamage: 8,
+          longRangeDamage: 8,
+          percentUnsheatheAttack: 8,
         }),
       },
       {
         predicate: DEFAULT,
-        stats: stats({ flatASPD: 800, percentMaxHP: 30, flatMaxMP: -300 }),
+        stats: stats({
+          percentUnsheatheAttack: 18,
+          flatMaxMP: -100,
+          percentDodge: -5,
+        }),
       },
     ],
   ],
   armorDEF: 9,
+  // armorRefinement: 15,
   armorStats: [
     {
       predicate: DEFAULT,
       stats: stats({
-        percentAGI: 10,
-        percentDEX: 10,
-        percentCSPD: 21,
-        percentASPD: 21,
-        percentMaxHP: 10,
+        percentINT: 10,
+        percentCriticalDamage: 11,
+        flatCriticalDamage: 22,
+        percentCriticalRate: 27,
+        flatCriticalRate: 27,
+        physicalPierce: -7,
       }),
     },
   ],
@@ -180,10 +193,21 @@ const magicDeviceSupport = status({
       {
         predicate: DEFAULT,
         stats: stats({
-          percentINT: 3,
-          percentMATK: 7,
-          percentCSPD: 35,
-          percentAttackMPRecovery: 10,
+          percentSTR: 6,
+          percentVIT: 6,
+        }),
+      },
+      {
+        predicate: (status) => status.armorType === "light",
+        stats: stats({
+          shortRangeDamage: 11,
+          stability: -5,
+        }),
+      },
+      {
+        predicate: (status) => status.armorType === "heavy",
+        stats: stats({
+          longRangeDamage: 11,
         }),
       },
     ],
@@ -191,21 +215,22 @@ const magicDeviceSupport = status({
       {
         predicate: DEFAULT,
         stats: stats({
-          flatMaxHP: 1000,
-          flatASPD: 300,
-          tumbleUnavailable: true,
+          percentUnsheatheAttack: 18,
+          flatMaxMP: -100,
+          percentDodge: -5,
         }),
       },
     ],
   ],
-  specialGearDEF: 10,
+  specialGearDEF: 0,
   specialGearStats: [
     {
       predicate: DEFAULT,
       stats: stats({
-        percentMaxHP: 25,
-        flatCriticalRate: 25,
-        aggro: 25,
+        flatASPD: 750,
+        flatCSPD: 750,
+        flatMaxMP: 200,
+        ailmentResistance: -8,
       }),
     },
   ],
@@ -217,6 +242,7 @@ const magicDeviceSupport = status({
         stats: stats({
           percentCSPD: -70,
           percentCriticalRate: 40,
+          flatASPD: 1100,
           motionSpeed: 5,
         }),
       },
@@ -225,9 +251,9 @@ const magicDeviceSupport = status({
       {
         predicate: DEFAULT,
         stats: stats({
-          flatCSPD: 1000,
-          flatMaxMP: 300,
-          percentCriticalRate: 20,
+          percentUnsheatheAttack: 18,
+          flatMaxMP: -100,
+          percentDodge: -5,
         }),
       },
     ],
@@ -235,11 +261,22 @@ const magicDeviceSupport = status({
 
   armorType: "light",
 
+  magicWarriorMasteryLevel: 10,
   conversionLevel: 10,
+  resonanceLevel: 10,
+  enchantedSpellLevel: 10,
+  dualBringerLevel: 10,
+  dualBringerIsActive: true,
+
+  etherFlareLevel: 10,
+  elementSlashLevel: 10,
+  enchantSwordLevel: 10,
+  enchantedBurstLevel: 10,
+  unionSwordLevel: 10,
 });
 
 const start = performance.now();
-console.log(calculate(magicDeviceSupport));
+console.log(calculate(ohsMwarr));
 
 const end = performance.now();
 
@@ -264,3 +301,4 @@ console.log(result);
 //
 // UPDATE
 // FUCk IT, WE CODIN!
+// finish passives
