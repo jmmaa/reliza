@@ -1,4 +1,4 @@
-import { DeclaredStatusMap, Element } from "../types";
+import { DeclaredStatusMap } from "../types";
 import { accumulate } from "../helper";
 
 export const totalDamageToDark = <S extends DeclaredStatusMap>(

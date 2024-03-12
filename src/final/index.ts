@@ -3,12 +3,14 @@ import { DeclaredStatusMap } from "../types";
 import {
   dualBringerEffectiveATK,
   dualBringerEffectiveMATK,
+  numberOfMagicBladeSkills,
+  totalNegativePercentATK,
+  totalNegativePercentMATK,
 } from "./fromMagicBladeSkills";
 
 export const effectiveMATK = <
   S extends DeclaredStatusMap & {
     totalMATK: number;
-    dualBringerEffectiveMATK: number;
   }
 >(
   status: S
@@ -24,7 +26,6 @@ export const effectiveMATK = <
 export const effectiveATK = <
   S extends DeclaredStatusMap & {
     totalATK: number;
-    dualBringerEffectiveATK: number;
   }
 >(
   status: S
@@ -38,12 +39,20 @@ export const effectiveATK = <
 };
 
 export const calculateFinal = <
-  S extends DeclaredStatusMap & { totalMATK: number; totalATK: number }
+  S extends DeclaredStatusMap & {
+    totalMATK: number;
+    totalATK: number;
+    subWeaponMagicDevicePercentATKModifier: number;
+    magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue: number;
+  }
 >(
   status: S
 ) => {
   const calcs = pipe(status)
     // magic blade
+    ._(numberOfMagicBladeSkills)
+    ._(totalNegativePercentATK)
+    ._(totalNegativePercentMATK)
     ._(dualBringerEffectiveATK)
     ._(dualBringerEffectiveMATK)
     //

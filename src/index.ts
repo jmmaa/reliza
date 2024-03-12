@@ -173,7 +173,7 @@ const ohsMwarr = status({
     ],
   ],
   armorDEF: 9,
-  // armorRefinement: 15,
+  armorRefinement: 15,
   armorStats: [
     {
       predicate: DEFAULT,
@@ -254,6 +254,8 @@ const ohsMwarr = status({
           percentUnsheatheAttack: 18,
           flatMaxMP: -100,
           percentDodge: -5,
+
+          percentATK: -13,
         }),
       },
     ],
@@ -264,6 +266,8 @@ const ohsMwarr = status({
   magicWarriorMasteryLevel: 10,
   conversionLevel: 10,
   resonanceLevel: 10,
+
+  resonanceIsActive: true,
   enchantedSpellLevel: 10,
   dualBringerLevel: 10,
   dualBringerIsActive: true,

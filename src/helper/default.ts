@@ -149,8 +149,8 @@ export const defaultDeclaredStatusMap: DeclaredStatusMap = {
   subWeaponDEF: 0,
   subWeaponRefinement: 0,
   subWeaponStability: 0,
-  scrollCastTimeReduction: 0,
-  scrollMPReduction: 0,
+  subWeaponScrollCastTimeReduction: 0,
+  subWeaponScrollMPReduction: 0,
   subWeaponStats: [],
   subWeaponCrystals: [],
 
@@ -160,6 +160,7 @@ export const defaultDeclaredStatusMap: DeclaredStatusMap = {
 
   armorDEF: 0,
   armorType: "none",
+  armorRefinement: 0,
   armorStats: [],
   armorCrystals: [],
 

@@ -96,7 +96,14 @@ export type Dark = "dark";
 
 export type Neutral = "neutral";
 
-export type Element = Light | Dark | Fire | Water | Wind | Earth | Neutral;
+export type ElementType =
+  | Light
+  | Dark
+  | Fire
+  | Water
+  | Wind
+  | Earth
+  | Neutral;
 
 export interface NumericalStats {
   flatSTR: number;
@@ -219,7 +226,7 @@ export interface NumericalStats {
 }
 
 export interface NonNumericalStats {
-  element: Element;
+  element: ElementType;
   tumbleUnavailable: boolean;
   flinchUnavailable: boolean;
   stunUnavailable: boolean;
@@ -227,8 +234,8 @@ export interface NonNumericalStats {
 
 export interface StatMap extends NumericalStats, NonNumericalStats {}
 
-export interface Effect<S> {
-  predicate: (status: S) => boolean;
+export interface Effect<Status> {
+  predicate: (status: Status) => boolean;
   stats: StatMap;
 }
 
@@ -248,37 +255,30 @@ export interface DeclaredStatusMap {
   mainWeaponATK: number;
   mainWeaponRefinement: number;
   mainWeaponStability: number;
-
-  subWeaponType: SubWeaponType;
-  subWeaponATK: number;
-  subWeaponRefinement: number;
-
-  subWeaponStability: number;
-
-  subWeaponDEF: number;
-
-  scrollCastTimeReduction: number;
-
-  scrollMPReduction: number;
-
-  armorDEF: number;
-  armorType: ArmorType;
-
-  additionalGearDEF: number;
-  specialGearDEF: number;
-
   mainWeaponStats: Effect<DeclaredStatusMap>[];
   mainWeaponCrystals: Effect<DeclaredStatusMap>[][];
 
+  subWeaponType: SubWeaponType;
+  subWeaponATK: number;
+  subWeaponDEF: number;
+  subWeaponRefinement: number;
+  subWeaponStability: number;
+  subWeaponScrollCastTimeReduction: number;
+  subWeaponScrollMPReduction: number;
   subWeaponStats: Effect<DeclaredStatusMap>[];
   subWeaponCrystals: Effect<DeclaredStatusMap>[][];
 
-  additionalGearStats: Effect<DeclaredStatusMap>[];
-  additionalGearCrystals: Effect<DeclaredStatusMap>[][];
-
+  armorDEF: number;
+  armorRefinement: number;
+  armorType: ArmorType;
   armorStats: Effect<DeclaredStatusMap>[];
   armorCrystals: Effect<DeclaredStatusMap>[][];
 
+  additionalGearDEF: number;
+  additionalGearStats: Effect<DeclaredStatusMap>[];
+  additionalGearCrystals: Effect<DeclaredStatusMap>[][];
+
+  specialGearDEF: number;
   specialGearStats: Effect<DeclaredStatusMap>[];
   specialGearCrystals: Effect<DeclaredStatusMap>[][];
 
@@ -428,17 +428,6 @@ export interface DeclaredStatusMap {
   siphonRecallLevel: number;
   floatDashLevel: number;
   magicSkinLevel: number;
-
-  // // target
-  // targetLevel: number;
-  // targetDEF: number;
-  // targetMDEF: number;
-  // targetPhysicalResistance: number;
-  // targetMagicResistance: number;
-  // targetWeaponResistance: number;
-  // targetElement: Element;
-
-  // maybe passives only?
 }
 
 // export type CompatibleSubWeaponType<Main extends MainWeaponType> =
@@ -521,7 +510,7 @@ export interface DeclaredStatusMap {
 //       specialGearDEF: number;
 
 //       mainWeaponStats: Effect<DeclaredStatusMap>[];
-//       mainWeaponCrystals: Effect<DeclaredStatusMap>[][];
+//       mainWeaponCrystals: Effect<DeclaredStatusMap>[][][];
 
 //       subWeaponStats: Effect<DeclaredStatusMap>[];
 //       subWeaponCrystals: Effect<DeclaredStatusMap>[][];
@@ -552,3 +541,256 @@ export interface DeclaredStatusMap {
 //     };
 //   }[CompatibleSubWeaponType<M>];
 // }[MainWeaponType];
+
+// export interface Declaration {
+//   level: number;
+
+//   STR: number;
+//   DEX: number;
+//   INT: number;
+//   VIT: number;
+//   AGI: number;
+
+//   CRT: number;
+//   MTL: number;
+//   TEC: number;
+//   LUK: number;
+
+//   weapon: {
+//     type: MainWeaponType;
+//     ATK: number;
+//     refinement: number;
+//     stability: number;
+
+//     stats: StatMap[];
+//     crystals: StatMap[][];
+//   };
+
+//   subweapon: {
+//     type: SubWeaponType;
+//     ATK: number;
+//     DEF: number;
+//     refinement: number;
+//     stability: number;
+
+//     scrollCastTimeReduction: number;
+//     scrollMPReduction: number;
+
+//     stats: StatMap[];
+//     crystals: StatMap[][];
+//   };
+
+//   armor: {
+//     type: ArmorType;
+//     DEF: number;
+//     refinement: number;
+//     stats: StatMap[];
+//     crystals: StatMap[][];
+//   };
+
+//   additionalGear: {
+//     DEF: number;
+//     stats: StatMap[];
+//     crystals: StatMap[][];
+//   };
+
+//   specialGear: {
+//     DEF: number;
+//     stats: StatMap[];
+//     crystals: StatMap[][];
+//   };
+
+//   avatar: {
+//     accessory: StatMap[];
+//     top: StatMap[];
+//     bottom: StatMap[];
+//   };
+
+//   consumables: StatMap[];
+
+//   foodBuffs: StatMap[];
+
+//   // regislets (must be same like skills too)
+
+//   // blade skills
+//   skills: {
+//     blade: {
+//       hardHit: {
+//         level: number;
+//       };
+//       astute: {
+//         level: number;
+//       };
+//       triggerSlash: {
+//         level: number;
+//       };
+//       rampage: {
+//         level: number;
+//       };
+//       meteorBreaker: {
+//         level: number;
+//       };
+//       shutOut: {
+//         level: number;
+//       };
+//       lunarSlash: {
+//         level: number;
+//       };
+//       sonicBlade: {
+//         level: number;
+//       };
+//       spiralAir: {
+//         level: number;
+//       };
+//       swordTempest: {
+//         level: number;
+//       };
+//       busterBlade: {
+//         level: number;
+//       };
+//       auraBlade: {
+//         level: number;
+//       };
+//       swordMastery: {
+//         level: number;
+//       };
+//       quickSlash: {
+//         level: number;
+//       };
+//       swordTechniques: {
+//         level: number;
+//       };
+//       warCry: {
+//         level: number;
+//       };
+//       berserk: {
+//         level: number;
+//       };
+//       gladiate: {
+//         level: number;
+//       };
+//       swiftAttack: {
+//         level: number;
+//       };
+//     };
+//   };
+
+//   // shot skills
+//   powerShotLevel: number;
+//   bullseyeLevel: number;
+//   arrowRainLevel: number;
+//   snipeLevel: number;
+//   crossFireLevel: number;
+//   vanquisherLevel: number;
+//   twinStormLevel: number;
+//   retrogradeShotLevel: number;
+//   moebaShotLevel: number;
+//   paralysisShotLevel: number;
+//   smokeDustLevel: number;
+//   armBreakLevel: number;
+//   parabolaCannonLevel: number;
+//   shotMasteryLevel: number;
+//   samuraiArcheryLevel: number;
+//   sneakAttackLevel: number;
+//   longRangeLevel: number;
+//   quickDrawLevel: number;
+//   decoyShotLevel: number;
+//   fatalShotLevel: number;
+
+//   // magic skills
+
+//   magicArrowsLevel: number;
+//   magicJavelinLevel: number;
+//   magicLancesLevel: number;
+//   magicImpactLevel: number;
+//   magicFinaleLevel: number;
+//   chronosShiftLevel: number;
+//   magicWallLevel: number;
+//   magicBlastLevel: number;
+//   magicStormLevel: number;
+//   magicBurstLevel: number;
+//   magicCannonLevel: number;
+//   magicCrashLevel: number;
+//   magicMasteryLevel: number;
+//   magicKnifeLevel: number;
+//   qadalLevel: number;
+//   MPChargeLevel: number;
+//   chainCastLevel: number;
+//   powerWaveLevel: number;
+//   maximizerLevel: number;
+//   rapidChargeLevel: number;
+//   enchantedBarriersLevel: number;
+//   magicGuardianBeamLevel: number;
+
+//   // survival skills
+//   playDeadLevel: number;
+//   EXPGainUPLevel: number;
+//   dropRateUPLevel: number;
+//   safeRestLevel: number;
+//   HPBoostLevel: number;
+//   fightersHighLevel: number;
+//   shortRestLevel: number;
+//   MPBoostLevel: number;
+//   soberAnalysisLevel: number;
+
+//   // support skills
+//   firstAidLevel: number;
+//   miniHealLevel: number;
+//   recoveryLevel: number;
+//   sanctuaryLevel: number;
+//   healLevel: number;
+//   lifeRecoveryLevel: number;
+//   braveAuraLevel: number;
+//   highCycleLevel: number;
+//   quickMotionLevel: number;
+//   manaRechargeLevel: number;
+//   magicBarrierLevel: number;
+//   immunityLevel: number;
+//   fastReactionLevel: number;
+
+//   // battle skills
+//   magicUPLevel: number;
+//   concentrateLevel: number;
+//   AttackUPLevel: number;
+//   whackLevel: number;
+//   defenseUPLevel: number;
+//   dodgeUPLevel: number;
+//   desperateResistLevel: number;
+//   criticalUPLevel: number;
+//   accuracyUPLevel: number;
+//   increasedEnergyLevel: number;
+//   intimidatingPowerLevel: number;
+//   defenseMasteryLevel: number;
+//   spellBurstLevel: number;
+//   secretChaseAttackLevel: number;
+//   superGripLevel: number;
+
+//   // mononofu skills
+//   bushidoLevel: number;
+
+//   // dual sword skills
+//   flashBlastLevel: number;
+//   godspeedLevel: number;
+
+//   // ignore the other skills for now on the top
+
+//   // magic blade skills
+//   magicWarriorMasteryLevel: number;
+//   conversionLevel: number;
+//   conversionIsActive: boolean;
+//   resonanceLevel: number;
+//   resonanceIsActive: boolean;
+//   enchantedSpellLevel: number;
+//   dualBringerLevel: number;
+//   dualBringerIsActive: boolean;
+//   etherFlareLevel: number;
+//   elementSlashLevel: number;
+//   enchantSwordLevel: number;
+//   enchantedBurstLevel: number;
+//   unionSwordLevel: number;
+//   siphonBarrierLevel: number;
+//   teleportLevel: number;
+//   siphonRecallLevel: number;
+//   floatDashLevel: number;
+//   magicSkinLevel: number;
+// }
