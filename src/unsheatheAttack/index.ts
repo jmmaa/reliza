@@ -1,5 +1,6 @@
 import { accumulate, pipe } from "../helper";
 import { DeclaredStatusMap } from "../types";
+import { godSpeedPercentUnsheatheAttack } from "./fromDualSwordSkills";
 
 export const totalFlatUnsheatheAttack = <S extends DeclaredStatusMap>(
   status: S
@@ -9,10 +10,14 @@ export const totalFlatUnsheatheAttack = <S extends DeclaredStatusMap>(
   return { ...status, totalFlatUnsheatheAttack: accumulated };
 };
 
-export const totalPercentUnsheatheAttack = <S extends DeclaredStatusMap>(
+export const totalPercentUnsheatheAttack = <
+  S extends DeclaredStatusMap & { godSpeedPercentUnsheatheAttack: number }
+>(
   status: S
 ) => {
-  const accumulated = accumulate(status, "percentUnsheatheAttack");
+  const accumulated =
+    accumulate(status, "percentUnsheatheAttack") +
+    status.godSpeedPercentUnsheatheAttack;
 
   return { ...status, totalPercentUnsheatheAttack: accumulated };
 };
@@ -24,6 +29,9 @@ export const calculateUnsheatheAttack = <S extends DeclaredStatusMap>(
   totalPercentUnsheatheAttack: number;
 } => {
   const calcs = pipe(status)
+    // dual sword
+    ._(godSpeedPercentUnsheatheAttack)
+
     ._(totalFlatUnsheatheAttack)
     ._(totalPercentUnsheatheAttack);
 

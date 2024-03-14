@@ -1,9 +1,10 @@
+import { accumulateWithFilter, sum } from "../helper";
 import { DeclaredStatusMap } from "../types";
 
 export const numberOfMagicBladeSkills = <S extends DeclaredStatusMap>(
   status: S
 ): S & { numberOfMagicBladeSkills: number } => {
-  const total = [
+  const total = sum([
     status.magicWarriorMasteryLevel > 0 ? 1 : 0,
     status.conversionLevel > 0 ? 1 : 0,
     status.enchantedSpellLevel > 0 ? 1 : 0,
@@ -21,7 +22,7 @@ export const numberOfMagicBladeSkills = <S extends DeclaredStatusMap>(
     status.siphonRecallLevel > 0 ? 1 : 0,
     status.floatDashLevel > 0 ? 1 : 0,
     status.magicSkinLevel > 0 ? 1 : 0,
-  ].reduce((s, n) => s + n);
+  ]);
 
   return {
     ...status,
@@ -32,90 +33,7 @@ export const numberOfMagicBladeSkills = <S extends DeclaredStatusMap>(
 export const totalNegativePercentMATK = <S extends DeclaredStatusMap>(
   status: S
 ) => {
-  const total = [
-    status.mainWeaponStats.reduce((total, group) => {
-      return group.predicate(status)
-        ? group.stats.percentMATK < 0
-          ? total + group.stats.percentMATK
-          : total
-        : total;
-    }, 0),
-    status.mainWeaponCrystals.reduce((total, groups) => {
-      return (
-        total +
-        groups.reduce((total, group) => {
-          return group.predicate(status)
-            ? group.stats.percentMATK < 0
-              ? total + group.stats.percentMATK
-              : total
-            : total;
-        }, 0)
-      );
-    }, 0),
-
-    status.additionalGearStats.reduce((total, group) => {
-      return group.predicate(status)
-        ? group.stats.percentMATK < 0
-          ? total + group.stats.percentMATK
-          : total
-        : total;
-    }, 0),
-
-    status.additionalGearCrystals.reduce((total, groups) => {
-      return (
-        total +
-        groups.reduce((total, group) => {
-          return group.predicate(status)
-            ? group.stats.percentMATK < 0
-              ? total + group.stats.percentMATK
-              : total
-            : total;
-        }, 0)
-      );
-    }, 0),
-
-    status.armorStats.reduce((total, group) => {
-      return group.predicate(status)
-        ? group.stats.percentMATK < 0
-          ? total + group.stats.percentMATK
-          : total
-        : total;
-    }, 0),
-
-    status.armorCrystals.reduce((total, groups) => {
-      return (
-        total +
-        groups.reduce((total, group) => {
-          return group.predicate(status)
-            ? group.stats.percentMATK < 0
-              ? total + group.stats.percentMATK
-              : total
-            : total;
-        }, 0)
-      );
-    }, 0),
-
-    status.specialGearStats.reduce((total, group) => {
-      return group.predicate(status)
-        ? group.stats.percentMATK < 0
-          ? total + group.stats.percentMATK
-          : total
-        : total;
-    }, 0),
-
-    status.specialGearCrystals.reduce((total, groups) => {
-      return (
-        total +
-        groups.reduce((total, group) => {
-          return group.predicate(status)
-            ? group.stats.percentMATK < 0
-              ? total + group.stats.percentMATK
-              : total
-            : total;
-        }, 0)
-      );
-    }, 0),
-  ].reduce((s, n) => s + n);
+  const total = accumulateWithFilter(status, "percentMATK", (v) => v < 0);
 
   return {
     ...status,
@@ -131,93 +49,10 @@ export const totalNegativePercentATK = <
 >(
   status: S
 ) => {
-  const total = [
-    status.mainWeaponStats.reduce((total, group) => {
-      return group.predicate(status)
-        ? group.stats.percentATK < 0
-          ? total + group.stats.percentATK
-          : total
-        : total;
-    }, 0),
-    status.mainWeaponCrystals.reduce((total, groups) => {
-      return (
-        total +
-        groups.reduce((total, group) => {
-          return group.predicate(status)
-            ? group.stats.percentATK < 0
-              ? total + group.stats.percentATK
-              : total
-            : total;
-        }, 0)
-      );
-    }, 0),
-
-    status.additionalGearStats.reduce((total, group) => {
-      return group.predicate(status)
-        ? group.stats.percentATK < 0
-          ? total + group.stats.percentATK
-          : total
-        : total;
-    }, 0),
-
-    status.additionalGearCrystals.reduce((total, groups) => {
-      return (
-        total +
-        groups.reduce((total, group) => {
-          return group.predicate(status)
-            ? group.stats.percentATK < 0
-              ? total + group.stats.percentATK
-              : total
-            : total;
-        }, 0)
-      );
-    }, 0),
-
-    status.armorStats.reduce((total, group) => {
-      return group.predicate(status)
-        ? group.stats.percentATK < 0
-          ? total + group.stats.percentATK
-          : total
-        : total;
-    }, 0),
-
-    status.armorCrystals.reduce((total, groups) => {
-      return (
-        total +
-        groups.reduce((total, group) => {
-          return group.predicate(status)
-            ? group.stats.percentATK < 0
-              ? total + group.stats.percentATK
-              : total
-            : total;
-        }, 0)
-      );
-    }, 0),
-
-    status.specialGearStats.reduce((total, group) => {
-      return group.predicate(status)
-        ? group.stats.percentATK < 0
-          ? total + group.stats.percentATK
-          : total
-        : total;
-    }, 0),
-
-    status.specialGearCrystals.reduce((total, groups) => {
-      return (
-        total +
-        groups.reduce((total, group) => {
-          return group.predicate(status)
-            ? group.stats.percentATK < 0
-              ? total + group.stats.percentATK
-              : total
-            : total;
-        }, 0)
-      );
-    }, 0),
-
+  const total =
+    accumulateWithFilter(status, "percentATK", (v) => v < 0) +
     status.subWeaponMagicDevicePercentATKModifier +
-      status.magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue,
-  ].reduce((s, n) => s + n);
+    status.magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue;
 
   return {
     ...status,
@@ -243,12 +78,14 @@ export const dualBringerEffectiveMATK = <
 
   const penaltyCoefficient = (100 - totalNegativePercentMATK) / 100;
 
-  const total = Math.max(
-    (status.totalATK - status.totalMATK) *
-      penaltyCoefficient *
-      skillEfficiency -
-      status.totalMATK * (1 - penaltyCoefficient),
-    0
+  const total = Math.floor(
+    Math.max(
+      (status.totalATK - status.totalMATK) *
+        penaltyCoefficient *
+        skillEfficiency -
+        status.totalMATK * (1 - penaltyCoefficient),
+      0
+    )
   );
 
   return {

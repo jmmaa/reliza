@@ -5,6 +5,7 @@ import {
   magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue,
   resonanceFlatATK,
 } from "./fromMagicBladeSkills";
+import { swordMasteryPercentATK } from "./fromBladeSkills";
 
 export const totalBaseATK = <
   S extends DeclaredStatusMap & {
@@ -139,6 +140,8 @@ export const totalPercentATK = <
   S extends DeclaredStatusMap & {
     subWeaponMagicDevicePercentATKModifier: number;
     magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue: number;
+
+    swordMasteryPercentATK: number;
   }
 >(
   status: S
@@ -147,6 +150,7 @@ export const totalPercentATK = <
 
   const total =
     accumulated +
+    status.swordMasteryPercentATK +
     status.subWeaponMagicDevicePercentATKModifier +
     status.magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue;
 
@@ -278,7 +282,9 @@ export const calculateATK = <
     // magic blade
     ._(magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue)
     ._(resonanceFlatATK)
-    //
+
+    // blade
+    ._(swordMasteryPercentATK)
 
     ._(totalFlatATKFromATKUP)
     ._(totalFlatATKFromATKDOWN)

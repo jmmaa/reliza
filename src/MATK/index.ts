@@ -1,5 +1,5 @@
 import * as pino from "@jmmaa/pino";
-import { accumulate, pipe, total } from "../helper";
+import { accumulate, pipe, sum, total } from "../helper";
 import { DeclaredStatusMap } from "../types";
 
 import {
@@ -7,6 +7,10 @@ import {
   conversionFlatMATK,
   resonanceFlatMATK,
 } from "./fromMagicBladeSkills";
+import {
+  increasedEnergyFlatMATK,
+  magicUPFlatMATK,
+} from "./fromBattleSkills";
 
 export const totalBaseMATK = <
   S extends DeclaredStatusMap & {
@@ -155,21 +159,28 @@ export const totalFlatMATK = <
     magicWarriorMasteryFlatMATK: number;
     conversionFlatMATK: number;
     resonanceFlatMATK: number;
+
+    magicUPFlatMATK: number;
+    increasedEnergyFlatMATK: number;
+
     totalFlatMATKFromMATKUP: number;
     totalFlatMATKFromMATKDOWN: number;
   }
 >(
   status: S
 ): S & { totalFlatMATK: number } => {
-  const acquired = accumulate(status, "flatMATK");
+  const fromEquips = accumulate(status, "flatMATK");
 
-  const total =
-    acquired +
-    status.magicWarriorMasteryFlatMATK +
-    status.conversionFlatMATK +
-    status.resonanceFlatMATK +
-    status.totalFlatMATKFromMATKDOWN +
-    status.totalFlatMATKFromMATKUP;
+  const total = sum([
+    fromEquips,
+    status.magicWarriorMasteryFlatMATK,
+    status.conversionFlatMATK,
+    status.resonanceFlatMATK,
+    status.magicUPFlatMATK,
+    status.increasedEnergyFlatMATK,
+    status.totalFlatMATKFromMATKDOWN,
+    status.totalFlatMATKFromMATKUP,
+  ]);
 
   return { ...status, totalFlatMATK: total };
 };
@@ -280,6 +291,11 @@ export const calculateMATK = <
     ._(magicWarriorMasteryFlatMATK)
     ._(conversionFlatMATK)
     ._(resonanceFlatMATK)
+    //
+
+    // battle
+    ._(magicUPFlatMATK)
+    ._(increasedEnergyFlatMATK)
     //
 
     ._(totalFlatMATKFromMATKUP)

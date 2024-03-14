@@ -127,11 +127,13 @@ export const defaultStatMap: StatMap = {
 
 export const defaultDeclaredStatusMap: DeclaredStatusMap = {
   level: 1,
+
   STR: 1,
   DEX: 1,
   INT: 1,
   VIT: 1,
   AGI: 1,
+
   TEC: 0,
   MTL: 0,
   CRT: 0,

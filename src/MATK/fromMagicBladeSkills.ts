@@ -32,9 +32,9 @@ export const conversionFlatMATK = <
         ? status.totalMainWeaponATK * 0.5
         : status.totalMainWeaponATK)
   );
-  const bonusFlatMATK = skillLevel * 2;
+  // const bonusFlatMATK = skillLevel * 2; // this doesn't seem to work, need confirmation
 
-  const total = isAllowed ? bonusFlatMATK + fromWeaponATK : 0;
+  const total = isAllowed ? fromWeaponATK : 0;
 
   return {
     ...status,

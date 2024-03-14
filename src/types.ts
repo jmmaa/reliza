@@ -468,7 +468,7 @@ export interface DeclaredStatusMap {
 //     ? Knuckle | MagicDevice | NinjutsuScroll | Shield | Dagger | None
 //     : None;
 
-// export type DeclaredStatusMap = {
+// export type Status = {
 //   [M in MainWeaponType]: {
 //     [S in CompatibleSubWeaponType<M>]: {
 //       level: number;
@@ -509,24 +509,24 @@ export interface DeclaredStatusMap {
 //       additionalGearDEF: number;
 //       specialGearDEF: number;
 
-//       mainWeaponStats: Effect<DeclaredStatusMap>[];
-//       mainWeaponCrystals: Effect<DeclaredStatusMap>[][][];
+//       mainWeaponStats: Effect<DeclaredStatusMapMap>[];
+//       mainWeaponCrystals: Effect<DeclaredStatusMapMap>[][][];
 
-//       subWeaponStats: Effect<DeclaredStatusMap>[];
-//       subWeaponCrystals: Effect<DeclaredStatusMap>[][];
+//       subWeaponStats: Effect<DeclaredStatusMapMap>[];
+//       subWeaponCrystals: Effect<DeclaredStatusMapMap>[][];
 
-//       additionalGearStats: Effect<DeclaredStatusMap>[];
-//       additionalGearCrystals: Effect<DeclaredStatusMap>[][];
+//       additionalGearStats: Effect<DeclaredStatusMapMap>[];
+//       additionalGearCrystals: Effect<DeclaredStatusMapMap>[][];
 
-//       armorStats: Effect<DeclaredStatusMap>[];
-//       armorCrystals: Effect<DeclaredStatusMap>[][];
+//       armorStats: Effect<DeclaredStatusMapMap>[];
+//       armorCrystals: Effect<DeclaredStatusMapMap>[][];
 
-//       specialGearStats: Effect<DeclaredStatusMap>[];
-//       specialGearCrystals: Effect<DeclaredStatusMap>[][];
+//       specialGearStats: Effect<DeclaredStatusMapMap>[];
+//       specialGearCrystals: Effect<DeclaredStatusMapMap>[][];
 
-//       consumables: Effect<DeclaredStatusMap>[];
+//       consumables: Effect<DeclaredStatusMapMap>[];
 
-//       foodBuffs: Effect<DeclaredStatusMap>[];
+//       foodBuffs: Effect<DeclaredStatusMapMap>[];
 
 //       // regislets (must be same like skills too)
 

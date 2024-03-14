@@ -184,6 +184,8 @@ const ohsMwarr = status({
         percentCriticalRate: 27,
         flatCriticalRate: 27,
         physicalPierce: -7,
+        percentAccuracy: -6,
+        flatAccuracy: -18,
       }),
     },
   ],
@@ -255,7 +257,16 @@ const ohsMwarr = status({
           flatMaxMP: -100,
           percentDodge: -5,
 
-          percentATK: -13,
+          // percentATK: -13,
+
+          // foodbuffs
+          flatINT: 30,
+          flatSTR: 30,
+          flatCriticalRate: 30,
+          flatWeaponATK: 30,
+
+          // regislet
+          flatMATK: 30,
         }),
       },
     ],
@@ -267,7 +278,7 @@ const ohsMwarr = status({
   conversionLevel: 10,
   resonanceLevel: 10,
 
-  resonanceIsActive: true,
+  // resonanceIsActive: true,
   enchantedSpellLevel: 10,
   dualBringerLevel: 10,
   dualBringerIsActive: true,
@@ -277,6 +288,13 @@ const ohsMwarr = status({
   enchantSwordLevel: 10,
   enchantedBurstLevel: 10,
   unionSwordLevel: 10,
+
+  magicUPLevel: 10,
+  increasedEnergyLevel: 10,
+
+  swordMasteryLevel: 10,
+
+  godspeedLevel: 10,
 });
 
 const start = performance.now();

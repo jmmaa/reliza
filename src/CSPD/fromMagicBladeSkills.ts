@@ -11,6 +11,21 @@ export const magicWarriorMasteryFlatCSPD = <S extends DeclaredStatusMap>(
   return { ...status, magicWarriorMasteryFlatCSPD: total };
 };
 
+export const magicWarriorMasteryPercentCSPD = <
+  S extends DeclaredStatusMap
+>(
+  status: S
+): S & { magicWarriorMasteryPercentCSPD: number } => {
+  const isAllowed = status.subWeaponType === "magic-device";
+  const skillLevel = status.magicWarriorMasteryLevel;
+
+  const total = isAllowed
+    ? skillLevel * 1 + Math.max(skillLevel - 5, 0)
+    : 0;
+
+  return { ...status, magicWarriorMasteryPercentCSPD: total };
+};
+
 export const resonanceFlatCSPD = <S extends DeclaredStatusMap>(
   status: S
 ) => {

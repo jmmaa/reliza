@@ -4,6 +4,7 @@ import { DeclaredStatusMap } from "../types";
 
 import {
   magicWarriorMasteryFlatCSPD,
+  magicWarriorMasteryPercentCSPD,
   resonanceFlatCSPD,
 } from "./fromMagicBladeSkills";
 
@@ -13,10 +14,14 @@ export const totalBaseCSPD = <
   status: S
 ): S & { totalBaseCSPD: number } => ({
   ...status,
-  totalBaseCSPD: pino.baseCastSpeed(
-    status.level,
-    status.totalAGI,
-    status.totalDEX
+  // totalBaseCSPD: pino.baseCastSpeed(
+  //   status.level,
+  //   status.totalAGI,
+  //   status.totalDEX
+  // ),
+
+  totalBaseCSPD: Math.floor(
+    status.level + (1.16 * status.totalAGI + 2.94 * status.totalDEX)
   ),
 });
 
@@ -41,12 +46,18 @@ export const totalFlatCSPD = <
   };
 };
 
-export const totalPercentCSPD = <S extends DeclaredStatusMap>(
+export const totalPercentCSPD = <
+  S extends DeclaredStatusMap & {
+    magicWarriorMasteryPercentCSPD: number;
+  }
+>(
   status: S
-): S & { totalPercentCSPD: number } => {
+) => {
   return {
     ...status,
-    totalPercentCSPD: accumulate(status, "percentCSPD"),
+    totalPercentCSPD:
+      accumulate(status, "percentCSPD") +
+      status.magicWarriorMasteryPercentCSPD,
   };
 };
 
@@ -87,15 +98,20 @@ export const calculateCSPD = <
 >(
   status: S
 ): S & {
+  magicWarriorMasteryPercentCSPD: number;
   magicWarriorMasteryFlatCSPD: number;
+  resonanceFlatCSPD: number;
+
   totalBaseCSPD: number;
-  totalPercentCSPD: number;
   totalFlatCSPD: number;
+  totalPercentCSPD: number;
   totalCSPD: number;
+
   totalCastTimeReduction: number;
 } => {
   const calcs = pipe(status)
     // magic blade
+    ._(magicWarriorMasteryPercentCSPD)
     ._(magicWarriorMasteryFlatCSPD)
     ._(resonanceFlatCSPD)
     //

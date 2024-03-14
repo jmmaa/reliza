@@ -1,4 +1,9 @@
-import { NumericalStats, DeclaredStatusMap, StatMap } from "../types";
+import {
+  NumericalStats,
+  StatMap,
+  Effect,
+  DeclaredStatusMap,
+} from "../types";
 import { defaultDeclaredStatusMap, defaultStatMap } from "./default";
 
 export const pipe = <T>(value: T) => {
@@ -8,15 +13,90 @@ export const pipe = <T>(value: T) => {
   };
 };
 
-export const accumulateFromMainWeaponStats = <S extends DeclaredStatusMap>(
-  stat: keyof NumericalStats,
-  status: S
+export const evaluateNumericStat = <
+  S extends DeclaredStatusMap,
+  E extends Effect<DeclaredStatusMap>[]
+>(
+  status: S,
+  container: E,
+  key: keyof NumericalStats,
+  filter: (v: number) => boolean
 ) => {
-  const total = status.mainWeaponStats.reduce((total, statGroup) => {
-    return statGroup.predicate(status)
-      ? statGroup.stats[stat] + total
+  return container.reduce((total, statGroup) => {
+    return statGroup.predicate(status) && filter(statGroup.stats[key])
+      ? statGroup.stats[key] + total
       : total;
   }, 0);
+};
+
+// export const evaluateStat = <
+//   S extends DeclaredStatusMap,
+//   E extends Effect<DeclaredStatusMap>[]
+// >(
+//   status: S,
+//   container: E,
+//   key: keyof StatMap,
+//   filter: <V>(v: V) => boolean
+// ) => {
+//   if (key === "element") {
+//     return container.reduce((ele, statGroup) => {
+//       return statGroup.predicate(status) && filter(statGroup.stats[key])
+//         ? statGroup.stats[key]
+//         : ele;
+//     }, "neutral");
+//   } else if (
+//     key === "tumbleUnavailable" ||
+//     key === "flinchUnavailable" ||
+//     key === "stunUnavailable"
+//   ) {
+//     return container.reduce((bool, statGroup) => {
+//       return statGroup.predicate(status) && filter(statGroup.stats[key])
+//         ? statGroup.stats[key] || bool
+//         : bool;
+//     }, false);
+//   } else {
+//     return evaluateNumericStat(status, container, key, filter);
+//   }
+// };
+
+// export const query = <S extends DeclaredStatusMap>(status: S) => {
+//   return {
+//     accumulate: (key: keyof NumericalStats) => {
+//       return sum([
+//         evaluateNumericStat(
+//           status,
+//           status.mainWeaponStats,
+//           key,
+//           (_) => true
+//         ),
+//         evaluateNumericStat(
+//           status,
+//           status.subWeaponStats,
+//           key,
+//           (_) => true
+//         ),
+//         evaluateNumericStat(
+//           status,
+//           status.additionalGearStats,
+//           key,
+//           (_) => true
+//         ),
+//       ]);
+//     },
+//   };
+// };
+
+export const accumulateFromMainWeaponStats = <S extends DeclaredStatusMap>(
+  stat: keyof NumericalStats,
+  status: S,
+  filter: (v: number) => boolean
+) => {
+  const total = evaluateNumericStat(
+    status,
+    status.mainWeaponStats,
+    stat,
+    filter
+  );
 
   return total;
 };
@@ -25,16 +105,11 @@ export const accumulateFromMainWeaponCrystals = <
   S extends DeclaredStatusMap
 >(
   stat: keyof NumericalStats,
-  status: S
+  status: S,
+  filter: (v: number) => boolean
 ) => {
-  const total = status.mainWeaponCrystals.reduce((total, statGroups) => {
-    return (
-      statGroups.reduce((total, statGroup) => {
-        return statGroup.predicate(status)
-          ? statGroup.stats[stat] + total
-          : total;
-      }, 0) + total
-    );
+  const total = status.mainWeaponCrystals.reduce((total, container) => {
+    return evaluateNumericStat(status, container, stat, filter) + total;
   }, 0);
 
   return total;
@@ -42,7 +117,8 @@ export const accumulateFromMainWeaponCrystals = <
 
 export const accumulateFromSubWeaponStats = <S extends DeclaredStatusMap>(
   stat: keyof NumericalStats,
-  status: S
+  status: S,
+  filter: (v: number) => boolean
 ) => {
   if (
     status.subWeaponType === "arrow" ||
@@ -50,11 +126,12 @@ export const accumulateFromSubWeaponStats = <S extends DeclaredStatusMap>(
     status.subWeaponType === "shield" ||
     status.subWeaponType === "ninjutsu-scroll"
   ) {
-    const total = status.subWeaponStats.reduce((total, statGroup) => {
-      return statGroup.predicate(status)
-        ? statGroup.stats[stat] + total
-        : total;
-    }, 0);
+    const total = evaluateNumericStat(
+      status,
+      status.subWeaponStats,
+      stat,
+      filter
+    );
 
     return total;
   } else {
@@ -66,13 +143,15 @@ export const accumulateFromAdditionalGearStats = <
   S extends DeclaredStatusMap
 >(
   stat: keyof NumericalStats,
-  status: S
+  status: S,
+  filter: (v: number) => boolean
 ) => {
-  const total = status.additionalGearStats.reduce((total, statGroup) => {
-    return statGroup.predicate(status)
-      ? statGroup.stats[stat] + total
-      : total;
-  }, 0);
+  const total = evaluateNumericStat(
+    status,
+    status.additionalGearStats,
+    stat,
+    filter
+  );
 
   return total;
 };
@@ -81,17 +160,12 @@ export const accumulateFromAdditionalGearCrystals = <
   S extends DeclaredStatusMap
 >(
   stat: keyof NumericalStats,
-  status: S
+  status: S,
+  filter: (v: number) => boolean
 ) => {
   const total = status.additionalGearCrystals.reduce(
-    (total, statGroups) => {
-      return (
-        statGroups.reduce((total, statGroup) => {
-          return statGroup.predicate(status)
-            ? statGroup.stats[stat] + total
-            : total;
-        }, 0) + total
-      );
+    (total, container) => {
+      return evaluateNumericStat(status, container, stat, filter) + total;
     },
     0
   );
@@ -101,29 +175,26 @@ export const accumulateFromAdditionalGearCrystals = <
 
 export const accumulateFromArmorStats = <S extends DeclaredStatusMap>(
   stat: keyof NumericalStats,
-  status: S
+  status: S,
+  filter: (v: number) => boolean
 ) => {
-  const total = status.armorStats.reduce((total, statGroup) => {
-    return statGroup.predicate(status)
-      ? statGroup.stats[stat] + total
-      : total;
-  }, 0);
+  const total = evaluateNumericStat(
+    status,
+    status.armorStats,
+    stat,
+    filter
+  );
 
   return total;
 };
 
 export const accumulateFromArmorCrystals = <S extends DeclaredStatusMap>(
   stat: keyof NumericalStats,
-  status: S
+  status: S,
+  filter: (v: number) => boolean
 ) => {
-  const total = status.armorCrystals.reduce((total, statGroups) => {
-    return (
-      statGroups.reduce((total, statGroup) => {
-        return statGroup.predicate(status)
-          ? statGroup.stats[stat] + total
-          : total;
-      }, 0) + total
-    );
+  const total = status.armorCrystals.reduce((total, container) => {
+    return evaluateNumericStat(status, container, stat, filter) + total;
   }, 0);
 
   return total;
@@ -133,13 +204,15 @@ export const accumulateFromSpecialGearStats = <
   S extends DeclaredStatusMap
 >(
   stat: keyof NumericalStats,
-  status: S
+  status: S,
+  filter: (v: number) => boolean
 ) => {
-  const total = status.specialGearStats.reduce((total, statGroup) => {
-    return statGroup.predicate(status)
-      ? statGroup.stats[stat] + total
-      : total;
-  }, 0);
+  const total = evaluateNumericStat(
+    status,
+    status.specialGearStats,
+    stat,
+    filter
+  );
 
   return total;
 };
@@ -148,16 +221,11 @@ export const accumulateFromSpecialGearCrystals = <
   S extends DeclaredStatusMap
 >(
   stat: keyof NumericalStats,
-  status: S
+  status: S,
+  filter: (v: number) => boolean
 ) => {
-  const total = status.specialGearCrystals.reduce((total, statGroups) => {
-    return (
-      statGroups.reduce((total, statGroup) => {
-        return statGroup.predicate(status)
-          ? statGroup.stats[stat] + total
-          : total;
-      }, 0) + total
-    );
+  const total = status.specialGearCrystals.reduce((total, container) => {
+    return evaluateNumericStat(status, container, stat, filter) + total;
   }, 0);
 
   return total;
@@ -167,24 +235,49 @@ export const accumulate = <S extends DeclaredStatusMap>(
   status: S,
   stat: keyof NumericalStats
 ) => {
-  const sum = [
-    accumulateFromMainWeaponStats(stat, status),
-    accumulateFromMainWeaponCrystals(stat, status),
+  const total = sum([
+    accumulateFromMainWeaponStats(stat, status, (_) => true),
+    accumulateFromMainWeaponCrystals(stat, status, (_) => true),
 
-    accumulateFromSubWeaponStats(stat, status),
+    accumulateFromSubWeaponStats(stat, status, (_) => true),
 
-    accumulateFromAdditionalGearStats(stat, status),
-    accumulateFromAdditionalGearCrystals(stat, status),
+    accumulateFromAdditionalGearStats(stat, status, (_) => true),
+    accumulateFromAdditionalGearCrystals(stat, status, (_) => true),
 
-    accumulateFromArmorStats(stat, status),
-    accumulateFromArmorCrystals(stat, status),
+    accumulateFromArmorStats(stat, status, (_) => true),
+    accumulateFromArmorCrystals(stat, status, (_) => true),
 
-    accumulateFromSpecialGearStats(stat, status),
-    accumulateFromSpecialGearCrystals(stat, status),
-  ].reduce((t, c) => t + c, 0);
+    accumulateFromSpecialGearStats(stat, status, (_) => true),
+    accumulateFromSpecialGearCrystals(stat, status, (_) => true),
+  ]);
 
-  return sum;
+  return total;
 };
+
+export const accumulateWithFilter = <S extends DeclaredStatusMap>(
+  status: S,
+  stat: keyof NumericalStats,
+  filter: (v: number) => boolean
+) => {
+  const total = sum([
+    accumulateFromMainWeaponStats(stat, status, filter),
+    accumulateFromMainWeaponCrystals(stat, status, filter),
+
+    accumulateFromSubWeaponStats(stat, status, filter),
+
+    accumulateFromAdditionalGearStats(stat, status, filter),
+    accumulateFromAdditionalGearCrystals(stat, status, filter),
+
+    accumulateFromArmorStats(stat, status, filter),
+    accumulateFromArmorCrystals(stat, status, filter),
+
+    accumulateFromSpecialGearStats(stat, status, filter),
+    accumulateFromSpecialGearCrystals(stat, status, filter),
+  ]);
+
+  return total;
+};
+
 export const status = (
   declarations: Partial<DeclaredStatusMap>
 ): Partial<DeclaredStatusMap> & DeclaredStatusMap => ({
@@ -212,3 +305,5 @@ export const accumulateEquipmentDef = <S extends DeclaredStatusMap>(
     (status.subWeaponType === "shield" ? status.subWeaponDEF : 0)
   ); // add md def here if magic skin lvl10
 };
+
+export const sum = (arr: number[]) => arr.reduce((t, n) => t + n);

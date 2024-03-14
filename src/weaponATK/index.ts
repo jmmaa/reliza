@@ -1,6 +1,7 @@
 import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
 import { DeclaredStatusMap } from "../types";
+import { swordMasteryPercentWeaponATK } from "./fromBladeSkills";
 
 // ATK
 
@@ -42,12 +43,16 @@ export const totalFlatMainWeaponATK = <S extends DeclaredStatusMap>(
   };
 };
 
-export const totalPercentMainWeaponATK = <S extends DeclaredStatusMap>(
+export const totalPercentMainWeaponATK = <
+  S extends DeclaredStatusMap & { swordMasteryPercentWeaponATK: number }
+>(
   status: S
 ): S & { totalPercentMainWeaponATK: number } => {
   return {
     ...status,
-    totalPercentMainWeaponATK: accumulate(status, "percentWeaponATK"),
+    totalPercentMainWeaponATK:
+      accumulate(status, "percentWeaponATK") +
+      status.swordMasteryPercentWeaponATK,
   };
 };
 
@@ -72,15 +77,15 @@ export const totalMainWeaponRefinementBonusMainWeaponATK = <
 
 // these funcs are essentially the same with mainWeaponATK variants, i just wrote it for explicitness on
 // dual sword sub calculation
+
+// refactor: make the values here only work with dual sword (dual sword mastery lvl1+, main/sub sword)
+
 export const totalBaseSubWeaponATK = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalBaseSubWeaponATK: number } => {
   return {
     ...status,
-    totalBaseSubWeaponATK:
-      status.subWeaponType === "one-handed-sword" // only dual swords get to enjoy this stat
-        ? status.subWeaponATK
-        : 0,
+    totalBaseSubWeaponATK: status.subWeaponATK,
   };
 };
 
@@ -108,8 +113,6 @@ export const totalSubWeaponATK = <
   };
 };
 
-/// CONTINUE HERE FINISH THE SUBWEAPON (make it work only with dualswords)
-
 export const totalFlatSubWeaponATK = <S extends DeclaredStatusMap>(
   status: S
 ): S & { totalFlatSubWeaponATK: number } => {
@@ -119,12 +122,16 @@ export const totalFlatSubWeaponATK = <S extends DeclaredStatusMap>(
   };
 };
 
-export const totalPercentSubWeaponATK = <S extends DeclaredStatusMap>(
+export const totalPercentSubWeaponATK = <
+  S extends DeclaredStatusMap & { swordMasteryPercentWeaponATK: number }
+>(
   status: S
 ): S & { totalPercentSubWeaponATK: number } => {
   return {
     ...status,
-    totalPercentSubWeaponATK: accumulate(status, "percentWeaponATK"),
+    totalPercentSubWeaponATK:
+      accumulate(status, "percentWeaponATK") +
+      status.swordMasteryPercentWeaponATK,
   };
 };
 
@@ -148,20 +155,11 @@ export const totalSubWeaponRefinementBonusSubWeaponATK = <
 
 export const calculateWeaponATK = <S extends DeclaredStatusMap>(
   status: S
-): S & {
-  totalBaseMainWeaponATK: number;
-  totalPercentMainWeaponATK: number;
-  totalFlatMainWeaponATK: number;
-  totalMainWeaponRefinementBonusMainWeaponATK: number;
-  totalMainWeaponATK: number;
-
-  totalBaseSubWeaponATK: number;
-  totalPercentSubWeaponATK: number;
-  totalFlatSubWeaponATK: number;
-  totalSubWeaponRefinementBonusSubWeaponATK: number;
-  totalSubWeaponATK: number;
-} => {
+) => {
   const calcs = pipe(status)
+    // blade
+    ._(swordMasteryPercentWeaponATK)
+
     // main weapon attack
     ._(totalBaseMainWeaponATK)
     ._(totalPercentMainWeaponATK)

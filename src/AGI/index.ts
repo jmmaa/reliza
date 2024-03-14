@@ -1,5 +1,6 @@
 import { accumulate, pipe, total } from "../helper";
 import { DeclaredStatusMap } from "../types";
+import { godspeedFlatAGI } from "./fromDualSwordSkills";
 
 export const totalBaseAGI = <S extends { AGI: number }>(
   status: S
@@ -14,10 +15,17 @@ export const totalPercentAGI = <S extends DeclaredStatusMap>(
   return { ...status, totalPercentAGI: accumulate(status, "percentAGI") };
 };
 
-export const totalFlatAGI = <S extends DeclaredStatusMap>(
+export const totalFlatAGI = <
+  S extends DeclaredStatusMap & {
+    godSpeedFlatAGI: number;
+  }
+>(
   status: S
 ): S & { totalFlatAGI: number } => {
-  return { ...status, totalFlatAGI: accumulate(status, "flatAGI") };
+  return {
+    ...status,
+    totalFlatAGI: accumulate(status, "flatAGI") + status.godSpeedFlatAGI,
+  };
 };
 
 export const totalAGI = <
@@ -48,6 +56,9 @@ export const calculateAGI = <S extends DeclaredStatusMap>(
   totalAGI: number;
 } => {
   const calcs = pipe(status)
+    // dual sword
+    ._(godspeedFlatAGI)
+
     ._(totalBaseAGI)
     ._(totalPercentAGI)
     ._(totalFlatAGI)
