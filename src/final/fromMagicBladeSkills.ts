@@ -104,6 +104,9 @@ export const dualBringerEffectiveATK = <
 >(
   status: S
 ) => {
+  const isAllowed = status.subWeaponType === "magic-device";
+  const isActive = status.dualBringerIsActive;
+
   const numberOfMagicBladeSkills = status.numberOfMagicBladeSkills;
   const totalNegativePercentATK = status.totalNegativePercentATK;
   const skillLevel = status.dualBringerLevel;
@@ -112,15 +115,18 @@ export const dualBringerEffectiveATK = <
 
   const penaltyCoefficient = (100 + totalNegativePercentATK) / 100;
 
-  const total = Math.floor(
-    Math.max(
-      (status.totalMATK - status.totalATK) *
-        penaltyCoefficient *
-        skillEfficiency -
-        status.totalATK * (1 - penaltyCoefficient),
-      0
-    )
-  );
+  const total =
+    isAllowed && isActive
+      ? Math.floor(
+          Math.max(
+            (status.totalMATK - status.totalATK) *
+              penaltyCoefficient *
+              skillEfficiency -
+              status.totalATK * (1 - penaltyCoefficient),
+            0
+          )
+        )
+      : 0;
 
   return {
     ...status,
