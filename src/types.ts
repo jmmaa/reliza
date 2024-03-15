@@ -405,6 +405,7 @@ export interface DeclaredStatusMap {
 
   // dual sword skills
   flashBlastLevel: number;
+  flashBlastIsActive: boolean;
   godspeedLevel: number;
 
   // ignore the other skills for now on the top
