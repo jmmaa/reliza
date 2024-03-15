@@ -6,19 +6,19 @@ export const totalBaseDodge = <
   S extends DeclaredStatusMap & { totalAGI: number }
 >(
   status: S
-): S & { totalBaseDodge: number } => ({
-  ...status,
-  totalBaseDodge:
-    status.armorType === "light"
-      ? pino.lightArmorDodge(status.level, status.totalAGI)
-      : status.armorType === "heavy"
-      ? pino.heavyArmorDodge(status.level, status.totalAGI)
-      : status.armorType === "none"
-      ? pino.nakedDodge(status.level, status.totalAGI)
-      : status.armorType === "normal"
-      ? pino.normalArmorDodge(status.level, status.totalAGI)
-      : 0,
-});
+): S & { totalBaseDodge: number } => {
+  return {
+    ...status,
+    totalBaseDodge:
+      status.armorType === "light"
+        ? pino.lightArmorDodge(status.level, status.totalAGI)
+        : status.armorType === "heavy"
+        ? pino.heavyArmorDodge(status.level, status.totalAGI)
+        : status.armorType === "normal"
+        ? pino.normalArmorDodge(status.level, status.totalAGI)
+        : pino.nakedDodge(status.level, status.totalAGI),
+  };
+};
 
 export const totalPercentDodge = <S extends DeclaredStatusMap>(
   status: S
