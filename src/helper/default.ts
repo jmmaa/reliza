@@ -290,6 +290,7 @@ export const defaultDeclaredStatusMap: DeclaredStatusMap = {
 
   // dual sword skills
   flashBlastLevel: 0,
+  flashBlastIsActive: false,
   godspeedLevel: 0,
 
   // ignore the other skills for now on the top

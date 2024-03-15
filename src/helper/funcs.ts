@@ -292,6 +292,16 @@ export const stats = (
   ...stats,
 });
 
+export const effect = (
+  predicate: <S extends DeclaredStatusMap>(status: S) => boolean,
+  statMap: Partial<StatMap>
+) => {
+  return {
+    predicate,
+    stats: stats(statMap),
+  };
+};
+
 export const total = (base: number, percent: number, flat: number) =>
   Math.floor(base * (1 + percent / 100) + flat);
 
