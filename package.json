@@ -11,26 +11,28 @@
   "scripts": {
     "dev": "npx tsc --watch",
     "test": "jest --detectOpenHandles",
-    "build": "npx tsc && npm run build:esm && npm run build:cjs",
-    "build:esm": "npx esbuild src/index.ts --bundle --target=esnext --minify --tree-shaking=true --format=esm --outfile=lib/index.esm.js",
-    "build:cjs": "npx esbuild src/index.ts --bundle --target=esnext --minify --tree-shaking=true --format=cjs --outfile=lib/index.main.js"
+    "build": "npx rollup -c"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/jest": "^29.5.2",
     "@types/node": "^20.3.2",
-    "esbuild": "^0.20.1",
     "jest": "^29.5.0",
     "make-dir-cli": "^3.1.0",
     "reliza": "file:build/reliza-0.0.1.tgz",
+    "rollup": "^4.13.0",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.2",
+    "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {
     "@jmmaa/pino": "^0.0.3-dev",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "immutable": "^5.0.0-beta.5"
   }
 }
