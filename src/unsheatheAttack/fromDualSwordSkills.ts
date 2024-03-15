@@ -13,3 +13,17 @@ export const godSpeedPercentUnsheatheAttack = <
     godSpeedPercentUnsheatheAttack: total,
   };
 };
+
+export const flashBlastPercentUnsheatheAttack = <
+  S extends DeclaredStatusMap
+>(
+  status: S
+) => {
+  const skillLevel = status.flashBlastLevel;
+  const total = skillLevel + 5;
+
+  return {
+    ...status,
+    flashBlastPercentUnsheatheAttack: total,
+  };
+};
