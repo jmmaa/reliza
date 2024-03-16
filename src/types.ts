@@ -241,18 +241,20 @@ export interface Effect<Status> {
 
 export interface DeclaredStatusMap {
   level: number;
+
   STR: number;
   DEX: number;
   INT: number;
   VIT: number;
   AGI: number;
+
   CRT: number;
   MTL: number;
   TEC: number;
   LUK: number;
 
-  mainWeaponType: MainWeaponType;
   mainWeaponATK: number;
+  mainWeaponType: MainWeaponType;
   mainWeaponRefinement: number;
   mainWeaponStability: number;
   mainWeaponStats: Effect<DeclaredStatusMap>[];
@@ -401,14 +403,46 @@ export interface DeclaredStatusMap {
   superGripLevel: number;
 
   // mononofu skills
+  issenLevel: number;
+  pluseBladeLevel: number;
+  tripleThrustLevel: number;
+  hassoHappaLevel: number;
+  tenryuRanseiLevel: number;
+  kasumisetsuGetsukaLevel: number;
+  garyouTenseiLevel: number;
+  shadowLessSlashLevel: number;
+  pommelStrikeLevel: number;
+  magadachiLevel: number;
+  zanteiSettetsuLevel: number;
   bushidoLevel: number;
+  shukuchiLevel: number;
+  nukiuchiSennosenLevel: number;
+  twoHandedLevel: number;
+  meikyouShisuiLevel: number;
+  kairikiRanshinLevel: number;
+  dauntlessLevel: number;
+  bouncingBladeLevel: number;
 
   // dual sword skills
+  dualSwordMasteryLevel: number;
+  twinSlashLevel: number;
+  spinningSlashLevel: number;
+  phantomSlashLevel: number;
+  aerialCutLevel: number;
+  crossParryLevel: number;
+  chargingSlashLevel: number;
+  shadowStepLevel: number;
+  shiningCrossLevel: number;
+  lunarMisfortuneLevel: number;
+  twinBusterBladeLevel: number;
+  reflexLevel: number;
   flashBlastLevel: number;
   flashBlastIsActive: boolean;
+  stormReaperLevel: number;
+  dualSwordControlLevel: number;
   godspeedLevel: number;
-
-  // ignore the other skills for now on the top
+  saberAuraLevel: number;
+  crescentSaberLevel: number;
 
   // magic blade skills
   magicWarriorMasteryLevel: number;
@@ -429,6 +463,259 @@ export interface DeclaredStatusMap {
   siphonRecallLevel: number;
   floatDashLevel: number;
   magicSkinLevel: number;
+}
+
+export interface Character {
+  level: number;
+
+  STR: number;
+  DEX: number;
+  INT: number;
+  VIT: number;
+  AGI: number;
+
+  CRT: number;
+  MTL: number;
+  TEC: number;
+  LUK: number;
+
+  mainWeapon: {
+    type: MainWeaponType;
+    ATK: number;
+    refinement: number;
+    stability: number;
+    stats: Effect<DeclaredStatusMap>[];
+    crystals: Effect<DeclaredStatusMap>[][];
+  };
+
+  subWeapon: {
+    type: SubWeaponType;
+    ATK: number;
+    DEF: number;
+    refinement: number;
+    stability: number;
+    scrollCastTimeReduction: number;
+    scrollMPReduction: number;
+    stats: Effect<DeclaredStatusMap>[];
+    crystals: Effect<DeclaredStatusMap>[][];
+  };
+
+  armor: {
+    DEF: number;
+    refinement: number;
+    type: ArmorType;
+    stats: Effect<DeclaredStatusMap>[];
+    crystals: Effect<DeclaredStatusMap>[][];
+  };
+
+  additionalGear: {
+    DEF: number;
+    refinement: number;
+    stats: Effect<DeclaredStatusMap>[];
+    crystals: Effect<DeclaredStatusMap>[][];
+  };
+
+  specialGear: {
+    DEF: number;
+    Stats: Effect<DeclaredStatusMap>[];
+    Crystals: Effect<DeclaredStatusMap>[][];
+  };
+
+  consumables: Effect<DeclaredStatusMap>[];
+
+  foodBuffs: Effect<DeclaredStatusMap>[];
+
+  // regislets (must be same like skills too)
+
+  // blade skills
+
+  skills: {
+    blade: {
+      hardHit: { level: number };
+      astute: { level: number };
+      triggerSlash: { level: number };
+      rampage: { level: number };
+      meteorBreaker: { level: number };
+      shutOut: { level: number };
+      lunarSlash: { level: number };
+      sonicBlade: { level: number };
+      spiralAir: { level: number };
+      swordTempest: { level: number };
+      busterBlade: { level: number };
+      auraBlade: { level: number };
+      swordMastery: { level: number };
+      quickSlash: { level: number };
+      swordTechniques: { level: number };
+      warCry: { level: number };
+      berserk: { level: number };
+      gladiate: { level: number };
+      swiftAttack: { level: number };
+    };
+
+    shot: {
+      // shot skills
+      powerShot: { level: number };
+      bullseye: { level: number };
+      arrowRain: { level: number };
+      snipe: { level: number };
+      crossFire: { level: number };
+      vanquisher: { level: number };
+      twinStorm: { level: number };
+      retrogradeShot: { level: number };
+      moebaShot: { level: number };
+      paralysisShot: { level: number };
+      smokeDust: { level: number };
+      armBreak: { level: number };
+      parabolaCannon: { level: number };
+      shotMastery: { level: number };
+      samuraiArchery: { level: number };
+      sneakAttack: { level: number };
+      longRange: { level: number };
+      quickDraw: { level: number };
+      decoyShot: { level: number };
+      fatalShot: { level: number };
+    };
+
+    magic: {
+      // magic skills
+      magicArrows: { level: number };
+      magicJavelin: { level: number };
+      magicLances: { level: number };
+      magicImpact: { level: number };
+      magicFinale: { level: number };
+      chronosShift: { level: number };
+      magicWall: { level: number };
+      magicBlast: { level: number };
+      magicStorm: { level: number };
+      magicBurst: { level: number };
+      magicCannon: { level: number };
+      magicCrash: { level: number };
+      magicMastery: { level: number };
+      magicKnife: { level: number };
+      qadal: { level: number };
+      MPCharge: { level: number };
+      chainCast: { level: number };
+      powerWave: { level: number };
+      maximizer: { level: number };
+      rapidCharge: { level: number };
+      enchantedBarriers: { level: number };
+      magicGuardianBeam: { level: number };
+    };
+
+    survival: {
+      // survival skills
+      playDead: { level: number };
+      EXPGainUP: { level: number };
+      dropRateUP: { level: number };
+      safeRest: { level: number };
+      HPBoost: { level: number };
+      fightersHigh: { level: number };
+      shortRest: { level: number };
+      MPBoost: { level: number };
+      soberAnalysis: { level: number };
+    };
+
+    support: {
+      // support skills
+      firstAid: { level: number };
+      miniHeal: { level: number };
+      recovery: { level: number };
+      sanctuary: { level: number };
+      heal: { level: number };
+      lifeRecovery: { level: number };
+      braveAura: { level: number };
+      highCycle: { level: number };
+      quickMotion: { level: number };
+      manaRecharge: { level: number };
+      magicBarrier: { level: number };
+      immunity: { level: number };
+      fastReaction: { level: number };
+    };
+
+    battle: {
+      // battle skills
+      magicUP: { level: number };
+      concentrate: { level: number };
+      AttackUP: { level: number };
+      whack: { level: number };
+      defenseUP: { level: number };
+      dodgeUP: { level: number };
+      desperateResist: { level: number };
+      criticalUP: { level: number };
+      accuracyUP: { level: number };
+      increasedEnergy: { level: number };
+      intimidatingPower: { level: number };
+      defenseMastery: { level: number };
+      spellBurst: { level: number };
+      secretChaseAttack: { level: number };
+      superGrip: { level: number };
+    };
+
+    mononofu: {
+      // mononofu skills
+      issen: { level: number };
+      pluseBlade: { level: number };
+      tripleThrust: { level: number };
+      hassoHappa: { level: number };
+      tenryuRansei: { level: number };
+      kasumisetsuGetsuka: { level: number };
+      garyouTensei: { level: number };
+      shadowLessSlash: { level: number };
+      pommelStrike: { level: number };
+      magadachi: { level: number };
+      zanteiSettetsu: { level: number };
+      bushido: { level: number };
+      shukuchi: { level: number };
+      nukiuchiSennosen: { level: number };
+      twoHanded: { level: number };
+      meikyouShisui: { level: number };
+      kairikiRanshin: { level: number };
+      dauntless: { level: number };
+      bouncingBlade: { level: number };
+    };
+
+    dualSword: {
+      // dual sword skills
+      dualSwordMastery: { level: number };
+      twinSlash: { level: number };
+      spinningSlash: { level: number };
+      phantomSlash: { level: number };
+      aerialCut: { level: number };
+      crossParry: { level: number };
+      chargingSlash: { level: number };
+      shadowStep: { level: number };
+      shiningCross: { level: number };
+      lunarMisfortune: { level: number };
+      twinBusterBlade: { level: number };
+      reflex: { level: number };
+      flashBlast: { level: number };
+      flashBlastIsActive: boolean;
+      stormReaper: { level: number };
+      dualSwordControl: { level: number };
+      godspeed: { level: number };
+      saberAura: { level: number };
+      crescentSaber: { level: number };
+    };
+
+    magicBlade: {
+      // magic blade skills
+      magicWarriorMastery: { level: number };
+      conversion: { level: number; isActive: boolean };
+      resonance: { level: number; isActive: boolean };
+      enchantedSpell: { level: number };
+      dualBringer: { level: number; isActive: boolean };
+      etherFlare: { level: number };
+      elementSlash: { level: number };
+      enchantSword: { level: number };
+      enchantedBurst: { level: number };
+      unionSword: { level: number };
+      siphonBarrier: { level: number };
+      teleport: { level: number };
+      siphonRecall: { level: number };
+      floatDash: { level: number };
+      magicSkin: { level: number };
+    };
+  };
 }
 
 // export type CompatibleSubWeaponType<Main extends MainWeaponType> =
