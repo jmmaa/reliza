@@ -1,6 +1,7 @@
 import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
 import { DeclaredStatusMap } from "../types";
+import { bushidoFlatMaxHP } from "./fromMononofuSkills";
 
 export const totalBaseMaxHP = <
   S extends DeclaredStatusMap & { totalVIT: number }
@@ -30,12 +31,17 @@ export const totalMaxHP = <
   };
 };
 
-export const totalFlatMaxHP = <S extends DeclaredStatusMap>(
+export const totalFlatMaxHP = <
+  S extends DeclaredStatusMap & {
+    bushidoFlatMaxHP: number;
+  }
+>(
   status: S
 ): S & { totalFlatMaxHP: number } => {
   return {
     ...status,
-    totalFlatMaxHP: accumulate(status, "flatMaxHP"),
+    totalFlatMaxHP:
+      accumulate(status, "flatMaxHP") + status.bushidoFlatMaxHP,
   };
 };
 
@@ -59,6 +65,9 @@ export const calculateHP = <
   totalMaxHP: number;
 } => {
   const HPcalcs = pipe(status)
+    // mononofu
+    ._(bushidoFlatMaxHP)
+
     ._(totalBaseMaxHP)
     ._(totalPercentMaxHP)
     ._(totalFlatMaxHP)

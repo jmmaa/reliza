@@ -2,6 +2,7 @@ import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
 import { DeclaredStatusMap } from "../types";
 import { swordMasteryPercentWeaponATK } from "./fromBladeSkills";
+import { bushidoPercentWeaponATK } from "./fromMononofuSkills";
 
 // ATK
 
@@ -44,7 +45,10 @@ export const totalFlatMainWeaponATK = <S extends DeclaredStatusMap>(
 };
 
 export const totalPercentMainWeaponATK = <
-  S extends DeclaredStatusMap & { swordMasteryPercentWeaponATK: number }
+  S extends DeclaredStatusMap & {
+    swordMasteryPercentWeaponATK: number;
+    bushidoPercentWeaponATK: number;
+  }
 >(
   status: S
 ): S & { totalPercentMainWeaponATK: number } => {
@@ -52,7 +56,8 @@ export const totalPercentMainWeaponATK = <
     ...status,
     totalPercentMainWeaponATK:
       accumulate(status, "percentWeaponATK") +
-      status.swordMasteryPercentWeaponATK,
+      status.swordMasteryPercentWeaponATK +
+      status.bushidoPercentWeaponATK,
   };
 };
 
@@ -123,7 +128,10 @@ export const totalFlatSubWeaponATK = <S extends DeclaredStatusMap>(
 };
 
 export const totalPercentSubWeaponATK = <
-  S extends DeclaredStatusMap & { swordMasteryPercentWeaponATK: number }
+  S extends DeclaredStatusMap & {
+    swordMasteryPercentWeaponATK: number;
+    bushidoPercentWeaponATK: number;
+  }
 >(
   status: S
 ): S & { totalPercentSubWeaponATK: number } => {
@@ -131,7 +139,8 @@ export const totalPercentSubWeaponATK = <
     ...status,
     totalPercentSubWeaponATK:
       accumulate(status, "percentWeaponATK") +
-      status.swordMasteryPercentWeaponATK,
+      status.swordMasteryPercentWeaponATK +
+      status.bushidoPercentWeaponATK,
   };
 };
 
@@ -159,6 +168,9 @@ export const calculateWeaponATK = <S extends DeclaredStatusMap>(
   const calcs = pipe(status)
     // blade
     ._(swordMasteryPercentWeaponATK)
+
+    // mononofu
+    ._(bushidoPercentWeaponATK)
 
     // main weapon attack
     ._(totalBaseMainWeaponATK)

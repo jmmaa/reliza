@@ -1,6 +1,7 @@
 import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
 import { DeclaredStatusMap } from "../types";
+import { bushidoFlatMaxMP } from "./fromMononofuSkills";
 
 // calc
 
@@ -37,7 +38,11 @@ export const totalMaxMP = <
   };
 };
 
-export const totalFlatMaxMP = <S extends DeclaredStatusMap>(
+export const totalFlatMaxMP = <
+  S extends DeclaredStatusMap & {
+    bushidoFlatMaxMP: number;
+  }
+>(
   status: S
 ): S & { totalFlatMaxMP: number } => {
   return {
@@ -61,6 +66,9 @@ export const calculateMP = <
   status: S
 ) => {
   const calcs = pipe(status)
+    // mononofu
+    ._(bushidoFlatMaxMP)
+
     ._(totalBaseMaxMP)
     ._(totalPercentMaxMP)
     ._(totalFlatMaxMP)

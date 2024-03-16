@@ -6,6 +6,7 @@ import {
   resonanceFlatATK,
 } from "./fromMagicBladeSkills";
 import { swordMasteryPercentATK } from "./fromBladeSkills";
+import { bushidoPercentATK } from "./fromMononofuSkills";
 
 export const totalBaseATK = <
   S extends DeclaredStatusMap & {
@@ -142,6 +143,7 @@ export const totalPercentATK = <
     magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue: number;
 
     swordMasteryPercentATK: number;
+    bushidoPercentATK: number;
   }
 >(
   status: S
@@ -151,6 +153,7 @@ export const totalPercentATK = <
   const total =
     accumulated +
     status.swordMasteryPercentATK +
+    status.bushidoPercentATK +
     status.subWeaponMagicDevicePercentATKModifier +
     status.magicWarriorMasterySubWeaponMagicDevicePenaltyNullificationValue;
 
@@ -285,6 +288,9 @@ export const calculateATK = <
 
     // blade
     ._(swordMasteryPercentATK)
+
+    // mononofu
+    ._(bushidoPercentATK)
 
     ._(totalFlatATKFromATKUP)
     ._(totalFlatATKFromATKDOWN)

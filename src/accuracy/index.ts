@@ -1,6 +1,7 @@
 import * as pino from "@jmmaa/pino";
 import { accumulate, pipe, total } from "../helper";
 import { DeclaredStatusMap } from "../types";
+import { bushidoFlatAccuracy } from "./fromMononofuSkills";
 
 export const totalBaseAccuracy = <
   S extends DeclaredStatusMap & { totalDEX: number }
@@ -20,12 +21,15 @@ export const totalPercentAccuracy = <S extends DeclaredStatusMap>(
   };
 };
 
-export const totalFlatAccuracy = <S extends DeclaredStatusMap>(
+export const totalFlatAccuracy = <
+  S extends DeclaredStatusMap & { bushidoFlatAccuracy: number }
+>(
   status: S
 ): S & { totalFlatAccuracy: number } => {
   return {
     ...status,
-    totalFlatAccuracy: accumulate(status, "flatAccuracy"),
+    totalFlatAccuracy:
+      accumulate(status, "flatAccuracy") + status.bushidoFlatAccuracy,
   };
 };
 
@@ -59,6 +63,9 @@ export const calculateAccuracy = <
   totalAccuracy: number;
 } => {
   const calcs = pipe(status)
+    // mononofu skills
+    ._(bushidoFlatAccuracy)
+
     ._(totalBaseAccuracy)
     ._(totalPercentAccuracy)
     ._(totalFlatAccuracy)
