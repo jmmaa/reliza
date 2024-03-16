@@ -2,16 +2,23 @@ export * from "./base";
 
 import { pipe } from "../helper";
 import { DeclaredStatusMap } from "../types";
-import * as calc from ".";
+import {
+  totalDamageToDark,
+  totalDamageToLight,
+  totalDamageToFire,
+  totalDamageToEarth,
+  totalDamageToWind,
+  totalDamageToWater,
+} from "./base";
 
 export const calculateDTE = <S extends DeclaredStatusMap>(status: S) => {
   const calcs = pipe(status)
-    ._(calc.totalDamageToDark)
-    ._(calc.totalDamageToLight)
-    ._(calc.totalDamageToFire)
-    ._(calc.totalDamageToWater)
-    ._(calc.totalDamageToWind)
-    ._(calc.totalDamageToEarth);
+    ._(totalDamageToDark)
+    ._(totalDamageToLight)
+    ._(totalDamageToFire)
+    ._(totalDamageToWater)
+    ._(totalDamageToWind)
+    ._(totalDamageToEarth);
 
   return calcs.value;
 };
