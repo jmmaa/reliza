@@ -1,5 +1,4 @@
 import { Character, StatMap } from "./types";
-import { stats } from "./op";
 
 export const defaultStatMap: StatMap = {
   flatSTR: 0,

@@ -17,7 +17,7 @@ export const concat = <V>(first: V[], second: V[]) => first.concat(second);
 
 // funcs
 
-export const stats = (
+export const statMap = (
   stats: Partial<StatMap>
 ): Partial<StatMap> & StatMap => ({
   ...(defaultStatMap as StatMap),
