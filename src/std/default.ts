@@ -283,7 +283,7 @@ export const defaultCharacter: Character = {
       sanctuary: { level: 0 },
       heal: { level: 0 },
       lifeRecovery: { level: 0 },
-      braveAura: { level: 0 },
+      braveAura: { level: 0, isActive: false },
       highCycle: { level: 0 },
       quickMotion: { level: 0 },
       manaRecharge: { level: 0 },

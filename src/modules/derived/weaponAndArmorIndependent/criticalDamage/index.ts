@@ -1,7 +1,7 @@
-import { floor, get, sum, total } from "../../std/op";
-import { Character } from "../../std/types";
-import { totalAGI, totalSTR } from "../growthStats";
-import { flattenStatsFromEquipment } from "../utils";
+import { floor, get, sum, total } from "../../../../std/op";
+import { Character } from "../../../../std/types";
+import { totalAGI, totalSTR } from "../../../growth";
+import { flattenStatsFromEquipment } from "../../../utils";
 
 export const totalBaseCriticalDamage = (character: Character) => {
   const agi = totalAGI(character);

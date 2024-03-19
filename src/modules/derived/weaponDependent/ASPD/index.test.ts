@@ -1,8 +1,8 @@
-import { totalCSPD } from ".";
+import { totalASPD, totalMotionSpeed } from ".";
 
-import { character, statMap } from "../../std/op";
+import { character, statMap } from "../../../../std/op";
 
-test("CSPD", () => {
+test("ASPD", () => {
   const sample = character({
     level: 275,
 
@@ -34,6 +34,22 @@ test("CSPD", () => {
           }),
         ],
       ],
+    },
+
+    subWeapon: {
+      type: "ninjutsu-scroll",
+      refinement: 0,
+      DEF: 0,
+      ATK: 0,
+      stability: 0,
+      scrollCastTimeReduction: 0,
+      scrollMPReduction: 0,
+      stats: [
+        statMap({
+          flatASPD: 250,
+        }),
+      ],
+      crystals: [],
     },
 
     armor: {
@@ -135,7 +151,6 @@ test("CSPD", () => {
     ],
   });
 
-  expect(totalCSPD(sample)).toEqual(9996);
+  expect(totalASPD(sample)).toEqual(9161);
+  expect(totalMotionSpeed(sample)).toEqual(50);
 });
-
-// finish this by today

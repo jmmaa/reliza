@@ -397,7 +397,7 @@ export interface Character {
       sanctuary: { level: number };
       heal: { level: number };
       lifeRecovery: { level: number };
-      braveAura: { level: number };
+      braveAura: { level: number; isActive: boolean };
       highCycle: { level: number };
       quickMotion: { level: number };
       manaRecharge: { level: number };

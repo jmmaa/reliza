@@ -1,17 +1,15 @@
-import { Character } from "../../std/types";
+import { Character } from "../../../../std/types";
 
 import * as pino from "@jmmaa/pino";
 
-import { flattenStatsFromEquipment } from "../utils";
+import { flattenStatsFromEquipment, isDualWielder } from "../../../utils";
 
-import { totalAGI, totalDEX, totalINT, totalSTR } from "../growthStats";
-import { floor, get, sum, total } from "../../std/op";
+import { totalAGI, totalDEX, totalINT, totalSTR } from "../../../growth";
+import { floor, get, sum, total } from "../../../../std/op";
 
 // TODO: erase pino and implement an explicit calculation instead!
 export const totalBaseASPD = (character: Character) => {
-  return character.mainWeapon.type === "one-handed-sword" &&
-    character.subWeapon.type === "one-handed-sword" &&
-    character.skills.dualSword.dualSwordMastery.level > 0 // resolve this later on DS calcs
+  return isDualWielder(character)
     ? pino.dualWieldBaseAttackSpeed(
         character.level,
         totalAGI(character),

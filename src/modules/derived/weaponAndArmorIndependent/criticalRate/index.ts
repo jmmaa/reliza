@@ -1,6 +1,6 @@
-import { floor, get, sum, total } from "../../std/op";
-import { Character } from "../../std/types";
-import { flattenStatsFromEquipment } from "../utils";
+import { floor, get, sum, total } from "../../../../std/op";
+import { Character } from "../../../../std/types";
+import { flattenStatsFromEquipment } from "../../../utils";
 
 export const totalBaseCriticalRate = (character: Character) => {
   const total = floor(25 + character.CRT / 3.4);
@@ -58,6 +58,8 @@ export const totalMagicCriticalRate = (character: Character) => {
 
   return total;
 };
+
+// add edge cases?
 
 export const totalMagicCriticalRateAgainstWeakenedTarget = (
   character: Character

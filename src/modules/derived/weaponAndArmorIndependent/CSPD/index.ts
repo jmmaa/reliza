@@ -1,7 +1,7 @@
-import { Character } from "../../std/types";
-import { floor, get, sum, total } from "../../std/op";
-import { flattenStatsFromEquipment } from "../utils";
-import { totalAGI, totalDEX } from "../growthStats";
+import { Character } from "../../../../std/types";
+import { floor, get, sum, total } from "../../../../std/op";
+import { flattenStatsFromEquipment } from "../../../utils";
+import { totalAGI, totalDEX } from "../../../growth";
 
 export const magicWarriorMasteryTotalFlatCSPD = (character: Character) => {
   const skillLevel = character.skills.magicBlade.magicWarriorMastery.level;
