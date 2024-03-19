@@ -1,4 +1,4 @@
-import { totalASPD, totalMotionSpeed } from ".";
+import { totalASPD } from ".";
 
 import { character, statMap } from "../../../../std/op";
 
@@ -152,5 +152,4 @@ test("ASPD", () => {
   });
 
   expect(totalASPD(sample)).toEqual(9161);
-  expect(totalMotionSpeed(sample)).toEqual(50);
 });

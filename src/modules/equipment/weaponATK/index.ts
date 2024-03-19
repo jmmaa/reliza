@@ -94,13 +94,11 @@ export const totalMainWeaponATK = (character: Character) => {
 };
 
 export const totalSubWeaponATK = (character: Character) => {
-  const t0tal = isDualWielder(character)
+  return isDualWielder(character)
     ? total(
         character.subWeapon.ATK,
         totalPercentWeaponATK(character),
         totalFlatWeaponATK(character)
       ) + totalSubWeaponRefinementBonusSubWeaponATK(character)
     : 0;
-
-  return t0tal;
 };
