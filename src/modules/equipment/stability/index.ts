@@ -1,8 +1,5 @@
 import { Character } from "../../../std/types";
-
-import * as pino from "@jmmaa/pino";
-import { totalDEX, totalSTR } from "../../growth";
-import { flattenStatsFromEquipment, isDualWielder } from "../../utils";
+import { flattenStatsFromEquipment } from "../../utils";
 import { floor, get, sum } from "../../../std/op";
 import { totalBaseStability } from "../../derived/weaponDependent/stability";
 

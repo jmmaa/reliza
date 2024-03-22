@@ -7,3 +7,9 @@ export const totalMagicPierce = (character: Character) => {
     .map(get("magicPierce"))
     .reduce(sum, 0);
 };
+
+export const totalPhysicalPierce = (character: Character) => {
+  return flattenStatsFromEquipment(character)
+    .map(get("physicalPierce"))
+    .reduce(sum, 0);
+};
