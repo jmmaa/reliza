@@ -1,5 +1,18 @@
-import { Character } from "../../std/types";
-import { concat } from "../../std/op";
+import { Character } from "../../types";
+
+export const total = (base: number, percent: number, flat: number) =>
+  Math.floor(base * (1 + percent / 100) + flat);
+
+export const sum = (first: number, second: number) => first + second;
+
+export const get =
+  <M extends {}, K extends keyof M>(key: K) =>
+  (map: M) =>
+    map[key];
+
+export const floor = Math.floor;
+
+export const concat = <V>(first: V[], second: V[]) => first.concat(second);
 
 export const isDualWielder = (character: Character) => {
   return (
