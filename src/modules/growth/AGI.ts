@@ -1,13 +1,6 @@
-import { get, sum, total } from "../../../std/op";
-import { Character } from "../../../std/types";
-import { flattenStatsFromEquipment } from "../../utils";
-
-export const godSpeedFlatAGI = (character: Character) => {
-  const skillLevel = character.skills.dualSword.godspeed.level;
-
-  const total = skillLevel * 1 + Math.max(skillLevel - 5, 0);
-  return total;
-};
+import { get, sum, total } from "../../std/op";
+import { Character } from "../../std/types";
+import { flattenStatsFromEquipment } from "../utils";
 
 export const totalPercentAGI = (character: Character) => {
   return flattenStatsFromEquipment(character)
@@ -20,9 +13,7 @@ export const totalFlatAGI = (character: Character) => {
     .map(get("flatAGI"))
     .reduce(sum, 0);
 
-  const fromSkills = godSpeedFlatAGI(character);
-
-  const total = fromEquipments + fromSkills;
+  const total = fromEquipments;
 
   return total;
 };

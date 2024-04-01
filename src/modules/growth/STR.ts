@@ -1,6 +1,6 @@
-import { get, sum, total } from "../../../std/op";
-import { Character } from "../../../std/types";
-import { flattenStatsFromEquipment } from "../../utils";
+import { get, sum, total } from "../../std/op";
+import { Character } from "../../std/types";
+import { flattenStatsFromEquipment } from "../utils";
 
 export const totalPercentSTR = (character: Character) => {
   return flattenStatsFromEquipment(character)
