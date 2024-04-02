@@ -3,6 +3,8 @@ export * from "./ailmentResistance";
 export * from "./ASPD";
 export * from "./ATK";
 export * from "./CSPD";
+export * from "./criticalRate";
+export * from "./criticalDamage";
 export * from "./DEF";
 export * from "./Dodge";
 export * from "./MATK";
