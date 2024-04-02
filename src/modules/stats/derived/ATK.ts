@@ -9,7 +9,12 @@ import {
   isDualWielder,
 } from "../../utils";
 
+import { bushidoTotalPercentATK } from "../../mononofuSkills";
+
+import { subWeaponMagicDevicePercentATKModifier } from "./modifiers";
+
 import * as pino from "@jmmaa/pino";
+import { swordMasteryTotalPercentATK } from "../../bladeSkills";
 
 export const totalBaseATK = (character: Character) => {
   return isDualWielder(character)
@@ -89,69 +94,12 @@ export const totalBaseATK = (character: Character) => {
       );
 };
 
-export const swordMasteryTotalPercentATK = (character: Character) => {
-  const skillLevel = character.skills.blade.swordMastery.level;
-
-  const total =
-    character.mainWeapon.type === "one-handed-sword" ||
-    character.mainWeapon.type === "two-handed-sword"
-      ? skillLevel >= 8
-        ? 3
-        : skillLevel >= 3
-        ? 2
-        : 1
-      : 0;
-
-  return total;
-};
-
-export const bushidoTotalPercentATK = (character: Character) => {
-  const skillLevel = character.skills.mononofu.bushido.level;
-
-  const total =
-    character.mainWeapon.type === "katana"
-      ? skillLevel >= 8
-        ? 3
-        : skillLevel >= 3
-        ? 2
-        : 1
-      : 0;
-
-  return total;
-};
-
-export const magicWarriorMasteryPenaltyNullifier = (
-  character: Character
-) => {
-  const skillLevel = character.skills.magicBlade.magicWarriorMastery.level;
-
-  const total =
-    character.subWeapon.type === "magic-device"
-      ? character.mainWeapon.type === "one-handed-sword"
-        ? skillLevel + 5
-        : skillLevel
-      : 0;
-
-  return total;
-};
-
-export const subWeaponMagicDevicePercentATKPenalty = (
-  character: Character
-) => {
-  const total =
-    character.subWeapon.type === "magic-device"
-      ? -15 + magicWarriorMasteryPenaltyNullifier(character)
-      : 0;
-
-  return total;
-};
-
 export const totalPercentATK = (character: Character) => {
   const fromEquipments = flattenStatsFromEquipment(character)
     .map(get("percentATK"))
     .reduce(sum, 0);
 
-  const fromPenalties = subWeaponMagicDevicePercentATKPenalty(character);
+  const fromPenalties = subWeaponMagicDevicePercentATKModifier(character);
 
   const fromSkills =
     swordMasteryTotalPercentATK(character) +
@@ -161,8 +109,6 @@ export const totalPercentATK = (character: Character) => {
 
   return total;
 };
-
-// TODO: resonance total flat atk
 
 export const totalFlatATK = (character: Character) => {
   const fromEquipments = flattenStatsFromEquipment(character)

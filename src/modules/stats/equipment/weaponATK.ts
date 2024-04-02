@@ -7,6 +7,9 @@ import {
   flattenStatsFromEquipment,
   isDualWielder,
 } from "../../utils";
+import { braveAuraTotalPercentWeaponATK } from "../../supportSkills";
+import { bushidoTotalPercentWeaponATK } from "../../mononofuSkills";
+import { swordMasteryTotalPercentWeaponATK } from "../../bladeSkills";
 
 export const totalMainWeaponRefinementBonusMainWeaponATK = (
   character: Character
@@ -28,37 +31,6 @@ export const totalSubWeaponRefinementBonusSubWeaponATK = (
         character.subWeapon.ATK
       )
     : 0;
-
-  return total;
-};
-
-export const swordMasteryTotalPercentWeaponATK = (
-  character: Character
-) => {
-  const skillLevel = character.skills.blade.swordMastery.level;
-
-  const total =
-    character.mainWeapon.type === "one-handed-sword" ||
-    character.mainWeapon.type === "two-handed-sword"
-      ? skillLevel * 3
-      : 0;
-  return total;
-};
-
-export const bushidoTotalPercentWeaponATK = (character: Character) => {
-  const skillLevel = character.skills.mononofu.bushido.level;
-
-  const total =
-    character.mainWeapon.type === "katana" ? skillLevel * 3 : 0;
-
-  return total;
-};
-
-export const braveAuraTotalPercentWeaponATK = (character: Character) => {
-  const skillLevel = character.skills.support.braveAura.level;
-  const isActive = character.skills.support.braveAura.isActive;
-
-  const total = isActive ? 10 + skillLevel * 2 : 0;
 
   return total;
 };

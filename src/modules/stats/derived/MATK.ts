@@ -17,6 +17,15 @@ import {
 } from "../../utils";
 
 import * as pino from "@jmmaa/pino";
+import { subWeaponKnucklePercentMATKModifier } from "./modifiers";
+import {
+  increasedEnergyTotalFlatMATK,
+  magicUPTotalFlatMATK,
+} from "../../battleSkills";
+import {
+  conversionTotalFlatMATK,
+  magicWarriorMasteryTotalFlatMATK,
+} from "../../magicBladeSkills";
 
 export const totalBaseMATK = (character: Character) => {
   return isDualWielder(character)
@@ -90,20 +99,12 @@ export const totalBaseMATK = (character: Character) => {
       );
 };
 
-export const subWeaponKnucklePercentMATKPenalty = (
-  character: Character
-) => {
-  const total = character.subWeapon.type === "knuckle" ? -15 : 0;
-
-  return total;
-};
-
 export const totalPercentMATK = (character: Character) => {
   const fromEquipments = flattenStatsFromEquipment(character)
     .map(get("percentMATK"))
     .reduce(sum, 0);
 
-  const fromPenalties = subWeaponKnucklePercentMATKPenalty(character);
+  const fromPenalties = subWeaponKnucklePercentMATKModifier(character);
 
   const fromSkills = 0;
 
@@ -112,71 +113,22 @@ export const totalPercentMATK = (character: Character) => {
   return total;
 };
 
-export const magicWarriorMasteryTotalFlatMATK = (character: Character) => {
-  const skillLevel = character.skills.magicBlade.magicWarriorMastery.level;
-
-  const total =
-    character.subWeapon.type === "magic-device"
-      ? skillLevel * 2 + (skillLevel - 5 > 0 ? skillLevel - 5 : 0)
-      : 0;
-
-  return total;
-};
-
-export const magicUPTotalFlatMATK = (character: Character) => {
-  const skillLevel = character.skills.battle.magicUP.level;
-
-  const total = (character.level * (2.5 * skillLevel)) / 100;
-
-  return total;
-};
-
-export const increasedEnergyTotalFlatMATK = (character: Character) => {
-  const skillLevel = character.skills.battle.increasedEnergy.level;
-
-  const total = (character.level * (2.5 * skillLevel)) / 100;
-
-  return total;
-};
-
-export const conversionTotalFlatMATK = (character: Character) => {
-  const skillLevel = character.skills.magicBlade.conversion.level;
-
-  const isAllowed =
-    character.mainWeapon.type === "two-handed-sword" ||
-    character.mainWeapon.type === "bowgun" ||
-    character.mainWeapon.type === "knuckle" ||
-    character.mainWeapon.type === "one-handed-sword";
-
-  const total = isAllowed
-    ? floor(
-        ((skillLevel * skillLevel) / 100) *
-          (character.mainWeapon.type === "knuckle"
-            ? totalMainWeaponATK(character) * 0.5
-            : totalMainWeaponATK(character))
-      )
-    : 0;
-  // const bonusFlatMATK = skillLevel * 2; // this doesn't seem to work, need confirmation
-
-  return total;
-};
-
-// TODO: resonance flat MATK
-
 export const totalFlatMATK = (character: Character) => {
   const fromEquipments = flattenStatsFromEquipment(character)
     .map(get("flatMATK"))
     .reduce(sum, 0);
 
-  const fromModifiers =
-    totalFlatMATKValueFromMATKUP(character) +
-    totalFlatMATKValueFromMATKDOWN(character);
+  const fromModifiers = [
+    totalFlatMATKValueFromMATKUP(character),
+    totalFlatMATKValueFromMATKDOWN(character),
+  ].reduce(sum);
 
-  const fromSkills =
-    magicUPTotalFlatMATK(character) +
-    increasedEnergyTotalFlatMATK(character) +
-    magicWarriorMasteryTotalFlatMATK(character) +
-    conversionTotalFlatMATK(character);
+  const fromSkills = [
+    magicUPTotalFlatMATK(character),
+    increasedEnergyTotalFlatMATK(character),
+    magicWarriorMasteryTotalFlatMATK(character),
+    conversionTotalFlatMATK(character),
+  ].reduce(sum);
 
   const total = fromEquipments + fromSkills + fromModifiers;
 

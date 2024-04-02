@@ -7,29 +7,13 @@ import {
   total,
   flattenStatsFromEquipment,
 } from "../../utils";
+
+import {
+  magicWarriorMasteryTotalFlatCSPD,
+  magicWarriorMasteryTotalPercentCSPD,
+} from "../../magicBladeSkills";
+
 import { totalAGI, totalDEX } from "../basic";
-
-export const magicWarriorMasteryTotalFlatCSPD = (character: Character) => {
-  const skillLevel = character.skills.magicBlade.magicWarriorMastery.level;
-
-  const total =
-    character.subWeapon.type === "magic-device" ? skillLevel * 10 : 0;
-
-  return total;
-};
-
-export const magicWarriorMasteryTotalPercentCSPD = (
-  character: Character
-) => {
-  const skillLevel = character.skills.magicBlade.magicWarriorMastery.level;
-
-  const total =
-    character.subWeapon.type === "magic-device"
-      ? skillLevel * 1 + Math.max(skillLevel - 5, 0)
-      : 0;
-
-  return total;
-};
 
 export const totalBaseCSPD = (character: Character) => {
   const total = floor(
