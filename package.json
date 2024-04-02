@@ -21,7 +21,7 @@
     "@types/node": "^20.3.2",
     "esbuild": "^0.20.2",
     "jest": "^29.5.0",
-    "reliza": "file:build/reliza-0.0.1.tgz",
+    "reliza": "file:release/reliza-0.0.1.tgz",
     "ts-jest": "^29.1.0",
     "tsx": "^4.7.1",
     "typescript": "^5.3.3"
