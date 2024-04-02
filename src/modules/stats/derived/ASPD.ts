@@ -11,6 +11,10 @@ import {
 } from "../../utils";
 
 import { totalAGI, totalDEX, totalINT, totalSTR } from "../basic";
+import {
+  armorTypePercentASPDModifier,
+  subWeaponShieldPercentASPDModifier,
+} from "./modifiers";
 
 // TODO: erase pino and implement an explicit calculation instead!
 export const totalBaseASPD = (character: Character) => {
@@ -80,19 +84,13 @@ export const totalBaseASPD = (character: Character) => {
     : 0;
 };
 
-export const armorASPDModifier = (character: Character) => {
-  return character.armor.type === "light"
-    ? 50
-    : character.armor.type === "heavy"
-    ? -50
-    : 0;
-};
-
 export const totalPercentASPD = (character: Character) => {
   const fromEquipments =
     flattenStatsFromEquipment(character)
       .map(get("percentASPD"))
-      .reduce(sum, 0) + armorASPDModifier(character);
+      .reduce(sum, 0) +
+    armorTypePercentASPDModifier(character) +
+    subWeaponShieldPercentASPDModifier(character);
 
   const total = fromEquipments;
 

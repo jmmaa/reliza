@@ -1,4 +1,5 @@
 import { Character } from "../../../types";
+import { dualSwordMasteryPercentCriticalRatePenaltyReduction } from "../../dualSwordSkills";
 import {
   floor,
   get,
@@ -14,9 +15,11 @@ export const totalBaseCriticalRate = (character: Character) => {
 };
 
 export const totalPercentCriticalRate = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
-    .map(get("percentCriticalRate"))
-    .reduce(sum, 0);
+  const fromEquipments =
+    flattenStatsFromEquipment(character)
+      .map(get("percentCriticalRate"))
+      .reduce(sum, 0) +
+    dualSwordMasteryPercentCriticalRatePenaltyReduction(character);
 
   const total = fromEquipments;
 

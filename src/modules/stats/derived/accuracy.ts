@@ -7,6 +7,7 @@ import {
   total,
   flattenStatsFromEquipment,
 } from "../../utils";
+import { dualSwordMasteryPercentAccuracyPenaltyReduction } from "../../dualSwordSkills";
 
 export const totalBaseAccuracy = (character: Character) => {
   const total = floor(character.level + totalDEX(character));
@@ -15,9 +16,11 @@ export const totalBaseAccuracy = (character: Character) => {
 };
 
 export const totalPercentAccuracy = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
-    .map(get("percentAccuracy"))
-    .reduce(sum, 0);
+  const fromEquipments =
+    flattenStatsFromEquipment(character)
+      .map(get("percentAccuracy"))
+      .reduce(sum, 0) +
+    dualSwordMasteryPercentAccuracyPenaltyReduction(character);
 
   const total = fromEquipments;
 

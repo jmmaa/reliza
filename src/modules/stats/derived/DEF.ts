@@ -3,6 +3,7 @@ import * as pino from "@jmmaa/pino";
 import { totalVIT } from "../basic";
 import { get, sum, total, flattenStatsFromEquipment } from "../../utils";
 import { totalEquipmentDEF } from "../equipment";
+import { subWeaponArrowPercentDEFModifier } from "./modifiers";
 
 export const totalBaseDEF = (character: Character) => {
   return character.armor.type === "light"
@@ -31,9 +32,11 @@ export const totalBaseDEF = (character: Character) => {
 };
 
 export const totalPercentDEF = (character: Character) => {
-  return flattenStatsFromEquipment(character)
-    .map(get("percentDEF"))
-    .reduce(sum, 0);
+  return (
+    flattenStatsFromEquipment(character)
+      .map(get("percentDEF"))
+      .reduce(sum, 0) + subWeaponArrowPercentDEFModifier(character)
+  );
 };
 
 export const totalFlatDEF = (character: Character) => {

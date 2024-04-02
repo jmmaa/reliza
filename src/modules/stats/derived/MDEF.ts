@@ -4,6 +4,7 @@ import { totalINT } from "../basic";
 import { get, sum, total, flattenStatsFromEquipment } from "../../utils";
 
 import { totalEquipmentDEF } from "../equipment";
+import { subWeaponArrowPercentMDEFModifier } from "./modifiers";
 
 export const totalBaseMDEF = (character: Character) => {
   return character.armor.type === "light"
@@ -32,9 +33,11 @@ export const totalBaseMDEF = (character: Character) => {
 };
 
 export const totalPercentMDEF = (character: Character) => {
-  return flattenStatsFromEquipment(character)
-    .map(get("percentMDEF"))
-    .reduce(sum, 0);
+  return (
+    flattenStatsFromEquipment(character)
+      .map(get("percentMDEF"))
+      .reduce(sum, 0) + subWeaponArrowPercentMDEFModifier(character)
+  );
 };
 
 export const totalFlatMDEF = (character: Character) => {

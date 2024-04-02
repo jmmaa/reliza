@@ -377,28 +377,32 @@ export const defaultCharacter: Character = {
       floatDash: { level: 0 },
       magicSkin: { level: 0 },
     },
-  },
 
-  halberd: {
-    flashStab: { level: 0 },
-    cannonSpear: { level: 0 },
-    dragonTail: { level: 0 },
-    diveImpact: { level: 0 },
-    dragonTooth: { level: 0 },
-    draconicCharge: { level: 0 },
-    deadlySpear: { level: 0 },
-    punishRay: { level: 0 },
-    strikeStab: { level: 0 },
-    chronosDivine: { level: 0 },
-    infiniteDimension: { level: 0 },
-    halberdMastery: { level: 0 },
-    criticalSpear: { level: 0 },
-    tornadoLance: { level: 0 },
-    quickAura: { level: 0 },
-    warCryOfStruggle: { level: 0 },
-    godspeedWield: { level: 0 },
-    almightyWield: { level: 0 },
-    busterLance: { level: 0 },
+    halberd: {
+      flashStab: { level: 0 },
+      cannonSpear: { level: 0 },
+      dragonTail: { level: 0 },
+      diveImpact: { level: 0 },
+      dragonTooth: { level: 0 },
+      draconicCharge: { level: 0 },
+      deadlySpear: { level: 0 },
+      punishRay: { level: 0 },
+      strikeStab: { level: 0 },
+      chronosDivine: { level: 0 },
+      infiniteDimension: { level: 0 },
+      halberdMastery: { level: 0 },
+      criticalSpear: { level: 0 },
+      tornadoLance: { level: 0 },
+      quickAura: { level: 0 },
+      warCryOfStruggle: { level: 0 },
+      godspeedWield: { level: 0 },
+      almightyWield: { level: 0 },
+      busterLance: { level: 0 },
+    },
+
+    shield: {
+      shieldMastery: { level: 0 },
+    },
   },
 
   regislets: {
@@ -430,3 +434,5 @@ export const character = (
   ...(defaultCharacter as Character),
   ...character,
 });
+
+// FINISH MAGIC BLADEEEEEE

@@ -489,28 +489,32 @@ export interface Character {
       floatDash: { level: number };
       magicSkin: { level: number };
     };
-  };
 
-  halberd: {
-    flashStab: { level: number };
-    cannonSpear: { level: number };
-    dragonTail: { level: number };
-    diveImpact: { level: number };
-    dragonTooth: { level: number };
-    draconicCharge: { level: number };
-    deadlySpear: { level: number };
-    punishRay: { level: number };
-    strikeStab: { level: number };
-    chronosDivine: { level: number };
-    infiniteDimension: { level: number };
-    halberdMastery: { level: number };
-    criticalSpear: { level: number };
-    tornadoLance: { level: number };
-    quickAura: { level: number };
-    warCryOfStruggle: { level: number };
-    godspeedWield: { level: number };
-    almightyWield: { level: number };
-    busterLance: { level: number };
+    shield: {
+      shieldMastery: { level: number };
+    };
+
+    halberd: {
+      flashStab: { level: number };
+      cannonSpear: { level: number };
+      dragonTail: { level: number };
+      diveImpact: { level: number };
+      dragonTooth: { level: number };
+      draconicCharge: { level: number };
+      deadlySpear: { level: number };
+      punishRay: { level: number };
+      strikeStab: { level: number };
+      chronosDivine: { level: number };
+      infiniteDimension: { level: number };
+      halberdMastery: { level: number };
+      criticalSpear: { level: number };
+      tornadoLance: { level: number };
+      quickAura: { level: number };
+      warCryOfStruggle: { level: number };
+      godspeedWield: { level: number };
+      almightyWield: { level: number };
+      busterLance: { level: number };
+    };
   };
 
   regislets: {
