@@ -7,15 +7,14 @@ A status calculation library for Toram Online
 ### Quick Example
 
 ```ts
-import { status, calculate } from "@jmmaa/reliza";
+const { character, totalCriticalDamage } = require("@jmmaa/reliza");
 
-const myStatus = status({
-  mainWeaponType: "katana",
+const myCharacter = character({
   STR: 247,
   AGI: 465,
 });
 
-const calculated = calculate(myStatus);
+const myTotalCriticalDamage = totalCriticalDamage(myCharacter);
 
-console.log(calculated.totalCriticalDamage); // 221
+console.log(myTotalCriticalDamage); // 221
 ```
