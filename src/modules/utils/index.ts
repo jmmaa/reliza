@@ -18,7 +18,7 @@ export const isDualWielder = (character: Character) => {
   return (
     character.mainWeapon.type === "one-handed-sword" &&
     character.subWeapon.type === "one-handed-sword" &&
-    character.skills.dualSword.dualSwordMastery.level > 0
+    character.skills.dualSwordSkills.dualSwordMastery.level > 0
   );
 };
 
