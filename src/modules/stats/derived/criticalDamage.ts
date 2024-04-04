@@ -50,7 +50,7 @@ export const totalCriticalDamage = (character: Character) => {
 export const spellBurstTotalCriticalDamageRatio = (
   character: Character
 ) => {
-  const skillLevel = character.skills.battle.spellBurst.level;
+  const skillLevel = character.skills.battleSkills.spellBurst.level;
   const total = 2.5 * skillLevel;
   return total;
 };
