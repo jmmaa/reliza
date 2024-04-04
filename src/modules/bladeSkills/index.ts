@@ -1,7 +1,7 @@
 import { Character } from "../../types";
 
 export const swordMasteryTotalPercentATK = (character: Character) => {
-  const skillLevel = character.skills.blade.swordMastery.level;
+  const skillLevel = character.skills.bladeSkills.swordMastery.level;
 
   const total =
     character.mainWeapon.type === "one-handed-sword" ||
@@ -19,7 +19,7 @@ export const swordMasteryTotalPercentATK = (character: Character) => {
 export const swordMasteryTotalPercentWeaponATK = (
   character: Character
 ) => {
-  const skillLevel = character.skills.blade.swordMastery.level;
+  const skillLevel = character.skills.bladeSkills.swordMastery.level;
 
   const total =
     character.mainWeapon.type === "one-handed-sword" ||

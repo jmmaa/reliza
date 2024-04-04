@@ -4,7 +4,7 @@ export const shieldMasteryPercentASPDPenaltyReduction = (
   character: Character
 ) => {
   const isSubShield = character.subWeapon.type === "shield";
-  const skillLevel = character.skills.shield.shieldMastery.level;
+  const skillLevel = character.skills.shieldSkills.shieldMastery.level;
 
   return isSubShield ? skillLevel * 5 : 0;
 };

@@ -1,7 +1,7 @@
 import { Character } from "../../types";
 
 export const bushidoTotalPercentATK = (character: Character) => {
-  const skillLevel = character.skills.mononofu.bushido.level;
+  const skillLevel = character.skills.mononofuSkills.bushido.level;
 
   const total =
     character.mainWeapon.type === "katana"
@@ -16,7 +16,7 @@ export const bushidoTotalPercentATK = (character: Character) => {
 };
 
 export const bushidoTotalPercentWeaponATK = (character: Character) => {
-  const skillLevel = character.skills.mononofu.bushido.level;
+  const skillLevel = character.skills.mononofuSkills.bushido.level;
 
   const total =
     character.mainWeapon.type === "katana" ? skillLevel * 3 : 0;

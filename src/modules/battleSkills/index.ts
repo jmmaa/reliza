@@ -1,7 +1,7 @@
 import { Character } from "../../types";
 
 export const magicUPTotalFlatMATK = (character: Character) => {
-  const skillLevel = character.skills.battle.magicUP.level;
+  const skillLevel = character.skills.battleSkills.magicUP.level;
 
   const total = (character.level * (2.5 * skillLevel)) / 100;
 
@@ -9,7 +9,7 @@ export const magicUPTotalFlatMATK = (character: Character) => {
 };
 
 export const increasedEnergyTotalFlatMATK = (character: Character) => {
-  const skillLevel = character.skills.battle.increasedEnergy.level;
+  const skillLevel = character.skills.battleSkills.increasedEnergy.level;
 
   const total = (character.level * (2.5 * skillLevel)) / 100;
 

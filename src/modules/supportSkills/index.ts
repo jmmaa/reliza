@@ -1,8 +1,8 @@
 import { Character } from "../../types";
 
 export const braveAuraTotalPercentWeaponATK = (character: Character) => {
-  const skillLevel = character.skills.support.braveAura.level;
-  const isActive = character.skills.support.braveAura.isActive;
+  const skillLevel = character.skills.supportSkills.braveAura.level;
+  const isActive = character.skills.supportSkills.braveAura.isActive;
 
   const total = isActive ? 10 + skillLevel * 2 : 0;
 
