@@ -551,3 +551,7 @@ export interface Character {
   skills: Skills;
   regislets: Regislets;
 }
+
+// utils
+
+export type Entries<T> = { [K in keyof T]: [K, T[K]] }[keyof T][];
