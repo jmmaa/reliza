@@ -1,6 +1,356 @@
 export * from "./modules";
 
-import { Character, StatMap } from "./types";
+import { resonanceTotalFlatATK } from "./modules";
+import {
+  BattleSkills,
+  BladeSkills,
+  Character,
+  DualSwordSkills,
+  HalberdSkills,
+  MagicBladeSkills,
+  MagicSkills,
+  MononofuSkills,
+  Regislets,
+  ShieldSkills,
+  ShotSkills,
+  Skills,
+  StatMap,
+  SupportSkills,
+  SurvivalSkills,
+} from "./types";
+
+export const defaultBladeSkills: BladeSkills = {
+  hardHit: { level: 0 },
+  astute: { level: 0 },
+  triggerSlash: { level: 0 },
+  rampage: { level: 0 },
+  meteorBreaker: { level: 0 },
+  shutOut: { level: 0 },
+  lunarSlash: { level: 0 },
+  sonicBlade: { level: 0 },
+  spiralAir: { level: 0 },
+  swordTempest: { level: 0 },
+  busterBlade: { level: 0 },
+  auraBlade: { level: 0 },
+  swordMastery: { level: 0 },
+  quickSlash: { level: 0 },
+  swordTechniques: { level: 0 },
+  warCry: { level: 0 },
+  berserk: { level: 0 },
+  gladiate: { level: 0 },
+  swiftAttack: { level: 0 },
+};
+
+export const defaultShotSkills: ShotSkills = {
+  // shot skills
+  powerShot: { level: 0 },
+  bullseye: { level: 0 },
+  arrowRain: { level: 0 },
+  snipe: { level: 0 },
+  crossFire: { level: 0 },
+  vanquisher: { level: 0 },
+  twinStorm: { level: 0 },
+  retrogradeShot: { level: 0 },
+  moebaShot: { level: 0 },
+  paralysisShot: { level: 0 },
+  smokeDust: { level: 0 },
+  armBreak: { level: 0 },
+  parabolaCannon: { level: 0 },
+  shotMastery: { level: 0 },
+  samuraiArchery: { level: 0 },
+  sneakAttack: { level: 0 },
+  longRange: { level: 0 },
+  quickDraw: { level: 0 },
+  decoyShot: { level: 0 },
+  fatalShot: { level: 0 },
+};
+
+export const defaultMagicSkills: MagicSkills = {
+  magicArrows: { level: 0 },
+  magicJavelin: { level: 0 },
+  magicLances: { level: 0 },
+  magicImpact: { level: 0 },
+  magicFinale: { level: 0 },
+  chronosShift: { level: 0 },
+  magicWall: { level: 0 },
+  magicBlast: { level: 0 },
+  magicStorm: { level: 0 },
+  magicBurst: { level: 0 },
+  magicCannon: { level: 0 },
+  magicCrash: { level: 0 },
+  magicMastery: { level: 0 },
+  magicKnife: { level: 0 },
+  qadal: { level: 0 },
+  MPCharge: { level: 0 },
+  chainCast: { level: 0 },
+  powerWave: { level: 0 },
+  maximizer: { level: 0 },
+  rapidCharge: { level: 0 },
+  enchantedBarriers: { level: 0 },
+  magicGuardianBeam: { level: 0 },
+};
+
+export const defaultSurvivalSkills: SurvivalSkills = {
+  playDead: { level: 0 },
+  EXPGainUP: { level: 0 },
+  dropRateUP: { level: 0 },
+  safeRest: { level: 0 },
+  HPBoost: { level: 0 },
+  fightersHigh: { level: 0 },
+  shortRest: { level: 0 },
+  MPBoost: { level: 0 },
+  soberAnalysis: { level: 0 },
+};
+
+export const defaultSupportSkills: SupportSkills = {
+  firstAid: { level: 0 },
+  miniHeal: { level: 0 },
+  recovery: { level: 0 },
+  sanctuary: { level: 0 },
+  heal: { level: 0 },
+  lifeRecovery: { level: 0 },
+  braveAura: { level: 0, isActive: false },
+  highCycle: { level: 0 },
+  quickMotion: { level: 0 },
+  manaRecharge: { level: 0 },
+  magicBarrier: { level: 0 },
+  immunity: { level: 0 },
+  fastReaction: { level: 0 },
+};
+
+export const defaultBattleSkills: BattleSkills = {
+  magicUP: { level: 0 },
+  concentrate: { level: 0 },
+  AttackUP: { level: 0 },
+  whack: { level: 0 },
+  defenseUP: { level: 0 },
+  dodgeUP: { level: 0 },
+  desperateResist: { level: 0 },
+  criticalUP: { level: 0 },
+  accuracyUP: { level: 0 },
+  increasedEnergy: { level: 0 },
+  intimidatingPower: { level: 0 },
+  defenseMastery: { level: 0 },
+  spellBurst: { level: 0 },
+  secretChaseAttack: { level: 0 },
+  superGrip: { level: 0 },
+};
+
+export const defaultMononofuSkills: MononofuSkills = {
+  issen: { level: 0 },
+  pluseBlade: { level: 0 },
+  tripleThrust: { level: 0 },
+  hassoHappa: { level: 0 },
+  tenryuRansei: { level: 0 },
+  kasumisetsuGetsuka: { level: 0 },
+  garyouTensei: { level: 0 },
+  shadowLessSlash: { level: 0 },
+  pommelStrike: { level: 0 },
+  magadachi: { level: 0 },
+  zanteiSettetsu: { level: 0 },
+  bushido: { level: 0 },
+  shukuchi: { level: 0 },
+  nukiuchiSennosen: { level: 0 },
+  twoHanded: { level: 0 },
+  meikyouShisui: { level: 0 },
+  kairikiRanshin: { level: 0 },
+  dauntless: { level: 0 },
+  bouncingBlade: { level: 0 },
+};
+
+export const defaultDualSwordSkills: DualSwordSkills = {
+  dualSwordMastery: { level: 0 },
+  twinSlash: { level: 0 },
+  spinningSlash: { level: 0 },
+  phantomSlash: { level: 0 },
+  aerialCut: { level: 0 },
+  crossParry: { level: 0 },
+  chargingSlash: { level: 0 },
+  shadowStep: { level: 0 },
+  shiningCross: { level: 0 },
+  lunarMisfortune: { level: 0 },
+  twinBusterBlade: { level: 0 },
+  reflex: { level: 0 },
+  flashBlast: { level: 0 },
+  flashBlastIsActive: false,
+  stormReaper: { level: 0 },
+  dualSwordControl: { level: 0 },
+  godspeed: { level: 0 },
+  saberAura: { level: 0 },
+  crescentSaber: { level: 0 },
+};
+
+export const defaultMagicBladeSkills: MagicBladeSkills = {
+  magicWarriorMastery: { level: 0 },
+  conversion: { level: 0, isActive: false },
+  resonance: {
+    level: 0,
+    isActive: false,
+    currentSetActive: "ATK/MATK",
+  },
+  enchantedSpell: { level: 0 },
+  dualBringer: { level: 0, isActive: false },
+  etherFlare: { level: 0 },
+  elementSlash: { level: 0 },
+  enchantSword: { level: 0 },
+  enchantedBurst: { level: 0 },
+  unionSword: { level: 0 },
+  siphonBarrier: { level: 0 },
+  teleport: { level: 0 },
+  siphonRecall: { level: 0 },
+  floatDash: { level: 0 },
+  magicSkin: { level: 0 },
+};
+
+export const defaultHalberdSkills: HalberdSkills = {
+  flashStab: { level: 0 },
+  cannonSpear: { level: 0 },
+  dragonTail: { level: 0 },
+  diveImpact: { level: 0 },
+  dragonTooth: { level: 0 },
+  draconicCharge: { level: 0 },
+  deadlySpear: { level: 0 },
+  punishRay: { level: 0 },
+  strikeStab: { level: 0 },
+  chronosDivine: { level: 0 },
+  infiniteDimension: { level: 0 },
+  halberdMastery: { level: 0 },
+  criticalSpear: { level: 0 },
+  tornadoLance: { level: 0 },
+  quickAura: { level: 0 },
+  warCryOfStruggle: { level: 0 },
+  godspeedWield: { level: 0 },
+  almightyWield: { level: 0 },
+  busterLance: { level: 0 },
+};
+
+export const defaultShieldSkills: ShieldSkills = {
+  shieldMastery: { level: 0 },
+};
+
+export const defaultRegislets = {
+  zeroStance: { level: 0 },
+  maxHPBoost: { level: 0 },
+  maxMPBoost: { level: 0 },
+  magicAttackBoost: { level: 0 },
+  physicalAttackBoost: { level: 0 },
+  magicDefenseBoost: { level: 0 },
+  physicalDefenseBoost: { level: 0 },
+  attackSpeedBoost: { level: 0 },
+  magicSpeedBoost: { level: 0 },
+  dodgeBoost: { level: 0 },
+  accuracyBoost: { level: 0 },
+
+  focusResonance: { level: 0 },
+  powerResonance: { level: 0 },
+  speedResonance: { level: 0 },
+  // incomplete
+};
+
+export const skills = (
+  skills: Partial<Skills>
+): Partial<Skills> & Skills => ({
+  ...(defaultSkills as Skills),
+  ...skills,
+});
+
+export const bladeSkills = (
+  bladeSkills: Partial<BladeSkills>
+): Partial<BladeSkills> & BladeSkills => ({
+  ...(defaultBladeSkills as BladeSkills),
+  ...bladeSkills,
+});
+
+export const shotSkills = (
+  shotSkills: Partial<ShotSkills>
+): Partial<ShotSkills> & ShotSkills => ({
+  ...(defaultShotSkills as ShotSkills),
+  ...shotSkills,
+});
+
+export const magicSkills = (
+  magicSkills: Partial<MagicSkills>
+): Partial<MagicSkills> & MagicSkills => ({
+  ...(defaultMagicSkills as MagicSkills),
+  ...magicSkills,
+});
+
+export const battleSkills = (
+  battleSkills: Partial<BattleSkills>
+): Partial<BattleSkills> & BattleSkills => ({
+  ...(defaultBattleSkills as BattleSkills),
+  ...battleSkills,
+});
+
+export const supportSkills = (
+  supportSkills: Partial<SupportSkills>
+): Partial<SupportSkills> & SupportSkills => ({
+  ...(defaultSupportSkills as SupportSkills),
+  ...supportSkills,
+});
+
+export const magicBladeSkills = (
+  magicBladeSkills: Partial<MagicBladeSkills>
+): Partial<MagicBladeSkills> & MagicBladeSkills => ({
+  ...(defaultMagicBladeSkills as MagicBladeSkills),
+  ...magicBladeSkills,
+});
+
+export const survivalSkills = (
+  survivalSkills: Partial<SurvivalSkills>
+): Partial<SurvivalSkills> & SurvivalSkills => ({
+  ...(defaultSurvivalSkills as SurvivalSkills),
+  ...survivalSkills,
+});
+
+export const halberdSkills = (
+  halberdSkills: Partial<HalberdSkills>
+): Partial<HalberdSkills> & HalberdSkills => ({
+  ...(defaultHalberdSkills as HalberdSkills),
+  ...halberdSkills,
+});
+
+export const dualSwordSkills = (
+  dualSwordSkills: Partial<DualSwordSkills>
+): Partial<DualSwordSkills> & DualSwordSkills => ({
+  ...(defaultDualSwordSkills as DualSwordSkills),
+  ...dualSwordSkills,
+});
+
+export const mononofuSkills = (
+  mononofuSkills: Partial<MononofuSkills>
+): Partial<MononofuSkills> & MononofuSkills => ({
+  ...(defaultMononofuSkills as MononofuSkills),
+  ...mononofuSkills,
+});
+
+export const shieldSkills = (
+  shieldSkills: Partial<ShieldSkills>
+): Partial<ShieldSkills> & ShieldSkills => ({
+  ...(defaultShieldSkills as ShieldSkills),
+  ...shieldSkills,
+});
+
+export const regislets = (
+  regislets: Partial<Regislets>
+): Partial<Regislets> & Regislets => ({
+  ...(defaultRegislets as Regislets),
+  ...regislets,
+});
+
+export const defaultSkills: Skills = {
+  bladeSkills: bladeSkills({}),
+  shotSkills: shotSkills({}),
+  magicSkills: magicSkills({}),
+  survivalSkills: survivalSkills({}),
+  supportSkills: supportSkills({}),
+  battleSkills: battleSkills({}),
+  mononofuSkills: mononofuSkills({}),
+  dualSwordSkills: dualSwordSkills({}),
+  magicBladeSkills: magicBladeSkills({}),
+  halberdSkills: halberdSkills({}),
+  shieldSkills: shieldSkills({}),
+};
 
 export const defaultStatMap: StatMap = {
   flatSTR: 0,
@@ -127,6 +477,13 @@ export const defaultStatMap: StatMap = {
   element: "neutral",
 };
 
+export const statMap = (
+  stats: Partial<StatMap>
+): Partial<StatMap> & StatMap => ({
+  ...(defaultStatMap as StatMap),
+  ...stats,
+});
+
 export const defaultCharacter: Character = {
   level: 1,
 
@@ -187,246 +544,10 @@ export const defaultCharacter: Character = {
 
   foodBuffs: [],
 
-  // regislets (must be same like skills too)
+  skills: skills({}),
 
-  // blade skills
-
-  skills: {
-    blade: {
-      hardHit: { level: 0 },
-      astute: { level: 0 },
-      triggerSlash: { level: 0 },
-      rampage: { level: 0 },
-      meteorBreaker: { level: 0 },
-      shutOut: { level: 0 },
-      lunarSlash: { level: 0 },
-      sonicBlade: { level: 0 },
-      spiralAir: { level: 0 },
-      swordTempest: { level: 0 },
-      busterBlade: { level: 0 },
-      auraBlade: { level: 0 },
-      swordMastery: { level: 0 },
-      quickSlash: { level: 0 },
-      swordTechniques: { level: 0 },
-      warCry: { level: 0 },
-      berserk: { level: 0 },
-      gladiate: { level: 0 },
-      swiftAttack: { level: 0 },
-    },
-
-    shot: {
-      // shot skills
-      powerShot: { level: 0 },
-      bullseye: { level: 0 },
-      arrowRain: { level: 0 },
-      snipe: { level: 0 },
-      crossFire: { level: 0 },
-      vanquisher: { level: 0 },
-      twinStorm: { level: 0 },
-      retrogradeShot: { level: 0 },
-      moebaShot: { level: 0 },
-      paralysisShot: { level: 0 },
-      smokeDust: { level: 0 },
-      armBreak: { level: 0 },
-      parabolaCannon: { level: 0 },
-      shotMastery: { level: 0 },
-      samuraiArchery: { level: 0 },
-      sneakAttack: { level: 0 },
-      longRange: { level: 0 },
-      quickDraw: { level: 0 },
-      decoyShot: { level: 0 },
-      fatalShot: { level: 0 },
-    },
-
-    magic: {
-      // magic skills
-      magicArrows: { level: 0 },
-      magicJavelin: { level: 0 },
-      magicLances: { level: 0 },
-      magicImpact: { level: 0 },
-      magicFinale: { level: 0 },
-      chronosShift: { level: 0 },
-      magicWall: { level: 0 },
-      magicBlast: { level: 0 },
-      magicStorm: { level: 0 },
-      magicBurst: { level: 0 },
-      magicCannon: { level: 0 },
-      magicCrash: { level: 0 },
-      magicMastery: { level: 0 },
-      magicKnife: { level: 0 },
-      qadal: { level: 0 },
-      MPCharge: { level: 0 },
-      chainCast: { level: 0 },
-      powerWave: { level: 0 },
-      maximizer: { level: 0 },
-      rapidCharge: { level: 0 },
-      enchantedBarriers: { level: 0 },
-      magicGuardianBeam: { level: 0 },
-    },
-
-    survival: {
-      // survival skills
-      playDead: { level: 0 },
-      EXPGainUP: { level: 0 },
-      dropRateUP: { level: 0 },
-      safeRest: { level: 0 },
-      HPBoost: { level: 0 },
-      fightersHigh: { level: 0 },
-      shortRest: { level: 0 },
-      MPBoost: { level: 0 },
-      soberAnalysis: { level: 0 },
-    },
-
-    support: {
-      // support skills
-      firstAid: { level: 0 },
-      miniHeal: { level: 0 },
-      recovery: { level: 0 },
-      sanctuary: { level: 0 },
-      heal: { level: 0 },
-      lifeRecovery: { level: 0 },
-      braveAura: { level: 0, isActive: false },
-      highCycle: { level: 0 },
-      quickMotion: { level: 0 },
-      manaRecharge: { level: 0 },
-      magicBarrier: { level: 0 },
-      immunity: { level: 0 },
-      fastReaction: { level: 0 },
-    },
-
-    battle: {
-      // battle skills
-      magicUP: { level: 0 },
-      concentrate: { level: 0 },
-      AttackUP: { level: 0 },
-      whack: { level: 0 },
-      defenseUP: { level: 0 },
-      dodgeUP: { level: 0 },
-      desperateResist: { level: 0 },
-      criticalUP: { level: 0 },
-      accuracyUP: { level: 0 },
-      increasedEnergy: { level: 0 },
-      intimidatingPower: { level: 0 },
-      defenseMastery: { level: 0 },
-      spellBurst: { level: 0 },
-      secretChaseAttack: { level: 0 },
-      superGrip: { level: 0 },
-    },
-
-    mononofu: {
-      // mononofu skills
-      issen: { level: 0 },
-      pluseBlade: { level: 0 },
-      tripleThrust: { level: 0 },
-      hassoHappa: { level: 0 },
-      tenryuRansei: { level: 0 },
-      kasumisetsuGetsuka: { level: 0 },
-      garyouTensei: { level: 0 },
-      shadowLessSlash: { level: 0 },
-      pommelStrike: { level: 0 },
-      magadachi: { level: 0 },
-      zanteiSettetsu: { level: 0 },
-      bushido: { level: 0 },
-      shukuchi: { level: 0 },
-      nukiuchiSennosen: { level: 0 },
-      twoHanded: { level: 0 },
-      meikyouShisui: { level: 0 },
-      kairikiRanshin: { level: 0 },
-      dauntless: { level: 0 },
-      bouncingBlade: { level: 0 },
-    },
-
-    dualSword: {
-      // dual sword skills
-      dualSwordMastery: { level: 0 },
-      twinSlash: { level: 0 },
-      spinningSlash: { level: 0 },
-      phantomSlash: { level: 0 },
-      aerialCut: { level: 0 },
-      crossParry: { level: 0 },
-      chargingSlash: { level: 0 },
-      shadowStep: { level: 0 },
-      shiningCross: { level: 0 },
-      lunarMisfortune: { level: 0 },
-      twinBusterBlade: { level: 0 },
-      reflex: { level: 0 },
-      flashBlast: { level: 0 },
-      flashBlastIsActive: false,
-      stormReaper: { level: 0 },
-      dualSwordControl: { level: 0 },
-      godspeed: { level: 0 },
-      saberAura: { level: 0 },
-      crescentSaber: { level: 0 },
-    },
-
-    magicBlade: {
-      // magic blade skills
-      magicWarriorMastery: { level: 0 },
-      conversion: { level: 0, isActive: false },
-      resonance: { level: 0, isActive: false },
-      enchantedSpell: { level: 0 },
-      dualBringer: { level: 0, isActive: false },
-      etherFlare: { level: 0 },
-      elementSlash: { level: 0 },
-      enchantSword: { level: 0 },
-      enchantedBurst: { level: 0 },
-      unionSword: { level: 0 },
-      siphonBarrier: { level: 0 },
-      teleport: { level: 0 },
-      siphonRecall: { level: 0 },
-      floatDash: { level: 0 },
-      magicSkin: { level: 0 },
-    },
-
-    halberd: {
-      flashStab: { level: 0 },
-      cannonSpear: { level: 0 },
-      dragonTail: { level: 0 },
-      diveImpact: { level: 0 },
-      dragonTooth: { level: 0 },
-      draconicCharge: { level: 0 },
-      deadlySpear: { level: 0 },
-      punishRay: { level: 0 },
-      strikeStab: { level: 0 },
-      chronosDivine: { level: 0 },
-      infiniteDimension: { level: 0 },
-      halberdMastery: { level: 0 },
-      criticalSpear: { level: 0 },
-      tornadoLance: { level: 0 },
-      quickAura: { level: 0 },
-      warCryOfStruggle: { level: 0 },
-      godspeedWield: { level: 0 },
-      almightyWield: { level: 0 },
-      busterLance: { level: 0 },
-    },
-
-    shield: {
-      shieldMastery: { level: 0 },
-    },
-  },
-
-  regislets: {
-    zeroStance: { level: 0 },
-    maxHPBoost: { level: 0 },
-    maxMPBoost: { level: 0 },
-    magicAttackBoost: { level: 0 },
-    physicalAttackBoost: { level: 0 },
-    magicDefenseBoost: { level: 0 },
-    physicalDefenseBoost: { level: 0 },
-    attackSpeedBoost: { level: 0 },
-    magicSpeedBoost: { level: 0 },
-    dodgeBoost: { level: 0 },
-    accuracyBoost: { level: 0 },
-    // incomplete
-  },
+  regislets: regislets({}),
 };
-
-export const statMap = (
-  stats: Partial<StatMap>
-): Partial<StatMap> & StatMap => ({
-  ...(defaultStatMap as StatMap),
-  ...stats,
-});
 
 export const character = (
   character: Partial<Character>
@@ -435,4 +556,48 @@ export const character = (
   ...character,
 });
 
-// FINISH MAGIC BLADEEEEEE
+///
+
+const myCharacter = character({
+  mainWeapon: {
+    type: "one-handed-sword",
+    ATK: 200,
+    refinement: 15,
+    stability: 0,
+    stats: [],
+    crystals: [],
+  },
+  subWeapon: {
+    type: "magic-device",
+    ATK: 200,
+    DEF: 0,
+    refinement: 15,
+    stability: 0,
+    scrollCastTimeReduction: 0,
+    scrollMPReduction: 0,
+    stats: [],
+    crystals: [],
+  },
+
+  skills: skills({
+    magicBladeSkills: magicBladeSkills({
+      resonance: {
+        level: 10,
+        isActive: true,
+        currentSetActive: "ASPD/CSPD",
+      },
+    }),
+  }),
+
+  regislets: regislets({
+    focusResonance: { level: 1 },
+    speedResonance: { level: 1 },
+    powerResonance: { level: 9 },
+  }),
+});
+
+const resoFlatATK = resonanceTotalFlatATK(myCharacter);
+
+console.log(resoFlatATK);
+
+/// CONFIRM THE ORDER OF REGISLET AND CODE IT
