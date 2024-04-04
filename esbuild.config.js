@@ -1,5 +1,4 @@
-import * as esbuild from "esbuild"
-
+import * as esbuild from "esbuild";
 
 await esbuild.build({
     entryPoints: ["src/index.ts"],
@@ -10,11 +9,13 @@ await esbuild.build({
     bundle: true,
 })
 
+
 await esbuild.build({
-    entryPoints: ["src/index.ts"],
-    tsconfig: "tsconfig.json",
-    outfile: "lib/index.esm.js",
-    format: "esm",
-    minify: true,
-    bundle: true,
-})
+  entryPoints: ["src/index.ts"],
+  tsconfig: "tsconfig.json",
+  outfile: "lib/index.esm.js",
+  format: "esm",
+  minify: true,
+  bundle: true,
+});
+

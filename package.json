@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "npx tsc --watch",
     "test": "jest --detectOpenHandles",
-    "build": "npx tsc && node esbuild.config.mjs"
+    "build": "npx tsc && npx tsx esbuild.config.js"
   },
   "keywords": [],
   "author": "",
