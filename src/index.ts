@@ -1,6 +1,6 @@
 export * from "./modules";
+export * from "./types";
 
-import { resonanceTotalFlatATK } from "./modules";
 import {
   BattleSkills,
   BladeSkills,
@@ -17,7 +17,7 @@ import {
   StatMap,
   SupportSkills,
   SurvivalSkills,
-} from "./types";
+} from ".";
 
 export const defaultBladeSkills: BladeSkills = {
   hardHit: { level: 0 },
@@ -555,49 +555,3 @@ export const character = (
   ...(defaultCharacter as Character),
   ...character,
 });
-
-///
-
-const myCharacter = character({
-  mainWeapon: {
-    type: "one-handed-sword",
-    ATK: 200,
-    refinement: 15,
-    stability: 0,
-    stats: [],
-    crystals: [],
-  },
-  subWeapon: {
-    type: "magic-device",
-    ATK: 200,
-    DEF: 0,
-    refinement: 15,
-    stability: 0,
-    scrollCastTimeReduction: 0,
-    scrollMPReduction: 0,
-    stats: [],
-    crystals: [],
-  },
-
-  skills: skills({
-    magicBladeSkills: magicBladeSkills({
-      resonance: {
-        level: 10,
-        isActive: true,
-        currentSetActive: "ASPD/CSPD",
-      },
-    }),
-  }),
-
-  regislets: regislets({
-    focusResonance: { level: 1 },
-    speedResonance: { level: 1 },
-    powerResonance: { level: 9 },
-  }),
-});
-
-const resoFlatATK = resonanceTotalFlatATK(myCharacter);
-
-console.log(resoFlatATK);
-
-/// CONFIRM THE ORDER OF REGISLET AND CODE IT
