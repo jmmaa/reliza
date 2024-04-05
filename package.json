@@ -2,16 +2,18 @@
   "name": "reliza",
   "version": "0.0.1",
   "description": "",
-  "main": "lib/index.js",
-  "module": "lib/index.esm.js",
-  "types": "lib/index.d.ts",
+  "main": "./lib/index.js",
+  "module": "./lib/index.esm.js",
+  "types": "./lib/index.d.ts",
   "files": [
     "lib"
   ],
   "scripts": {
     "dev": "npx tsc --watch",
     "test": "jest --detectOpenHandles",
-    "build": "npx tsc && npx tsx esbuild.config.js"
+    "build": "npx tsc && node esbuild.config.mjs",
+    "release": "npm pack --pack-destination=release",
+    "build:release": "npm run build && npm run release"
   },
   "keywords": [],
   "author": "",
