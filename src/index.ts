@@ -36,8 +36,8 @@ export const defaultBladeSkills: BladeSkills = {
   swordMastery: { level: 0 },
   quickSlash: { level: 0 },
   swordTechniques: { level: 0 },
-  warCry: { level: 0 },
-  berserk: { level: 0 },
+  warCry: { level: 0, isActive: false },
+  berserk: { level: 0, isActive: false },
   gladiate: { level: 0 },
   swiftAttack: { level: 0 },
 };

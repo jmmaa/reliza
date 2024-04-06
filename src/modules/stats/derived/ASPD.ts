@@ -15,6 +15,14 @@ import {
   armorTypePercentASPDModifier,
   subWeaponShieldPercentASPDModifier,
 } from "./modifiers";
+import {
+  quickSlashTotalFlatASPD,
+  quickSlashTotalPercentASPD,
+} from "../../bladeSkills";
+import {
+  berserkTotalFlatASPD,
+  berserkTotalPercentASPD,
+} from "../../bladeSkills/berserk";
 
 // TODO: erase pino and implement an explicit calculation instead!
 export const totalBaseASPD = (character: Character) => {
@@ -92,7 +100,11 @@ export const totalPercentASPD = (character: Character) => {
     armorTypePercentASPDModifier(character) +
     subWeaponShieldPercentASPDModifier(character);
 
-  const total = fromEquipments;
+  const fromSkills =
+    quickSlashTotalPercentASPD(character) +
+    berserkTotalPercentASPD(character);
+
+  const total = fromEquipments + fromSkills;
 
   return total;
 };
@@ -102,7 +114,10 @@ export const totalFlatASPD = (character: Character) => {
     .map(get("flatASPD"))
     .reduce(sum, 0);
 
-  const total = fromEquipments;
+  const fromSkills =
+    quickSlashTotalFlatASPD(character) + berserkTotalFlatASPD(character);
+
+  const total = fromEquipments + fromSkills;
 
   return total;
 };

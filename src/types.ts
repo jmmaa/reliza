@@ -250,8 +250,8 @@ export interface BladeSkills {
   swordMastery: { level: number };
   quickSlash: { level: number };
   swordTechniques: { level: number };
-  warCry: { level: number };
-  berserk: { level: number };
+  warCry: { level: number; isActive: boolean };
+  berserk: { level: number; isActive: boolean };
   gladiate: { level: number };
   swiftAttack: { level: number };
 }

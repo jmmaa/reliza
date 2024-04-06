@@ -15,6 +15,11 @@ import { subWeaponMagicDevicePercentATKModifier } from "./modifiers";
 
 import * as pino from "@jmmaa/pino";
 import { swordMasteryTotalPercentATK } from "../../bladeSkills";
+import {
+  attackUPTotalFlatATK,
+  intimidatingPowerTotalFlatATK,
+} from "../../battleSkills";
+import { warCryTotalPercentATK } from "../../bladeSkills/warCry";
 
 export const totalBaseATK = (character: Character) => {
   return isDualWielder(character)
@@ -103,7 +108,8 @@ export const totalPercentATK = (character: Character) => {
 
   const fromSkills =
     swordMasteryTotalPercentATK(character) +
-    bushidoTotalPercentATK(character);
+    bushidoTotalPercentATK(character) +
+    warCryTotalPercentATK(character);
 
   const total = fromEquipments + fromSkills + fromPenalties;
 
@@ -115,7 +121,11 @@ export const totalFlatATK = (character: Character) => {
     .map(get("flatATK"))
     .reduce(sum, 0);
 
-  const total = fromEquipments;
+  const fromSkills =
+    attackUPTotalFlatATK(character) +
+    intimidatingPowerTotalFlatATK(character);
+
+  const total = fromEquipments + fromSkills;
 
   return total;
 };

@@ -15,3 +15,17 @@ export const increasedEnergyTotalFlatMATK = (character: Character) => {
 
   return total;
 };
+
+export const attackUPTotalFlatATK = (character: Character) => {
+  const skillLevel = character.skills.battleSkills.attackUP.level;
+  const total = (character.level * (2.5 * skillLevel)) / 100;
+
+  return total;
+};
+
+export const intimidatingPowerTotalFlatATK = (character: Character) => {
+  const skillLevel = character.skills.battleSkills.intimidatingPower.level;
+  const total = (character.level * (2.5 * skillLevel)) / 100;
+
+  return total;
+};
