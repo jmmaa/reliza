@@ -18,6 +18,7 @@ import {
   SupportSkills,
   SurvivalSkills,
 } from ".";
+import { Entries } from "./types";
 
 export const defaultBladeSkills: BladeSkills = {
   hardHit: { level: 0 },
@@ -121,7 +122,7 @@ export const defaultSupportSkills: SupportSkills = {
 export const defaultBattleSkills: BattleSkills = {
   magicUP: { level: 0 },
   concentrate: { level: 0 },
-  AttackUP: { level: 0 },
+  attackUP: { level: 0 },
   whack: { level: 0 },
   defenseUP: { level: 0 },
   dodgeUP: { level: 0 },
@@ -138,7 +139,7 @@ export const defaultBattleSkills: BattleSkills = {
 
 export const defaultMononofuSkills: MononofuSkills = {
   issen: { level: 0 },
-  pluseBlade: { level: 0 },
+  pulseBlade: { level: 0 },
   tripleThrust: { level: 0 },
   hassoHappa: { level: 0 },
   tenryuRansei: { level: 0 },
