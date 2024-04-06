@@ -336,7 +336,7 @@ export interface BattleSkills {
   // battle skills
   magicUP: { level: number };
   concentrate: { level: number };
-  AttackUP: { level: number };
+  attackUP: { level: number };
   whack: { level: number };
   defenseUP: { level: number };
   dodgeUP: { level: number };
@@ -354,7 +354,7 @@ export interface BattleSkills {
 export interface MononofuSkills {
   // mononofu skills
   issen: { level: number };
-  pluseBlade: { level: number };
+  pulseBlade: { level: number };
   tripleThrust: { level: number };
   hassoHappa: { level: number };
   tenryuRansei: { level: number };
