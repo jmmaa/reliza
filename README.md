@@ -25,11 +25,11 @@ console.log(myTotalCriticalDamage); // 221
 
 - [x] shot mastery
 - [x] samurai archery
-- [ ] magic mastery
-- [ ] martial mastery
-- [ ] martial discipline
-- [ ] aggravate
-- [ ] strong chase attack
+- [x] magic mastery
+- [x] martial mastery
+- [x] martial discipline
+- [x] aggravate
+- [x] strong chase attack
 - [ ] halberd mastery
 - [ ] critical spear
 - [ ] bushido
