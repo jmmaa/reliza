@@ -1,20 +1,4 @@
 import { Character } from "../../../types";
-
-import * as pino from "@jmmaa/pino";
-
-import {
-  get,
-  sum,
-  total,
-  flattenStatsFromEquipment,
-  isDualWielder,
-} from "../../utils";
-
-import { totalAGI, totalDEX, totalINT, totalSTR } from "../basic";
-import {
-  armorTypePercentASPDModifier,
-  subWeaponShieldPercentASPDModifier,
-} from "./modifiers";
 import {
   quickSlashTotalFlatASPD,
   quickSlashTotalPercentASPD,
@@ -22,7 +6,21 @@ import {
 import {
   berserkTotalFlatASPD,
   berserkTotalPercentASPD,
-} from "../../bladeSkills/berserk";
+} from "../../bladeSkills";
+import { martialDisciplineTotalFlatASPD } from "../../martialSkills";
+import {
+  get,
+  sum,
+  total,
+  flattenStatsFromEquipment,
+  isDualWielder,
+} from "../../utils";
+import { totalAGI, totalDEX, totalINT, totalSTR } from "../basic";
+import {
+  armorTypePercentASPDModifier,
+  subWeaponShieldPercentASPDModifier,
+} from "./modifiers";
+import * as pino from "@jmmaa/pino";
 
 // TODO: erase pino and implement an explicit calculation instead!
 export const totalBaseASPD = (character: Character) => {
@@ -30,66 +28,69 @@ export const totalBaseASPD = (character: Character) => {
     ? pino.dualWieldBaseAttackSpeed(
         character.level,
         totalAGI(character),
-        totalSTR(character)
+        totalSTR(character),
       )
     : character.mainWeapon.type === "one-handed-sword"
-    ? pino.oneHandedSwordBaseAttackSpeed(
-        character.level,
-        totalAGI(character),
-        totalSTR(character)
-      )
-    : character.mainWeapon.type === "two-handed-sword"
-    ? pino.twoHandedSwordBaseAttackSpeed(
-        character.level,
-        totalAGI(character),
-        totalSTR(character)
-      )
-    : character.mainWeapon.type === "bow"
-    ? pino.bowBaseAttackSpeed(
-        character.level,
-        totalAGI(character),
-        totalDEX(character)
-      )
-    : character.mainWeapon.type === "bowgun"
-    ? pino.bowgunBaseAttackSpeed(
-        character.level,
-        totalAGI(character),
-        totalDEX(character)
-      )
-    : character.mainWeapon.type === "staff"
-    ? pino.staffBaseAttackSpeed(
-        character.level,
-        totalAGI(character),
-        totalINT(character)
-      )
-    : character.mainWeapon.type === "magic-device"
-    ? pino.magicDeviceBaseAttackSpeed(
-        character.level,
-        totalAGI(character),
-        totalINT(character)
-      )
-    : character.mainWeapon.type === "knuckle"
-    ? pino.knuckleBaseAttackSpeed(
-        character.level,
-        totalAGI(character),
-        totalSTR(character),
-        totalDEX(character)
-      )
-    : character.mainWeapon.type === "katana"
-    ? pino.katanaBaseAttackSpeed(
-        character.level,
-        totalAGI(character),
-        totalSTR(character)
-      )
-    : character.mainWeapon.type === "halberd"
-    ? pino.halberdBaseAttackSpeed(
-        character.level,
-        totalAGI(character),
-        totalSTR(character)
-      )
-    : character.mainWeapon.type === "bare-hand"
-    ? pino.bareHandBaseAttackSpeed(character.level, totalAGI(character))
-    : 0;
+      ? pino.oneHandedSwordBaseAttackSpeed(
+          character.level,
+          totalAGI(character),
+          totalSTR(character),
+        )
+      : character.mainWeapon.type === "two-handed-sword"
+        ? pino.twoHandedSwordBaseAttackSpeed(
+            character.level,
+            totalAGI(character),
+            totalSTR(character),
+          )
+        : character.mainWeapon.type === "bow"
+          ? pino.bowBaseAttackSpeed(
+              character.level,
+              totalAGI(character),
+              totalDEX(character),
+            )
+          : character.mainWeapon.type === "bowgun"
+            ? pino.bowgunBaseAttackSpeed(
+                character.level,
+                totalAGI(character),
+                totalDEX(character),
+              )
+            : character.mainWeapon.type === "staff"
+              ? pino.staffBaseAttackSpeed(
+                  character.level,
+                  totalAGI(character),
+                  totalINT(character),
+                )
+              : character.mainWeapon.type === "magic-device"
+                ? pino.magicDeviceBaseAttackSpeed(
+                    character.level,
+                    totalAGI(character),
+                    totalINT(character),
+                  )
+                : character.mainWeapon.type === "knuckle"
+                  ? pino.knuckleBaseAttackSpeed(
+                      character.level,
+                      totalAGI(character),
+                      totalSTR(character),
+                      totalDEX(character),
+                    )
+                  : character.mainWeapon.type === "katana"
+                    ? pino.katanaBaseAttackSpeed(
+                        character.level,
+                        totalAGI(character),
+                        totalSTR(character),
+                      )
+                    : character.mainWeapon.type === "halberd"
+                      ? pino.halberdBaseAttackSpeed(
+                          character.level,
+                          totalAGI(character),
+                          totalSTR(character),
+                        )
+                      : character.mainWeapon.type === "bare-hand"
+                        ? pino.bareHandBaseAttackSpeed(
+                            character.level,
+                            totalAGI(character),
+                          )
+                        : 0;
 };
 
 export const totalPercentASPD = (character: Character) => {
@@ -115,7 +116,9 @@ export const totalFlatASPD = (character: Character) => {
     .reduce(sum, 0);
 
   const fromSkills =
-    quickSlashTotalFlatASPD(character) + berserkTotalFlatASPD(character);
+    quickSlashTotalFlatASPD(character) +
+    berserkTotalFlatASPD(character) +
+    martialDisciplineTotalFlatASPD(character);
 
   const total = fromEquipments + fromSkills;
 
@@ -126,6 +129,6 @@ export const totalASPD = (character: Character) => {
   return total(
     totalBaseASPD(character),
     totalPercentASPD(character),
-    totalFlatASPD(character)
+    totalFlatASPD(character),
   );
 };

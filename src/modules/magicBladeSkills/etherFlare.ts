@@ -1,7 +1,7 @@
 import { Character } from "../../types";
 import { floor } from "../utils";
 
-export const etherFlareTotalAMPR = (character: Character) => {
+export const etherFlareTotalFlatAMPR = (character: Character) => {
   const isSubMD = character.subWeapon.type === "magic-device";
 
   const skillLevel = character.skills.magicBladeSkills.etherFlare.level;

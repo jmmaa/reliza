@@ -1,5 +1,6 @@
 import { Character } from "../../../types";
-import { totalDEX } from "../basic";
+import { dualSwordMasteryPercentAccuracyPenaltyReduction } from "../../dualSwordSkills";
+import { samuraiArcheryTotalPercentAccuracy } from "../../shotSkills";
 import {
   floor,
   get,
@@ -7,8 +8,7 @@ import {
   total,
   flattenStatsFromEquipment,
 } from "../../utils";
-import { dualSwordMasteryPercentAccuracyPenaltyReduction } from "../../dualSwordSkills";
-import { samuraiArcheryTotalPercentAccuracy } from "../../shotSkills";
+import { totalDEX } from "../basic";
 
 export const totalBaseAccuracy = (character: Character) => {
   const total = floor(character.level + totalDEX(character));
@@ -44,6 +44,6 @@ export const totalAccuracy = (character: Character) => {
   return total(
     totalBaseAccuracy(character),
     totalPercentAccuracy(character),
-    totalFlatAccuracy(character)
+    totalFlatAccuracy(character),
   );
 };

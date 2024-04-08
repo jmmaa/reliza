@@ -460,6 +460,7 @@ export interface MartialSkills {
   asuraAura: { level: number };
   flashBlink: { level: number };
   martialMastery: { level: number };
+  martialDiscipline: { level: number };
   chakra: { level: number };
   energyControl: { level: number };
   aggravate: { level: number };

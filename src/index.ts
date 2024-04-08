@@ -243,6 +243,7 @@ export const defaultMartialSkills: MartialSkills = {
   asuraAura: { level: 0 },
   flashBlink: { level: 0 },
   martialMastery: { level: 0 },
+  martialDiscipline: { level: 0 },
   chakra: { level: 0 },
   energyControl: { level: 0 },
   aggravate: { level: 0 },
