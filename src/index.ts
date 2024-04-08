@@ -18,7 +18,7 @@ import {
   SupportSkills,
   SurvivalSkills,
 } from ".";
-import { Entries } from "./types";
+import { Entries, MartialSkills } from "./types";
 
 export const defaultBladeSkills: BladeSkills = {
   hardHit: { level: 0 },
@@ -58,7 +58,7 @@ export const defaultShotSkills: ShotSkills = {
   armBreak: { level: 0 },
   parabolaCannon: { level: 0 },
   shotMastery: { level: 0 },
-  samuraiArchery: { level: 0 },
+  samuraiArchery: { level: 0, stacks: 0 },
   sneakAttack: { level: 0 },
   longRange: { level: 0 },
   quickDraw: { level: 0 },
@@ -229,6 +229,27 @@ export const defaultShieldSkills: ShieldSkills = {
   shieldMastery: { level: 0 },
 };
 
+export const defaultMartialSkills: MartialSkills = {
+  smash: { level: 0 },
+  bash: { level: 0 },
+  shellBreak: { level: 0 },
+  heavySmash: { level: 0 },
+  chariot: { level: 0 },
+  abstractArms: { level: 0 },
+  sonicWave: { level: 0 },
+  earthbind: { level: 0 },
+  tripleKick: { level: 0 },
+  rush: { level: 0 },
+  asuraAura: { level: 0 },
+  flashBlink: { level: 0 },
+  martialMastery: { level: 0 },
+  chakra: { level: 0 },
+  energyControl: { level: 0 },
+  aggravate: { level: 0 },
+  strongChaseAttack: { level: 0 },
+  slide: { level: 0 },
+};
+
 export const defaultRegislets = {
   zeroStance: { level: 0 },
   maxHPBoost: { level: 0 },
@@ -332,6 +353,13 @@ export const shieldSkills = (
   ...shieldSkills,
 });
 
+export const martialSkills = (
+  martialSkills: Partial<MartialSkills>
+): Partial<MartialSkills> & MartialSkills => ({
+  ...(defaultMartialSkills as MartialSkills),
+  ...martialSkills,
+});
+
 export const regislets = (
   regislets: Partial<Regislets>
 ): Partial<Regislets> & Regislets => ({
@@ -351,6 +379,7 @@ export const defaultSkills: Skills = {
   magicBladeSkills: magicBladeSkills({}),
   halberdSkills: halberdSkills({}),
   shieldSkills: shieldSkills({}),
+  martialSkills: martialSkills({}),
 };
 
 export const defaultStatMap: StatMap = {

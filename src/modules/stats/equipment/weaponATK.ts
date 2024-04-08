@@ -10,6 +10,10 @@ import {
 import { braveAuraTotalPercentWeaponATK } from "../../supportSkills";
 import { bushidoTotalPercentWeaponATK } from "../../mononofuSkills";
 import { swordMasteryTotalPercentWeaponATK } from "../../bladeSkills";
+import { shotMasteryTotalPercentWeaponATK } from "../../shotSkills/shotMastery";
+import { samuraiArcheryTotalFlatWeaponATK } from "../../shotSkills";
+import { martialMasteryTotalPercentWeaponATK } from "../../martialSkills";
+import { magicMasteryTotalPercentWeaponATK } from "../../magicSkills/magicMastery";
 
 export const totalMainWeaponRefinementBonusMainWeaponATK = (
   character: Character
@@ -42,6 +46,9 @@ export const totalPercentWeaponATK = (character: Character) => {
 
   const fromSkills =
     swordMasteryTotalPercentWeaponATK(character) +
+    shotMasteryTotalPercentWeaponATK(character) +
+    martialMasteryTotalPercentWeaponATK(character) +
+    magicMasteryTotalPercentWeaponATK(character) +
     bushidoTotalPercentWeaponATK(character) +
     braveAuraTotalPercentWeaponATK(character);
 
@@ -55,7 +62,9 @@ export const totalFlatWeaponATK = (character: Character) => {
     .map(get("flatWeaponATK"))
     .reduce(sum, 0);
 
-  const total = fromEquipments;
+  const fromSkills = samuraiArcheryTotalFlatWeaponATK(character);
+
+  const total = fromEquipments + fromSkills;
 
   return total;
 };

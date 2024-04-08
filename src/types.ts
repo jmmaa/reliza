@@ -271,7 +271,7 @@ export interface ShotSkills {
   armBreak: { level: number };
   parabolaCannon: { level: number };
   shotMastery: { level: number };
-  samuraiArchery: { level: number };
+  samuraiArchery: { level: number; stacks: number };
   sneakAttack: { level: number };
   longRange: { level: number };
   quickDraw: { level: number };
@@ -446,6 +446,27 @@ export interface HalberdSkills {
   busterLance: { level: number };
 }
 
+export interface MartialSkills {
+  smash: { level: number };
+  bash: { level: number };
+  shellBreak: { level: number };
+  heavySmash: { level: number };
+  chariot: { level: number };
+  abstractArms: { level: number };
+  sonicWave: { level: number };
+  earthbind: { level: number };
+  tripleKick: { level: number };
+  rush: { level: number };
+  asuraAura: { level: number };
+  flashBlink: { level: number };
+  martialMastery: { level: number };
+  chakra: { level: number };
+  energyControl: { level: number };
+  aggravate: { level: number };
+  strongChaseAttack: { level: number };
+  slide: { level: number };
+}
+
 export interface Skills {
   bladeSkills: BladeSkills;
   shotSkills: ShotSkills;
@@ -458,6 +479,7 @@ export interface Skills {
   magicBladeSkills: MagicBladeSkills;
   shieldSkills: ShieldSkills;
   halberdSkills: HalberdSkills;
+  martialSkills: MartialSkills;
 }
 
 export interface Regislets {

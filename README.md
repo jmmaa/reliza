@@ -18,3 +18,49 @@ const myTotalCriticalDamage = totalCriticalDamage(myCharacter);
 
 console.log(myTotalCriticalDamage); // 221
 ```
+
+## Todo
+
+#### Passives
+
+- [x] shot mastery
+- [x] samurai archery
+- [ ] magic mastery
+- [ ] martial mastery
+- [ ] martial discipline
+- [ ] aggravate
+- [ ] strong chase attack
+- [ ] halberd mastery
+- [ ] critical spear
+- [ ] bushido
+- [ ] two-handed
+- [ ] dual sword mastery
+- [ ] dual sword control
+- [ ] god speed
+- [ ] unarmed mastery
+- [ ] ultima qi charge
+- [ ] hidden talent
+- [ ] hunter bowgun
+- [ ] magic warrior mastery
+- [ ] conversion
+- [ ] magic skin
+- [ ] ninja spirit
+- [ ] shield mastery
+- [ ] force shield
+- [ ] magical shield
+- [ ] heavy armor mastery
+- [ ] advanced guard
+- [ ] light armor mastery
+- [ ] advanced evasion
+- [ ] hp boost
+- [ ] mp boost
+- [ ] magic UP
+- [ ] increased energy
+- [ ] spell burst
+- [ ] attack UP
+- [ ] intimidating power
+- [ ] critical UP
+- [ ] defense UP
+- [ ] defense mastery
+- [ ] dodge UP
+- [ ] accuracy UP

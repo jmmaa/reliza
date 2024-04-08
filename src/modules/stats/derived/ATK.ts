@@ -19,7 +19,10 @@ import {
   attackUPTotalFlatATK,
   intimidatingPowerTotalFlatATK,
 } from "../../battleSkills";
-import { warCryTotalPercentATK } from "../../bladeSkills/warCry";
+
+import { warCryTotalPercentATK } from "../../bladeSkills";
+import { shotMasteryTotalPercentATK } from "../../shotSkills";
+import { martialMasteryTotalPercentATK } from "../../martialSkills";
 
 export const totalBaseATK = (character: Character) => {
   return isDualWielder(character)
@@ -108,6 +111,8 @@ export const totalPercentATK = (character: Character) => {
 
   const fromSkills =
     swordMasteryTotalPercentATK(character) +
+    shotMasteryTotalPercentATK(character) +
+    martialMasteryTotalPercentATK(character) +
     bushidoTotalPercentATK(character) +
     warCryTotalPercentATK(character);
 

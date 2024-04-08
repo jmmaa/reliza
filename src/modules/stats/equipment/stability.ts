@@ -1,5 +1,6 @@
 import { Character } from "../../../types";
 import { berserkTotalStability } from "../../bladeSkills/berserk";
+import { samuraiArcheryTotalStability } from "../../shotSkills/samuraiArchery";
 import { floor, get, sum, flattenStatsFromEquipment } from "../../utils";
 import { totalBaseStability } from "../derived";
 
@@ -10,7 +11,9 @@ export const totalStability = (character: Character) => {
     .map(get("stability"))
     .reduce(sum, 0);
 
-  const fromSkills = berserkTotalStability(character);
+  const fromSkills =
+    berserkTotalStability(character) +
+    samuraiArcheryTotalStability(character);
 
   const total = fromBase + fromEquipments + fromSkills;
 

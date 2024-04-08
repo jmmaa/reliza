@@ -26,6 +26,7 @@ import {
   conversionTotalFlatMATK,
   magicWarriorMasteryTotalFlatMATK,
 } from "../../magicBladeSkills";
+import { magicMasteryTotalPercentMATK } from "../../magicSkills/magicMastery";
 
 export const totalBaseMATK = (character: Character) => {
   return isDualWielder(character)
@@ -106,7 +107,7 @@ export const totalPercentMATK = (character: Character) => {
 
   const fromPenalties = subWeaponKnucklePercentMATKModifier(character);
 
-  const fromSkills = 0;
+  const fromSkills = magicMasteryTotalPercentMATK(character);
 
   const total = fromEquipments + fromSkills + fromPenalties;
 
