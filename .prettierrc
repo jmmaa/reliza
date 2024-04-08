@@ -1,1 +1,1 @@
-{ "printWidth": 75 }
+{ "printWidth": 75, "plugins": ["@trivago/prettier-plugin-sort-imports"] }
