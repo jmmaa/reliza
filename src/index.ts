@@ -1,6 +1,3 @@
-export * from "./modules";
-export * from "./types";
-
 import {
   BattleSkills,
   BladeSkills,
@@ -18,7 +15,15 @@ import {
   SupportSkills,
   SurvivalSkills,
 } from ".";
-import { Entries, MartialSkills } from "./types";
+import {
+  BareHandSkills,
+  Entries,
+  MartialSkills,
+  NinjaSkills,
+} from "./types";
+
+export * from "./modules";
+export * from "./types";
 
 export const defaultBladeSkills: BladeSkills = {
   hardHit: { level: 0 },
@@ -225,10 +230,6 @@ export const defaultHalberdSkills: HalberdSkills = {
   busterLance: { level: 0 },
 };
 
-export const defaultShieldSkills: ShieldSkills = {
-  shieldMastery: { level: 0 },
-};
-
 export const defaultMartialSkills: MartialSkills = {
   smash: { level: 0 },
   bash: { level: 0 },
@@ -251,6 +252,32 @@ export const defaultMartialSkills: MartialSkills = {
   slide: { level: 0 },
 };
 
+export const defaultBareHandSkills: BareHandSkills = {
+  unarmedMastery: { level: 0 },
+  qiCharge: { level: 0 },
+  lionRage: { level: 0 },
+  ultimaLionRage: { level: 0 },
+  ravingStorm: { level: 0 },
+  ultimaRavingStorm: { level: 0 },
+  internalElixir: { level: 0 },
+  clashOfEnmity: { level: 0 },
+  miracleComeback: { level: 0 },
+  ultimaQiCharge: { level: 0 },
+  hiddenTalent: { level: 0 },
+  earthShaker: { level: 0 },
+};
+
+export const defaultShieldSkills: ShieldSkills = {
+  shieldMastery: { level: 0 },
+};
+
+export const defaultNinjaSkills = {
+  ninjutsu: { level: 0 },
+  ninjaSpirit: { level: 0 },
+  ninjusuDrillI: { level: 0 },
+  ninjutsuDrillII: { level: 0 },
+};
+
 export const defaultRegislets = {
   zeroStance: { level: 0 },
   maxHPBoost: { level: 0 },
@@ -271,98 +298,112 @@ export const defaultRegislets = {
 };
 
 export const skills = (
-  skills: Partial<Skills>
+  skills: Partial<Skills>,
 ): Partial<Skills> & Skills => ({
   ...(defaultSkills as Skills),
   ...skills,
 });
 
 export const bladeSkills = (
-  bladeSkills: Partial<BladeSkills>
+  bladeSkills: Partial<BladeSkills>,
 ): Partial<BladeSkills> & BladeSkills => ({
   ...(defaultBladeSkills as BladeSkills),
   ...bladeSkills,
 });
 
 export const shotSkills = (
-  shotSkills: Partial<ShotSkills>
+  shotSkills: Partial<ShotSkills>,
 ): Partial<ShotSkills> & ShotSkills => ({
   ...(defaultShotSkills as ShotSkills),
   ...shotSkills,
 });
 
 export const magicSkills = (
-  magicSkills: Partial<MagicSkills>
+  magicSkills: Partial<MagicSkills>,
 ): Partial<MagicSkills> & MagicSkills => ({
   ...(defaultMagicSkills as MagicSkills),
   ...magicSkills,
 });
 
 export const battleSkills = (
-  battleSkills: Partial<BattleSkills>
+  battleSkills: Partial<BattleSkills>,
 ): Partial<BattleSkills> & BattleSkills => ({
   ...(defaultBattleSkills as BattleSkills),
   ...battleSkills,
 });
 
 export const supportSkills = (
-  supportSkills: Partial<SupportSkills>
+  supportSkills: Partial<SupportSkills>,
 ): Partial<SupportSkills> & SupportSkills => ({
   ...(defaultSupportSkills as SupportSkills),
   ...supportSkills,
 });
 
 export const magicBladeSkills = (
-  magicBladeSkills: Partial<MagicBladeSkills>
+  magicBladeSkills: Partial<MagicBladeSkills>,
 ): Partial<MagicBladeSkills> & MagicBladeSkills => ({
   ...(defaultMagicBladeSkills as MagicBladeSkills),
   ...magicBladeSkills,
 });
 
 export const survivalSkills = (
-  survivalSkills: Partial<SurvivalSkills>
+  survivalSkills: Partial<SurvivalSkills>,
 ): Partial<SurvivalSkills> & SurvivalSkills => ({
   ...(defaultSurvivalSkills as SurvivalSkills),
   ...survivalSkills,
 });
 
 export const halberdSkills = (
-  halberdSkills: Partial<HalberdSkills>
+  halberdSkills: Partial<HalberdSkills>,
 ): Partial<HalberdSkills> & HalberdSkills => ({
   ...(defaultHalberdSkills as HalberdSkills),
   ...halberdSkills,
 });
 
 export const dualSwordSkills = (
-  dualSwordSkills: Partial<DualSwordSkills>
+  dualSwordSkills: Partial<DualSwordSkills>,
 ): Partial<DualSwordSkills> & DualSwordSkills => ({
   ...(defaultDualSwordSkills as DualSwordSkills),
   ...dualSwordSkills,
 });
 
 export const mononofuSkills = (
-  mononofuSkills: Partial<MononofuSkills>
+  mononofuSkills: Partial<MononofuSkills>,
 ): Partial<MononofuSkills> & MononofuSkills => ({
   ...(defaultMononofuSkills as MononofuSkills),
   ...mononofuSkills,
 });
 
-export const shieldSkills = (
-  shieldSkills: Partial<ShieldSkills>
-): Partial<ShieldSkills> & ShieldSkills => ({
-  ...(defaultShieldSkills as ShieldSkills),
-  ...shieldSkills,
-});
-
 export const martialSkills = (
-  martialSkills: Partial<MartialSkills>
+  martialSkills: Partial<MartialSkills>,
 ): Partial<MartialSkills> & MartialSkills => ({
   ...(defaultMartialSkills as MartialSkills),
   ...martialSkills,
 });
 
+export const bareHandSkills = (
+  bareHandSkills: Partial<BareHandSkills>,
+): Partial<BareHandSkills> & BareHandSkills => ({
+  ...(defaultBareHandSkills as BareHandSkills),
+  ...bareHandSkills,
+});
+
+export const shieldSkills = (
+  shieldSkills: Partial<ShieldSkills>,
+): Partial<ShieldSkills> & ShieldSkills => ({
+  ...(defaultShieldSkills as ShieldSkills),
+  ...shieldSkills,
+});
+
+export const ninjaSkills = (
+  ninjaSkills: Partial<NinjaSkills>,
+): Partial<NinjaSkills> & NinjaSkills => ({
+  ...(defaultNinjaSkills as NinjaSkills),
+  ...ninjaSkills,
+});
+
 export const regislets = (
-  regislets: Partial<Regislets>
+  regislets: Partial<Regislets>,
 ): Partial<Regislets> & Regislets => ({
   ...(defaultRegislets as Regislets),
   ...regislets,
@@ -379,8 +420,10 @@ export const defaultSkills: Skills = {
   dualSwordSkills: dualSwordSkills({}),
   magicBladeSkills: magicBladeSkills({}),
   halberdSkills: halberdSkills({}),
-  shieldSkills: shieldSkills({}),
   martialSkills: martialSkills({}),
+  bareHandSkills: bareHandSkills({}),
+  shieldSkills: shieldSkills({}),
+  ninjaSkills: ninjaSkills({}),
 };
 
 export const defaultStatMap: StatMap = {
@@ -509,7 +552,7 @@ export const defaultStatMap: StatMap = {
 };
 
 export const statMap = (
-  stats: Partial<StatMap>
+  stats: Partial<StatMap>,
 ): Partial<StatMap> & StatMap => ({
   ...(defaultStatMap as StatMap),
   ...stats,
@@ -581,7 +624,7 @@ export const defaultCharacter: Character = {
 };
 
 export const character = (
-  character: Partial<Character>
+  character: Partial<Character>,
 ): Partial<Character> & Character => ({
   ...(defaultCharacter as Character),
   ...character,

@@ -468,6 +468,28 @@ export interface MartialSkills {
   slide: { level: number };
 }
 
+export interface BareHandSkills {
+  unarmedMastery: { level: number };
+  qiCharge: { level: number };
+  lionRage: { level: number };
+  ultimaLionRage: { level: number };
+  ravingStorm: { level: number };
+  ultimaRavingStorm: { level: number };
+  internalElixir: { level: number };
+  clashOfEnmity: { level: number };
+  miracleComeback: { level: number };
+  ultimaQiCharge: { level: number };
+  hiddenTalent: { level: number };
+  earthShaker: { level: number };
+}
+
+export interface NinjaSkills {
+  ninjutsu: { level: number };
+  ninjaSpirit: { level: number };
+  ninjusuDrillI: { level: number };
+  ninjutsuDrillII: { level: number };
+}
+
 export interface Skills {
   bladeSkills: BladeSkills;
   shotSkills: ShotSkills;
@@ -481,6 +503,8 @@ export interface Skills {
   shieldSkills: ShieldSkills;
   halberdSkills: HalberdSkills;
   martialSkills: MartialSkills;
+  bareHandSkills: BareHandSkills;
+  ninjaSkills: NinjaSkills;
 }
 
 export interface Regislets {
@@ -495,7 +519,6 @@ export interface Regislets {
   magicSpeedBoost: { level: number };
   dodgeBoost: { level: number };
   accuracyBoost: { level: number };
-
   focusResonance: { level: number };
   speedResonance: { level: number };
   powerResonance: { level: number };
