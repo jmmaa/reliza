@@ -1,5 +1,16 @@
 import { Character } from "../../../types";
-import * as pino from "@jmmaa/pino";
+import { unarmedMasteryTotalFlatWeaponATK } from "../../bareHandSkills";
+import { swordMasteryTotalPercentWeaponATK } from "../../bladeSkills";
+import { halberdMasteryTotalPercentWeaponATK } from "../../halberdSkills";
+import { magicMasteryTotalPercentWeaponATK } from "../../magicSkills/magicMastery";
+import { martialMasteryTotalPercentWeaponATK } from "../../martialSkills";
+import {
+  bushidoTotalPercentWeaponATK,
+  twoHandedTotalPercentWeaponATK,
+} from "../../mononofuSkills";
+import { samuraiArcheryTotalFlatWeaponATK } from "../../shotSkills";
+import { shotMasteryTotalPercentWeaponATK } from "../../shotSkills/shotMastery";
+import { braveAuraTotalPercentWeaponATK } from "../../supportSkills";
 import {
   get,
   sum,
@@ -7,32 +18,26 @@ import {
   flattenStatsFromEquipment,
   isDualWielder,
 } from "../../utils";
-import { braveAuraTotalPercentWeaponATK } from "../../supportSkills";
-import { bushidoTotalPercentWeaponATK } from "../../mononofuSkills";
-import { swordMasteryTotalPercentWeaponATK } from "../../bladeSkills";
-import { shotMasteryTotalPercentWeaponATK } from "../../shotSkills/shotMastery";
-import { samuraiArcheryTotalFlatWeaponATK } from "../../shotSkills";
-import { martialMasteryTotalPercentWeaponATK } from "../../martialSkills";
-import { magicMasteryTotalPercentWeaponATK } from "../../magicSkills/magicMastery";
+import * as pino from "@jmmaa/pino";
 
 export const totalMainWeaponRefinementBonusMainWeaponATK = (
-  character: Character
+  character: Character,
 ) => {
   const total = pino.weaponRefinementBonusWeaponAttack(
     character.mainWeapon.refinement,
-    character.mainWeapon.ATK
+    character.mainWeapon.ATK,
   );
 
   return total;
 };
 
 export const totalSubWeaponRefinementBonusSubWeaponATK = (
-  character: Character
+  character: Character,
 ) => {
   const total = isDualWielder(character)
     ? pino.subWeaponRefinementBonusSubWeaponAttack(
         character.subWeapon.refinement,
-        character.subWeapon.ATK
+        character.subWeapon.ATK,
       )
     : 0;
 
@@ -49,7 +54,9 @@ export const totalPercentWeaponATK = (character: Character) => {
     shotMasteryTotalPercentWeaponATK(character) +
     martialMasteryTotalPercentWeaponATK(character) +
     magicMasteryTotalPercentWeaponATK(character) +
+    halberdMasteryTotalPercentWeaponATK(character) +
     bushidoTotalPercentWeaponATK(character) +
+    twoHandedTotalPercentWeaponATK(character) +
     braveAuraTotalPercentWeaponATK(character);
 
   const total = fromEquipments + fromSkills;
@@ -62,7 +69,9 @@ export const totalFlatWeaponATK = (character: Character) => {
     .map(get("flatWeaponATK"))
     .reduce(sum, 0);
 
-  const fromSkills = samuraiArcheryTotalFlatWeaponATK(character);
+  const fromSkills =
+    samuraiArcheryTotalFlatWeaponATK(character) +
+    unarmedMasteryTotalFlatWeaponATK(character); // need to confirm that this is considered flat value;
 
   const total = fromEquipments + fromSkills;
 
@@ -74,7 +83,7 @@ export const totalMainWeaponATK = (character: Character) => {
     total(
       character.mainWeapon.ATK,
       totalPercentWeaponATK(character),
-      totalFlatWeaponATK(character)
+      totalFlatWeaponATK(character),
     ) + totalMainWeaponRefinementBonusMainWeaponATK(character)
   );
 };
@@ -84,7 +93,7 @@ export const totalSubWeaponATK = (character: Character) => {
     ? total(
         character.subWeapon.ATK,
         totalPercentWeaponATK(character),
-        totalFlatWeaponATK(character)
+        totalFlatWeaponATK(character),
       ) + totalSubWeaponRefinementBonusSubWeaponATK(character)
     : 0;
 };

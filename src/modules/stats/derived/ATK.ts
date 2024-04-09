@@ -5,6 +5,7 @@ import {
 } from "../../battleSkills";
 import { swordMasteryTotalPercentATK } from "../../bladeSkills";
 import { warCryTotalPercentATK } from "../../bladeSkills";
+import { halberdMasteryTotalPercentATK } from "../../halberdSkills";
 import { martialMasteryTotalPercentATK } from "../../martialSkills";
 import { bushidoTotalPercentATK } from "../../mononofuSkills";
 import { shotMasteryTotalPercentATK } from "../../shotSkills";
@@ -109,6 +110,7 @@ export const totalPercentATK = (character: Character) => {
     swordMasteryTotalPercentATK(character) +
     shotMasteryTotalPercentATK(character) +
     martialMasteryTotalPercentATK(character) +
+    halberdMasteryTotalPercentATK(character) +
     bushidoTotalPercentATK(character) +
     warCryTotalPercentATK(character);
 

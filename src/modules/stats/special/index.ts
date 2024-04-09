@@ -4,3 +4,4 @@ export * from "./MATKUP";
 export * from "./MATKDOWN";
 export * from "./castTimeReduction";
 export * from "./motionSpeed";
+export * from "./unsheatheAttack";

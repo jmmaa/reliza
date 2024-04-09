@@ -1,4 +1,5 @@
 import { Character } from "../../../types";
+import { ultimaQiChargeTotalFlatAMPR } from "../../bareHandSkills";
 import { etherFlareTotalFlatAMPR } from "../../magicBladeSkills";
 import { aggravateTotalFlatAMPR } from "../../martialSkills";
 import { flattenStatsFromEquipment, floor, get, sum } from "../../utils";
@@ -26,7 +27,9 @@ export const totalFlatAMPR = (character: Character) => {
     .reduce(sum, 9);
 
   const fromSkills =
-    aggravateTotalFlatAMPR(character) + etherFlareTotalFlatAMPR(character);
+    aggravateTotalFlatAMPR(character) +
+    etherFlareTotalFlatAMPR(character) +
+    ultimaQiChargeTotalFlatAMPR(character);
 
   const total = fromEquipments + fromSkills;
 

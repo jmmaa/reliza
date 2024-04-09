@@ -1,5 +1,9 @@
 import { Character } from "../../../types";
-import { dualSwordMasteryPercentAccuracyPenaltyReduction } from "../../dualSwordSkills";
+import {
+  dualSwordControlTotalPercentAccuracy,
+  dualSwordMasteryTotalPercentAccuracy,
+} from "../../dualSwordSkills";
+import { twoHandedTotalPercentAccuracy } from "../../mononofuSkills";
 import { samuraiArcheryTotalPercentAccuracy } from "../../shotSkills";
 import {
   floor,
@@ -17,13 +21,15 @@ export const totalBaseAccuracy = (character: Character) => {
 };
 
 export const totalPercentAccuracy = (character: Character) => {
-  const fromEquipments =
-    flattenStatsFromEquipment(character)
-      .map(get("percentAccuracy"))
-      .reduce(sum, 0) +
-    dualSwordMasteryPercentAccuracyPenaltyReduction(character);
+  const fromEquipments = flattenStatsFromEquipment(character)
+    .map(get("percentAccuracy"))
+    .reduce(sum, 0);
 
-  const fromSkills = samuraiArcheryTotalPercentAccuracy(character);
+  const fromSkills =
+    samuraiArcheryTotalPercentAccuracy(character) +
+    twoHandedTotalPercentAccuracy(character) +
+    dualSwordMasteryTotalPercentAccuracy(character) +
+    dualSwordControlTotalPercentAccuracy(character);
 
   const total = fromEquipments + fromSkills;
 

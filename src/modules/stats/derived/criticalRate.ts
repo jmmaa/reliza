@@ -1,5 +1,13 @@
 import { Character } from "../../../types";
-import { dualSwordMasteryPercentCriticalRatePenaltyReduction } from "../../dualSwordSkills";
+import {
+  dualSwordControlTotalPercentCriticalRate,
+  dualSwordMasteryTotalPercentCriticalRate,
+} from "../../dualSwordSkills";
+import {
+  criticalSpearTotalFlatCriticalRate,
+  criticalSpearTotalPercentCriticalRate,
+} from "../../halberdSkills";
+import { twoHandedTotalFlatCriticalRate } from "../../mononofuSkills";
 import {
   floor,
   get,
@@ -15,13 +23,16 @@ export const totalBaseCriticalRate = (character: Character) => {
 };
 
 export const totalPercentCriticalRate = (character: Character) => {
-  const fromEquipments =
-    flattenStatsFromEquipment(character)
-      .map(get("percentCriticalRate"))
-      .reduce(sum, 0) +
-    dualSwordMasteryPercentCriticalRatePenaltyReduction(character);
+  const fromEquipments = flattenStatsFromEquipment(character)
+    .map(get("percentCriticalRate"))
+    .reduce(sum, 0);
 
-  const total = fromEquipments;
+  const fromSkills =
+    criticalSpearTotalPercentCriticalRate(character) +
+    dualSwordMasteryTotalPercentCriticalRate(character) +
+    dualSwordControlTotalPercentCriticalRate(character);
+
+  const total = fromEquipments + fromSkills;
 
   return total;
 };
@@ -31,7 +42,11 @@ export const totalFlatCriticalRate = (character: Character) => {
     .map(get("flatCriticalRate"))
     .reduce(sum, 0);
 
-  const total = fromEquipments;
+  const fromSkills =
+    criticalSpearTotalFlatCriticalRate(character) +
+    twoHandedTotalFlatCriticalRate(character);
+
+  const total = fromEquipments + fromSkills;
 
   return total;
 };
@@ -40,7 +55,7 @@ export const totalCriticalRate = (character: Character) => {
   return total(
     totalBaseCriticalRate(character),
     totalPercentCriticalRate(character),
-    totalFlatCriticalRate(character)
+    totalFlatCriticalRate(character),
   );
 };
 
@@ -61,7 +76,7 @@ export const totalMagicCriticalRateRatio = (character: Character) => {
 export const totalMagicCriticalRate = (character: Character) => {
   const total = floor(
     totalCriticalRate(character) *
-      (totalMagicCriticalRateRatio(character) / 100)
+      (totalMagicCriticalRateRatio(character) / 100),
   );
 
   return total;
@@ -70,7 +85,7 @@ export const totalMagicCriticalRate = (character: Character) => {
 // add edge cases?
 
 export const totalMagicCriticalRateAgainstWeakenedTarget = (
-  character: Character
+  character: Character,
 ) => {
   const total =
     totalCriticalRate(character) *

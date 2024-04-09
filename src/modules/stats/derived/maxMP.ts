@@ -1,5 +1,5 @@
 import { Character } from "../../../types";
-import { totalINT } from "../basic";
+import { bushidoTotalFlatMaxMP } from "../../mononofuSkills";
 import {
   floor,
   get,
@@ -7,6 +7,7 @@ import {
   total,
   flattenStatsFromEquipment,
 } from "../../utils";
+import { totalINT } from "../basic";
 
 export const totalBaseMaxMP = (character: Character) => {
   const total =
@@ -15,7 +16,7 @@ export const totalBaseMaxMP = (character: Character) => {
           100 +
             character.level +
             totalINT(character) / 10 +
-            (character.TEC - 1)
+            (character.TEC - 1),
         )
       : floor(100 + character.level + totalINT(character) / 10);
 
@@ -37,7 +38,9 @@ export const totalFlatMaxMP = (character: Character) => {
     .map(get("flatMaxMP"))
     .reduce(sum, 0);
 
-  const total = fromEquipments;
+  const fromSkills = bushidoTotalFlatMaxMP(character);
+
+  const total = fromEquipments + fromSkills;
 
   return total;
 };
@@ -46,6 +49,6 @@ export const totalMaxMP = (character: Character) => {
   return total(
     totalBaseMaxMP(character),
     totalPercentMaxMP(character),
-    totalFlatMaxMP(character)
+    totalFlatMaxMP(character),
   );
 };
