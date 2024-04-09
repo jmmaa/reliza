@@ -30,16 +30,16 @@ console.log(myTotalCriticalDamage); // 221
 - [x] martial discipline
 - [x] aggravate
 - [x] strong chase attack
-- [ ] halberd mastery
-- [ ] critical spear
-- [ ] bushido
-- [ ] two-handed
-- [ ] dual sword mastery
-- [ ] dual sword control
-- [ ] god speed
-- [ ] unarmed mastery
-- [ ] ultima qi charge
-- [ ] hidden talent
+- [x] halberd mastery
+- [x] critical spear
+- [x] bushido
+- [x] two-handed
+- [x] dual sword mastery
+- [x] dual sword control
+- [x] god speed
+- [x] unarmed mastery
+- [x] ultima qi charge
+- [ ] hidden talent (need to figure how is this calculated)
 - [ ] hunter bowgun
 - [ ] magic warrior mastery
 - [ ] conversion
