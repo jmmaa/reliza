@@ -483,6 +483,22 @@ export interface BareHandSkills {
   earthShaker: { level: number };
 }
 
+export interface HunterSkills {
+  kick: { level: number };
+  sunriseArrow: { level: number };
+  magicArrow: { level: number };
+  satelliteArrow: { level: number };
+  sleepTrap: { level: number };
+  bearTrap: { level: number };
+  landMine: { level: number };
+  darkTrap: { level: number };
+  homingShot: { level: number };
+  detection: { level: number };
+  cycloneArrow: { level: number };
+  verticalAir: { level: number };
+  hunterBowgun: { level: number };
+  multipleHunt: { level: number };
+}
 export interface NinjaSkills {
   ninjutsu: { level: number };
   ninjaSpirit: { level: number };
@@ -504,6 +520,7 @@ export interface Skills {
   halberdSkills: HalberdSkills;
   martialSkills: MartialSkills;
   bareHandSkills: BareHandSkills;
+  hunterSkills: HunterSkills;
   ninjaSkills: NinjaSkills;
 }
 

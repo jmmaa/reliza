@@ -6,6 +6,7 @@ import {
 import { swordMasteryTotalPercentATK } from "../../bladeSkills";
 import { warCryTotalPercentATK } from "../../bladeSkills";
 import { halberdMasteryTotalPercentATK } from "../../halberdSkills";
+import { hunterBowgunTotalBaseATK } from "../../hunterSkills";
 import { martialMasteryTotalPercentATK } from "../../martialSkills";
 import { bushidoTotalPercentATK } from "../../mononofuSkills";
 import { shotMasteryTotalPercentATK } from "../../shotSkills";
@@ -22,81 +23,87 @@ import { subWeaponMagicDevicePercentATKModifier } from "./modifiers";
 import * as pino from "@jmmaa/pino";
 
 export const totalBaseATK = (character: Character) => {
-  return isDualWielder(character)
-    ? pino.dualWieldBaseAttack(
+  if (isDualWielder(character)) {
+    return pino.dualWieldBaseAttack(
+      character.level,
+      totalMainWeaponATK(character),
+      totalSTR(character),
+      totalDEX(character),
+      totalAGI(character),
+    );
+  } else {
+    if (character.mainWeapon.type === "one-handed-sword") {
+      return pino.oneHandedSwordBaseAttack(
         character.level,
         totalMainWeaponATK(character),
         totalSTR(character),
         totalDEX(character),
-        totalAGI(character),
-      )
-    : character.mainWeapon.type === "one-handed-sword"
-      ? pino.oneHandedSwordBaseAttack(
+      );
+    } else if (character.mainWeapon.type === "two-handed-sword") {
+      return pino.twoHandedSwordBaseAttack(
+        character.level,
+        totalMainWeaponATK(character),
+        totalSTR(character),
+        totalDEX(character),
+      );
+    } else if (character.mainWeapon.type === "bow") {
+      return pino.bowBaseAttack(
+        character.level,
+        totalMainWeaponATK(character),
+        totalSTR(character),
+        totalDEX(character),
+      );
+    } else if (character.mainWeapon.type === "bowgun") {
+      return (
+        pino.bowgunBaseAttack(
           character.level,
           totalMainWeaponATK(character),
-          totalSTR(character),
           totalDEX(character),
-        )
-      : character.mainWeapon.type === "two-handed-sword"
-        ? pino.twoHandedSwordBaseAttack(
-            character.level,
-            totalMainWeaponATK(character),
-            totalSTR(character),
-            totalDEX(character),
-          )
-        : character.mainWeapon.type === "bow"
-          ? pino.bowBaseAttack(
-              character.level,
-              totalMainWeaponATK(character),
-              totalSTR(character),
-              totalDEX(character),
-            )
-          : character.mainWeapon.type === "bowgun"
-            ? pino.bowgunBaseAttack(
-                character.level,
-                totalMainWeaponATK(character),
-                totalDEX(character),
-              )
-            : character.mainWeapon.type === "staff"
-              ? pino.staffBaseAttack(
-                  character.level,
-                  totalMainWeaponATK(character),
-                  totalSTR(character),
-                  totalINT(character),
-                )
-              : character.mainWeapon.type === "magic-device"
-                ? pino.magicDeviceBaseAttack(
-                    character.level,
-                    totalMainWeaponATK(character),
-                    totalAGI(character),
-                    totalINT(character),
-                  )
-                : character.mainWeapon.type === "knuckle"
-                  ? pino.knuckleBaseAttack(
-                      character.level,
-                      totalMainWeaponATK(character),
-                      totalAGI(character),
-                      totalDEX(character),
-                    )
-                  : character.mainWeapon.type === "halberd"
-                    ? pino.halberdBaseAttack(
-                        character.level,
-                        totalMainWeaponATK(character),
-                        totalSTR(character),
-                        totalAGI(character),
-                      )
-                    : character.mainWeapon.type === "katana"
-                      ? pino.katanaBaseAttack(
-                          character.level,
-                          totalMainWeaponATK(character),
-                          totalSTR(character),
-                          totalDEX(character),
-                        )
-                      : pino.bareHandBaseAttack(
-                          character.level,
-                          totalMainWeaponATK(character),
-                          totalSTR(character),
-                        );
+        ) + hunterBowgunTotalBaseATK(character)
+      );
+    } else if (character.mainWeapon.type === "staff") {
+      return pino.staffBaseAttack(
+        character.level,
+        totalMainWeaponATK(character),
+        totalSTR(character),
+        totalINT(character),
+      );
+    } else if (character.mainWeapon.type === "magic-device") {
+      return pino.magicDeviceBaseAttack(
+        character.level,
+        totalMainWeaponATK(character),
+        totalAGI(character),
+        totalINT(character),
+      );
+    } else if (character.mainWeapon.type === "knuckle") {
+      return pino.knuckleBaseAttack(
+        character.level,
+        totalMainWeaponATK(character),
+        totalAGI(character),
+        totalDEX(character),
+      );
+    } else if (character.mainWeapon.type === "halberd") {
+      return pino.halberdBaseAttack(
+        character.level,
+        totalMainWeaponATK(character),
+        totalSTR(character),
+        totalAGI(character),
+      );
+    } else if (character.mainWeapon.type === "katana") {
+      return pino.katanaBaseAttack(
+        character.level,
+        totalMainWeaponATK(character),
+        totalSTR(character),
+        totalDEX(character),
+      );
+    } else {
+      return pino.bareHandBaseAttack(
+        character.level,
+        totalMainWeaponATK(character),
+        totalSTR(character),
+      );
+    }
+  }
 };
 
 export const totalPercentATK = (character: Character) => {

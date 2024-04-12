@@ -18,6 +18,7 @@ import {
 import {
   BareHandSkills,
   Entries,
+  HunterSkills,
   MartialSkills,
   NinjaSkills,
 } from "./types";
@@ -269,6 +270,35 @@ export const defaultBareHandSkills: BareHandSkills = {
 
 export const defaultShieldSkills: ShieldSkills = {
   shieldMastery: { level: 0 },
+  shieldBash: { level: 0 },
+  shieldCannon: { level: 0 },
+  guardStrike: { level: 0 },
+  forceShield: { level: 0 },
+  magicalShield: { level: 0 },
+  shieldUppercut: { level: 0 },
+  dualShields: { level: 0 },
+  shieldRepair: { level: 0 },
+  belagerung: { level: 0 },
+  protection: { level: 0 },
+  aegis: { level: 0 },
+  guardian: { level: 0 },
+};
+
+export const defaultHunterSkills: HunterSkills = {
+  kick: { level: 0 },
+  sunriseArrow: { level: 0 },
+  magicArrow: { level: 0 },
+  satelliteArrow: { level: 0 },
+  sleepTrap: { level: 0 },
+  bearTrap: { level: 0 },
+  landMine: { level: 0 },
+  darkTrap: { level: 0 },
+  homingShot: { level: 0 },
+  detection: { level: 0 },
+  cycloneArrow: { level: 0 },
+  verticalAir: { level: 0 },
+  hunterBowgun: { level: 0 },
+  multipleHunt: { level: 0 },
 };
 
 export const defaultNinjaSkills = {
@@ -395,6 +425,13 @@ export const shieldSkills = (
   ...shieldSkills,
 });
 
+export const hunterSkills = (
+  hunterSkills: Partial<HunterSkills>,
+): Partial<HunterSkills> & HunterSkills => ({
+  ...(defaultHunterSkills as HunterSkills),
+  ...hunterSkills,
+});
+
 export const ninjaSkills = (
   ninjaSkills: Partial<NinjaSkills>,
 ): Partial<NinjaSkills> & NinjaSkills => ({
@@ -423,6 +460,7 @@ export const defaultSkills: Skills = {
   martialSkills: martialSkills({}),
   bareHandSkills: bareHandSkills({}),
   shieldSkills: shieldSkills({}),
+  hunterSkills: hunterSkills({}),
   ninjaSkills: ninjaSkills({}),
 };
 
