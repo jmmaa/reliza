@@ -39,13 +39,13 @@ console.log(myTotalCriticalDamage); // 221
 - [x] god speed
 - [x] unarmed mastery
 - [x] ultima qi charge
-- [ ] hidden talent (need to figure how is this calculated)
-- [ ] hunter bowgun
-- [ ] magic warrior mastery
-- [ ] conversion
-- [ ] magic skin
-- [ ] ninja spirit
-- [ ] shield mastery
+- [x] hidden talent (need to figure how is this calculated)
+- [x] hunter bowgun
+- [x] magic warrior mastery
+- [x] conversion
+- [x] magic skin
+- [x] ninja spirit
+- [x] shield mastery
 - [ ] force shield
 - [ ] magical shield
 - [ ] heavy armor mastery
