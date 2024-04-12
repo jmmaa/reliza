@@ -18,6 +18,7 @@ import {
 import {
   BareHandSkills,
   Entries,
+  GuardSkills,
   HunterSkills,
   MartialSkills,
   NinjaSkills,
@@ -308,6 +309,15 @@ export const defaultNinjaSkills = {
   ninjutsuDrillII: { level: 0 },
 };
 
+export const defaultGuardSkills = {
+  heavyArmorMastery: { level: 0 },
+  advancedGuard: { level: 0 },
+  physicalGuard: { level: 0 },
+  lightArmorMastery: { level: 0 },
+  advancedEvasion: { level: 0 },
+  mirageEvasion: { level: 0 },
+};
+
 export const defaultRegislets = {
   zeroStance: { level: 0 },
   maxHPBoost: { level: 0 },
@@ -439,6 +449,13 @@ export const ninjaSkills = (
   ...ninjaSkills,
 });
 
+export const guardSkills = (
+  guardSkills: Partial<GuardSkills>,
+): Partial<GuardSkills> & GuardSkills => ({
+  ...(defaultGuardSkills as GuardSkills),
+  ...guardSkills,
+});
+
 export const regislets = (
   regislets: Partial<Regislets>,
 ): Partial<Regislets> & Regislets => ({
@@ -462,6 +479,7 @@ export const defaultSkills: Skills = {
   shieldSkills: shieldSkills({}),
   hunterSkills: hunterSkills({}),
   ninjaSkills: ninjaSkills({}),
+  guardSkills: guardSkills({}),
 };
 
 export const defaultStatMap: StatMap = {
@@ -587,6 +605,9 @@ export const defaultStatMap: StatMap = {
   stunUnavailable: false,
 
   element: "neutral",
+
+  guardPower: 0,
+  guardRecharge: 0,
 };
 
 export const statMap = (

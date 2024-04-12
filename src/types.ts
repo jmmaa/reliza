@@ -223,6 +223,9 @@ export interface NumericalStats {
   damageToLight: number;
 
   aggro: number;
+
+  guardPower: number;
+  guardRecharge: number;
 }
 
 export interface NonNumericalStats {
@@ -422,8 +425,28 @@ export interface MagicBladeSkills {
 
 export interface ShieldSkills {
   shieldMastery: { level: number };
+  shieldBash: { level: number };
+  shieldCannon: { level: number };
+  guardStrike: { level: number };
+  forceShield: { level: number };
+  magicalShield: { level: number };
+  shieldUppercut: { level: number };
+  dualShields: { level: number };
+  shieldRepair: { level: number };
+  belagerung: { level: number };
+  protection: { level: number };
+  aegis: { level: number };
+  guardian: { level: number };
 }
 
+export interface GuardSkills {
+  heavyArmorMastery: { level: number };
+  advancedGuard: { level: number };
+  physicalGuard: { level: number };
+  lightArmorMastery: { level: number };
+  advancedEvasion: { level: number };
+  mirageEvasion: { level: number };
+}
 export interface HalberdSkills {
   flashStab: { level: number };
   cannonSpear: { level: number };
@@ -521,6 +544,7 @@ export interface Skills {
   martialSkills: MartialSkills;
   bareHandSkills: BareHandSkills;
   hunterSkills: HunterSkills;
+  guardSkills: GuardSkills;
   ninjaSkills: NinjaSkills;
 }
 
