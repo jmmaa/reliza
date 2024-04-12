@@ -46,8 +46,8 @@ console.log(myTotalCriticalDamage); // 221
 - [x] magic skin
 - [x] ninja spirit
 - [x] shield mastery
-- [ ] force shield
-- [ ] magical shield
+- [x] force shield
+- [x] magical shield
 - [ ] heavy armor mastery
 - [ ] advanced guard
 - [ ] light armor mastery

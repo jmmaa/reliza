@@ -1,7 +1,7 @@
 import { Character } from "../../types";
 
-export const forceShieldTotalFlatDEF = (character: Character) => {
-  const skillLevel = character.skills.shieldSkills.forceShield.level;
+export const magicalShieldTotalFlatMDEF = (character: Character) => {
+  const skillLevel = character.skills.shieldSkills.magicalShield.level;
   const isSubShield = character.subWeapon.type === "shield";
 
   const total = isSubShield ? skillLevel * 2 : 0;
@@ -9,8 +9,8 @@ export const forceShieldTotalFlatDEF = (character: Character) => {
   return total;
 };
 
-export const forceShieldTotalPercentDEF = (character: Character) => {
-  const skillLevel = character.skills.shieldSkills.forceShield.level;
+export const magicalShieldTotalPercentMDEF = (character: Character) => {
+  const skillLevel = character.skills.shieldSkills.magicalShield.level;
   const isSubShield = character.subWeapon.type === "shield";
 
   const total = isSubShield ? skillLevel : 0;
@@ -18,8 +18,8 @@ export const forceShieldTotalPercentDEF = (character: Character) => {
   return total;
 };
 
-export const forceShieldTotalFlatMaxHP = (character: Character) => {
-  const skillLevel = character.skills.shieldSkills.forceShield.level;
+export const magicalShieldTotalFlatMaxHP = (character: Character) => {
+  const skillLevel = character.skills.shieldSkills.magicalShield.level;
   const isSubShield = character.subWeapon.type === "shield";
 
   const total = isSubShield ? skillLevel * 50 : 0;
@@ -27,10 +27,10 @@ export const forceShieldTotalFlatMaxHP = (character: Character) => {
   return total;
 };
 
-export const forceShieldTotalPhysicalResistance = (
+export const magicalShieldTotalMagicResistance = (
   character: Character,
 ) => {
-  const skillLevel = character.skills.shieldSkills.forceShield.level;
+  const skillLevel = character.skills.shieldSkills.magicalShield.level;
   const isSubShield = character.subWeapon.type === "shield";
 
   const total = isSubShield ? skillLevel : 0;
