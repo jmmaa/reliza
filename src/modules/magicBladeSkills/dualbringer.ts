@@ -22,14 +22,11 @@ export const dualBringerTotalATK = (character: Character) => {
 
   const skillModifier = Math.min(
     100,
-    skillLevel * totalNumberOfMagicBladeSkills
+    skillLevel * totalNumberOfMagicBladeSkills,
   );
 
   const A = totalMATK(character);
   const B = totalATK(character);
-
-  console.log((100 - Math.abs(totalNegativePercentB)) / 100);
-  console.log(skillModifier);
 
   const total =
     isActive && isSubMD
@@ -38,8 +35,9 @@ export const dualBringerTotalATK = (character: Character) => {
             0,
             (A - B) *
               ((100 - Math.abs(totalNegativePercentB)) / 100) *
-              ((skillModifier - B * Math.abs(totalNegativePercentB)) / 100)
-          )
+              ((skillModifier - B * Math.abs(totalNegativePercentB)) /
+                100),
+          ),
         )
       : 0;
 
@@ -65,7 +63,7 @@ export const dualBringerTotalMATK = (character: Character) => {
 
   const skillModifier = Math.min(
     100,
-    skillLevel * totalNumberOfMagicBladeSkills
+    skillLevel * totalNumberOfMagicBladeSkills,
   );
 
   const A = totalATK(character);
@@ -78,8 +76,9 @@ export const dualBringerTotalMATK = (character: Character) => {
             0,
             (A - B) *
               ((100 - Math.abs(totalNegativePercentB)) / 100) *
-              ((skillModifier - B * Math.abs(totalNegativePercentB)) / 100)
-          )
+              ((skillModifier - B * Math.abs(totalNegativePercentB)) /
+                100),
+          ),
         )
       : 0;
 
@@ -98,7 +97,7 @@ export const dualBringerTotalDuration = (character: Character) => {
 };
 
 export const dualBringerTotalMagicCriticalDamageConversion = (
-  character: Character
+  character: Character,
 ) => {
   const subweapon = character.subWeapon;
   const dualBringer = character.skills.magicBladeSkills.dualBringer;
@@ -115,7 +114,7 @@ export const dualBringerTotalMagicCriticalDamageConversion = (
 };
 
 export const dualBringerTotalMagicCriticalRateConversion = (
-  character: Character
+  character: Character,
 ) => {
   const subweapon = character.subWeapon;
   const dualBringer = character.skills.magicBladeSkills.dualBringer;
