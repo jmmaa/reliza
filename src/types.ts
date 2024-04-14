@@ -226,6 +226,8 @@ export interface NumericalStats {
 
   guardPower: number;
   guardRecharge: number;
+
+  evasionRecharge: number;
 }
 
 export interface NonNumericalStats {

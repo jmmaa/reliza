@@ -608,6 +608,8 @@ export const defaultStatMap: StatMap = {
 
   guardPower: 0,
   guardRecharge: 0,
+
+  evasionRecharge: 0,
 };
 
 export const statMap = (
