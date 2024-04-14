@@ -1,4 +1,5 @@
 import { Character } from "../../../types";
+import { criticalUPTotalFlatCriticalRate } from "../../battleSkills";
 import {
   dualSwordControlTotalPercentCriticalRate,
   dualSwordMasteryTotalPercentCriticalRate,
@@ -44,7 +45,8 @@ export const totalFlatCriticalRate = (character: Character) => {
 
   const fromSkills =
     criticalSpearTotalFlatCriticalRate(character) +
-    twoHandedTotalFlatCriticalRate(character);
+    twoHandedTotalFlatCriticalRate(character) +
+    criticalUPTotalFlatCriticalRate(character);
 
   const total = fromEquipments + fromSkills;
 

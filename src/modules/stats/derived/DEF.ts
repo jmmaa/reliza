@@ -1,4 +1,8 @@
 import { Character } from "../../../types";
+import {
+  defenseMasteryTotalFlatDEF,
+  defenseUPTotalFlatDEF,
+} from "../../battleSkills";
 import { berserkTotalPercentDEF } from "../../bladeSkills/berserk";
 import {
   forceShieldTotalFlatDEF,
@@ -56,7 +60,10 @@ export const totalFlatDEF = (character: Character) => {
     .map(get("flatDEF"))
     .reduce(sum, 0);
 
-  const fromSkills = forceShieldTotalFlatDEF(character);
+  const fromSkills =
+    forceShieldTotalFlatDEF(character) +
+    defenseUPTotalFlatDEF(character) +
+    defenseMasteryTotalFlatDEF(character);
 
   const total = fromEquipments + fromSkills;
 

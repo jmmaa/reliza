@@ -1,5 +1,8 @@
 import { Character } from "../../../types";
-import { godspeedTotalPercentUnsheatheAttack } from "../../dualSwordSkills";
+import {
+  flashBlastTotalPercentUnsheatheAttack,
+  godspeedTotalPercentUnsheatheAttack,
+} from "../../dualSwordSkills";
 import { flattenStatsFromEquipment, get, sum } from "../../utils";
 
 export const totalPercentUnsheatheAttack = (character: Character) => {
@@ -7,7 +10,9 @@ export const totalPercentUnsheatheAttack = (character: Character) => {
     .map(get("percentUnsheatheAttack"))
     .reduce(sum, 0);
 
-  const fromSkills = godspeedTotalPercentUnsheatheAttack(character);
+  const fromSkills =
+    godspeedTotalPercentUnsheatheAttack(character) +
+    flashBlastTotalPercentUnsheatheAttack(character);
 
   const total = fromEquipments + fromSkills;
 

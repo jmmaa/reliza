@@ -1,4 +1,5 @@
 import { Character } from "../../../types";
+import { accuracyUPTotalFlatAccuracy } from "../../battleSkills";
 import {
   dualSwordControlTotalPercentAccuracy,
   dualSwordMasteryTotalPercentAccuracy,
@@ -41,7 +42,9 @@ export const totalFlatAccuracy = (character: Character) => {
     .map(get("flatAccuracy"))
     .reduce(sum, 0);
 
-  const total = fromEquipments;
+  const fromSkills = accuracyUPTotalFlatAccuracy(character);
+
+  const total = fromEquipments + fromSkills;
 
   return total;
 };

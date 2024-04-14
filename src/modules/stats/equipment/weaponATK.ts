@@ -1,6 +1,7 @@
 import { Character } from "../../../types";
 import { unarmedMasteryTotalFlatWeaponATK } from "../../bareHandSkills";
 import { swordMasteryTotalPercentWeaponATK } from "../../bladeSkills";
+import { flashBlastTotalPercentMainWeaponATK } from "../../dualSwordSkills";
 import { halberdMasteryTotalPercentWeaponATK } from "../../halberdSkills";
 import { magicMasteryTotalPercentWeaponATK } from "../../magicSkills/magicMastery";
 import { martialMasteryTotalPercentWeaponATK } from "../../martialSkills";
@@ -79,10 +80,12 @@ export const totalFlatWeaponATK = (character: Character) => {
 };
 
 export const totalMainWeaponATK = (character: Character) => {
+  const fromSkills = flashBlastTotalPercentMainWeaponATK(character);
+
   return (
     total(
       character.mainWeapon.ATK,
-      totalPercentWeaponATK(character),
+      totalPercentWeaponATK(character) + fromSkills,
       totalFlatWeaponATK(character),
     ) + totalMainWeaponRefinementBonusMainWeaponATK(character)
   );

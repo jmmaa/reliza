@@ -52,8 +52,7 @@ export const totalBaseGuardRecharge = (character: Character) => {
 
   const totalBaseFromSources = sources.reduce(sum);
 
-  const total =
-    totalBaseFromSources > 10000 ? 10000 : totalBaseFromSources;
+  const total = totalBaseFromSources;
 
   return total;
 };

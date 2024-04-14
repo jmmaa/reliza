@@ -1,5 +1,5 @@
 import { Character } from "../../../types";
-import { totalAGI, totalSTR } from "../basic";
+import { criticalUPTotalFlatCriticalDamage } from "../../battleSkills";
 import {
   floor,
   get,
@@ -7,6 +7,7 @@ import {
   total,
   flattenStatsFromEquipment,
 } from "../../utils";
+import { totalAGI, totalSTR } from "../basic";
 
 export const totalBaseCriticalDamage = (character: Character) => {
   const agi = totalAGI(character);
@@ -34,7 +35,9 @@ export const totalFlatCriticalDamage = (character: Character) => {
     .map(get("flatCriticalDamage"))
     .reduce(sum, 0);
 
-  const total = fromEquipments;
+  const fromSkills = criticalUPTotalFlatCriticalDamage(character);
+
+  const total = fromEquipments + fromSkills;
 
   return total;
 };
@@ -43,12 +46,12 @@ export const totalCriticalDamage = (character: Character) => {
   return total(
     totalBaseCriticalDamage(character),
     totalPercentCriticalDamage(character),
-    totalFlatCriticalDamage(character)
+    totalFlatCriticalDamage(character),
   );
 };
 
 export const spellBurstTotalCriticalDamageRatio = (
-  character: Character
+  character: Character,
 ) => {
   const skillLevel = character.skills.battleSkills.spellBurst.level;
   const total = 2.5 * skillLevel;
@@ -65,7 +68,7 @@ export const totalMagicCriticalDamage = (character: Character) => {
   const total = floor(
     100 +
       (totalCriticalDamage(character) - 100) *
-        (totalMagicCriticalDamageRatio(character) / 100)
+        (totalMagicCriticalDamageRatio(character) / 100),
   );
 
   return total;
