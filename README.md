@@ -48,19 +48,19 @@ console.log(myTotalCriticalDamage); // 221
 - [x] shield mastery
 - [x] force shield
 - [x] magical shield
-- [ ] heavy armor mastery
-- [ ] advanced guard
-- [ ] light armor mastery
-- [ ] advanced evasion
-- [ ] hp boost
-- [ ] mp boost
-- [ ] magic UP
-- [ ] increased energy
+- [x] heavy armor mastery
+- [x] advanced guard
+- [x] light armor mastery
+- [x] advanced evasion
+- [x] hp boost
+- [x] mp boost
+- [x] magic UP
+- [x] increased energy
 - [ ] spell burst
-- [ ] attack UP
-- [ ] intimidating power
-- [ ] critical UP
-- [ ] defense UP
-- [ ] defense mastery
-- [ ] dodge UP
-- [ ] accuracy UP
+- [x] attack UP
+- [x] intimidating power
+- [x] critical UP
+- [x] defense UP
+- [x] defense mastery
+- [x] dodge UP
+- [x] accuracy UP
