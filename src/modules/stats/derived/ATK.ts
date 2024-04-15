@@ -22,6 +22,21 @@ import { totalMainWeaponATK } from "../equipment";
 import { subWeaponMagicDevicePercentATKModifier } from "./modifiers";
 import * as pino from "@jmmaa/pino";
 
+// REFACTOR
+
+// export const totalDualWieldBaseATK = (character: Character) =>
+//   character.level +
+//   totalSTR(character) +
+//   totalDEX(character) * 2 +
+//   totalAGI(character) +
+//   totalMainWeaponATK(character);
+
+// export const totalOneHandedSwordBaseATK = (character: Character) =>
+//   character.level +
+//   totalSTR(character) * 2 +
+//   totalDEX(character) * 2 +
+//   totalMainWeaponATK(character);
+
 export const totalBaseATK = (character: Character) => {
   if (isDualWielder(character)) {
     return pino.dualWieldBaseAttack(

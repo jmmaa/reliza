@@ -1,26 +1,26 @@
 import { Character } from "../../../types";
-import { get, sum, total, flattenStatsFromEquipment } from "../../utils";
+import { sum, total, flattenStatsFromEquipment } from "../../utils";
 
-export const totalPercentINT = (character: Character) => {
-  return flattenStatsFromEquipment(character)
-    .map(get("percentINT"))
-    .reduce(sum, 0);
-};
-
-export const totalFlatINT = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
-    .map(get("flatINT"))
+export const totalPercentINTFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character)
+    .map((value) => value["percentINT"])
     .reduce(sum, 0);
 
-  const total = fromEquipments;
+export const totalPercentINT = (character: Character) =>
+  totalPercentINTFromEquipment(character);
 
-  return total;
-};
+export const totalFlatINTFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character)
+    .map((value) => value["flatINT"])
+    .reduce(sum, 0);
+
+export const totalFlatINT = (character: Character) =>
+  totalFlatINTFromEquipment(character);
 
 export const totalINT = (character: Character) => {
   return total(
     character.INT,
     totalPercentINT(character),
-    totalFlatINT(character)
+    totalFlatINT(character),
   );
 };

@@ -1,4 +1,5 @@
 import { Character } from "../../../types";
+import { godspeedWieldTotalPercentEvasionRecharge } from "../../halberdSkills";
 import { flattenStatsFromEquipment, get, sum } from "../../utils";
 
 export const totalBaseEvasionRecharge = (character: Character) => {
@@ -9,8 +10,9 @@ export const totalPercentEvasionRecharge = (character: Character) => {
   const fromEquipments = flattenStatsFromEquipment(character)
     .map(get("evasionRecharge"))
     .reduce(sum, 0);
+  const fromSkills = godspeedWieldTotalPercentEvasionRecharge(character);
 
-  const total = fromEquipments;
+  const total = fromEquipments + fromSkills;
 
   return total;
 };

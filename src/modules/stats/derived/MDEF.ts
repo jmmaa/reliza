@@ -3,7 +3,7 @@ import {
   defenseMasteryTotalFlatMDEF,
   defenseUPTotalFlatMDEF,
 } from "../../battleSkills";
-import { berserkTotalPercentMDEF } from "../../bladeSkills/berserk";
+import { berserkTotalPercentMDEF } from "../../bladeSkills";
 import {
   magicalShieldTotalFlatMDEF,
   magicalShieldTotalPercentMDEF,

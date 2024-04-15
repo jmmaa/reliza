@@ -8,6 +8,10 @@ import {
   berserkTotalPercentASPD,
 } from "../../bladeSkills";
 import { dualSwordControlTotalFlatASPD } from "../../dualSwordSkills";
+import {
+  quickAuraTotalFlatASPD,
+  quickAuraTotalPercentASPD,
+} from "../../halberdSkills";
 import { martialDisciplineTotalFlatASPD } from "../../martialSkills";
 import {
   get,
@@ -104,7 +108,8 @@ export const totalPercentASPD = (character: Character) => {
 
   const fromSkills =
     quickSlashTotalPercentASPD(character) +
-    berserkTotalPercentASPD(character);
+    berserkTotalPercentASPD(character) +
+    quickAuraTotalPercentASPD(character);
 
   const total = fromEquipments + fromSkills;
 
@@ -120,7 +125,8 @@ export const totalFlatASPD = (character: Character) => {
     quickSlashTotalFlatASPD(character) +
     berserkTotalFlatASPD(character) +
     martialDisciplineTotalFlatASPD(character) +
-    dualSwordControlTotalFlatASPD(character);
+    dualSwordControlTotalFlatASPD(character) +
+    quickAuraTotalFlatASPD(character);
 
   const total = fromEquipments + fromSkills;
 

@@ -1,6 +1,10 @@
 import { Character } from "../../../types";
 import { bushidoTotalFlatMaxHP } from "../../mononofuSkills";
 import {
+  forceShieldTotalFlatMaxHP,
+  magicalShieldTotalFlatMaxHP,
+} from "../../shieldSkills";
+import {
   HPBoostTotalFlatMaxHP,
   HPBoostTotalPercentMaxHP,
 } from "../../survivalSkills";
@@ -39,7 +43,10 @@ export const totalFlatMaxHP = (character: Character) => {
     .reduce(sum, 0);
 
   const fromSkills =
-    bushidoTotalFlatMaxHP(character) + HPBoostTotalFlatMaxHP(character);
+    bushidoTotalFlatMaxHP(character) +
+    HPBoostTotalFlatMaxHP(character) +
+    forceShieldTotalFlatMaxHP(character) +
+    magicalShieldTotalFlatMaxHP(character);
 
   const total = fromEquipments + fromSkills;
 

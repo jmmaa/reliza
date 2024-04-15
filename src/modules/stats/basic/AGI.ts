@@ -2,23 +2,33 @@ import { Character } from "../../../types";
 import { godspeedTotalFlatAGI } from "../../dualSwordSkills";
 import { get, sum, total, flattenStatsFromEquipment } from "../../utils";
 
-export const totalPercentAGI = (character: Character) => {
-  return flattenStatsFromEquipment(character)
-    .map(get("percentAGI"))
-    .reduce(sum, 0);
-};
-
-export const totalFlatAGI = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
-    .map(get("flatAGI"))
+export const totalPercentAGIFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character)
+    .map((value) => value["percentAGI"])
     .reduce(sum, 0);
 
-  const fromSkills = godspeedTotalFlatAGI(character);
+export const totalPercentAGI = (character: Character) =>
+  totalPercentAGIFromEquipment(character);
 
-  const total = fromEquipments + fromSkills;
+export const totalFlatAGIFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character)
+    .map((value) => value["flatAGI"])
+    .reduce(sum, 0);
 
-  return total;
-};
+// export const totalFlatAGI = (character: Character) => {
+//   const fromEquipments = flattenStatsFromEquipment(character)
+//     .map((value) => value["flatAGI"])
+//     .reduce(sum, 0);
+
+//   const fromSkills = godspeedTotalFlatAGI(character);
+
+//   const total = fromEquipments + fromSkills;
+
+//   return total;
+// };
+
+export const totalFlatAGI = (character: Character) =>
+  totalFlatAGIFromEquipment(character) + godspeedTotalFlatAGI(character);
 
 export const totalAGI = (character: Character) => {
   return total(

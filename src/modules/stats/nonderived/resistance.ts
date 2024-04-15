@@ -1,16 +1,40 @@
 import { Character } from "../../../types";
+import {
+  godspeedWieldTotalMagicResistance,
+  godspeedWieldTotalPhysicalResistance,
+} from "../../halberdSkills/godspeedWield";
+import {
+  forceShieldTotalPhysicalResistance,
+  magicalShieldTotalMagicResistance,
+} from "../../shieldSkills";
 import { get, sum, flattenStatsFromEquipment } from "../../utils";
 
 export const totalPhysicalResistance = (character: Character) => {
-  return flattenStatsFromEquipment(character)
+  const fromEquipments = flattenStatsFromEquipment(character)
     .map(get("physicalResistance"))
     .reduce(sum, 0);
+
+  const fromSkills =
+    forceShieldTotalPhysicalResistance(character) +
+    godspeedWieldTotalPhysicalResistance(character);
+
+  const total = fromEquipments + fromSkills;
+
+  return total;
 };
 
 export const totalMagicResistance = (character: Character) => {
-  return flattenStatsFromEquipment(character)
+  const fromEquipments = flattenStatsFromEquipment(character)
     .map(get("magicResistance"))
     .reduce(sum, 0);
+
+  const fromSkills =
+    magicalShieldTotalMagicResistance(character) +
+    godspeedWieldTotalMagicResistance(character);
+
+  const total = fromEquipments + fromSkills;
+
+  return total;
 };
 
 export const totalLightResistance = (character: Character) => {

@@ -1,26 +1,26 @@
 import { Character } from "../../../types";
-import { get, sum, total, flattenStatsFromEquipment } from "../../utils";
+import { sum, total, flattenStatsFromEquipment } from "../../utils";
 
-export const totalPercentVIT = (character: Character) => {
-  return flattenStatsFromEquipment(character)
-    .map(get("percentVIT"))
-    .reduce(sum, 0);
-};
-
-export const totalFlatVIT = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
-    .map(get("flatVIT"))
+export const totalPercentVITFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character)
+    .map((value) => value["percentVIT"])
     .reduce(sum, 0);
 
-  const total = fromEquipments;
+export const totalPercentVIT = (character: Character) =>
+  totalPercentVITFromEquipment(character);
 
-  return total;
-};
+export const totalFlatVITFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character)
+    .map((value) => value["flatVIT"])
+    .reduce(sum, 0);
+
+export const totalFlatVIT = (character: Character) =>
+  totalFlatVITFromEquipment(character);
 
 export const totalVIT = (character: Character) => {
   return total(
     character.VIT,
     totalPercentVIT(character),
-    totalFlatVIT(character)
+    totalFlatVIT(character),
   );
 };
