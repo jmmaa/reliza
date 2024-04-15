@@ -464,9 +464,9 @@ export interface HalberdSkills {
   halberdMastery: { level: number };
   criticalSpear: { level: number };
   tornadoLance: { level: number };
-  quickAura: { level: number };
+  quickAura: { level: number; isActive: boolean };
   warCryOfStruggle: { level: number };
-  godspeedWield: { level: number };
+  godspeedWield: { level: number; isActive: boolean; stacks: number };
   almightyWield: { level: number };
   busterLance: { level: number };
 }

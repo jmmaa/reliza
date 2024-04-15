@@ -17,7 +17,6 @@ import {
 } from ".";
 import {
   BareHandSkills,
-  Entries,
   GuardSkills,
   HunterSkills,
   MartialSkills,
@@ -225,9 +224,9 @@ export const defaultHalberdSkills: HalberdSkills = {
   halberdMastery: { level: 0 },
   criticalSpear: { level: 0 },
   tornadoLance: { level: 0 },
-  quickAura: { level: 0 },
+  quickAura: { level: 0, isActive: false },
   warCryOfStruggle: { level: 0 },
-  godspeedWield: { level: 0 },
+  godspeedWield: { level: 0, isActive: false, stacks: 0 },
   almightyWield: { level: 0 },
   busterLance: { level: 0 },
 };
