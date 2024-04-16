@@ -1,87 +1,71 @@
 import { Character } from "../../../types";
-import * as pino from "@jmmaa/pino";
+import { floor, isDualWielder } from "../../utils";
 import { totalDEX, totalSTR } from "../basic";
-import { isDualWielder } from "../../utils";
 
-export const totalBaseStability = (character: Character) => {
-  const fromBase = isDualWielder(character)
-    ? pino.dualWieldStability(
-        character.mainWeapon.stability,
-        totalSTR(character),
-        totalDEX(character)
-      )
-    : character.mainWeapon.type === "one-handed-sword"
-    ? pino.oneHandedSwordStability(
-        character.mainWeapon.stability,
-        totalSTR(character),
-        totalDEX(character)
-      )
-    : character.mainWeapon.type === "two-handed-sword"
-    ? pino.twoHandedSwordStability(
-        character.mainWeapon.stability,
-        totalDEX(character)
-      )
-    : character.mainWeapon.type === "bow"
-    ? character.subWeapon.type === "arrow"
-      ? pino.bowStability(
-          character.mainWeapon.stability,
-          character.subWeapon.stability,
-          totalSTR(character),
-          totalDEX(character)
-        )
-      : pino.bowStability(
-          character.mainWeapon.stability,
-          0,
-          totalSTR(character),
-          totalDEX(character)
-        )
-    : character.mainWeapon.type === "bowgun"
-    ? character.subWeapon.type === "arrow"
-      ? pino.bowgunStability(
-          character.mainWeapon.stability,
-          character.subWeapon.stability,
-          totalSTR(character)
-        )
-      : pino.bowgunStability(
-          character.mainWeapon.stability,
-          0,
-          totalSTR(character)
-        )
-    : character.mainWeapon.type === "staff"
-    ? pino.staffStability(
-        character.mainWeapon.stability,
-        totalSTR(character)
-      )
-    : character.mainWeapon.type === "magic-device"
-    ? pino.magicDeviceStability(
-        character.mainWeapon.stability,
-        totalDEX(character)
-      )
-    : character.mainWeapon.type === "knuckle"
-    ? pino.knuckleStability(
-        character.mainWeapon.stability,
-        totalDEX(character)
-      )
-    : character.mainWeapon.type === "halberd"
-    ? pino.halberdStability(
-        character.mainWeapon.stability,
-        totalSTR(character),
-        totalDEX(character)
-      )
-    : character.mainWeapon.type === "katana"
-    ? pino.katanaStability(
-        character.mainWeapon.stability,
-        totalSTR(character),
-        totalDEX(character)
-      )
-    : character.mainWeapon.type === "bare-hand"
-    ? pino.bareHandStability(
-        character.mainWeapon.stability,
-        totalDEX(character)
-      )
-    : 0;
+export const totalDualWieldBaseStability = (character: Character) =>
+  floor(
+    character.mainWeapon.stability +
+      (totalSTR(character) + totalDEX(character) * 3) / 40,
+  );
 
-  const total = fromBase;
+export const totalOneHandedSwordBaseStability = (character: Character) =>
+  floor(
+    character.mainWeapon.stability +
+      (totalSTR(character) + totalDEX(character) * 3) / 40,
+  );
 
-  return total;
-};
+export const totalTwoHandedSwordBaseStability = (character: Character) =>
+  floor(character.mainWeapon.stability + totalDEX(character) / 10);
+
+export const totalBowBaseStability = (character: Character) =>
+  floor(
+    character.mainWeapon.stability +
+      (totalSTR(character) + totalDEX(character)) / 20,
+  );
+
+export const totalBowgunBaseStability = (character: Character) =>
+  floor(character.mainWeapon.stability + totalSTR(character) / 20);
+
+export const totalStaffBaseStability = (character: Character) =>
+  floor(character.mainWeapon.stability + totalSTR(character) / 20);
+
+export const totalMagicDeviceBaseStability = (character: Character) =>
+  floor(character.mainWeapon.stability + totalDEX(character) / 10);
+
+export const totalKnuckleBaseStability = (character: Character) =>
+  floor(character.mainWeapon.stability + totalDEX(character) / 40);
+
+export const totalHalberdBaseStability = (character: Character) =>
+  floor(
+    character.mainWeapon.stability +
+      (totalSTR(character) + totalDEX(character)) / 20,
+  );
+
+export const totalKatanaBaseStability = (character: Character) =>
+  floor(
+    character.mainWeapon.stability +
+      (totalSTR(character) * 3 + totalDEX(character)) / 40,
+  );
+export const totalBareHandBaseStability = (character: Character) =>
+  floor(1 + totalDEX(character) / 3);
+
+export const totalBaseStability = (character: Character) =>
+  isDualWielder(character) ? totalDualWieldBaseStability(character)
+  : character.mainWeapon.type === "one-handed-sword" ?
+    totalOneHandedSwordBaseStability(character)
+  : character.mainWeapon.type === "two-handed-sword" ?
+    totalTwoHandedSwordBaseStability(character)
+  : character.mainWeapon.type === "bow" ? totalBowBaseStability(character)
+  : character.mainWeapon.type === "bowgun" ?
+    totalBowgunBaseStability(character)
+  : character.mainWeapon.type === "staff" ?
+    totalStaffBaseStability(character)
+  : character.mainWeapon.type === "magic-device" ?
+    totalMagicDeviceBaseStability(character)
+  : character.mainWeapon.type === "knuckle" ?
+    totalKnuckleBaseStability(character)
+  : character.mainWeapon.type === "halberd" ?
+    totalHalberdBaseStability(character)
+  : character.mainWeapon.type === "katana" ?
+    totalKatanaBaseStability(character)
+  : totalBareHandBaseStability(character);

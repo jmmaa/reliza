@@ -7,3 +7,4 @@ export * from "./defenseUP";
 export * from "./accuracyUP";
 export * from "./dodgeUP";
 export * from "./defenseMastery";
+export * from "./spellBurst";

@@ -1,17 +1,10 @@
 import { Character } from "../../../types";
-
 import { floor } from "../../utils";
-
 import { totalCSPD } from "../derived";
 
-export const totalCastTimeReduction = (character: Character) => {
-  const cspd = totalCSPD(character);
-
-  const fromcCSPD = floor(
-    cspd > 1000 ? 50 + (cspd - 1000) / 90 : cspd / 20
+export const totalCastTimeReduction = (character: Character) =>
+  floor(
+    totalCSPD(character) > 1000 ?
+      50 + (totalCSPD(character) - 1000) / 90
+    : totalCSPD(character) / 20,
   );
-
-  const total = fromcCSPD;
-
-  return total;
-};

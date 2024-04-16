@@ -1,18 +1,12 @@
-import { get } from "../../utils";
 import { Character } from "../../../types";
+import { get } from "../../utils";
 
-export const mainWeaponElement = (character: Character) => {
-  const element = character.mainWeapon.stats
+export const mainWeaponElement = (character: Character) =>
+  character.mainWeapon.stats
     .map(get("element"))
     .reduce((prev, next) => (next !== "neutral" ? next : prev), "neutral");
 
-  return element;
-};
-
-export const subWeaponElement = (character: Character) => {
-  const element = character.subWeapon.stats
+export const subWeaponElement = (character: Character) =>
+  character.subWeapon.stats
     .map(get("element"))
     .reduce((prev, next) => (next !== "neutral" ? next : prev), "neutral");
-
-  return element;
-};

@@ -1,7 +1,7 @@
 import { Character, Entries } from "../../types";
 
 export const total = (base: number, percent: number, flat: number) =>
-  Math.floor(base * (1 + percent / 100) + flat);
+  Math.floor(base * ((100 + percent) / 100)) + flat;
 
 export const sum = (first: number, second: number) => first + second;
 
@@ -11,6 +11,10 @@ export const get =
     map[key];
 
 export const floor = Math.floor;
+
+export const max = Math.max;
+
+export const min = Math.min;
 
 export const concat = <V>(first: V[], second: V[]) => first.concat(second);
 
@@ -124,3 +128,30 @@ export const flattenStatsFromEquipment = (character: Character) => {
     .concat(character.foodBuffs)
     .concat(character.consumables);
 };
+
+// export const toMultiplier= (n: number ) => (n/100)
+
+// export type Argument<F extends Function> =
+//   F extends (...args: infer A) => any ? A : never;
+
+// export type ReturnOf<F extends Function> =
+//   F extends (...args: any) => infer R ? R : never;
+
+// export type TypedFunc<F extends Function> = (
+//   ...args: Argument<F>
+// ) => ReturnOf<F>;
+
+// export type TraceFunc = <F extends Function>(
+//   func: F,
+//   message: string,
+// ) => TypedFunc<F>;
+
+// export const trace: TraceFunc =
+//   (func, message) =>
+//   (...args) => {
+//     const result = func(...args);
+
+//     console.log(message, result);
+
+//     return result;
+//   };

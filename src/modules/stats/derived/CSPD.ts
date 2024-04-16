@@ -1,5 +1,8 @@
 import { Character } from "../../../types";
-
+import {
+  magicWarriorMasteryTotalFlatCSPD,
+  magicWarriorMasteryTotalPercentCSPD,
+} from "../../magicBladeSkills";
 import {
   floor,
   get,
@@ -7,52 +10,40 @@ import {
   total,
   flattenStatsFromEquipment,
 } from "../../utils";
-
-import {
-  magicWarriorMasteryTotalFlatCSPD,
-  magicWarriorMasteryTotalPercentCSPD,
-} from "../../magicBladeSkills";
-
 import { totalAGI, totalDEX } from "../basic";
 
-export const totalBaseCSPD = (character: Character) => {
-  const total = floor(
+export const totalBaseCSPD = (character: Character) =>
+  floor(
     character.level +
       1.16 * totalAGI(character) +
-      2.94 * totalDEX(character)
+      2.94 * totalDEX(character),
   );
 
-  return total;
-};
-
-export const totalPercentCSPD = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
+export const totalPercentCSPDFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character)
     .map(get("percentCSPD"))
     .reduce(sum, 0);
 
-  const fromSkills = magicWarriorMasteryTotalPercentCSPD(character);
+export const totalPercentCSPDFromSkills = (character: Character) =>
+  magicWarriorMasteryTotalPercentCSPD(character);
 
-  const total = fromEquipments + fromSkills;
+export const totalPercentCSPD = (character: Character) =>
+  totalPercentCSPDFromEquipment(character) +
+  totalPercentCSPDFromSkills(character);
 
-  return total;
-};
+export const totalFlatCSPDFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character).map(get("flatCSPD")).reduce(sum, 0);
 
-export const totalFlatCSPD = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
-    .map(get("flatCSPD"))
-    .reduce(sum, 0);
+export const totalFlatCSPDFromSkills = (character: Character) =>
+  magicWarriorMasteryTotalFlatCSPD(character);
 
-  const fromSkills = magicWarriorMasteryTotalFlatCSPD(character);
+export const totalFlatCSPD = (character: Character) =>
+  totalFlatCSPDFromEquipment(character) +
+  totalFlatCSPDFromSkills(character);
 
-  const total = fromEquipments + fromSkills;
-
-  return total;
-};
-
-export const totalCSPD = (character: Character) => {
-  return total(
+export const totalCSPD = (character: Character) =>
+  total(
     totalBaseCSPD(character),
     totalPercentCSPD(character),
-    totalFlatCSPD(character)
+    totalFlatCSPD(character),
   );
-};

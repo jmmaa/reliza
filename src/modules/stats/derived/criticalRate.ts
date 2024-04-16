@@ -1,5 +1,8 @@
 import { Character } from "../../../types";
-import { criticalUPTotalFlatCriticalRate } from "../../battleSkills";
+import {
+  criticalUPTotalFlatCriticalRate,
+  spellBurstTotalMagicCriticalRateConversion,
+} from "../../battleSkills";
 import {
   dualSwordControlTotalPercentCriticalRate,
   dualSwordMasteryTotalPercentCriticalRate,
@@ -17,41 +20,38 @@ import {
   flattenStatsFromEquipment,
 } from "../../utils";
 
-export const totalBaseCriticalRate = (character: Character) => {
-  const total = floor(25 + character.CRT / 3.4);
+export const totalBaseCriticalRate = (character: Character) =>
+  floor(25 + character.CRT / 3.4);
 
-  return total;
-};
-
-export const totalPercentCriticalRate = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
+export const totalPercentCriticalRateFromEquipment = (
+  character: Character,
+) =>
+  flattenStatsFromEquipment(character)
     .map(get("percentCriticalRate"))
     .reduce(sum, 0);
 
-  const fromSkills =
-    criticalSpearTotalPercentCriticalRate(character) +
-    dualSwordMasteryTotalPercentCriticalRate(character) +
-    dualSwordControlTotalPercentCriticalRate(character);
+export const totalPercentCriticalRateFromSkills = (character: Character) =>
+  criticalSpearTotalPercentCriticalRate(character) +
+  dualSwordMasteryTotalPercentCriticalRate(character) +
+  dualSwordControlTotalPercentCriticalRate(character);
 
-  const total = fromEquipments + fromSkills;
+export const totalPercentCriticalRate = (character: Character) =>
+  totalPercentCriticalRateFromEquipment(character) +
+  totalPercentCriticalRateFromSkills(character);
 
-  return total;
-};
-
-export const totalFlatCriticalRate = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
+export const totalFlatCriticalRateFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character)
     .map(get("flatCriticalRate"))
     .reduce(sum, 0);
 
-  const fromSkills =
-    criticalSpearTotalFlatCriticalRate(character) +
-    twoHandedTotalFlatCriticalRate(character) +
-    criticalUPTotalFlatCriticalRate(character);
+export const totalFlatCriticalRateFromSkills = (character: Character) =>
+  criticalSpearTotalFlatCriticalRate(character) +
+  twoHandedTotalFlatCriticalRate(character) +
+  criticalUPTotalFlatCriticalRate(character);
 
-  const total = fromEquipments + fromSkills;
-
-  return total;
-};
+export const totalFlatCriticalRate = (character: Character) =>
+  totalFlatCriticalRateFromEquipment(character) +
+  totalFlatCriticalRateFromSkills(character);
 
 export const totalCriticalRate = (character: Character) => {
   return total(
@@ -63,35 +63,22 @@ export const totalCriticalRate = (character: Character) => {
 
 //
 
-export const spellBurstTotalCriticalRateRatio = (character: Character) => {
-  const skillLevel = character.skills.battleSkills.spellBurst.level;
-  const total = 2.5 * skillLevel;
-  return total;
-};
+export const totalMagicCriticalRateConversion = (character: Character) =>
+  spellBurstTotalMagicCriticalRateConversion(character);
 
-export const totalMagicCriticalRateRatio = (character: Character) => {
-  const total = spellBurstTotalCriticalRateRatio(character);
-
-  return total;
-};
-
-export const totalMagicCriticalRate = (character: Character) => {
-  const total = floor(
+export const totalMagicCriticalRate = (character: Character) =>
+  floor(
     totalCriticalRate(character) *
-      (totalMagicCriticalRateRatio(character) / 100),
+      (totalMagicCriticalRateConversion(character) / 100),
   );
 
-  return total;
-};
-
 // add edge cases?
-
 export const totalMagicCriticalRateAgainstWeakenedTarget = (
   character: Character,
 ) => {
   const total =
     totalCriticalRate(character) *
-    ((totalMagicCriticalRateRatio(character) + 50) / 100);
+    ((totalMagicCriticalRateConversion(character) + 50) / 100);
 
   return total;
 };

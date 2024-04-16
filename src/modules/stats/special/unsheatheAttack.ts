@@ -5,26 +5,24 @@ import {
 } from "../../dualSwordSkills";
 import { flattenStatsFromEquipment, get, sum } from "../../utils";
 
-export const totalPercentUnsheatheAttack = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
+export const totalPercentUnsheatheAttackFromEquipment = (
+  character: Character,
+) =>
+  flattenStatsFromEquipment(character)
     .map(get("percentUnsheatheAttack"))
     .reduce(sum, 0);
 
-  const fromSkills =
-    godspeedTotalPercentUnsheatheAttack(character) +
-    flashBlastTotalPercentUnsheatheAttack(character);
+export const totalPercentUnsheatheAttackFromSkills = (
+  character: Character,
+) =>
+  godspeedTotalPercentUnsheatheAttack(character) +
+  flashBlastTotalPercentUnsheatheAttack(character);
 
-  const total = fromEquipments + fromSkills;
+export const totalPercentUnsheatheAttack = (character: Character) =>
+  totalPercentUnsheatheAttackFromEquipment(character) +
+  totalPercentUnsheatheAttackFromSkills(character);
 
-  return total;
-};
-
-export const totalFlatUnsheatheAttack = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
+export const totalFlatUnsheatheAttack = (character: Character) =>
+  flattenStatsFromEquipment(character)
     .map(get("flatUnsheatheAttack"))
     .reduce(sum, 0);
-
-  const total = fromEquipments;
-
-  return total;
-};

@@ -1,6 +1,6 @@
 import { Character } from "../../types";
 
-export const spellBurstTotalPercentMagicCriticalDamageConversion = (
+export const spellBurstTotalMagicCriticalDamageConversion = (
   character: Character,
 ) => {
   const skillLevel = character.skills.battleSkills.spellBurst.level;
@@ -8,7 +8,7 @@ export const spellBurstTotalPercentMagicCriticalDamageConversion = (
   return skillLevel * 2.5;
 };
 
-export const spellBurstTotalPercentMagicCriticalRateConversion = (
+export const spellBurstTotalMagicCriticalRateConversion = (
   character: Character,
 ) => {
   const skillLevel = character.skills.battleSkills.spellBurst.level;

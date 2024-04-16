@@ -8,72 +8,74 @@ import {
   forceShieldTotalFlatDEF,
   forceShieldTotalPercentDEF,
 } from "../../shieldSkills";
-import { get, sum, total, flattenStatsFromEquipment } from "../../utils";
+import {
+  get,
+  sum,
+  total,
+  flattenStatsFromEquipment,
+  floor,
+} from "../../utils";
 import { totalVIT } from "../basic";
 import { totalEquipmentDEF } from "../equipment";
 import { subWeaponArrowPercentDEFModifier } from "./modifiers";
-import * as pino from "@jmmaa/pino";
 
-export const totalBaseDEF = (character: Character) => {
-  return character.armor.type === "light"
-    ? pino.lightArmorDefense(
-        character.level,
-        totalVIT(character),
-        totalEquipmentDEF(character),
-      )
-    : character.armor.type === "heavy"
-      ? pino.heavyArmorDefense(
-          character.level,
-          totalVIT(character),
-          totalEquipmentDEF(character),
-        )
-      : character.armor.type === "none"
-        ? pino.nakedDefense(
-            character.level,
-            totalVIT(character),
-            totalEquipmentDEF(character),
-          )
-        : pino.normalArmorDefense(
-            character.level,
-            totalVIT(character),
-            totalEquipmentDEF(character),
-          );
-};
+export const normalArmorBaseDEF = (character: Character) =>
+  character.level + totalVIT(character) + totalEquipmentDEF(character);
 
-export const totalPercentDEF = (character: Character) => {
-  const fromEquipments =
-    flattenStatsFromEquipment(character)
-      .map(get("percentDEF"))
-      .reduce(sum, 0) + subWeaponArrowPercentDEFModifier(character);
+export const lightArmorBaseDEF = (character: Character) =>
+  floor(
+    character.level * 0.8 +
+      totalVIT(character) * 0.25 +
+      totalEquipmentDEF(character),
+  );
 
-  const fromSkills =
-    berserkTotalPercentDEF(character) +
-    forceShieldTotalPercentDEF(character);
+export const heavyArmorBaseDEF = (character: Character) =>
+  floor(
+    character.level * 1.2 +
+      totalVIT(character) * 2 +
+      totalEquipmentDEF(character),
+  );
 
-  const total = fromEquipments + fromSkills;
+export const noArmorBaseDEF = (character: Character) =>
+  floor(
+    character.level * 0.4 +
+      totalVIT(character) * 0.1 +
+      totalEquipmentDEF(character),
+  );
 
-  return total;
-};
+export const totalBaseDEF = (character: Character) =>
+  character.armor.type === "light" ? lightArmorBaseDEF(character)
+  : character.armor.type === "heavy" ? heavyArmorBaseDEF(character)
+  : character.armor.type === "normal" ? normalArmorBaseDEF(character)
+  : noArmorBaseDEF(character);
 
-export const totalFlatDEF = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
-    .map(get("flatDEF"))
-    .reduce(sum, 0);
+export const totalPercentDEFFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character)
+    .map(get("percentDEF"))
+    .reduce(sum, 0) + subWeaponArrowPercentDEFModifier(character);
 
-  const fromSkills =
-    forceShieldTotalFlatDEF(character) +
-    defenseUPTotalFlatDEF(character) +
-    defenseMasteryTotalFlatDEF(character);
+export const totalPercentDEFFromSkills = (character: Character) =>
+  berserkTotalPercentDEF(character) +
+  forceShieldTotalPercentDEF(character);
 
-  const total = fromEquipments + fromSkills;
+export const totalPercentDEF = (character: Character) =>
+  totalPercentDEFFromEquipment(character) +
+  totalPercentDEFFromSkills(character);
 
-  return total;
-};
+export const totalFlatDEFFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character).map(get("flatDEF")).reduce(sum, 0);
 
-export const totalDEF = (character: Character) => {
-  return total(
+export const totalFlatDEFFromSkills = (character: Character) =>
+  forceShieldTotalFlatDEF(character) +
+  defenseUPTotalFlatDEF(character) +
+  defenseMasteryTotalFlatDEF(character);
+
+export const totalFlatDEF = (character: Character) =>
+  totalFlatDEFFromEquipment(character) + totalFlatDEFFromSkills(character);
+
+export const totalDEF = (character: Character) =>
+  total(
     totalBaseDEF(character),
     totalPercentDEF(character),
     totalFlatDEF(character),
   );
-};

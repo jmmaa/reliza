@@ -6,15 +6,9 @@ export const totalBaseEvasionRecharge = (character: Character) => {
   // TODO
 };
 
-export const totalPercentEvasionRecharge = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
+export const totalPercentEvasionRecharge = (character: Character) =>
+  flattenStatsFromEquipment(character)
     .map(get("evasionRecharge"))
-    .reduce(sum, 0);
-  const fromSkills = godspeedWieldTotalPercentEvasionRecharge(character);
-
-  const total = fromEquipments + fromSkills;
-
-  return total;
-};
+    .reduce(sum, 0) + godspeedWieldTotalPercentEvasionRecharge(character);
 
 // NOTE: Not sure for this calculations atm, so i might not be finishing this for now

@@ -9,7 +9,13 @@ import {
   twoHandedTotalPercentAccuracy,
 } from "../../mononofuSkills";
 import { samuraiArcheryTotalPercentAccuracy } from "../../shotSkills";
-import { floor, sum, total, flattenStatsFromEquipment } from "../../utils";
+import {
+  sum,
+  floor,
+  flattenStatsFromEquipment,
+  total,
+  get,
+} from "../../utils";
 import { totalDEX } from "../basic";
 
 export const totalBaseAccuracy = (character: Character) =>
@@ -17,7 +23,7 @@ export const totalBaseAccuracy = (character: Character) =>
 
 export const totalPercentAccuracyFromEquipment = (character: Character) =>
   flattenStatsFromEquipment(character)
-    .map((value) => value["percentAccuracy"])
+    .map(get("percentAccuracy"))
     .reduce(sum, 0);
 
 // export const totalPercentAccuracy = (character: Character) => {
@@ -36,16 +42,19 @@ export const totalPercentAccuracyFromEquipment = (character: Character) =>
 //   return total;
 // };
 
-export const totalPercentAccuracy = (character: Character) =>
-  totalPercentAccuracyFromEquipment(character) +
+export const totalPercentAccuracyFromSkills = (character: Character) =>
   samuraiArcheryTotalPercentAccuracy(character) +
   twoHandedTotalPercentAccuracy(character) +
   dualSwordMasteryTotalPercentAccuracy(character) +
   dualSwordControlTotalPercentAccuracy(character);
 
+export const totalPercentAccuracy = (character: Character) =>
+  totalPercentAccuracyFromEquipment(character) +
+  totalFlatAccuracyFromSkills(character);
+
 export const totalFlatAccuracyFromEquipment = (character: Character) =>
   flattenStatsFromEquipment(character)
-    .map((value) => value["flatAccuracy"])
+    .map(get("flatAccuracy"))
     .reduce(sum, 0);
 
 // export const totalFlatAccuracy = (character: Character) => {
@@ -62,15 +71,17 @@ export const totalFlatAccuracyFromEquipment = (character: Character) =>
 //   return total;
 // };
 
-export const totalFlatAccuracy = (character: Character) =>
-  totalFlatAccuracyFromEquipment(character) +
+export const totalFlatAccuracyFromSkills = (character: Character) =>
   bushidoTotalFlatAccuracy(character) +
   accuracyUPTotalFlatAccuracy(character);
 
-export const totalAccuracy = (character: Character) => {
-  return total(
+export const totalFlatAccuracy = (character: Character) =>
+  totalFlatAccuracyFromEquipment(character) +
+  totalFlatAccuracyFromSkills(character);
+
+export const totalAccuracy = (character: Character) =>
+  total(
     totalBaseAccuracy(character),
     totalPercentAccuracy(character),
     totalFlatAccuracy(character),
   );
-};

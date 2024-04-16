@@ -24,121 +24,107 @@ import {
   totalFlatMATKValueFromMATKUP,
 } from "../special";
 import { subWeaponKnucklePercentMATKModifier } from "./modifiers";
-import * as pino from "@jmmaa/pino";
 
-export const totalBaseMATK = (character: Character) => {
-  return isDualWielder(character)
-    ? pino.dualWieldBaseMagicAttack(
-        character.level,
-        totalINT(character),
-        totalDEX(character),
-      )
-    : character.mainWeapon.type === "one-handed-sword"
-      ? pino.oneHandedSwordBaseMagicAttack(
-          character.level,
-          totalINT(character),
-          totalDEX(character),
-        )
-      : character.mainWeapon.type === "two-handed-sword"
-        ? pino.twoHandedSwordBaseMagicAttack(
-            character.level,
-            totalINT(character),
-            totalDEX(character),
-          )
-        : character.mainWeapon.type === "bow"
-          ? pino.bowBaseMagicAttack(
-              character.level,
-              totalINT(character),
-              totalDEX(character),
-            )
-          : character.mainWeapon.type === "bowgun"
-            ? pino.bowgunBaseMagicAttack(
-                character.level,
-                totalINT(character),
-                totalDEX(character),
-              )
-            : character.mainWeapon.type === "staff"
-              ? pino.staffBaseMagicAttack(
-                  character.level,
-                  totalMainWeaponATK(character),
-                  totalINT(character),
-                  totalDEX(character),
-                )
-              : character.mainWeapon.type === "magic-device"
-                ? pino.magicDeviceBaseMagicAttack(
-                    character.level,
-                    totalMainWeaponATK(character),
-                    totalINT(character),
-                    totalDEX(character),
-                  )
-                : character.mainWeapon.type === "knuckle"
-                  ? pino.knuckleBaseMagicAttack(
-                      character.level,
-                      totalMainWeaponATK(character),
-                      totalINT(character),
-                      totalDEX(character),
-                    )
-                  : character.mainWeapon.type === "halberd"
-                    ? pino.halberdBaseMagicAttack(
-                        character.level,
-                        totalINT(character),
-                        totalDEX(character),
-                        totalAGI(character),
-                      )
-                    : character.mainWeapon.type === "katana"
-                      ? pino.katanaBaseMagicAttack(
-                          character.level,
-                          totalINT(character),
-                          totalDEX(character),
-                        )
-                      : pino.bareHandBaseMagicAttack(
-                          character.level,
-                          totalINT(character),
-                          totalDEX(character),
-                        );
-};
+export const totalDualWieldBaseMATK = (character: Character) =>
+  character.level + totalINT(character) * 3 + totalDEX(character);
 
-export const totalPercentMATK = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
+export const totalOneHandedSwordBaseMATK = (character: Character) =>
+  character.level + totalINT(character) * 3 + totalDEX(character);
+
+export const totalTwoHandedSwordBaseMATK = (character: Character) =>
+  character.level + totalINT(character) * 3 + totalDEX(character);
+
+export const totalBowBaseMATK = (character: Character) =>
+  character.level + totalINT(character) * 3 + totalDEX(character);
+
+export const totalBowgunBaseMATK = (character: Character) =>
+  character.level + totalINT(character) * 3 + totalDEX(character);
+
+export const totalStaffBaseMATK = (character: Character) =>
+  character.level +
+  totalINT(character) * 4 +
+  totalDEX(character) +
+  totalMainWeaponATK(character);
+
+export const totalMagicDeviceBaseMATK = (character: Character) =>
+  character.level +
+  totalINT(character) * 4 +
+  totalDEX(character) +
+  totalMainWeaponATK(character);
+
+export const totalKnuckleBaseMATK = (character: Character) =>
+  floor(
+    character.level +
+      totalINT(character) * 4 +
+      totalDEX(character) +
+      totalMainWeaponATK(character) * 0.5,
+  );
+
+export const totalHalberdBaseMATK = (character: Character) =>
+  floor(
+    character.level +
+      totalINT(character) * 2 +
+      totalDEX(character) +
+      totalAGI(character),
+  );
+
+export const totalKatanaBaseMATK = (character: Character) =>
+  floor(character.level + totalINT(character) * 1.5 + totalDEX(character));
+
+export const totalBareHandBaseMATK = (character: Character) =>
+  character.level + totalINT(character) * 3 + totalDEX(character) + 1;
+
+export const totalBaseMATK = (character: Character) =>
+  isDualWielder(character) ? totalDualWieldBaseMATK(character)
+  : character.mainWeapon.type === "one-handed-sword" ?
+    totalOneHandedSwordBaseMATK(character)
+  : character.mainWeapon.type === "two-handed-sword" ?
+    totalTwoHandedSwordBaseMATK(character)
+  : character.mainWeapon.type === "bow" ? totalBowBaseMATK(character)
+  : character.mainWeapon.type === "bowgun" ? totalBowgunBaseMATK(character)
+  : character.mainWeapon.type === "staff" ? totalStaffBaseMATK(character)
+  : character.mainWeapon.type === "magic-device" ?
+    totalMagicDeviceBaseMATK(character)
+  : character.mainWeapon.type === "knuckle" ?
+    totalKnuckleBaseMATK(character)
+  : character.mainWeapon.type === "halberd" ?
+    totalHalberdBaseMATK(character)
+  : character.mainWeapon.type === "katana" ? totalKatanaBaseMATK(character)
+  : totalBareHandBaseMATK(character);
+
+export const totalPercentMATKFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character)
     .map(get("percentMATK"))
-    .reduce(sum, 0);
+    .reduce(sum, 0) + subWeaponKnucklePercentMATKModifier(character);
 
-  const fromPenalties = subWeaponKnucklePercentMATKModifier(character);
+export const totalPercentMATKFromSkills = (character: Character) =>
+  magicMasteryTotalPercentMATK(character);
 
-  const fromSkills = magicMasteryTotalPercentMATK(character);
+export const totalPercentMATK = (character: Character) =>
+  totalPercentMATKFromEquipment(character) +
+  totalPercentMATKFromSkills(character);
 
-  const total = fromEquipments + fromSkills + fromPenalties;
+export const totalFlatMATKFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character)
+    .map(get("flatMATK"))
+    .reduce(sum, 0) +
+  magicAttackBoostTotalFlatMATK(character) +
+  totalFlatMATKValueFromMATKUP(character) +
+  totalFlatMATKValueFromMATKDOWN(character);
 
-  return total;
-};
+export const totalFlatMATKFromSkills = (character: Character) =>
+  magicUPTotalFlatMATK(character) +
+  increasedEnergyTotalFlatMATK(character) +
+  magicWarriorMasteryTotalFlatMATK(character) +
+  conversionTotalFlatMATK(character);
 
-export const totalFlatMATK = (character: Character) => {
-  const fromEquipments =
-    flattenStatsFromEquipment(character)
-      .map(get("flatMATK"))
-      .reduce(sum, 0) + magicAttackBoostTotalFlatMATK(character);
+export const totalFlatMATK = (character: Character) =>
+  totalFlatMATKFromEquipment(character) +
+  totalFlatMATKFromSkills(character);
 
-  const fromModifiers = [
-    totalFlatMATKValueFromMATKUP(character),
-    totalFlatMATKValueFromMATKDOWN(character),
-  ].reduce(sum);
-
-  const fromSkills = [
-    magicUPTotalFlatMATK(character),
-    increasedEnergyTotalFlatMATK(character),
-    magicWarriorMasteryTotalFlatMATK(character),
-    conversionTotalFlatMATK(character),
-  ].reduce(sum);
-
-  const total = fromEquipments + fromSkills + fromModifiers;
-
-  return total;
-};
-
-export const totalMATK = (character: Character) => {
-  return total(
+export const totalMATK = (character: Character) =>
+  total(
     totalBaseMATK(character),
     totalPercentMATK(character),
     totalFlatMATK(character),
   );
-};

@@ -17,46 +17,39 @@ import {
 } from "../../utils";
 import { totalVIT } from "../basic";
 
-export const totalBaseMaxHP = (character: Character) => {
-  const total = floor(
-    93 + (totalVIT(character) + 22.4) * (character.level / 3),
-  );
+export const totalBaseMaxHP = (character: Character) =>
+  93 + Math.round((totalVIT(character) + 22.4) * (character.level / 3)); // need to confirm this
 
-  return total;
-};
-
-export const totalPercentMaxHP = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
+export const totalPercentMaxHPFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character)
     .map(get("percentMaxHP"))
     .reduce(sum, 0);
 
-  const fromSkills = HPBoostTotalPercentMaxHP(character);
+export const totalPercentMaxHPFromSkills = (character: Character) =>
+  HPBoostTotalPercentMaxHP(character);
 
-  const total = fromEquipments + fromSkills;
+export const totalPercentMaxHP = (character: Character) =>
+  totalPercentMaxHPFromEquipment(character) +
+  totalPercentMaxHPFromSkills(character);
 
-  return total;
-};
-
-export const totalFlatMaxHP = (character: Character) => {
-  const fromEquipments = flattenStatsFromEquipment(character)
+export const totalFlatMaxHPFromEquipment = (character: Character) =>
+  flattenStatsFromEquipment(character)
     .map(get("flatMaxHP"))
     .reduce(sum, 0);
 
-  const fromSkills =
-    bushidoTotalFlatMaxHP(character) +
-    HPBoostTotalFlatMaxHP(character) +
-    forceShieldTotalFlatMaxHP(character) +
-    magicalShieldTotalFlatMaxHP(character);
+export const totalFlatMaxHPFromSkills = (character: Character) =>
+  bushidoTotalFlatMaxHP(character) +
+  HPBoostTotalFlatMaxHP(character) +
+  forceShieldTotalFlatMaxHP(character) +
+  magicalShieldTotalFlatMaxHP(character);
 
-  const total = fromEquipments + fromSkills;
+export const totalFlatMaxHP = (character: Character) =>
+  totalFlatMaxHPFromEquipment(character) +
+  totalFlatMaxHPFromSkills(character);
 
-  return total;
-};
-
-export const totalMaxHP = (character: Character) => {
-  return total(
+export const totalMaxHP = (character: Character) =>
+  total(
     totalBaseMaxHP(character),
     totalPercentMaxHP(character),
     totalFlatMaxHP(character),
   );
-};
