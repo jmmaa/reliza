@@ -7,9 +7,8 @@ await esbuild.build({
     format: "cjs",
     minify: true,
     bundle: true,
-    logLevel: "info"
+    logLevel: "info",
 })
-
 
 await esbuild.build({
   entryPoints: ["src/index.ts"],
@@ -18,6 +17,6 @@ await esbuild.build({
   format: "esm",
   minify: true,
   bundle: true,
-  logLevel: "info"
+  logLevel: "info",
 });
 
