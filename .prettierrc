@@ -1,1 +1,5 @@
-{ "printWidth": 75, "plugins": ["@trivago/prettier-plugin-sort-imports"] }
+{
+  "printWidth": 75,
+  "experimentalTernaries": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
+}
