@@ -9,7 +9,7 @@ export const criticalUPTotalFlatCriticalRate = (character: Character) => {
   return total;
 };
 
-export const criticalUPTotalFlatCriticalDamage = (
+export const criticalUPTotalPercentCriticalDamage = (
   character: Character,
 ) => {
   const skillLevel = character.skills.battleSkills.criticalUP.level;

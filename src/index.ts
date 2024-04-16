@@ -706,36 +706,74 @@ export const calculateInGame = (character: Character) => {
   };
 };
 
-export const calculateAll = (character: Character) => {
-  return {
-    // AGI
-    totalBaseAGI: character.AGI,
-    totalFlatAGI: stats.totalFlatAGI(character),
-    totalPercentAGI: stats.totalPercentAGI(character),
-    totalAGI: stats.totalAGI(character),
+export const calculateAll = (character: Character) => ({
+  // AGI
+  totalBaseAGI: character.AGI,
+  totalPercentAGI: stats.totalPercentAGI(character),
+  totalFlatAGI: stats.totalFlatAGI(character),
+  totalAGI: stats.totalAGI(character),
 
-    // DEX
-    totalBaseDEX: character.DEX,
-    totalFlatDEX: stats.totalFlatDEX(character),
-    totalPercentDEX: stats.totalPercentDEX(character),
-    totalDEX: stats.totalDEX(character),
+  // DEX
+  totalBaseDEX: character.DEX,
+  totalPercentDEX: stats.totalPercentDEX(character),
+  totalFlatDEX: stats.totalFlatDEX(character),
+  totalDEX: stats.totalDEX(character),
 
-    // INT
-    totalBaseINT: character.INT,
-    totalFlatINT: stats.totalFlatINT(character),
-    totalPercentINT: stats.totalPercentINT(character),
-    totalINT: stats.totalINT(character),
+  // INT
+  totalBaseINT: character.INT,
+  totalPercentINT: stats.totalPercentINT(character),
+  totalFlatINT: stats.totalFlatINT(character),
+  totalINT: stats.totalINT(character),
 
-    // STR
-    totalBaseSTR: character.STR,
-    totalFlatSTR: stats.totalFlatSTR(character),
-    totalPercentSTR: stats.totalPercentSTR(character),
-    totalSTR: stats.totalSTR(character),
+  // STR
+  totalBaseSTR: character.STR,
+  totalPercentSTR: stats.totalPercentSTR(character),
+  totalFlatSTR: stats.totalFlatSTR(character),
+  totalSTR: stats.totalSTR(character),
 
-    // VIT
-    totalBaseVIT: character.VIT,
-    totalFlatVIT: stats.totalFlatVIT(character),
-    totalPercentVIT: stats.totalPercentVIT(character),
-    totalVIT: stats.totalVIT(character),
-  };
-};
+  // VIT
+  totalBaseVIT: character.VIT,
+  totalPercentVIT: stats.totalPercentVIT(character),
+  totalFlatVIT: stats.totalFlatVIT(character),
+  totalVIT: stats.totalVIT(character),
+
+  // MAX HP
+  totalBaseMaxHP: stats.totalBaseMaxHP(character),
+  totalPercentMaxHP: stats.totalPercentMaxHP(character),
+  totalFlatMaxHP: stats.totalFlatMaxHP(character),
+  totalMaxHP: stats.totalMaxHP(character),
+
+  // MAX MP
+  totalBaseMaxMP: stats.totalBaseMaxMP(character),
+  totalPercentMaxMP: stats.totalPercentMaxMP(character),
+  totalFlatMaxMP: stats.totalFlatMaxMP(character),
+  totalMaxMP: stats.totalMaxMP(character),
+
+  // DEF
+  totalBaseDEF: stats.totalBaseDEF(character),
+  totalPercentDEF: stats.totalPercentDEF(character),
+  totalFlatDEF: stats.totalFlatDEF(character),
+  totalDEF: stats.totalDEF(character),
+
+  // MDEF
+  totalBaseMDEF: stats.totalBaseMDEF(character),
+  totalPercentMDEF: stats.totalPercentMDEF(character),
+  totalFlatMDEF: stats.totalFlatMDEF(character),
+  totalMDEF: stats.totalMDEF(character),
+
+  // Critical Damage
+  totalBaseCriticalDamage: stats.totalBaseCriticalDamage(character),
+  totalPercentCriticalDamage: stats.totalPercentCriticalDamage(character),
+  totalFlatCriticalDamage: stats.totalFlatCriticalDamage(character),
+  totalCriticalDamage: stats.totalCriticalDamage(character),
+  totalMagicCriticalDamage: stats.totalMagicCriticalDamage(character),
+
+  // Critical Rate
+  totalBaseCriticalRate: stats.totalBaseCriticalRate(character),
+  totalPercentCriticalRate: stats.totalPercentCriticalRate(character),
+  totalFlatCriticalRate: stats.totalFlatCriticalRate(character),
+  totalCriticalRate: stats.totalCriticalRate(character),
+  totalMagicCriticalRate: stats.totalMagicCriticalRate(character),
+
+  // ATK
+});

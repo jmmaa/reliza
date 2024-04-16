@@ -1,6 +1,6 @@
 import { Character } from "../../../types";
 import {
-  criticalUPTotalFlatCriticalDamage,
+  criticalUPTotalPercentCriticalDamage,
   spellBurstTotalMagicCriticalDamageConversion,
 } from "../../battleSkills";
 import {
@@ -26,29 +26,35 @@ export const totalPercentCriticalDamageFromEquipment = (
     .map(get("percentCriticalDamage"))
     .reduce(sum, 0);
 
-export const totalPercentCriticalDamage = (character: Character) =>
-  totalPercentCriticalDamageFromEquipment(character);
-
-export const totalFlatCriticalDamageFromEquipment = (
+export const totalPercentCriticalDamageFromSkills = (
   character: Character,
-) =>
+) => criticalUPTotalPercentCriticalDamage(character);
+
+export const totalPercentCriticalDamage = (character: Character) =>
+  totalPercentCriticalDamageFromEquipment(character) +
+  totalPercentCriticalDamageFromSkills(character);
+
+// export const totalFlatCriticalDamageFromEquipment = (
+//   character: Character,
+// ) =>
+//   flattenStatsFromEquipment(character)
+//     .map(get("flatCriticalDamage"))
+//     .reduce(sum, 0);
+
+export const totalFlatCriticalDamage = (character: Character) =>
   flattenStatsFromEquipment(character)
     .map(get("flatCriticalDamage"))
     .reduce(sum, 0);
 
-export const totalFlatCriticalDamageFromSkills = (character: Character) =>
-  criticalUPTotalFlatCriticalDamage(character);
-
-export const totalFlatCriticalDamage = (character: Character) =>
-  totalFlatCriticalDamageFromEquipment(character) +
-  totalFlatCriticalDamageFromSkills(character);
-
-export const totalCriticalDamage = (character: Character) =>
-  total(
+export const totalCriticalDamage = (character: Character) => {
+  const val = total(
     totalBaseCriticalDamage(character),
     totalPercentCriticalDamage(character),
     totalFlatCriticalDamage(character),
   );
+
+  return val > 300 ? 300 + floor((val - 300) / 2) : val; // soft cap
+};
 
 export const totalMagicCriticalDamageConversion = (character: Character) =>
   50 + spellBurstTotalMagicCriticalDamageConversion(character);
