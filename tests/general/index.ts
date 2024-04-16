@@ -1,5 +1,6 @@
 import {
   character,
+  calculateAll,
   statMap,
   regislets,
   skills,
@@ -10,7 +11,6 @@ import {
   dualSwordSkills,
   bladeSkills,
   guardSkills,
-  calculateInGame,
 } from "../../src";
 
 const myCharacter = character({
@@ -261,18 +261,9 @@ const myCharacter = character({
   ],
 });
 
-let result = calculateInGame(myCharacter);
+const start = performance.now();
+let result = calculateAll(myCharacter);
+const end = performance.now();
+
 console.log(result);
-
-// const start = performance.now();
-
-// let result = calculateInGame(myCharacter);
-
-// for (let i = 0; i < 10000; i++) {
-//   result = calculateInGame(myCharacter);
-// }
-
-// const end = performance.now();
-
-// console.log(result);
-// console.log(end - start, "ms");
+console.log(end - start, "ms");
