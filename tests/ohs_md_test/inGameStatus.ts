@@ -28,13 +28,11 @@ const {
   bladeSkills,
   guardSkills,
   calculateInGame,
-
-  
-} = require("../../lib");
-
+} = require("../../src");
 
 const myCharacter = character({
   level: 280,
+
   INT: 475,
   STR: 247,
 
@@ -48,7 +46,7 @@ const myCharacter = character({
         percentMATK: 10,
         percentINT: 10,
         percentCriticalDamage: 10,
-        flatCriticalDamage: 10,
+        flatCriticalDamage: 22,
         flatCriticalRate: 27,
         flatDodge: -18,
         // flatNaturalMPRegen: -13,
@@ -59,6 +57,7 @@ const myCharacter = character({
         statMap({
           stability: 5,
           magicPierce: 20,
+          aggro: -15,
         }),
       ],
     ],
@@ -82,7 +81,7 @@ const myCharacter = character({
     type: "light",
     stats: [
       statMap({
-        damageToDark: 22,
+        damageToEarth: 22,
         percentCriticalDamage: 11,
         flatCriticalDamage: 22,
         flatCriticalRate: 28,
@@ -201,7 +200,8 @@ const myCharacter = character({
 
       conversion: {
         level: 10,
-        isActive: true,
+
+        isActive: false,
       },
 
       resonance: {
@@ -216,7 +216,7 @@ const myCharacter = character({
 
       dualBringer: {
         level: 10,
-        isActive: true,
+        isActive: false,
       },
 
       etherFlare: {
@@ -278,16 +278,18 @@ const myCharacter = character({
   ],
 });
 
-const start = performance.now();
-
 let result = calculateInGame(myCharacter);
-
-
-for (let i=0;i<10000;i++) {
-   result = calculateInGame(myCharacter);
-}
-
-const end = performance.now();
-
 console.log(result);
-console.log(end - start, "ms");
+
+// const start = performance.now();
+
+// let result = calculateInGame(myCharacter);
+
+// for (let i = 0; i < 10000; i++) {
+//   result = calculateInGame(myCharacter);
+// }
+
+// const end = performance.now();
+
+// console.log(result);
+// console.log(end - start, "ms");
