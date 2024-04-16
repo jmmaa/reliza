@@ -56,7 +56,7 @@ console.log(myTotalCriticalDamage); // 221
 - [x] mp boost
 - [x] magic UP
 - [x] increased energy
-- [ ] spell burst
+- [x] spell burst
 - [x] attack UP
 - [x] intimidating power
 - [x] critical UP
@@ -64,3 +64,17 @@ console.log(myTotalCriticalDamage); // 221
 - [x] defense mastery
 - [x] dodge UP
 - [x] accuracy UP
+
+#### Buff Skills
+
+- [ ] quick aura
+- [ ] godspeed wield
+- [ ] high cycle
+- [ ] brave aura
+- [ ] familia
+- [ ] prayer
+- [ ] war cry
+- [ ] berserk
+- [ ] aura blade
+- [ ] resonance
+- [ ] dual bringer
