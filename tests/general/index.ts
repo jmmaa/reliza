@@ -204,6 +204,7 @@ const myCharacter = character({
 
       etherFlare: {
         level: 10,
+        inflictedIgniteOnEnemey: false,
       },
 
       elementSlash: {
