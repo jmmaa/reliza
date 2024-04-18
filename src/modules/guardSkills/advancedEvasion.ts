@@ -1,12 +1,9 @@
 import { Character } from "../../types";
 
+export const advancedEvasionLevel = (character: Character) =>
+  character.skills.guardSkills.advancedEvasion.level;
+
 export const advancedEvasionTotalEvasionRecharge = (
   character: Character,
-) => {
-  const skillLevel = character.skills.guardSkills.advancedEvasion.level;
-  const isLightArmored = character.armor.type === "light";
-
-  const total = isLightArmored ? skillLevel : 0;
-
-  return total;
-};
+) =>
+  character.armor.type === "light" ? advancedEvasionLevel(character) : 0;

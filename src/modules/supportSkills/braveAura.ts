@@ -1,19 +1,16 @@
 import { Character } from "../../types";
 
-export const braveAuraTotalPercentWeaponATK = (character: Character) => {
-  const skillLevel = character.skills.supportSkills.braveAura.level;
-  const isActive = character.skills.supportSkills.braveAura.isActive;
+export const braveAura = (character: Character) =>
+  character.skills.supportSkills.braveAura;
 
-  const total = isActive ? 10 + skillLevel * 2 : 0;
+export const braveAuraLevel = (character: Character) =>
+  braveAura(character).level;
 
-  return total;
-};
+export const braveAuraIsActive = (character: Character) =>
+  braveAura(character).isActive;
 
-export const braveAuraTotalDamageBonus = (character: Character) => {
-  const skillLevel = character.skills.supportSkills.braveAura.level;
-  const isActive = character.skills.supportSkills.braveAura.isActive;
+export const braveAuraTotalPercentWeaponATK = (character: Character) =>
+  braveAuraIsActive(character) ? 10 + braveAuraLevel(character) * 2 : 0;
 
-  const total = isActive ? skillLevel * 2 : 0;
-
-  return total;
-};
+export const braveAuraTotalDamageBonus = (character: Character) =>
+  braveAuraIsActive(character) ? braveAuraLevel(character) * 2 : 0;

@@ -1,20 +1,13 @@
 import { Character } from "../../types";
 import { floor } from "../utils";
 
-export const advancedGuardTotalGuardRecharge = (character: Character) => {
-  const skillLevel = character.skills.guardSkills.advancedGuard.level;
-  const isHeavyArmored = character.armor.type === "heavy";
+export const advancedGuardLevel = (character: Character) =>
+  character.skills.guardSkills.advancedGuard.level;
 
-  const total = isHeavyArmored ? skillLevel : 0;
+export const advancedGuardTotalGuardRecharge = (character: Character) =>
+  character.armor.type === "heavy" ? advancedGuardLevel(character) : 0;
 
-  return total;
-};
-
-export const advancedGuardTotalGuardPower = (character: Character) => {
-  const skillLevel = character.skills.guardSkills.advancedGuard.level;
-  const isHeavyArmored = character.armor.type === "heavy";
-
-  const total = isHeavyArmored ? floor((1 + skillLevel) / 2) : 0;
-
-  return total;
-};
+export const advancedGuardTotalGuardPower = (character: Character) =>
+  character.armor.type === "heavy" ?
+    floor((1 + advancedGuardLevel(character)) / 2)
+  : 0;

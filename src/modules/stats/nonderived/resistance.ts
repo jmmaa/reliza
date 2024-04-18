@@ -4,6 +4,10 @@ import {
   godspeedWieldTotalPhysicalResistance,
 } from "../../halberdSkills/godspeedWield";
 import {
+  siphonBarrierTotalMagicResistance,
+  siphonBarrierTotalPhysicalResistance,
+} from "../../magicBladeSkills/siphonBarrier";
+import {
   forceShieldTotalPhysicalResistance,
   magicalShieldTotalMagicResistance,
 } from "../../shieldSkills";
@@ -18,7 +22,8 @@ export const totalPhysicalResistanceFromEquipment = (
 
 export const totalPhysicalResistanceFromSkills = (character: Character) =>
   forceShieldTotalPhysicalResistance(character) +
-  godspeedWieldTotalPhysicalResistance(character);
+  godspeedWieldTotalPhysicalResistance(character) +
+  siphonBarrierTotalPhysicalResistance(character);
 
 export const totalPhysicalResistance = (character: Character) =>
   totalPhysicalResistanceFromEquipment(character) +
@@ -31,7 +36,8 @@ export const totalMagicResistanceFromEquipment = (character: Character) =>
 
 export const totalMagicResistanceFromSkills = (character: Character) =>
   magicalShieldTotalMagicResistance(character) +
-  godspeedWieldTotalMagicResistance(character);
+  godspeedWieldTotalMagicResistance(character) +
+  siphonBarrierTotalMagicResistance(character);
 
 export const totalMagicResistance = (character: Character) =>
   totalMagicResistanceFromEquipment(character) +

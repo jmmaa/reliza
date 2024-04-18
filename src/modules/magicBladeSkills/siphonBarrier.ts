@@ -1,29 +1,30 @@
 import { Character } from "../../types";
 
+export const siphonBarrier = (character: Character) =>
+  character.skills.magicBladeSkills.siphonBarrier;
+
+export const siphonBarrierLevel = (character: Character) =>
+  siphonBarrier(character).level;
+
+export const siphonBarrierIsActive = (character: Character) =>
+  siphonBarrier(character).isActive;
+
 export const siphonBarrierTotalPhysicalResistance = (
-  character: Character
-) => {
-  const isMainMD = character.mainWeapon.type === "magic-device";
-  const isSubMD = character.mainWeapon.type === "magic-device";
+  character: Character,
+) =>
+  (
+    (character.mainWeapon.type === "magic-device" ||
+      character.subWeapon.type === "magic-device") &&
+    siphonBarrierIsActive(character)
+  ) ?
+    siphonBarrierLevel(character) * 9
+  : 0;
 
-  const skillLevel = character.skills.magicBladeSkills.siphonBarrier.level;
-
-  const total = isMainMD || isSubMD ? skillLevel * 9 : 0;
-
-  return total;
-};
-
-export const siphonBarrierTotalMagicResistance = (
-  character: Character
-) => {
-  const isMainMD = character.mainWeapon.type === "magic-device";
-  const isSubMD = character.mainWeapon.type === "magic-device";
-
-  const skillLevel = character.skills.magicBladeSkills.siphonBarrier.level;
-
-  const total = isMainMD || isSubMD ? skillLevel * 9 : 0;
-
-  return total;
-};
-
-// not included in calc yet!
+export const siphonBarrierTotalMagicResistance = (character: Character) =>
+  (
+    (character.mainWeapon.type === "magic-device" ||
+      character.subWeapon.type === "magic-device") &&
+    siphonBarrierIsActive(character)
+  ) ?
+    siphonBarrierLevel(character) * 9
+  : 0;

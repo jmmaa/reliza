@@ -1,16 +1,21 @@
 import { Character } from "../../types";
 import { floor } from "../utils";
 
-export const etherFlareTotalFlatAMPR = (character: Character) => {
-  const isSubMD = character.subWeapon.type === "magic-device";
+export const etherFlare = (character: Character) =>
+  character.skills.magicBladeSkills.etherFlare;
 
-  const skillLevel = character.skills.magicBladeSkills.etherFlare.level;
+export const etherFlareLevel = (character: Character) =>
+  etherFlare(character).level;
 
-  const total = isSubMD
-    ? 15 + floor(skillLevel / 6) * 5 + floor(skillLevel / 5) * 5
-    : 0;
+export const etherFlareInflictedIgniteOnEnemy = (character: Character) =>
+  etherFlare(character).inflictedIgniteOnEnemey;
 
-  return total;
-};
-
-// not included in calc yet!
+export const etherFlareTotalFlatAMPR = (character: Character) =>
+  (
+    character.subWeapon.type === "magic-device" &&
+    etherFlareInflictedIgniteOnEnemy(character)
+  ) ?
+    15 +
+    floor(etherFlareLevel(character) / 6) * 5 +
+    floor(etherFlareLevel(character) / 5) * 5
+  : 0;

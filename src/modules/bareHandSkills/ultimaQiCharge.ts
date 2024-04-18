@@ -1,24 +1,23 @@
 import { Character } from "../../types";
 import { floor } from "../utils";
 
-export const ultimaQiChargeTotalFlatAMPR = (character: Character) => {
-  const skillLevel = character.skills.bareHandSkills.ultimaQiCharge.level;
-  const isMainBareHand = character.mainWeapon.type === "bare-hand";
-  const isSubNone = character.subWeapon.type === "none";
+export const ultimaQiChargeLevel = (character: Character) =>
+  character.skills.bareHandSkills.ultimaQiCharge.level;
 
-  const total = isMainBareHand && isSubNone ? floor(skillLevel * 0.5) : 0;
-
-  return total;
-};
+export const ultimaQiChargeTotalFlatAMPR = (character: Character) =>
+  (
+    character.mainWeapon.type === "bare-hand" &&
+    character.subWeapon.type === "none"
+  ) ?
+    floor(ultimaQiChargeLevel(character) * 0.5)
+  : 0;
 
 export const ultimaQiChargeTotalCostQiReductionForNonBareHandSkills = (
   character: Character,
-) => {
-  const skillLevel = character.skills.bareHandSkills.unarmedMastery.level;
-  const isMainBareHand = character.mainWeapon.type === "bare-hand";
-  const isSubNone = character.subWeapon.type === "none";
-
-  const total = isMainBareHand && isSubNone ? 20 - skillLevel : 0;
-
-  return total;
-};
+) =>
+  (
+    character.mainWeapon.type === "bare-hand" &&
+    character.subWeapon.type === "none"
+  ) ?
+    20 - ultimaQiChargeLevel(character)
+  : 0;

@@ -1,20 +1,19 @@
 import { Character } from "../../types";
 import { isDualWielder } from "../utils";
 
+export const dualSwordMasteryLevel = (character: Character) =>
+  character.skills.dualSwordSkills.dualSwordMastery.level;
+
 export const dualSwordMasteryTotalPercentCriticalRate = (
   character: Character,
-) => {
-  const skillLevel =
-    character.skills.dualSwordSkills.dualSwordMastery.level;
-
-  return isDualWielder(character) ? -55 + skillLevel * 3 : 0;
-};
+) =>
+  isDualWielder(character) ?
+    -55 + dualSwordMasteryLevel(character) * 3
+  : 0;
 
 export const dualSwordMasteryTotalPercentAccuracy = (
   character: Character,
-) => {
-  const skillLevel =
-    character.skills.dualSwordSkills.dualSwordMastery.level;
-
-  return isDualWielder(character) ? -55 + skillLevel * 3 : 0;
-};
+) =>
+  isDualWielder(character) ?
+    -55 + dualSwordMasteryLevel(character) * 3
+  : 0;

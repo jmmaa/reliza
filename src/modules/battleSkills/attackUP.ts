@@ -1,8 +1,8 @@
 import { Character } from "../../types";
+import { floor } from "../utils";
 
-export const attackUPTotalFlatATK = (character: Character) => {
-  const skillLevel = character.skills.battleSkills.attackUP.level;
-  const total = (character.level * (2.5 * skillLevel)) / 100;
+export const attackUPLevel = (character: Character) =>
+  character.skills.battleSkills.attackUP.level;
 
-  return total;
-};
+export const attackUPTotalFlatATK = (character: Character) =>
+  floor((character.level * (2.5 * attackUPLevel(character))) / 100);

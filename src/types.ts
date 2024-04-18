@@ -393,7 +393,7 @@ export interface DualSwordSkills {
   lunarMisfortune: { level: number };
   twinBusterBlade: { level: number };
   reflex: { level: number };
-  flashBlast: { level: number };
+  flashBlast: { level: number; isActive: boolean };
   flashBlastIsActive: boolean;
   stormReaper: { level: number };
   dualSwordControl: { level: number };
@@ -413,12 +413,12 @@ export interface MagicBladeSkills {
   };
   enchantedSpell: { level: number };
   dualBringer: { level: number; isActive: boolean };
-  etherFlare: { level: number };
+  etherFlare: { level: number; inflictedIgniteOnEnemey: boolean };
   elementSlash: { level: number };
   enchantSword: { level: number };
   enchantedBurst: { level: number };
   unionSword: { level: number };
-  siphonBarrier: { level: number };
+  siphonBarrier: { level: number; isActive: boolean };
   teleport: { level: number };
   siphonRecall: { level: number };
   floatDash: { level: number };
@@ -630,13 +630,7 @@ export interface Character {
   };
 
   consumables: StatMap[];
-
   foodBuffs: StatMap[];
-
-  // regislets (must be same like skills too)
-
-  // blade skills
-
   skills: Skills;
   regislets: Regislets;
 }

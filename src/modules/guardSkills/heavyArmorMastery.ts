@@ -1,12 +1,9 @@
 import { Character } from "../../types";
 
+export const heavyArmorMasteryLevel = (character: Character) =>
+  character.skills.guardSkills.heavyArmorMastery.level;
+
 export const heavyArmorMasteryTotalGuardRecharge = (
   character: Character,
-) => {
-  const skillLevel = character.skills.guardSkills.heavyArmorMastery.level;
-  const isHeavyArmored = character.armor.type === "heavy";
-
-  const total = isHeavyArmored ? skillLevel : 0;
-
-  return total;
-};
+) =>
+  character.armor.type === "heavy" ? heavyArmorMasteryLevel(character) : 0;

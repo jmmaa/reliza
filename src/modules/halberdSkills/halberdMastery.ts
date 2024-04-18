@@ -1,26 +1,18 @@
 import { Character } from "../../types";
 
-export const halberdMasteryTotalPercentATK = (character: Character) => {
-  const skillLevel = character.skills.halberdSkills.halberdMastery.level;
+export const halberdMasteryLevel = (character: Character) =>
+  character.skills.halberdSkills.halberdMastery.level;
 
-  const total =
-    character.mainWeapon.type === "halberd"
-      ? skillLevel >= 8
-        ? 3
-        : skillLevel >= 3
-          ? 2
-          : 1
-      : 0;
-
-  return total;
-};
+export const halberdMasteryTotalPercentATK = (character: Character) =>
+  character.mainWeapon.type === "halberd" ?
+    halberdMasteryLevel(character) >= 8 ? 3
+    : halberdMasteryLevel(character) >= 3 ? 2
+    : 1
+  : 0;
 
 export const halberdMasteryTotalPercentWeaponATK = (
   character: Character,
-) => {
-  const skillLevel = character.skills.halberdSkills.halberdMastery.level;
-
-  const total =
-    character.mainWeapon.type === "halberd" ? skillLevel * 3 : 0;
-  return total;
-};
+) =>
+  character.mainWeapon.type === "halberd" ?
+    halberdMasteryLevel(character) * 3
+  : 0;

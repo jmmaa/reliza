@@ -1,17 +1,17 @@
 import { Character } from "../../types";
 import { floor } from "../utils";
 
-export const hunterBowgunTotalBaseATK = (character: Character) => {
-  const skillLevel = character.skills.hunterSkills.hunterBowgun.level;
-  const baseWeaponATK = character.mainWeapon.ATK;
-  const isMainBWG = character.mainWeapon.type === "bowgun";
-  const isSubArrow = character.subWeapon.type === "arrow";
-  const isSubNone = character.subWeapon.type === "none";
+export const hunterBowgunLevel = (character: Character) =>
+  character.skills.hunterSkills.hunterBowgun.level;
 
-  const total =
-    isMainBWG && !(isSubArrow || isSubNone)
-      ? (1 + (floor(skillLevel * 1.5) * 5) / 3 / 100) * baseWeaponATK
-      : 0;
-
-  return total;
-};
+export const hunterBowgunTotalBaseATK = (character: Character) =>
+  (
+    character.mainWeapon.type === "bowgun" &&
+    !(
+      character.subWeapon.type === "arrow" ||
+      character.subWeapon.type === "none"
+    )
+  ) ?
+    (1 + (floor(hunterBowgunLevel(character) * 1.5) * 5) / 3 / 100) *
+    character.mainWeapon.ATK
+  : 0;

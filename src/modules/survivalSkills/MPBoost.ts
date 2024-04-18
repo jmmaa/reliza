@@ -1,9 +1,7 @@
 import { Character } from "../../types";
 
-export const MPBoostTotalFlatMaxMP = (character: Character) => {
-  const skillLevel = character.skills.survivalSkills.MPBoost.level;
+export const MPBoostLevel = (character: Character) =>
+  character.skills.survivalSkills.MPBoost.level;
 
-  const total = skillLevel * 30;
-
-  return total;
-};
+export const MPBoostTotalFlatMaxMP = (character: Character) =>
+  MPBoostLevel(character) * 30;
