@@ -1,5 +1,4 @@
 import { Character, Entries } from "../../types";
-import * as O from "optics-ts";
 
 export const total = (base: number, percent: number, flat: number) =>
   Math.floor(base * ((100 + percent) / 100)) + flat;
@@ -88,8 +87,6 @@ export const flattenStatsFromEquipment = (character: Character) =>
     .concat(character.consumables);
 
 //  -- data accessors --
-
-export const lens = O.optic_<Character>();
 
 export const isDualWielder = (character: Character) =>
   character.mainWeapon.type === "one-handed-sword" &&
