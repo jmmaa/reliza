@@ -64,17 +64,19 @@ console.log(myTotalCriticalDamage); // 221
 - [x] defense mastery
 - [x] dodge UP
 - [x] accuracy UP
+- [ ] cast mastery
 
 #### Buff Skills
 
-- [ ] quick aura
-- [ ] godspeed wield
-- [ ] high cycle
-- [ ] brave aura
+- [x] quick aura
+- [x] godspeed wield
+- [x] high cycle
+- [x] brave aura
 - [ ] familia
 - [ ] prayer
-- [ ] war cry
-- [ ] berserk
+- [x] war cry
+- [x] berserk
 - [ ] aura blade
-- [ ] resonance
-- [ ] dual bringer
+- [ ] buster blade
+- [x] resonance
+- [x] dual bringer
