@@ -1,17 +1,17 @@
 import { Character } from "../../types";
 
-export const warCryTotalPercentATK = (character: Character) => {
-  const warCry = character.skills.bladeSkills.warCry;
-  const skillLevel = warCry.level;
-  const isActive = warCry.isActive;
+export const warCry = (character: Character) =>
+  character.skills.bladeSkills.warCry;
 
-  const isMainTHS = character.mainWeapon.type === "two-handed-sword";
+export const warCryLevel = (character: Character) =>
+  warCry(character).level;
 
-  const total = isActive
-    ? isMainTHS
-      ? skillLevel * 10 + 5
-      : skillLevel * 10
-    : 0;
+export const warCryIsActive = (character: Character) =>
+  warCry(character).isActive;
 
-  return total;
-};
+export const warCryTotalPercentATK = (character: Character) =>
+  warCryIsActive(character) ?
+    character.mainWeapon.type === "two-handed-sword" ?
+      warCryLevel(character) * 10 + 5
+    : warCryLevel(character) * 10
+  : 0;

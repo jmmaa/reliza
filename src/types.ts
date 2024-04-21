@@ -250,7 +250,7 @@ export interface BladeSkills {
   sonicBlade: { level: number };
   spiralAir: { level: number };
   swordTempest: { level: number };
-  busterBlade: { level: number };
+  busterBlade: { level: number; isActive: boolean };
   auraBlade: { level: number };
   swordMastery: { level: number };
   quickSlash: { level: number };
@@ -329,7 +329,7 @@ export interface SupportSkills {
   heal: { level: number };
   lifeRecovery: { level: number };
   braveAura: { level: number; isActive: boolean };
-  highCycle: { level: number };
+  highCycle: { level: number; isActive: boolean };
   quickMotion: { level: number };
   manaRecharge: { level: number };
   magicBarrier: { level: number };

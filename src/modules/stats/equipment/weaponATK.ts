@@ -1,6 +1,7 @@
 import { Character } from "../../../types";
 import { unarmedMasteryTotalFlatWeaponATK } from "../../bareHandSkills";
 import { swordMasteryTotalPercentWeaponATK } from "../../bladeSkills";
+import { busterBladeTotalPercentWeaponATK } from "../../bladeSkills/busterBlade";
 import { flashBlastTotalPercentMainWeaponATK } from "../../dualSwordSkills";
 import { halberdMasteryTotalPercentWeaponATK } from "../../halberdSkills";
 import { magicMasteryTotalPercentWeaponATK } from "../../magicSkills/magicMastery";
@@ -52,7 +53,8 @@ export const totalPercentWeaponATKFromSkills = (character: Character) =>
   halberdMasteryTotalPercentWeaponATK(character) +
   bushidoTotalPercentWeaponATK(character) +
   twoHandedTotalPercentWeaponATK(character) +
-  braveAuraTotalPercentWeaponATK(character);
+  braveAuraTotalPercentWeaponATK(character) +
+  busterBladeTotalPercentWeaponATK(character);
 
 export const totalPercentWeaponATK = (character: Character) =>
   totalPercentWeaponATKFromEquipment(character) +

@@ -4,6 +4,10 @@ import {
   magicWarriorMasteryTotalPercentCSPD,
 } from "../../magicBladeSkills";
 import {
+  highCycleTotalFlatCSPD,
+  highCycleTotalPercentCSPD,
+} from "../../supportSkills";
+import {
   floor,
   get,
   sum,
@@ -25,7 +29,8 @@ export const totalPercentCSPDFromEquipment = (character: Character) =>
     .reduce(sum, 0);
 
 export const totalPercentCSPDFromSkills = (character: Character) =>
-  magicWarriorMasteryTotalPercentCSPD(character);
+  magicWarriorMasteryTotalPercentCSPD(character) +
+  highCycleTotalPercentCSPD(character);
 
 export const totalPercentCSPD = (character: Character) =>
   totalPercentCSPDFromEquipment(character) +
@@ -35,7 +40,8 @@ export const totalFlatCSPDFromEquipment = (character: Character) =>
   flattenStatsFromEquipment(character).map(get("flatCSPD")).reduce(sum, 0);
 
 export const totalFlatCSPDFromSkills = (character: Character) =>
-  magicWarriorMasteryTotalFlatCSPD(character);
+  magicWarriorMasteryTotalFlatCSPD(character) +
+  highCycleTotalFlatCSPD(character);
 
 export const totalFlatCSPD = (character: Character) =>
   totalFlatCSPDFromEquipment(character) +

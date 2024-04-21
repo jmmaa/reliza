@@ -1,5 +1,6 @@
 import { Character } from "../../../types";
 import { bushidoTotalFlatMaxHP } from "../../mononofuSkills";
+import { maxHPBoostTotalFlatMaxMP } from "../../regislets";
 import {
   forceShieldTotalFlatMaxHP,
   magicalShieldTotalFlatMaxHP,
@@ -18,7 +19,7 @@ import {
 import { totalVIT } from "../basic";
 
 export const totalBaseMaxHP = (character: Character) =>
-  93 + Math.round((totalVIT(character) + 22.4) * (character.level / 3)); // need to confirm this
+  93 + Math.floor((totalVIT(character) + 22.4) * (character.level / 3)); // need to confirm this
 
 export const totalPercentMaxHPFromEquipment = (character: Character) =>
   flattenStatsFromEquipment(character)
@@ -35,7 +36,7 @@ export const totalPercentMaxHP = (character: Character) =>
 export const totalFlatMaxHPFromEquipment = (character: Character) =>
   flattenStatsFromEquipment(character)
     .map(get("flatMaxHP"))
-    .reduce(sum, 0);
+    .reduce(sum, 0) + maxHPBoostTotalFlatMaxMP(character);
 
 export const totalFlatMaxHPFromSkills = (character: Character) =>
   bushidoTotalFlatMaxHP(character) +

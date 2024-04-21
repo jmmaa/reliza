@@ -10,6 +10,7 @@ import { halberdMasteryTotalPercentATK } from "../../halberdSkills";
 import { hunterBowgunTotalBaseATK } from "../../hunterSkills";
 import { martialMasteryTotalPercentATK } from "../../martialSkills";
 import { bushidoTotalPercentATK } from "../../mononofuSkills";
+import { physicalAttackBoostTotalFlatATK } from "../../regislets";
 import { shotMasteryTotalPercentATK } from "../../shotSkills";
 import {
   sum,
@@ -21,6 +22,10 @@ import {
 } from "../../utils";
 import { totalAGI, totalDEX, totalINT, totalSTR } from "../basic";
 import { totalMainWeaponATK } from "../equipment";
+import {
+  totalBaseATKValueFromATKDOWN,
+  totalBaseATKValueFromATKUP,
+} from "../special";
 import { subWeaponMagicDevicePercentATKModifier } from "./modifiers";
 
 export const totalDualWieldBaseATK = (character: Character) =>
@@ -96,7 +101,7 @@ export const totalBareHandBaseATK = (character: Character) =>
   totalMainWeaponATK(character);
 
 export const totalBaseATK = (character: Character) =>
-  isDualWielder(character) ? totalDualWieldBaseATK(character)
+  (isDualWielder(character) ? totalDualWieldBaseATK(character)
   : character.mainWeapon.type === "one-handed-sword" ?
     totalOneHandedSwordBaseATK(character)
   : character.mainWeapon.type === "two-handed-sword" ?
@@ -111,7 +116,9 @@ export const totalBaseATK = (character: Character) =>
   : character.mainWeapon.type === "halberd" ?
     totalHalberdBaseATK(character)
   : character.mainWeapon.type === "katana" ? totalKatanaBaseATK(character)
-  : totalBareHandBaseATK(character);
+  : totalBareHandBaseATK(character)) +
+  totalBaseATKValueFromATKUP(character) +
+  totalBaseATKValueFromATKDOWN(character);
 
 export const totalPercentATKFromEquipment = (character: Character) =>
   flattenStatsFromEquipment(character)
@@ -131,7 +138,8 @@ export const totalPercentATK = (character: Character) =>
   totalPercentATKFromSkills(character);
 
 export const totalFlatATKFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character).map(get("flatATK")).reduce(sum, 0);
+  flattenStatsFromEquipment(character).map(get("flatATK")).reduce(sum, 0) +
+  physicalAttackBoostTotalFlatATK(character);
 
 export const totalFlatATKFromSkills = (character: Character) =>
   attackUPTotalFlatATK(character) +

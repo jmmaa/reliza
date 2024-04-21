@@ -20,8 +20,8 @@ import {
 import { totalAGI, totalDEX, totalINT } from "../basic";
 import { totalMainWeaponATK } from "../equipment";
 import {
-  totalFlatMATKValueFromMATKDOWN,
-  totalFlatMATKValueFromMATKUP,
+  totalBaseMATKValueFromMATKDOWN,
+  totalBaseMATKValueFromMATKUP,
 } from "../special";
 import { subWeaponKnucklePercentMATKModifier } from "./modifiers";
 
@@ -75,7 +75,7 @@ export const totalBareHandBaseMATK = (character: Character) =>
   character.level + totalINT(character) * 3 + totalDEX(character) + 1;
 
 export const totalBaseMATK = (character: Character) =>
-  isDualWielder(character) ? totalDualWieldBaseMATK(character)
+  (isDualWielder(character) ? totalDualWieldBaseMATK(character)
   : character.mainWeapon.type === "one-handed-sword" ?
     totalOneHandedSwordBaseMATK(character)
   : character.mainWeapon.type === "two-handed-sword" ?
@@ -90,7 +90,9 @@ export const totalBaseMATK = (character: Character) =>
   : character.mainWeapon.type === "halberd" ?
     totalHalberdBaseMATK(character)
   : character.mainWeapon.type === "katana" ? totalKatanaBaseMATK(character)
-  : totalBareHandBaseMATK(character);
+  : totalBareHandBaseMATK(character)) +
+  totalBaseMATKValueFromMATKUP(character) +
+  totalBaseMATKValueFromMATKDOWN(character);
 
 export const totalPercentMATKFromEquipment = (character: Character) =>
   flattenStatsFromEquipment(character)
@@ -107,10 +109,7 @@ export const totalPercentMATK = (character: Character) =>
 export const totalFlatMATKFromEquipment = (character: Character) =>
   flattenStatsFromEquipment(character)
     .map(get("flatMATK"))
-    .reduce(sum, 0) +
-  magicAttackBoostTotalFlatMATK(character) +
-  totalFlatMATKValueFromMATKUP(character) +
-  totalFlatMATKValueFromMATKDOWN(character);
+    .reduce(sum, 0) + magicAttackBoostTotalFlatMATK(character);
 
 export const totalFlatMATKFromSkills = (character: Character) =>
   magicUPTotalFlatMATK(character) +

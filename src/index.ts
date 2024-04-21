@@ -33,7 +33,7 @@ export const defaultBladeSkills: BladeSkills = {
   sonicBlade: { level: 0 },
   spiralAir: { level: 0 },
   swordTempest: { level: 0 },
-  busterBlade: { level: 0 },
+  busterBlade: { level: 0, isActive: false },
   auraBlade: { level: 0 },
   swordMastery: { level: 0 },
   quickSlash: { level: 0 },
@@ -113,7 +113,7 @@ export const defaultSupportSkills: SupportSkills = {
   heal: { level: 0 },
   lifeRecovery: { level: 0 },
   braveAura: { level: 0, isActive: false },
-  highCycle: { level: 0 },
+  highCycle: { level: 0, isActive: false },
   quickMotion: { level: 0 },
   manaRecharge: { level: 0 },
   magicBarrier: { level: 0 },
@@ -776,4 +776,13 @@ export const calculateAll = (character: Character) => ({
   totalMagicCriticalRate: stats.totalMagicCriticalRate(character),
 
   // ATK
+
+  // MATK
+
+  // CSPD
+  totalBaseCSPD: stats.totalBaseCSPD(character),
+  totalPercentCSPD: stats.totalPercentCSPD(character),
+  totalFlatCSPD: stats.totalFlatCSPD(character),
+  totalCSPD: stats.totalCSPD(character),
+  totalCastTimeReduction: stats.totalCastTimeReduction(character),
 });

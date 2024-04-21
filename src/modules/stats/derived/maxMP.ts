@@ -1,5 +1,6 @@
 import { Character } from "../../../types";
 import { bushidoTotalFlatMaxMP } from "../../mononofuSkills";
+import { maxMPBoostTotalFlatMaxMP } from "../../regislets";
 import { MPBoostTotalFlatMaxMP } from "../../survivalSkills";
 import {
   floor,
@@ -28,7 +29,7 @@ export const totalPercentMaxMP = (character: Character) =>
 export const totalFlatMaxMPFromEquipment = (character: Character) =>
   flattenStatsFromEquipment(character)
     .map(get("flatMaxMP"))
-    .reduce(sum, 0);
+    .reduce(sum, 0) + maxMPBoostTotalFlatMaxMP(character);
 
 export const totalFlatMaxMPFromSkills = (character: Character) =>
   bushidoTotalFlatMaxMP(character) + MPBoostTotalFlatMaxMP(character);
