@@ -20,6 +20,7 @@ import {
   HunterSkills,
   MartialSkills,
   NinjaSkills,
+  WizardSkills,
 } from "./types";
 
 export const defaultBladeSkills: BladeSkills = {
@@ -297,20 +298,35 @@ export const defaultHunterSkills: HunterSkills = {
   multipleHunt: { level: 0 },
 };
 
-export const defaultNinjaSkills = {
+export const defaultNinjaSkills: NinjaSkills = {
   ninjutsu: { level: 0 },
   ninjaSpirit: { level: 0 },
   ninjusuDrillI: { level: 0 },
   ninjutsuDrillII: { level: 0 },
 };
 
-export const defaultGuardSkills = {
+export const defaultGuardSkills: GuardSkills = {
   heavyArmorMastery: { level: 0 },
   advancedGuard: { level: 0 },
   physicalGuard: { level: 0 },
   lightArmorMastery: { level: 0 },
   advancedEvasion: { level: 0 },
   mirageEvasion: { level: 0 },
+};
+
+export const defaultWizardSkills: WizardSkills = {
+  familia: { level: 0, isActive: false },
+  lightning: { level: 0 },
+  blizzard: { level: 0 },
+  meteorStrike: { level: 0 },
+  imperialRay: { level: 0 },
+  manaCrystal: { level: 0 },
+  stoneBarrier: { level: 0 },
+  advancedFamilia: { level: 0 },
+  castMastery: { level: 0 },
+  crystalLaser: { level: 0 },
+  overlimit: { level: 0 },
+  sorceryGuide: { level: 0 },
 };
 
 export const defaultRegislets = {
@@ -451,6 +467,13 @@ export const guardSkills = (
   ...guardSkills,
 });
 
+export const wizardSkills = (
+  wizardSkills: Partial<WizardSkills>,
+): Partial<WizardSkills> & WizardSkills => ({
+  ...(defaultWizardSkills as WizardSkills),
+  ...wizardSkills,
+});
+
 export const regislets = (
   regislets: Partial<Regislets>,
 ): Partial<Regislets> & Regislets => ({
@@ -475,6 +498,7 @@ export const defaultSkills: Skills = {
   hunterSkills: hunterSkills({}),
   ninjaSkills: ninjaSkills({}),
   guardSkills: guardSkills({}),
+  wizardSkills: wizardSkills({}),
 };
 
 export const defaultStatMap: StatMap = {

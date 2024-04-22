@@ -531,6 +531,21 @@ export interface NinjaSkills {
   ninjutsuDrillII: { level: number };
 }
 
+export interface WizardSkills {
+  familia: { level: number; isActive: boolean };
+  lightning: { level: number };
+  blizzard: { level: number };
+  meteorStrike: { level: number };
+  imperialRay: { level: number };
+  manaCrystal: { level: number };
+  stoneBarrier: { level: number };
+  advancedFamilia: { level: number };
+  castMastery: { level: number };
+  crystalLaser: { level: number };
+  overlimit: { level: number };
+  sorceryGuide: { level: number };
+}
+
 export interface Skills {
   bladeSkills: BladeSkills;
   shotSkills: ShotSkills;
@@ -548,6 +563,7 @@ export interface Skills {
   hunterSkills: HunterSkills;
   guardSkills: GuardSkills;
   ninjaSkills: NinjaSkills;
+  wizardSkills: WizardSkills;
 }
 
 export interface Regislets {
