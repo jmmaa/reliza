@@ -651,6 +651,18 @@ export interface Character {
   regislets: Regislets;
 }
 
+// target
+
+export interface Target {
+  level: number;
+  physicalResistance: number;
+  magicResistance: number;
+  weaponResistance: number;
+  DEF: number;
+  MDEF: number;
+  element: ElementType;
+}
+
 // utils
 
 export type Entries<T> = { [K in keyof T]: [K, T[K]] }[keyof T][];

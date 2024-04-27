@@ -21,6 +21,7 @@ import {
   MartialSkills,
   NinjaSkills,
   WizardSkills,
+  Target,
 } from "./types";
 
 export const defaultBladeSkills: BladeSkills = {
@@ -708,6 +709,24 @@ export const character = (
 ): Partial<Character> & Character => ({
   ...(defaultCharacter as Character),
   ...character,
+});
+
+// default target is altoblepas
+export const defaultTarget: Target = {
+  level: 174,
+  physicalResistance: 6,
+  magicResistance: 6,
+  weaponResistance: 0,
+  DEF: 174,
+  MDEF: 174,
+  element: "neutral",
+};
+
+export const target = (
+  target: Partial<Target>,
+): Partial<Target> & Target => ({
+  ...(defaultTarget as Target),
+  ...target,
 });
 
 export const calculateInGame = (character: Character) => {

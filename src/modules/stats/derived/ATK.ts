@@ -20,6 +20,7 @@ import {
   isDualWielder,
   get,
 } from "../../utils";
+import { castMasteryTotalPercentATK } from "../../wizardSkills/castMastery";
 import { totalAGI, totalDEX, totalINT, totalSTR } from "../basic";
 import { totalMainWeaponATK } from "../equipment";
 import {
@@ -134,6 +135,12 @@ export const totalPercentATKFromSkills = (character: Character) =>
   warCryTotalPercentATK(character);
 
 export const totalPercentATK = (character: Character) =>
+  totalPercentATKFromEquipment(character) +
+  totalPercentATKFromSkills(character) +
+  castMasteryTotalPercentATK(character); // this one is a special case, so im not going to include it in skills func;
+
+// this fuhction is only dedicated for wizard atk calculation
+export const totalPercentATKForWizardSkills = (character: Character) =>
   totalPercentATKFromEquipment(character) +
   totalPercentATKFromSkills(character);
 
