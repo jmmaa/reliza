@@ -1,108 +1,54 @@
 export type DamageMetadata = {
+  // for base
   characterLevel: number;
-
   targetLevel: number;
-
   defense: number; // MDEF/DEF
-
   resistance: number; // PRES/MRES
-
   source: number; // effective atk/matk, wizard atk, etc.
-
   pierce: number; // ppierce/mpierce
-
   constant: number;
-
   flatUnsheatheAttack: number;
 
-  criticalDamage: number;
+  // percentages
+  percentCriticalDamage: number;
 
-  elementBonus: number;
+  percentElementDamage: number;
 
   // damage multiplier that only affects this type of skill
-  multiplier: number;
+  percentInnateSkillDamage: number;
 
   percentUnsheatheAttack: number;
 
-  stability: number;
+  percentMinimum: number;
 
-  proration: number;
+  percentMaximum: number;
+
+  percentProration: number;
+
+  // sword techniques, etc.
+  percentSkillDamage: number;
 
   // short/long range damage
-  distanceMultiplier: number;
+  percentDistanceDependentDamage: number;
 
   // if character is affected with lethargy
   isAffectedByLethargy: boolean;
 
   // brave aura, mana recharge, etc.
-  lastDamageMultiplier: number;
+  percentLastDamage: number;
 
   // smite, zero stance, save, consecutive, etc.
-  comboMultiplier: number;
+  percentComboRelatedDamage: number;
 
   // base drop gem damage reducers
-  baseDropGemMultiplier: number;
+  percentBaseDropGemDamage: number;
 
   // guard effect
   isGuarded: boolean;
+
+  // ultima lion rage
+  percentUltimaLionRageDamage: number;
 };
-
-export const defaultDamageMetadata: DamageMetadata = {
-  // the percentage values must follow base 100 as default
-  characterLevel: 1,
-
-  targetLevel: 1,
-
-  defense: 0,
-
-  resistance: 0,
-
-  source: 0, // effective atk/matk, wizard atk, etc.
-
-  pierce: 0,
-
-  constant: 0,
-
-  flatUnsheatheAttack: 0,
-
-  criticalDamage: 100,
-
-  elementBonus: 100,
-
-  // damage multiplier that only affects this type of skill
-  multiplier: 1,
-
-  percentUnsheatheAttack: 100,
-
-  stability: 0,
-
-  proration: 0,
-
-  // short/long range damage
-  distanceMultiplier: 0,
-
-  // if character is affected with lethargy
-  isAffectedByLethargy: false,
-
-  // brave aura, mana recharge, etc.
-  lastDamageMultiplier: 100,
-
-  // smite, zero stance, save, consecutive, etc.
-  comboMultiplier: 100,
-
-  // base drop gem damage reducers
-  baseDropGemMultiplier: 100,
-
-  // guard effect
-  isGuarded: false,
-};
-
-export const damageMetaData = (
-  metadata: Partial<DamageMetadata>,
-): Partial<DamageMetadata> & DamageMetadata => ({
-  ...(defaultDamageMetadata as DamageMetadata),
-  ...metadata,
-});
 
 /*
 
@@ -121,7 +67,77 @@ export const baseDamage = (metadata: DamageMetadata) =>
 export const effectiveDefense = (metadata: DamageMetadata) =>
   metadata.defense * ((100 - metadata.pierce) / 100);
 
+export const additive = (metadata: DamageMetadata) =>
+  baseDamage(metadata) -
+  effectiveDefense(metadata) +
+  metadata.flatUnsheatheAttack +
+  metadata.constant;
+
+export const criticalDamageMultiplier = (metadata: DamageMetadata) =>
+  metadata.percentCriticalDamage / 100;
+
+export const elementDamageMultiplier = (metadata: DamageMetadata) =>
+  metadata.percentElementDamage / 100;
+
+export const innateSkillDamageMultiplier = (metadata: DamageMetadata) =>
+  metadata.percentInnateSkillDamage / 100;
+
+export const unsheatheAttackMultiplier = (metadata: DamageMetadata) =>
+  metadata.percentUnsheatheAttack / 100;
+
+export const minimumDamageMultiplier = (metadata: DamageMetadata) =>
+  metadata.percentMinimum / 100;
+
+export const maximumDamageMultiplier = (metadata: DamageMetadata) =>
+  metadata.percentMaximum / 100;
+
+export const prorationMultiplier = (metadata: DamageMetadata) =>
+  metadata.percentProration / 100;
+
+export const skillDamageMultiplier = (metadata: DamageMetadata) =>
+  metadata.percentSkillDamage / 100;
+
+export const distanceDependentDamage = (metadata: DamageMetadata) =>
+  metadata.percentDistanceDependentDamage / 100;
+
+export const lethargyEffect = (metadata: DamageMetadata) =>
+  (metadata.isAffectedByLethargy ? 70 : 100) / 100;
+
+export const lastDamageMultiplier = (metadata: DamageMetadata) =>
+  metadata.percentLastDamage / 100;
+
+export const comboRelatedDamageMultiplier = (metadata: DamageMetadata) =>
+  metadata.percentComboRelatedDamage / 100;
+
+export const baseDropGemDamageMultiplier = (metadata: DamageMetadata) =>
+  metadata.percentBaseDropGemDamage / 100;
+
+export const ultimaLionRageDamageMultiplier = (metadata: DamageMetadata) =>
+  metadata.percentUltimaLionRageDamage / 100;
+
+export const multiplicative = (metadata: DamageMetadata) =>
+  criticalDamageMultiplier(metadata) *
+  elementDamageMultiplier(metadata) *
+  innateSkillDamageMultiplier(metadata) *
+  unsheatheAttackMultiplier(metadata) *
+  prorationMultiplier(metadata) *
+  skillDamageMultiplier(metadata) *
+  distanceDependentDamage(metadata) *
+  lethargyEffect(metadata) *
+  lastDamageMultiplier(metadata) *
+  comboRelatedDamageMultiplier(metadata) *
+  baseDropGemDamageMultiplier(metadata) *
+  ultimaLionRageDamageMultiplier(metadata);
+
 // damage calculation
-export const calculateDamage = (metadata: DamageMetadata) => {};
+export const calculateMinimumDamage = (metadata: DamageMetadata) =>
+  additive(metadata) *
+  multiplicative(metadata) *
+  minimumDamageMultiplier(metadata);
+
+export const calculateMaximumDamage = (metadata: DamageMetadata) =>
+  additive(metadata) *
+  multiplicative(metadata) *
+  maximumDamageMultiplier(metadata);
 
 // continue this TODO
