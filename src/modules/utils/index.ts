@@ -5,6 +5,8 @@ export const total = (base: number, percent: number, flat: number) =>
 
 export const sum = (first: number, second: number) => first + second;
 
+export const product = (first: number, second: number) => first * second;
+
 export const get =
   <M extends {}, K extends keyof M>(key: K) =>
   (map: M) =>

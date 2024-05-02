@@ -1,5 +1,9 @@
 import { Character } from "../../../types";
-import { get, sum, flattenStatsFromEquipment } from "../../utils";
+import { get, sum, flattenStatsFromEquipment, floor } from "../../utils";
+
+export const totalMagicDamageToElementBasedFromINT = (
+  character: Character,
+) => floor(character.INT / 10);
 
 export const totalDamageToDark = (character: Character) =>
   flattenStatsFromEquipment(character)
