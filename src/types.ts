@@ -331,7 +331,7 @@ export interface SupportSkills {
   braveAura: { level: number; isActive: boolean };
   highCycle: { level: number; isActive: boolean };
   quickMotion: { level: number };
-  manaRecharge: { level: number };
+  manaRecharge: { level: number; isActive: boolean };
   magicBarrier: { level: number };
   immunity: { level: number };
   fastReaction: { level: number };
@@ -661,6 +661,10 @@ export interface Target {
   DEF: number;
   MDEF: number;
   element: ElementType;
+  isAffectedByArmorBreak: boolean;
+  isAffectedByWeaken: boolean;
+  distanceFromPlayer: number;
+  proration: number;
 }
 
 // utils

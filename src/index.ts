@@ -24,6 +24,8 @@ import {
   Target,
 } from "./types";
 
+export * from "./modules/magicSkills";
+
 export const defaultBladeSkills: BladeSkills = {
   hardHit: { level: 0 },
   astute: { level: 0 },
@@ -117,7 +119,7 @@ export const defaultSupportSkills: SupportSkills = {
   braveAura: { level: 0, isActive: false },
   highCycle: { level: 0, isActive: false },
   quickMotion: { level: 0 },
-  manaRecharge: { level: 0 },
+  manaRecharge: { level: 0, isActive: false },
   magicBarrier: { level: 0 },
   immunity: { level: 0 },
   fastReaction: { level: 0 },
@@ -720,6 +722,10 @@ export const defaultTarget: Target = {
   DEF: 174,
   MDEF: 174,
   element: "neutral",
+  isAffectedByArmorBreak: false,
+  isAffectedByWeaken: false,
+  distanceFromPlayer: 2,
+  proration: 100,
 };
 
 export const target = (
@@ -882,6 +888,9 @@ export type DamageMetadata = {
 
   // qadal burden
   qadalBurdenDamageModifier: number;
+
+  // grazed attacks
+  isGrazed: boolean;
 };
 
 export const defaultDamageMetadata = {
@@ -935,6 +944,8 @@ export const defaultDamageMetadata = {
 
   // qadal burden
   qadalBurdenDamageModifier: 100,
+
+  isGrazed: false,
 };
 
 export const damage = (metadata: DamageMetadata) => {
@@ -999,6 +1010,8 @@ export const damage = (metadata: DamageMetadata) => {
 
     isGuarded: () => damage({ ...metadata, isGuarded: true }),
 
+    isGrazed: () => damage({ ...metadata, isGrazed: true }),
+
     ultimaLionRageDamageModifier: (value: number) =>
       damage({ ...metadata, ultimaLionRageDamageModifier: value }),
 
@@ -1006,38 +1019,6 @@ export const damage = (metadata: DamageMetadata) => {
       damage({ ...metadata, qadalBurdenDamageModifier: value }),
 
     calculate: () => {
-      const oldFormula = // base damage
-        Math.floor(
-          (metadata.source +
-            metadata.characterLevel -
-            metadata.targetLevel) *
-            ((100 - metadata.resistance) / 100),
-        ) -
-        //
-        // effective defense
-        metadata.defense * ((100 - metadata.pierce) / 100) +
-        //
-        metadata.flatUnsheatheAttack +
-        metadata.constant *
-          // multipliers
-          ((metadata.criticalDamageModifier / 100) *
-            (metadata.elementDamageModifier / 100) *
-            (metadata.innateSkillDamageModifier / 100) *
-            (metadata.percentUnsheatheAttack / 100) *
-            (metadata.stability / 100) *
-            (metadata.proration / 100) *
-            (metadata.skillDamageModifier / 100) *
-            (metadata.distanceDependentDamageModifier / 100) *
-            ((metadata.isAffectedByLethargy ? 70 : 100) / 100) *
-            (metadata.lastDamageModifier / 100) *
-            (metadata.comboRelatedDamageModifier / 100) *
-            (metadata.baseDropGemDamageModifier / 100) *
-            ((metadata.isGuarded ? 25 : 100) / 100) *
-            (metadata.ultimaLionRageDamageModifier / 100));
-
-      // new
-
-      // console.log(metadata);
       const baseDamage = Math.floor(
         (metadata.source +
           metadata.characterLevel -
@@ -1045,9 +1026,6 @@ export const damage = (metadata: DamageMetadata) => {
           ((100 - metadata.resistance) / 100),
       );
 
-      // console.log(
-      //   metadata.source + metadata.characterLevel - metadata.targetLevel,
-      // );
       const effectiveDefense = Math.floor(
         metadata.defense * ((100 - metadata.pierce) / 100),
       );
@@ -1063,9 +1041,9 @@ export const damage = (metadata: DamageMetadata) => {
       finalDamage *= metadata.stability / 100;
       finalDamage *= metadata.proration / 100;
       finalDamage *= metadata.skillDamageModifier / 100;
-      (finalDamage *= metadata.distanceDependentDamageModifier / 100),
-        (finalDamage *= (metadata.isAffectedByLethargy ? 70 : 100) / 100),
-        (finalDamage *= metadata.lastDamageModifier / 100);
+      finalDamage *= metadata.distanceDependentDamageModifier / 100;
+      finalDamage *= (metadata.isAffectedByLethargy ? 70 : 100) / 100;
+      finalDamage *= metadata.lastDamageModifier / 100;
       finalDamage *= metadata.comboRelatedDamageModifier / 100;
       finalDamage *= metadata.baseDropGemDamageModifier / 100;
       finalDamage *= (metadata.isGuarded ? 25 : 100) / 100;

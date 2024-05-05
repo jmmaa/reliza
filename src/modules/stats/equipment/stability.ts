@@ -20,5 +20,20 @@ export const totalStability = (character: Character) =>
   totalStabilityFromEquipment(character) +
   totalStabilityFromSkills(character);
 
+/** graze effect lacking here */
+export const totalMinimumStability = (character: Character) =>
+  totalStability(character);
+
+/** graze effect lacking here */
+export const totalMaximumStability = (character: Character) => 100;
+
 export const totalMagicStability = (character: Character) =>
   floor((100 + totalStability(character)) / 2);
+
+export const totalMinimumMagicStability = (character: Character) =>
+  totalMagicStability(character);
+
+export const totalMaximumMagicStability = (character: Character) =>
+  totalMagicStability(character) > 90 ?
+    totalMagicStability(character) - 90 + 100
+  : 100;

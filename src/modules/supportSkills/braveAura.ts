@@ -12,5 +12,5 @@ export const braveAuraIsActive = (character: Character) =>
 export const braveAuraTotalPercentWeaponATK = (character: Character) =>
   braveAuraIsActive(character) ? 10 + braveAuraLevel(character) * 2 : 0;
 
-export const braveAuraTotalDamageBonus = (character: Character) =>
+export const braveAuraTotalLastDamageModifier = (character: Character) =>
   braveAuraIsActive(character) ? braveAuraLevel(character) * 2 : 0;

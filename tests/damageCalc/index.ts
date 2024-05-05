@@ -1,21 +1,22 @@
 import { damage, defaultDamageMetadata } from "../../src";
 
 const result = damage(defaultDamageMetadata)
-  .characterLevel(280)
+  .characterLevel(1)
   .targetLevel(174)
   .defense(174)
-  .source(7761)
-  .constant(500)
+  .source(1714)
+  .constant(50)
   .resistance(6)
-  .pierce(99)
+  .pierce(0)
   .proration(100)
-  .innateSkillDamageModifier(2575)
+  .innateSkillDamageModifier(150)
   .skillDamageModifier(100)
-  .elementDamageModifier(147)
-  .criticalDamageModifier(194)
+  .elementDamageModifier(100)
+  .criticalDamageModifier(125)
   .comboRelatedDamageModifier(100)
-  .distanceDependentDamageModifier(106)
+  .distanceDependentDamageModifier(100)
+  .lastDamageModifier(100)
   .stability(100)
   .calculate(); // TEST THIS SHITTY CALCULATOR
 
-console.log("magic: burst damage :: ", result);
+console.log("magic: arrows damage :: ", result);

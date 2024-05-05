@@ -59,6 +59,11 @@ export const totalCriticalDamage = (character: Character) => {
 export const totalMagicCriticalDamageConversion = (character: Character) =>
   50 + spellBurstTotalMagicCriticalDamageConversion(character);
 
+/** NOTE:
+ * this is only for display purposes, magic critical damage is dynamic therefore
+ * it is not advisable to add this function to the skill calculations due to
+ * several factors that can increase the `mcdmg` conversion.
+ */
 export const totalMagicCriticalDamage = (character: Character) =>
   Math.floor(
     100 +
