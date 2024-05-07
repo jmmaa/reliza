@@ -1,4 +1,8 @@
-import { damage, defaultDamageMetadata } from "../..";
+import {
+  damage,
+  defaultDamageMetadata,
+  qadalTotalLastDamageModifier,
+} from "../..";
 import { Character, Target } from "../../types";
 import { dualBringerTotalMagicCriticalDamageConversion } from "../magicBladeSkills";
 import { longRangeTotalSkillDamageModifier } from "../shotSkills/longRange";
@@ -152,19 +156,22 @@ export const magicArrowsTotalLastDamageModifier =
   (character: Character) => (target: Target) =>
     100 +
     braveAuraTotalLastDamageModifier(character) +
-    manaRechargeTotalLastDamageModifier(character);
+    manaRechargeTotalLastDamageModifier(character) +
+    qadalTotalLastDamageModifier(character);
 
 export const magicArrowsDamage =
   (character: Character) => (target: Target) => {
-    const context = damage({
-      characterLevel: character.level,
+    const minimumDamage = damage({
+      playerLevel: character.level,
+      playerIsAffectedByLethargy: false,
       targetLevel: target.level,
-      source: magicArrowsTotalSourceValueUsed(character)(target),
-      defense: magicArrowsTotalDefenseValueUsed(character)(target),
-      resistance: magicArrowsTotalResistanceValueUsed(character)(target),
+      targetDefense: magicArrowsTotalDefenseValueUsed(character)(target),
+      targetResistance:
+        magicArrowsTotalResistanceValueUsed(character)(target),
+      damageSource: magicArrowsTotalSourceValueUsed(character)(target),
+      damagePierce: magicArrowsTotalPierceValueUsed(character)(target),
+      damageConstant: magicArrowsTotalConstant(character)(target),
       proration: magicArrowsTotalProrationValueUsed(character)(target),
-      pierce: magicArrowsTotalPierceValueUsed(character)(target),
-      constant: magicArrowsTotalConstant(character)(target),
       innateSkillDamageModifier:
         magicArrowsTotalInnateSkillDamageModifier(character)(target),
       elementDamageModifier:
@@ -181,21 +188,46 @@ export const magicArrowsDamage =
         magicArrowsTotalSkillDamageModifier(character)(target),
       baseDropGemDamageModifier: 100,
       comboRelatedDamageModifier: 100,
-      qadalBurdenDamageModifier: 100,
+
       ultimaLionRageDamageModifier: 100,
-      stability: 100,
-      isAffectedByLethargy: false,
+      stability: magicArrowsTotalMinimumStability(character)(target),
       isGrazed: false,
       isGuarded: false,
     });
 
-    const minimumDamage = context
-      .stability(magicArrowsTotalMinimumStability(character)(target))
-      .calculate();
+    const maximumDamage = damage({
+      playerLevel: character.level,
+      playerIsAffectedByLethargy: false,
+      targetLevel: target.level,
+      targetDefense: magicArrowsTotalDefenseValueUsed(character)(target),
+      targetResistance:
+        magicArrowsTotalResistanceValueUsed(character)(target),
+      damageSource: magicArrowsTotalSourceValueUsed(character)(target),
+      damagePierce: magicArrowsTotalPierceValueUsed(character)(target),
+      damageConstant: magicArrowsTotalConstant(character)(target),
+      proration: magicArrowsTotalProrationValueUsed(character)(target),
+      innateSkillDamageModifier:
+        magicArrowsTotalInnateSkillDamageModifier(character)(target),
+      elementDamageModifier:
+        magicArrowsTotalElementDamageModifier(character)(target),
+      criticalDamageModifier:
+        magicArrowsTotalCriticalDamageModifier(character)(target),
+      distanceDependentDamageModifier:
+        magicArrowsTotalDistanceDependentDamageModifier(character)(target),
+      lastDamageModifier:
+        magicArrowsTotalLastDamageModifier(character)(target),
+      flatUnsheatheAttack: 0,
+      percentUnsheatheAttack: 100,
+      skillDamageModifier:
+        magicArrowsTotalSkillDamageModifier(character)(target),
+      baseDropGemDamageModifier: 100,
+      comboRelatedDamageModifier: 100,
 
-    const maximumDamage = context
-      .stability(magicArrowsTotalMaximumStability(character)(target))
-      .calculate();
+      ultimaLionRageDamageModifier: 100,
+      stability: magicArrowsTotalMaximumStability(character)(target),
+      isGrazed: false,
+      isGuarded: false,
+    });
 
     const averageDamage = Math.floor((minimumDamage + maximumDamage) / 2);
 

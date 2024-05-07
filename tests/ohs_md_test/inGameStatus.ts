@@ -12,6 +12,54 @@ import {
   guardSkills,
   calculateInGame,
 } from "../../src";
+import { Character, Crystal } from "../../src/types";
+
+export const lilicarolla = (character: Character) =>
+  statMap({
+    percentUnsheatheAttack: 18,
+    flatMaxMP: -100,
+    percentDodge: -5,
+  });
+
+export const prudentBlueShadow = (character: Character) =>
+  statMap({
+    shortRangeDamage: 8,
+    longRangeDamage: 8,
+    percentUnsheatheAttack: 8,
+    flatMaxMP: -150,
+  });
+
+export const yuveria = (character: Character) =>
+  statMap({
+    flatMaxMP: 300,
+    physicalResistance: 3,
+    magicResistance: 3,
+    shortRangeDamage: 6,
+    aggro: -15,
+  });
+
+export const florizard = (character: Character) =>
+  statMap({
+    stability: 5,
+    magicPierce: 20,
+    aggro: -15,
+  });
+
+export const altadar = (character: Character) =>
+  statMap({
+    stability: 6,
+    shortRangeDamage: 11,
+    percentSTR: 6,
+    percentVIT: 6,
+  });
+
+export const etoise = (character: Character) =>
+  statMap({
+    percentCriticalRate: 40,
+    flatASPD: 1100,
+    motionSpeed: 5,
+    percentCSPD: -70,
+  });
 
 const myCharacter = character({
   level: 280,
@@ -35,15 +83,7 @@ const myCharacter = character({
         // flatNaturalMPRegen: -13,
       }),
     ],
-    crystals: [
-      [
-        statMap({
-          stability: 5,
-          magicPierce: 20,
-          aggro: -15,
-        }),
-      ],
-    ],
+    crystals: [florizard],
   },
 
   subWeapon: {
@@ -75,27 +115,7 @@ const myCharacter = character({
       }),
     ],
 
-    crystals: [
-      // altadar
-      [
-        statMap({
-          stability: 6,
-          shortRangeDamage: 11,
-          percentSTR: 6,
-          percentVIT: 6,
-        }),
-      ],
-      // yuveria
-      [
-        statMap({
-          flatMaxMP: 300,
-          physicalResistance: 3,
-          magicResistance: 3,
-          shortRangeDamage: 6,
-          aggro: -15,
-        }),
-      ],
-    ],
+    crystals: [altadar, yuveria],
   },
 
   additionalGear: {
@@ -110,26 +130,7 @@ const myCharacter = character({
         // invincible aid
       }),
     ],
-    crystals: [
-      // prudent blue shadow
-      [
-        statMap({
-          shortRangeDamage: 8,
-          longRangeDamage: 8,
-          percentUnsheatheAttack: 8,
-          flatMaxMP: -150,
-        }),
-      ],
-
-      // lilicarolla
-      [
-        statMap({
-          percentUnsheatheAttack: 18,
-          flatMaxMP: -100,
-          percentDodge: -5,
-        }),
-      ],
-    ],
+    crystals: [prudentBlueShadow, lilicarolla],
   },
 
   specialGear: {
@@ -143,26 +144,7 @@ const myCharacter = character({
       }),
     ],
 
-    crystals: [
-      // etoise
-      [
-        statMap({
-          percentCriticalRate: 40,
-          flatASPD: 1100,
-          motionSpeed: 5,
-          percentCSPD: -70,
-        }),
-      ],
-
-      // lilicarolla
-      [
-        statMap({
-          percentUnsheatheAttack: 18,
-          flatMaxMP: -100,
-          percentDodge: -5,
-        }),
-      ],
-    ],
+    crystals: [etoise, lilicarolla],
   },
 
   skills: skills({

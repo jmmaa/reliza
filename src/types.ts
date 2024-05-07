@@ -299,7 +299,12 @@ export interface MagicSkills {
   magicCrash: { level: number };
   magicMastery: { level: number };
   magicKnife: { level: number };
-  qadal: { level: number };
+  qadal: {
+    level: number;
+    charge: number;
+    isActive: boolean;
+    timer: number;
+  };
   MPCharge: { level: number };
   chainCast: { level: number };
   powerWave: { level: number };
@@ -584,10 +589,7 @@ export interface Regislets {
   // incomplete
 }
 
-export interface Effect<Status> {
-  predicate: (status: Status) => boolean;
-  stats: StatMap;
-}
+export type Crystal = (character: Character) => StatMap;
 
 export interface Character {
   level: number;
@@ -609,7 +611,7 @@ export interface Character {
     refinement: number;
     stability: number;
     stats: StatMap[];
-    crystals: StatMap[][];
+    crystals: Crystal[];
   };
 
   subWeapon: {
@@ -621,7 +623,8 @@ export interface Character {
     scrollCastTimeReduction: number;
     scrollMPReduction: number;
     stats: StatMap[];
-    crystals: StatMap[][];
+    // crystals: StatMap[][];
+    crystals: Crystal[];
   };
 
   armor: {
@@ -629,20 +632,23 @@ export interface Character {
     refinement: number;
     type: ArmorType;
     stats: StatMap[];
-    crystals: StatMap[][];
+    // crystals: StatMap[][];
+    crystals: Crystal[];
   };
 
   additionalGear: {
     DEF: number;
     refinement: number;
     stats: StatMap[];
-    crystals: StatMap[][];
+    // crystals: StatMap[][];
+    crystals: Crystal[];
   };
 
   specialGear: {
     DEF: number;
     stats: StatMap[];
-    crystals: StatMap[][];
+    // crystals: StatMap[][];
+    crystals: Crystal[];
   };
 
   consumables: StatMap[];

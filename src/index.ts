@@ -87,7 +87,7 @@ export const defaultMagicSkills: MagicSkills = {
   magicCrash: { level: 0 },
   magicMastery: { level: 0 },
   magicKnife: { level: 0 },
-  qadal: { level: 0 },
+  qadal: { level: 0, charge: 0, isActive: false, timer: 0 },
   MPCharge: { level: 0 },
   chainCast: { level: 0 },
   powerWave: { level: 0 },
@@ -661,7 +661,7 @@ export const defaultCharacter: Character = {
     refinement: 0,
     stability: 0,
     stats: [],
-    crystals: [[]],
+    crystals: [],
   },
 
   subWeapon: {
@@ -673,7 +673,7 @@ export const defaultCharacter: Character = {
     scrollCastTimeReduction: 0,
     scrollMPReduction: 0,
     stats: [],
-    crystals: [[]],
+    crystals: [],
   },
 
   armor: {
@@ -681,20 +681,20 @@ export const defaultCharacter: Character = {
     refinement: 0,
     type: "none",
     stats: [],
-    crystals: [[]],
+    crystals: [],
   },
 
   additionalGear: {
     DEF: 0,
     refinement: 0,
     stats: [],
-    crystals: [[]],
+    crystals: [],
   },
 
   specialGear: {
     DEF: 0,
     stats: [],
-    crystals: [[]],
+    crystals: [],
   },
 
   consumables: [],
@@ -838,70 +838,45 @@ export const calculateAll = (character: Character) => ({
 
 // Damage Calculator
 export type DamageMetadata = {
-  // for base
-  characterLevel: number;
+  // for character
+  playerLevel: number;
+  playerIsAffectedByLethargy: boolean;
+
+  // for target
   targetLevel: number;
-  defense: number; // MDEF/DEF
-  resistance: number; // PRES/MRES
-  source: number; // effective atk/matk, wizard atk, etc.
-  pierce: number; // ppierce/mpierce
-  constant: number;
+  targetDefense: number; // MDEF/DEF
+  targetResistance: number; // PRES/MRES
+
+  // for damage instance
+  damageSource: number;
+  damagePierce: number;
+  damageConstant: number;
   flatUnsheatheAttack: number;
-
-  // percentages
   criticalDamageModifier: number;
-
   elementDamageModifier: number;
-
-  // damage multiplier that only affects this type of skill
   innateSkillDamageModifier: number;
-
   percentUnsheatheAttack: number;
-
   stability: number;
-
   proration: number;
-
-  // sword techniques, etc.
   skillDamageModifier: number;
-
-  // short/long range damage
   distanceDependentDamageModifier: number;
-
-  // if character is affected with lethargy
-  isAffectedByLethargy: boolean;
-
-  // brave aura, mana recharge, etc.
   lastDamageModifier: number;
-
-  // smite, zero stance, save, consecutive, etc.
   comboRelatedDamageModifier: number;
-
-  // base drop gem damage reducers
   baseDropGemDamageModifier: number;
-
-  // guard effect
   isGuarded: boolean;
-
-  // ultima lion rage
   ultimaLionRageDamageModifier: number;
-
-  // qadal burden
-  qadalBurdenDamageModifier: number;
-
-  // grazed attacks
   isGrazed: boolean;
 };
 
-export const defaultDamageMetadata = {
+export const defaultDamageMetadata: DamageMetadata = {
   // for base
-  characterLevel: 0,
+  playerLevel: 0,
   targetLevel: 1,
-  defense: 1, // MDEF/DEF
-  resistance: 1, // PRES/MRES
-  source: 1, // effective atk/matk, wizard atk, etc.
-  pierce: 1, // ppierce/mpierce
-  constant: 0,
+  targetDefense: 1, // MDEF/DEF
+  targetResistance: 1, // PRES/MRES
+  damageSource: 1, // effective atk/matk, wizard atk, etc.
+  damagePierce: 1, // pdamagePierce/mdamagePierce
+  damageConstant: 0,
   flatUnsheatheAttack: 0,
 
   // percentages
@@ -925,7 +900,7 @@ export const defaultDamageMetadata = {
   distanceDependentDamageModifier: 100,
 
   // if character is affected with lethargy
-  isAffectedByLethargy: false,
+  playerIsAffectedByLethargy: false,
 
   // brave aura, mana recharge, etc.
   lastDamageModifier: 100,
@@ -942,116 +917,149 @@ export const defaultDamageMetadata = {
   // ultima lion rage
   ultimaLionRageDamageModifier: 100,
 
-  // qadal burden
-  qadalBurdenDamageModifier: 100,
-
   isGrazed: false,
 };
 
+// export const damage = (metadata: DamageMetadata) => {
+//   return {
+//     metadata,
+
+//     playerLevel: (value: number) =>
+//       damage({ ...metadata, playerLevel: value }),
+
+//     targetLevel: (value: number) =>
+//       damage({ ...metadata, targetLevel: value }),
+
+//     targetDefense: (value: number) =>
+//       damage({ ...metadata, targetDefense: value }),
+
+//     targetResistance: (value: number) =>
+//       damage({ ...metadata, targetResistance: value }),
+
+//     damageSource: (value: number) =>
+//       damage({ ...metadata, damageSource: value }),
+
+//     damagePierce: (value: number) =>
+//       damage({ ...metadata, damagePierce: value }),
+
+//     damageConstant: (value: number) =>
+//       damage({ ...metadata, damageConstant: value }),
+
+//     flatUnsheatheAttack: (value: number) =>
+//       damage({ ...metadata, flatUnsheatheAttack: value }),
+
+//     criticalDamageModifier: (value: number) =>
+//       damage({ ...metadata, criticalDamageModifier: value }),
+
+//     elementDamageModifier: (value: number) =>
+//       damage({ ...metadata, elementDamageModifier: value }),
+
+//     innateSkillDamageModifier: (value: number) =>
+//       damage({ ...metadata, innateSkillDamageModifier: value }),
+
+//     percentUnsheatheAttack: (value: number) =>
+//       damage({ ...metadata, percentUnsheatheAttack: value }),
+
+//     stability: (value: number) =>
+//       damage({ ...metadata, stability: value }),
+
+//     proration: (value: number) =>
+//       damage({ ...metadata, proration: value }),
+
+//     skillDamageModifier: (value: number) =>
+//       damage({ ...metadata, skillDamageModifier: value }),
+
+//     distanceDependentDamageModifier: (value: number) =>
+//       damage({ ...metadata, distanceDependentDamageModifier: value }),
+
+//     playerIsAffectedByLethargy: () =>
+//       damage({ ...metadata, playerIsAffectedByLethargy: true }),
+
+//     lastDamageModifier: (value: number) =>
+//       damage({ ...metadata, lastDamageModifier: value }),
+
+//     comboRelatedDamageModifier: (value: number) =>
+//       damage({ ...metadata, comboRelatedDamageModifier: value }),
+
+//     baseDropGemDamageModifier: (value: number) =>
+//       damage({ ...metadata, baseDropGemDamageModifier: value }),
+
+//     isGuarded: () => damage({ ...metadata, isGuarded: true }),
+
+//     isGrazed: () => damage({ ...metadata, isGrazed: true }),
+
+//     ultimaLionRageDamageModifier: (value: number) =>
+//       damage({ ...metadata, ultimaLionRageDamageModifier: value }),
+
+//     calculate: () => {
+//       const baseDamage = Math.floor(
+//         (metadata.damageSource +
+//           metadata.playerLevel -
+//           metadata.targetLevel) *
+//           ((100 - metadata.targetResistance) / 100),
+//       );
+
+//       const effectiveDefense = Math.floor(
+//         metadata.targetDefense * ((100 - metadata.damagePierce) / 100),
+//       );
+
+//       let finalDamage = baseDamage - effectiveDefense;
+
+//       finalDamage += metadata.damageConstant;
+//       finalDamage += metadata.flatUnsheatheAttack;
+//       finalDamage *= metadata.criticalDamageModifier / 100;
+//       finalDamage *= metadata.elementDamageModifier / 100;
+//       finalDamage *= metadata.innateSkillDamageModifier / 100;
+//       finalDamage *= metadata.percentUnsheatheAttack / 100;
+//       finalDamage *= metadata.stability / 100;
+//       finalDamage *= metadata.proration / 100;
+//       finalDamage *= metadata.skillDamageModifier / 100;
+//       finalDamage *= metadata.distanceDependentDamageModifier / 100;
+//       finalDamage *=
+//         (metadata.playerIsAffectedByLethargy ? 70 : 100) / 100;
+//       finalDamage *= metadata.lastDamageModifier / 100;
+//       finalDamage *= metadata.comboRelatedDamageModifier / 100;
+//       finalDamage *= metadata.baseDropGemDamageModifier / 100;
+//       finalDamage *= (metadata.isGuarded ? 25 : 100) / 100;
+//       finalDamage *= metadata.ultimaLionRageDamageModifier / 100;
+
+//       finalDamage = Math.floor(finalDamage);
+
+//       return finalDamage;
+//     },
+//   };
+// };
+
 export const damage = (metadata: DamageMetadata) => {
-  return {
-    metadata,
+  const baseDamage = Math.floor(
+    (metadata.damageSource + metadata.playerLevel - metadata.targetLevel) *
+      ((100 - metadata.targetResistance) / 100),
+  );
 
-    characterLevel: (value: number) =>
-      damage({ ...metadata, characterLevel: value }),
+  const effectiveDefense = Math.floor(
+    metadata.targetDefense * ((100 - metadata.damagePierce) / 100),
+  );
 
-    targetLevel: (value: number) =>
-      damage({ ...metadata, targetLevel: value }),
+  let finalDamage = baseDamage - effectiveDefense;
 
-    defense: (value: number) => damage({ ...metadata, defense: value }),
+  finalDamage += metadata.damageConstant;
+  finalDamage += metadata.flatUnsheatheAttack;
+  finalDamage *= metadata.criticalDamageModifier / 100;
+  finalDamage *= metadata.elementDamageModifier / 100;
+  finalDamage *= metadata.innateSkillDamageModifier / 100;
+  finalDamage *= metadata.percentUnsheatheAttack / 100;
+  finalDamage *= metadata.stability / 100;
+  finalDamage *= metadata.proration / 100;
+  finalDamage *= metadata.skillDamageModifier / 100;
+  finalDamage *= metadata.distanceDependentDamageModifier / 100;
+  finalDamage *= (metadata.playerIsAffectedByLethargy ? 70 : 100) / 100;
+  finalDamage *= metadata.lastDamageModifier / 100;
+  finalDamage *= metadata.comboRelatedDamageModifier / 100;
+  finalDamage *= metadata.baseDropGemDamageModifier / 100;
+  finalDamage *= (metadata.isGuarded ? 25 : 100) / 100;
+  finalDamage *= metadata.ultimaLionRageDamageModifier / 100;
 
-    resistance: (value: number) =>
-      damage({ ...metadata, resistance: value }),
+  finalDamage = Math.floor(finalDamage);
 
-    source: (value: number) => damage({ ...metadata, source: value }),
-
-    pierce: (value: number) => damage({ ...metadata, pierce: value }),
-
-    constant: (value: number) => damage({ ...metadata, constant: value }),
-
-    flatUnsheatheAttack: (value: number) =>
-      damage({ ...metadata, flatUnsheatheAttack: value }),
-
-    criticalDamageModifier: (value: number) =>
-      damage({ ...metadata, criticalDamageModifier: value }),
-
-    elementDamageModifier: (value: number) =>
-      damage({ ...metadata, elementDamageModifier: value }),
-
-    innateSkillDamageModifier: (value: number) =>
-      damage({ ...metadata, innateSkillDamageModifier: value }),
-
-    percentUnsheatheAttack: (value: number) =>
-      damage({ ...metadata, percentUnsheatheAttack: value }),
-
-    stability: (value: number) =>
-      damage({ ...metadata, stability: value }),
-
-    proration: (value: number) =>
-      damage({ ...metadata, proration: value }),
-
-    skillDamageModifier: (value: number) =>
-      damage({ ...metadata, skillDamageModifier: value }),
-
-    distanceDependentDamageModifier: (value: number) =>
-      damage({ ...metadata, distanceDependentDamageModifier: value }),
-
-    isAffectedByLethargy: () =>
-      damage({ ...metadata, isAffectedByLethargy: true }),
-
-    lastDamageModifier: (value: number) =>
-      damage({ ...metadata, lastDamageModifier: value }),
-
-    comboRelatedDamageModifier: (value: number) =>
-      damage({ ...metadata, comboRelatedDamageModifier: value }),
-
-    baseDropGemDamageModifier: (value: number) =>
-      damage({ ...metadata, baseDropGemDamageModifier: value }),
-
-    isGuarded: () => damage({ ...metadata, isGuarded: true }),
-
-    isGrazed: () => damage({ ...metadata, isGrazed: true }),
-
-    ultimaLionRageDamageModifier: (value: number) =>
-      damage({ ...metadata, ultimaLionRageDamageModifier: value }),
-
-    qadalBurdenDamageModifier: (value: number) =>
-      damage({ ...metadata, qadalBurdenDamageModifier: value }),
-
-    calculate: () => {
-      const baseDamage = Math.floor(
-        (metadata.source +
-          metadata.characterLevel -
-          metadata.targetLevel) *
-          ((100 - metadata.resistance) / 100),
-      );
-
-      const effectiveDefense = Math.floor(
-        metadata.defense * ((100 - metadata.pierce) / 100),
-      );
-
-      let finalDamage = baseDamage - effectiveDefense;
-
-      finalDamage += metadata.constant;
-      finalDamage += metadata.flatUnsheatheAttack;
-      finalDamage *= metadata.criticalDamageModifier / 100;
-      finalDamage *= metadata.elementDamageModifier / 100;
-      finalDamage *= metadata.innateSkillDamageModifier / 100;
-      finalDamage *= metadata.percentUnsheatheAttack / 100;
-      finalDamage *= metadata.stability / 100;
-      finalDamage *= metadata.proration / 100;
-      finalDamage *= metadata.skillDamageModifier / 100;
-      finalDamage *= metadata.distanceDependentDamageModifier / 100;
-      finalDamage *= (metadata.isAffectedByLethargy ? 70 : 100) / 100;
-      finalDamage *= metadata.lastDamageModifier / 100;
-      finalDamage *= metadata.comboRelatedDamageModifier / 100;
-      finalDamage *= metadata.baseDropGemDamageModifier / 100;
-      finalDamage *= (metadata.isGuarded ? 25 : 100) / 100;
-      finalDamage *= metadata.ultimaLionRageDamageModifier / 100;
-
-      finalDamage = Math.floor(finalDamage);
-
-      return finalDamage;
-    },
-  };
+  return finalDamage;
 };
