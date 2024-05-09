@@ -13,23 +13,6 @@ export const godspeedWieldLevel = (character: Character) =>
 export const godspeedWieldIsActive = (character: Character) =>
   godspeedWield(character).isActive;
 
-// export const godspeedWieldTotalFlatASPD = (character: Character) => {
-//   const godspeedWield = character.skills.halberdSkills.godspeedWield;
-
-//   const isMainHAL = character.mainWeapon.type === "halberd";
-//   const skillLevel = godspeedWield.level;
-//   const isActive = godspeedWield.isActive;
-//   const stacks = godspeedWield.stacks;
-
-//   const total =
-//     isActive ?
-//       isMainHAL ? 30 * skillLevel * stacks + 100 * stacks
-//       : 30 * skillLevel * stacks
-//     : 0;
-
-//   return total;
-// };
-
 export const godspeedWieldTotalFlatASPD = (character: Character) =>
   godspeedWieldIsActive(character) ?
     character.mainWeapon.type === "halberd" ?

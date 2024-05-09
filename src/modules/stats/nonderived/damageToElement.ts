@@ -1,6 +1,5 @@
 import { Character } from "../../../types";
 import { get, sum, flattenStatsFromEquipment, floor } from "../../utils";
-import { mainWeaponElement, subWeaponElement } from "../equipment";
 
 export const totalMagicDamageToElementBasedFromINT = (
   character: Character,

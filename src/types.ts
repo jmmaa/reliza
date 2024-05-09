@@ -228,6 +228,9 @@ export interface NumericalStats {
   guardRecharge: number;
 
   evasionRecharge: number;
+
+  itemCooldown: number;
+  invincibleAid: number;
 }
 
 export interface NonNumericalStats {
@@ -547,7 +550,7 @@ export interface WizardSkills {
   advancedFamilia: { level: number };
   castMastery: { level: number };
   crystalLaser: { level: number };
-  overlimit: { level: number };
+  overlimit: { level: number; isActive: boolean };
   sorceryGuide: { level: number };
 }
 

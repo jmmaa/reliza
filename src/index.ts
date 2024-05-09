@@ -24,9 +24,7 @@ import {
   Target,
 } from "./types";
 
-export * from "./modules/magicSkills";
-
-export const defaultBladeSkills: BladeSkills = {
+const defaultBladeSkills: BladeSkills = {
   hardHit: { level: 0 },
   astute: { level: 0 },
   triggerSlash: { level: 0 },
@@ -48,7 +46,7 @@ export const defaultBladeSkills: BladeSkills = {
   swiftAttack: { level: 0 },
 };
 
-export const defaultShotSkills: ShotSkills = {
+const defaultShotSkills: ShotSkills = {
   // shot skills
   powerShot: { level: 0 },
   bullseye: { level: 0 },
@@ -72,7 +70,7 @@ export const defaultShotSkills: ShotSkills = {
   fatalShot: { level: 0 },
 };
 
-export const defaultMagicSkills: MagicSkills = {
+const defaultMagicSkills: MagicSkills = {
   magicArrows: { level: 0 },
   magicJavelin: { level: 0 },
   magicLances: { level: 0 },
@@ -97,7 +95,7 @@ export const defaultMagicSkills: MagicSkills = {
   magicGuardianBeam: { level: 0 },
 };
 
-export const defaultSurvivalSkills: SurvivalSkills = {
+const defaultSurvivalSkills: SurvivalSkills = {
   playDead: { level: 0 },
   EXPGainUP: { level: 0 },
   dropRateUP: { level: 0 },
@@ -109,7 +107,7 @@ export const defaultSurvivalSkills: SurvivalSkills = {
   soberAnalysis: { level: 0 },
 };
 
-export const defaultSupportSkills: SupportSkills = {
+const defaultSupportSkills: SupportSkills = {
   firstAid: { level: 0 },
   miniHeal: { level: 0 },
   recovery: { level: 0 },
@@ -125,7 +123,7 @@ export const defaultSupportSkills: SupportSkills = {
   fastReaction: { level: 0 },
 };
 
-export const defaultBattleSkills: BattleSkills = {
+const defaultBattleSkills: BattleSkills = {
   magicUP: { level: 0 },
   concentrate: { level: 0 },
   attackUP: { level: 0 },
@@ -143,7 +141,7 @@ export const defaultBattleSkills: BattleSkills = {
   superGrip: { level: 0 },
 };
 
-export const defaultMononofuSkills: MononofuSkills = {
+const defaultMononofuSkills: MononofuSkills = {
   issen: { level: 0 },
   pulseBlade: { level: 0 },
   tripleThrust: { level: 0 },
@@ -165,7 +163,7 @@ export const defaultMononofuSkills: MononofuSkills = {
   bouncingBlade: { level: 0 },
 };
 
-export const defaultDualSwordSkills: DualSwordSkills = {
+const defaultDualSwordSkills: DualSwordSkills = {
   dualSwordMastery: { level: 0 },
   twinSlash: { level: 0 },
   spinningSlash: { level: 0 },
@@ -187,7 +185,7 @@ export const defaultDualSwordSkills: DualSwordSkills = {
   crescentSaber: { level: 0 },
 };
 
-export const defaultMagicBladeSkills: MagicBladeSkills = {
+const defaultMagicBladeSkills: MagicBladeSkills = {
   magicWarriorMastery: { level: 0 },
   conversion: { level: 0, isActive: false },
   resonance: {
@@ -209,7 +207,7 @@ export const defaultMagicBladeSkills: MagicBladeSkills = {
   magicSkin: { level: 0 },
 };
 
-export const defaultHalberdSkills: HalberdSkills = {
+const defaultHalberdSkills: HalberdSkills = {
   flashStab: { level: 0 },
   cannonSpear: { level: 0 },
   dragonTail: { level: 0 },
@@ -231,7 +229,7 @@ export const defaultHalberdSkills: HalberdSkills = {
   busterLance: { level: 0 },
 };
 
-export const defaultMartialSkills: MartialSkills = {
+const defaultMartialSkills: MartialSkills = {
   smash: { level: 0 },
   bash: { level: 0 },
   shellBreak: { level: 0 },
@@ -253,7 +251,7 @@ export const defaultMartialSkills: MartialSkills = {
   slide: { level: 0 },
 };
 
-export const defaultBareHandSkills: BareHandSkills = {
+const defaultBareHandSkills: BareHandSkills = {
   unarmedMastery: { level: 0 },
   qiCharge: { level: 0 },
   lionRage: { level: 0 },
@@ -268,7 +266,7 @@ export const defaultBareHandSkills: BareHandSkills = {
   earthShaker: { level: 0 },
 };
 
-export const defaultShieldSkills: ShieldSkills = {
+const defaultShieldSkills: ShieldSkills = {
   shieldMastery: { level: 0 },
   shieldBash: { level: 0 },
   shieldCannon: { level: 0 },
@@ -284,7 +282,7 @@ export const defaultShieldSkills: ShieldSkills = {
   guardian: { level: 0 },
 };
 
-export const defaultHunterSkills: HunterSkills = {
+const defaultHunterSkills: HunterSkills = {
   kick: { level: 0 },
   sunriseArrow: { level: 0 },
   magicArrow: { level: 0 },
@@ -301,14 +299,14 @@ export const defaultHunterSkills: HunterSkills = {
   multipleHunt: { level: 0 },
 };
 
-export const defaultNinjaSkills: NinjaSkills = {
+const defaultNinjaSkills: NinjaSkills = {
   ninjutsu: { level: 0 },
   ninjaSpirit: { level: 0 },
   ninjusuDrillI: { level: 0 },
   ninjutsuDrillII: { level: 0 },
 };
 
-export const defaultGuardSkills: GuardSkills = {
+const defaultGuardSkills: GuardSkills = {
   heavyArmorMastery: { level: 0 },
   advancedGuard: { level: 0 },
   physicalGuard: { level: 0 },
@@ -317,7 +315,7 @@ export const defaultGuardSkills: GuardSkills = {
   mirageEvasion: { level: 0 },
 };
 
-export const defaultWizardSkills: WizardSkills = {
+const defaultWizardSkills: WizardSkills = {
   familia: { level: 0, isActive: false },
   lightning: { level: 0 },
   blizzard: { level: 0 },
@@ -328,11 +326,11 @@ export const defaultWizardSkills: WizardSkills = {
   advancedFamilia: { level: 0 },
   castMastery: { level: 0 },
   crystalLaser: { level: 0 },
-  overlimit: { level: 0 },
+  overlimit: { level: 0, isActive: false },
   sorceryGuide: { level: 0 },
 };
 
-export const defaultRegislets = {
+const defaultRegislets = {
   zeroStance: { level: 0 },
   maxHPBoost: { level: 0 },
   maxMPBoost: { level: 0 },
@@ -632,14 +630,10 @@ export const defaultStatMap: StatMap = {
   guardRecharge: 0,
 
   evasionRecharge: 0,
-};
 
-export const statMap = (
-  stats: Partial<StatMap>,
-): Partial<StatMap> & StatMap => ({
-  ...(defaultStatMap as StatMap),
-  ...stats,
-});
+  itemCooldown: 0,
+  invincibleAid: 0,
+};
 
 export const defaultCharacter: Character = {
   level: 1,
@@ -727,6 +721,13 @@ export const defaultTarget: Target = {
   distanceFromPlayer: 2,
   proration: 100,
 };
+
+export const statMap = (
+  stats: Partial<StatMap>,
+): Partial<StatMap> & StatMap => ({
+  ...(defaultStatMap as StatMap),
+  ...stats,
+});
 
 export const target = (
   target: Partial<Target>,

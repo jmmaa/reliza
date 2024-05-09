@@ -10,6 +10,6 @@
 //   totalDamageToWater,
 // } from "../stats";
 
-// export const totalElementDamageModifierForMainWeaponDependentBaseElement =
+// export const totalElementDamageModifier =
 //   (character: Character) => (target: Target) =>
 //     mainWeaponElement()

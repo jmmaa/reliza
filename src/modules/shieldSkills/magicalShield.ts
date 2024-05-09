@@ -18,9 +18,7 @@ export const magicalShieldTotalFlatMaxHP = (character: Character) =>
     magicalShieldLevel(character) * 50
   : 0;
 
-export const magicalShieldTotalMagicalResistance = (
-  character: Character,
-) =>
+export const magicalShieldTotalMagicResistance = (character: Character) =>
   character.subWeapon.type === "shield" ?
     magicalShieldLevel(character)
   : 0;

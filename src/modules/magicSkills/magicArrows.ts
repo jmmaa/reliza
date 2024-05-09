@@ -1,8 +1,4 @@
-import {
-  damage,
-  defaultDamageMetadata,
-  qadalTotalLastDamageModifier,
-} from "../..";
+import { qadalTotalLastDamageModifier } from "../../modules/magicSkills";
 import { Character, Target } from "../../types";
 import { dualBringerTotalMagicCriticalDamageConversion } from "../magicBladeSkills";
 import { longRangeTotalSkillDamageModifier } from "../shotSkills/longRange";
@@ -159,83 +155,83 @@ export const magicArrowsTotalLastDamageModifier =
     manaRechargeTotalLastDamageModifier(character) +
     qadalTotalLastDamageModifier(character);
 
-export const magicArrowsDamage =
-  (character: Character) => (target: Target) => {
-    const minimumDamage = damage({
-      playerLevel: character.level,
-      playerIsAffectedByLethargy: false,
-      targetLevel: target.level,
-      targetDefense: magicArrowsTotalDefenseValueUsed(character)(target),
-      targetResistance:
-        magicArrowsTotalResistanceValueUsed(character)(target),
-      damageSource: magicArrowsTotalSourceValueUsed(character)(target),
-      damagePierce: magicArrowsTotalPierceValueUsed(character)(target),
-      damageConstant: magicArrowsTotalConstant(character)(target),
-      proration: magicArrowsTotalProrationValueUsed(character)(target),
-      innateSkillDamageModifier:
-        magicArrowsTotalInnateSkillDamageModifier(character)(target),
-      elementDamageModifier:
-        magicArrowsTotalElementDamageModifier(character)(target),
-      criticalDamageModifier:
-        magicArrowsTotalCriticalDamageModifier(character)(target),
-      distanceDependentDamageModifier:
-        magicArrowsTotalDistanceDependentDamageModifier(character)(target),
-      lastDamageModifier:
-        magicArrowsTotalLastDamageModifier(character)(target),
-      flatUnsheatheAttack: 0,
-      percentUnsheatheAttack: 100,
-      skillDamageModifier:
-        magicArrowsTotalSkillDamageModifier(character)(target),
-      baseDropGemDamageModifier: 100,
-      comboRelatedDamageModifier: 100,
+// export const magicArrowsDamage =
+//   (character: Character) => (target: Target) => {
+//     const minimumDamage = damage({
+//       playerLevel: character.level,
+//       playerIsAffectedByLethargy: false,
+//       targetLevel: target.level,
+//       targetDefense: magicArrowsTotalDefenseValueUsed(character)(target),
+//       targetResistance:
+//         magicArrowsTotalResistanceValueUsed(character)(target),
+//       damageSource: magicArrowsTotalSourceValueUsed(character)(target),
+//       damagePierce: magicArrowsTotalPierceValueUsed(character)(target),
+//       damageConstant: magicArrowsTotalConstant(character)(target),
+//       proration: magicArrowsTotalProrationValueUsed(character)(target),
+//       innateSkillDamageModifier:
+//         magicArrowsTotalInnateSkillDamageModifier(character)(target),
+//       elementDamageModifier:
+//         magicArrowsTotalElementDamageModifier(character)(target),
+//       criticalDamageModifier:
+//         magicArrowsTotalCriticalDamageModifier(character)(target),
+//       distanceDependentDamageModifier:
+//         magicArrowsTotalDistanceDependentDamageModifier(character)(target),
+//       lastDamageModifier:
+//         magicArrowsTotalLastDamageModifier(character)(target),
+//       flatUnsheatheAttack: 0,
+//       percentUnsheatheAttack: 100,
+//       skillDamageModifier:
+//         magicArrowsTotalSkillDamageModifier(character)(target),
+//       baseDropGemDamageModifier: 100,
+//       comboRelatedDamageModifier: 100,
 
-      ultimaLionRageDamageModifier: 100,
-      stability: magicArrowsTotalMinimumStability(character)(target),
-      isGrazed: false,
-      isGuarded: false,
-    });
+//       ultimaLionRageDamageModifier: 100,
+//       stability: magicArrowsTotalMinimumStability(character)(target),
+//       isGrazed: false,
+//       isGuarded: false,
+//     });
 
-    const maximumDamage = damage({
-      playerLevel: character.level,
-      playerIsAffectedByLethargy: false,
-      targetLevel: target.level,
-      targetDefense: magicArrowsTotalDefenseValueUsed(character)(target),
-      targetResistance:
-        magicArrowsTotalResistanceValueUsed(character)(target),
-      damageSource: magicArrowsTotalSourceValueUsed(character)(target),
-      damagePierce: magicArrowsTotalPierceValueUsed(character)(target),
-      damageConstant: magicArrowsTotalConstant(character)(target),
-      proration: magicArrowsTotalProrationValueUsed(character)(target),
-      innateSkillDamageModifier:
-        magicArrowsTotalInnateSkillDamageModifier(character)(target),
-      elementDamageModifier:
-        magicArrowsTotalElementDamageModifier(character)(target),
-      criticalDamageModifier:
-        magicArrowsTotalCriticalDamageModifier(character)(target),
-      distanceDependentDamageModifier:
-        magicArrowsTotalDistanceDependentDamageModifier(character)(target),
-      lastDamageModifier:
-        magicArrowsTotalLastDamageModifier(character)(target),
-      flatUnsheatheAttack: 0,
-      percentUnsheatheAttack: 100,
-      skillDamageModifier:
-        magicArrowsTotalSkillDamageModifier(character)(target),
-      baseDropGemDamageModifier: 100,
-      comboRelatedDamageModifier: 100,
+//     const maximumDamage = damage({
+//       playerLevel: character.level,
+//       playerIsAffectedByLethargy: false,
+//       targetLevel: target.level,
+//       targetDefense: magicArrowsTotalDefenseValueUsed(character)(target),
+//       targetResistance:
+//         magicArrowsTotalResistanceValueUsed(character)(target),
+//       damageSource: magicArrowsTotalSourceValueUsed(character)(target),
+//       damagePierce: magicArrowsTotalPierceValueUsed(character)(target),
+//       damageConstant: magicArrowsTotalConstant(character)(target),
+//       proration: magicArrowsTotalProrationValueUsed(character)(target),
+//       innateSkillDamageModifier:
+//         magicArrowsTotalInnateSkillDamageModifier(character)(target),
+//       elementDamageModifier:
+//         magicArrowsTotalElementDamageModifier(character)(target),
+//       criticalDamageModifier:
+//         magicArrowsTotalCriticalDamageModifier(character)(target),
+//       distanceDependentDamageModifier:
+//         magicArrowsTotalDistanceDependentDamageModifier(character)(target),
+//       lastDamageModifier:
+//         magicArrowsTotalLastDamageModifier(character)(target),
+//       flatUnsheatheAttack: 0,
+//       percentUnsheatheAttack: 100,
+//       skillDamageModifier:
+//         magicArrowsTotalSkillDamageModifier(character)(target),
+//       baseDropGemDamageModifier: 100,
+//       comboRelatedDamageModifier: 100,
 
-      ultimaLionRageDamageModifier: 100,
-      stability: magicArrowsTotalMaximumStability(character)(target),
-      isGrazed: false,
-      isGuarded: false,
-    });
+//       ultimaLionRageDamageModifier: 100,
+//       stability: magicArrowsTotalMaximumStability(character)(target),
+//       isGrazed: false,
+//       isGuarded: false,
+//     });
 
-    const averageDamage = Math.floor((minimumDamage + maximumDamage) / 2);
+//     const averageDamage = Math.floor((minimumDamage + maximumDamage) / 2);
 
-    return {
-      minimumDamage,
-      maximumDamage,
-      averageDamage,
-    };
-  };
+//     return {
+//       minimumDamage,
+//       maximumDamage,
+//       averageDamage,
+//     };
+//   };
 
 // IMPLEMENT ALL OF THE DAMAGE SKILLS and DAMAGE CALCULATOR

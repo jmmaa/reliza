@@ -1,4 +1,4 @@
-import { Character, Entries } from "../../types";
+import { Character, Entries, Target } from "../../types";
 
 export const total = (base: number, percent: number, flat: number) =>
   Math.floor(base * ((100 + percent) / 100)) + flat;
@@ -142,3 +142,9 @@ export const isDualWielder = (character: Character) =>
   character.mainWeapon.type === "one-handed-sword" &&
   character.subWeapon.type === "one-handed-sword" &&
   character.skills.dualSwordSkills.dualSwordMastery.level > 0;
+
+// -- aggregators --
+
+// export const totalElementDamageModifier = (character: Character) => (target: Target) => {
+
+// }
