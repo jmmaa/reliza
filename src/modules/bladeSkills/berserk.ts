@@ -1,49 +1,37 @@
-import { Character } from "../../types";
-import { floor, isDualWielder } from "../utils";
+import { Config } from "../../types";
+import { floor, isDualWielder, isMainOHS, isMainTHS } from "../utils";
 
-export const berserk = (character: Character) =>
-  character.skills.bladeSkills.berserk;
+export const berserkIsActive = (config: Config) =>
+  config["character.skills.bladeSkills.berserk.isActive"];
+export const berserkLevel = (config: Config) =>
+  config["character.skills.bladeSkills.berserk.level"];
 
-export const berserkIsActive = (character: Character) =>
-  berserk(character).isActive;
-export const berserkLevel = (character: Character) =>
-  berserk(character).level;
+export const berserkTotalPercentASPD = (config: Config) =>
+  berserkIsActive(config) ? berserkLevel(config) * 10 : 0;
 
-export const berserkTotalPercentASPD = (character: Character) =>
-  berserkIsActive(character) ? berserkLevel(character) * 10 : 0;
+export const berserkTotalFlatASPD = (config: Config) =>
+  berserkIsActive(config) ? berserkLevel(config) * 100 : 0;
 
-export const berserkTotalFlatASPD = (character: Character) =>
-  berserkIsActive(character) ? berserkLevel(character) * 100 : 0;
+export const berserkTotalFlatCriticalRate = (config: Config) =>
+  berserkIsActive(config) ? floor(berserkLevel(config) * 2.5) : 0;
 
-export const berserkTotalFlatCriticalRate = (character: Character) =>
-  berserkIsActive(character) ? floor(berserkLevel(character) * 2.5) : 0;
-
-export const berserkTotalStability = (character: Character) =>
-  berserkIsActive(character) ?
-    (
-      character.mainWeapon.type === "one-handed-sword" ||
-      character.mainWeapon.type === "two-handed-sword"
-    ) ?
-      floor(berserkLevel(character) * 2.5)
-    : berserkLevel(character) * 5
+export const berserkTotalStability = (config: Config) =>
+  berserkIsActive(config) ?
+    isMainOHS(config) || isMainTHS(config) ?
+      floor(berserkLevel(config) * 2.5)
+    : berserkLevel(config) * 5
   : 0;
 
-export const berserkTotalPercentDEF = (character: Character) =>
-  berserkIsActive(character) ?
-    (
-      character.mainWeapon.type === "one-handed-sword" &&
-      !isDualWielder(character)
-    ) ?
-      floor((100 - berserkLevel(character)) / 2)
-    : 100 - berserkLevel(character)
+export const berserkTotalPercentDEF = (config: Config) =>
+  berserkIsActive(config) ?
+    isMainOHS(config) && !isDualWielder(config) ?
+      floor((100 - berserkLevel(config)) / 2)
+    : 100 - berserkLevel(config)
   : 0;
 
-export const berserkTotalPercentMDEF = (character: Character) =>
-  berserkIsActive(character) ?
-    (
-      character.mainWeapon.type === "one-handed-sword" &&
-      !isDualWielder(character)
-    ) ?
-      floor((100 - berserkLevel(character)) / 2)
-    : 100 - berserkLevel(character)
+export const berserkTotalPercentMDEF = (config: Config) =>
+  berserkIsActive(config) ?
+    isMainOHS(config) && !isDualWielder(config) ?
+      floor((100 - berserkLevel(config)) / 2)
+    : 100 - berserkLevel(config)
   : 0;

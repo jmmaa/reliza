@@ -1,14 +1,13 @@
-import { Character } from "../../../types";
+import { Character, Config } from "../../../types";
 import { godspeedWieldTotalPercentEvasionRecharge } from "../../halberdSkills";
-import { flattenStatsFromEquipment, get, sum } from "../../utils";
+import { flattenedStats, get, sum } from "../../utils";
 
-export const totalBaseEvasionRecharge = (character: Character) => {
+export const totalBaseEvasionRecharge = (config: Config) => {
   // TODO
 };
 
-export const totalPercentEvasionRecharge = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("evasionRecharge"))
-    .reduce(sum, 0) + godspeedWieldTotalPercentEvasionRecharge(character);
+export const totalPercentEvasionRecharge = (config: Config) =>
+  flattenedStats(config).map(get("evasionRecharge")).reduce(sum, 0) +
+  godspeedWieldTotalPercentEvasionRecharge(config);
 
 // NOTE: Not sure for this calculations atm, so i might not be finishing this for now

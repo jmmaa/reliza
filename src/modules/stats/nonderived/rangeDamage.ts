@@ -1,12 +1,8 @@
-import { Character } from "../../../types";
-import { get, sum, flattenStatsFromEquipment } from "../../utils";
+import { Config } from "../../../types";
+import { get, sum, flattenedStats } from "../../utils";
 
-export const totalLongRangeDamage = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("longRangeDamage"))
-    .reduce(sum, 0);
+export const totalLongRangeDamage = (config: Config) =>
+  flattenedStats(config).map(get("longRangeDamage")).reduce(sum, 0);
 
-export const totalShortRangeDamage = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("shortRangeDamage"))
-    .reduce(sum, 0);
+export const totalShortRangeDamage = (config: Config) =>
+  flattenedStats(config).map(get("shortRangeDamage")).reduce(sum, 0);

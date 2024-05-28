@@ -1,46 +1,36 @@
-import { Character } from "../../../types";
-import { floor, get, sum, flattenStatsFromEquipment } from "../../utils";
+import { Config } from "../../../types";
+import { floor, get, sum, flattenedStats } from "../../utils";
 
-export const totalBaseMATKValueFromMATKDOWNAGI = (character: Character) =>
+export const totalBaseMATKValueFromMATKDOWNAGI = (config: Config) =>
   floor(
-    flattenStatsFromEquipment(character)
-      .map(get("MATKDOWNAGI"))
-      .reduce(sum, 0) / 100,
-  ) * character.AGI;
+    flattenedStats(config).map(get("MATKDOWNAGI")).reduce(sum, 0) / 100,
+  ) * config["character.AGI"];
 
-export const totalBaseMATKValueFromMATKDOWNDEX = (character: Character) =>
+export const totalBaseMATKValueFromMATKDOWNDEX = (config: Config) =>
   floor(
-    flattenStatsFromEquipment(character)
-      .map(get("MATKDOWNDEX"))
-      .reduce(sum, 0) / 100,
-  ) * character.DEX;
+    flattenedStats(config).map(get("MATKDOWNDEX")).reduce(sum, 0) / 100,
+  ) * config["character.DEX"];
 
-export const totalBaseMATKValueFromMATKDOWNINT = (character: Character) =>
+export const totalBaseMATKValueFromMATKDOWNINT = (config: Config) =>
   floor(
-    flattenStatsFromEquipment(character)
-      .map(get("MATKDOWNINT"))
-      .reduce(sum, 0) / 100,
-  ) * character.INT;
+    flattenedStats(config).map(get("MATKDOWNINT")).reduce(sum, 0) / 100,
+  ) * config["character.INT"];
 
-export const totalBaseMATKValueFromMATKDOWNSTR = (character: Character) =>
+export const totalBaseMATKValueFromMATKDOWNSTR = (config: Config) =>
   floor(
-    flattenStatsFromEquipment(character)
-      .map(get("MATKDOWNSTR"))
-      .reduce(sum, 0) / 100,
-  ) * character.STR;
+    flattenedStats(config).map(get("MATKDOWNSTR")).reduce(sum, 0) / 100,
+  ) * config["character.STR"];
 
-export const totalBaseMATKValueFromMATKDOWNVIT = (character: Character) =>
+export const totalBaseMATKValueFromMATKDOWNVIT = (config: Config) =>
   floor(
-    flattenStatsFromEquipment(character)
-      .map(get("MATKDOWNVIT"))
-      .reduce(sum, 0) / 100,
-  ) * character.VIT;
+    flattenedStats(config).map(get("MATKDOWNVIT")).reduce(sum, 0) / 100,
+  ) * config["character.VIT"];
 
-export const totalBaseMATKValueFromMATKDOWN = (character: Character) =>
+export const totalBaseMATKValueFromMATKDOWN = (config: Config) =>
   [
-    totalBaseMATKValueFromMATKDOWNAGI(character),
-    totalBaseMATKValueFromMATKDOWNDEX(character),
-    totalBaseMATKValueFromMATKDOWNINT(character),
-    totalBaseMATKValueFromMATKDOWNSTR(character),
-    totalBaseMATKValueFromMATKDOWNVIT(character),
+    totalBaseMATKValueFromMATKDOWNAGI(config),
+    totalBaseMATKValueFromMATKDOWNDEX(config),
+    totalBaseMATKValueFromMATKDOWNINT(config),
+    totalBaseMATKValueFromMATKDOWNSTR(config),
+    totalBaseMATKValueFromMATKDOWNVIT(config),
   ].reduce(sum);

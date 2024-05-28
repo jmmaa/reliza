@@ -1,115 +1,49 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 import { floor } from "../utils";
 
-export const hiddenTalentLevel = (character: Character) =>
-  character.skills.bareHandSkills.hiddenTalent.level;
+export const hiddenTalentLevel = (config: Config) =>
+  config["character.skills.bareHandSkills.hiddenTalent.level"];
 
-// export const hiddenTalentTotalBaseGuardPower = (character: Character) => {
-//   const isMainBareHand = character.mainWeapon.type === "bare-hand";
-//   const isSubNone = character.subWeapon.type === "none";
-//   const skillLevel = character.skills.bareHandSkills.hiddenTalent.level;
-
-//   const total = isMainBareHand && isSubNone ? skillLevel * 500 : 0;
-
-//   return total;
-// };
-
-export const hiddenTalentTotalBaseGuardPower = (character: Character) =>
+export const hiddenTalentTotalBaseGuardPower = (config: Config) =>
   (
-    character.mainWeapon.type === "bare-hand" &&
-    character.subWeapon.type === "none"
+    config["character.mainweapon.type"] === "bare-hand" &&
+    config["character.subweapon.type"] === "none"
   ) ?
-    hiddenTalentLevel(character) * 500
+    hiddenTalentLevel(config) * 500
   : 0;
 
-// export const hiddenTalentTotalBaseGuardRecharge = (
-//   character: Character,
-// ) => {
-//   const isMainBareHand = character.mainWeapon.type === "bare-hand";
-//   const isSubNone = character.subWeapon.type === "none";
-//   const skillLevel = character.skills.bareHandSkills.hiddenTalent.level;
-
-//   const total = isMainBareHand && isSubNone ? 5 + 2 * skillLevel : 0;
-
-//   return total;
-// };
-
-export const hiddenTalentTotalBaseGuardRecharge = (
-  character: Character,
-) =>
+export const hiddenTalentTotalBaseGuardRecharge = (config: Config) =>
   (
-    character.mainWeapon.type === "bare-hand" &&
-    character.subWeapon.type === "none"
+    config["character.mainweapon.type"] === "bare-hand" &&
+    config["character.subweapon.type"] === "none"
   ) ?
-    5 + 2 * hiddenTalentLevel(character)
+    5 + 2 * hiddenTalentLevel(config)
   : 0;
 
-// export const hiddenTalentTotalEvasionCount = (character: Character) => {
-//   const isMainBareHand = character.mainWeapon.type === "bare-hand";
-//   const isSubNone = character.subWeapon.type === "none";
-//   const skillLevel = character.skills.bareHandSkills.hiddenTalent.level;
-
-//   const total =
-//     isMainBareHand && isSubNone ? floor(2 + skillLevel * 0.4) : 0;
-
-//   return total;
-// };
-
-export const hiddenTalentTotalEvasionCount = (character: Character) =>
+export const hiddenTalentTotalEvasionCount = (config: Config) =>
   (
-    character.mainWeapon.type === "bare-hand" &&
-    character.subWeapon.type === "none"
+    config["character.mainweapon.type"] === "bare-hand" &&
+    config["character.subweapon.type"] === "none"
   ) ?
-    floor(2 + hiddenTalentLevel(character) * 0.4)
+    floor(2 + hiddenTalentLevel(config) * 0.4)
   : 0;
 
-// export const hiddenTalentTotalBaseEvasionRecharge = (
-//   character: Character,
-// ) => {
-//   const isMainBareHand = character.mainWeapon.type === "bare-hand";
-//   const isSubNone = character.subWeapon.type === "none";
-//   const skillLevel = character.skills.bareHandSkills.hiddenTalent.level;
-
-//   const total =
-//     isMainBareHand && isSubNone && skillLevel < 10 ? 0.1 * skillLevel
-//     : isMainBareHand && isSubNone && skillLevel === 10 ? 10
-//     : 0;
-
-//   return total;
-// };
-
-export const hiddenTalentTotalBaseEvasionRecharge = (
-  character: Character,
-) =>
+export const hiddenTalentTotalBaseEvasionRecharge = (config: Config) =>
   (
-    character.mainWeapon.type === "bare-hand" &&
-    character.subWeapon.type === "none"
+    config["character.mainweapon.type"] === "bare-hand" &&
+    config["character.subweapon.type"] === "none"
   ) ?
-    hiddenTalentLevel(character) < 10 ?
-      0.1 * hiddenTalentLevel(character)
+    hiddenTalentLevel(config) < 10 ?
+      0.1 * hiddenTalentLevel(config)
     : 10
   : 0;
 
-// export const hiddenTalentTotalCostQiReductionForNonBareHandSkills = (
-//   character: Character,
-// ) => {
-//   const isMainBareHand = character.mainWeapon.type === "bare-hand";
-//   const isSubNone = character.subWeapon.type === "none";
-//   const skillLevel = character.skills.bareHandSkills.hiddenTalent.level;
-
-//   const total = isMainBareHand && isSubNone ? floor(0.5 * skillLevel) : 0;
-
-//   return total;
-// };
-
 export const hiddenTalentTotalCostQiReductionForNonBareHandSkills = (
-  character: Character,
+  config: Config,
 ) =>
   (
-    character.mainWeapon.type === "bare-hand" &&
-    character.subWeapon.type === "none"
+    config["character.mainweapon.type"] === "bare-hand" &&
+    config["character.subweapon.type"] === "none"
   ) ?
-    floor(0.5 * hiddenTalentLevel(character))
+    floor(0.5 * hiddenTalentLevel(config))
   : 0;
-
-// NOTE: This is not added in main status calculation (for now) cuz idk how is this thing calculated with other stats lol

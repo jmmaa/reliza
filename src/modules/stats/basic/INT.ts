@@ -1,23 +1,21 @@
-import { Character } from "../../../types";
-import { sum, total, flattenStatsFromEquipment, get } from "../../utils";
+import { Config } from "../../../types";
+import { sum, total, flattenedStats, get } from "../../utils";
 
-export const totalPercentINTFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("percentINT"))
-    .reduce(sum, 0);
+export const totalPercentINTFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("percentINT")).reduce(sum, 0);
 
-export const totalPercentINT = (character: Character) =>
-  totalPercentINTFromEquipment(character);
+export const totalPercentINT = (config: Config) =>
+  totalPercentINTFromEquipment(config);
 
-export const totalFlatINTFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character).map(get("flatINT")).reduce(sum, 0);
+export const totalFlatINTFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("flatINT")).reduce(sum, 0);
 
-export const totalFlatINT = (character: Character) =>
-  totalFlatINTFromEquipment(character);
+export const totalFlatINT = (config: Config) =>
+  totalFlatINTFromEquipment(config);
 
-export const totalINT = (character: Character) =>
+export const totalINT = (config: Config) =>
   total(
-    character.INT,
-    totalPercentINT(character),
-    totalFlatINT(character),
+    config["character.INT"],
+    totalPercentINT(config),
+    totalFlatINT(config),
   );

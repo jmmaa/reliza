@@ -1,22 +1,17 @@
-import { Character } from "../../types";
+import { Character, Config } from "../../types";
+import { isMainOHS, isMainTHS } from "../utils";
 
-export const swordMasteryLevel = (character: Character) =>
-  character.skills.bladeSkills.swordMastery.level;
+export const swordMasteryLevel = (config: Config) =>
+  config["character.skills.bladeSkills.swordMastery.level"];
 
-export const swordMasteryTotalPercentATK = (character: Character) =>
-  (
-    character.mainWeapon.type === "one-handed-sword" ||
-    character.mainWeapon.type === "two-handed-sword"
-  ) ?
-    swordMasteryLevel(character) >= 8 ? 3
-    : swordMasteryLevel(character) >= 3 ? 2
+export const swordMasteryTotalPercentATK = (config: Config) =>
+  isMainOHS(config) || isMainTHS(config) ?
+    swordMasteryLevel(config) >= 8 ? 3
+    : swordMasteryLevel(config) >= 3 ? 2
     : 1
   : 0;
 
-export const swordMasteryTotalPercentWeaponATK = (character: Character) =>
-  (
-    character.mainWeapon.type === "one-handed-sword" ||
-    character.mainWeapon.type === "two-handed-sword"
-  ) ?
-    swordMasteryLevel(character) * 3
+export const swordMasteryTotalPercentWeaponATK = (config: Config) =>
+  isMainOHS(config) || isMainTHS(config) ?
+    swordMasteryLevel(config) * 3
   : 0;

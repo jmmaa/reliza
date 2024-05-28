@@ -1,23 +1,21 @@
-import { Character } from "../../../types";
-import { sum, total, flattenStatsFromEquipment, get } from "../../utils";
+import { Config } from "../../../types";
+import { sum, total, flattenedStats, get } from "../../utils";
 
-export const totalPercentDEXFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("percentDEX"))
-    .reduce(sum, 0);
+export const totalPercentDEXFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("percentDEX")).reduce(sum, 0);
 
-export const totalPercentDEX = (character: Character) =>
-  totalPercentDEXFromEquipment(character);
+export const totalPercentDEX = (config: Config) =>
+  totalPercentDEXFromEquipment(config);
 
-export const totalFlatDEXFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character).map(get("flatDEX")).reduce(sum, 0);
+export const totalFlatDEXFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("flatDEX")).reduce(sum, 0);
 
-export const totalFlatDEX = (character: Character) =>
-  totalFlatDEXFromEquipment(character);
+export const totalFlatDEX = (config: Config) =>
+  totalFlatDEXFromEquipment(config);
 
-export const totalDEX = (character: Character) =>
+export const totalDEX = (config: Config) =>
   total(
-    character.DEX,
-    totalPercentDEX(character),
-    totalFlatDEX(character),
+    config["character.DEX"],
+    totalPercentDEX(config),
+    totalFlatDEX(config),
   );

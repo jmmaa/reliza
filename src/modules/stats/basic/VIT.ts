@@ -1,23 +1,21 @@
-import { Character } from "../../../types";
-import { sum, total, flattenStatsFromEquipment, get } from "../../utils";
+import { Config } from "../../../types";
+import { sum, total, flattenedStats, get } from "../../utils";
 
-export const totalPercentVITFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("percentVIT"))
-    .reduce(sum, 0);
+export const totalPercentVITFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("percentVIT")).reduce(sum, 0);
 
-export const totalPercentVIT = (character: Character) =>
-  totalPercentVITFromEquipment(character);
+export const totalPercentVIT = (config: Config) =>
+  totalPercentVITFromEquipment(config);
 
-export const totalFlatVITFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character).map(get("flatVIT")).reduce(sum, 0);
+export const totalFlatVITFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("flatVIT")).reduce(sum, 0);
 
-export const totalFlatVIT = (character: Character) =>
-  totalFlatVITFromEquipment(character);
+export const totalFlatVIT = (config: Config) =>
+  totalFlatVITFromEquipment(config);
 
-export const totalVIT = (character: Character) =>
+export const totalVIT = (config: Config) =>
   total(
-    character.VIT,
-    totalPercentVIT(character),
-    totalFlatVIT(character),
+    config["character.VIT"],
+    totalPercentVIT(config),
+    totalFlatVIT(config),
   );

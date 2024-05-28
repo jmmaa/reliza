@@ -1,28 +1,20 @@
-import { Character } from "../../../types";
+import { Config } from "../../../types";
 import {
   flashBlastTotalPercentUnsheatheAttack,
   godspeedTotalPercentUnsheatheAttack,
 } from "../../dualSwordSkills";
-import { flattenStatsFromEquipment, get, sum } from "../../utils";
+import { flattenedStats, get, sum } from "../../utils";
 
-export const totalPercentUnsheatheAttackFromEquipment = (
-  character: Character,
-) =>
-  flattenStatsFromEquipment(character)
-    .map(get("percentUnsheatheAttack"))
-    .reduce(sum, 0);
+export const totalPercentUnsheatheAttackFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("percentUnsheatheAttack")).reduce(sum, 0);
 
-export const totalPercentUnsheatheAttackFromSkills = (
-  character: Character,
-) =>
-  godspeedTotalPercentUnsheatheAttack(character) +
-  flashBlastTotalPercentUnsheatheAttack(character);
+export const totalPercentUnsheatheAttackFromSkills = (config: Config) =>
+  godspeedTotalPercentUnsheatheAttack(config) +
+  flashBlastTotalPercentUnsheatheAttack(config);
 
-export const totalPercentUnsheatheAttack = (character: Character) =>
-  totalPercentUnsheatheAttackFromEquipment(character) +
-  totalPercentUnsheatheAttackFromSkills(character);
+export const totalPercentUnsheatheAttack = (config: Config) =>
+  totalPercentUnsheatheAttackFromEquipment(config) +
+  totalPercentUnsheatheAttackFromSkills(config);
 
-export const totalFlatUnsheatheAttack = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("flatUnsheatheAttack"))
-    .reduce(sum, 0);
+export const totalFlatUnsheatheAttack = (config: Config) =>
+  flattenedStats(config).map(get("flatUnsheatheAttack")).reduce(sum, 0);

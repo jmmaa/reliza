@@ -1,17 +1,12 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const manaRecharge = (character: Character) =>
-  character.skills.supportSkills.manaRecharge;
+export const manaRechargeLevel = (config: Config) =>
+  config["character.skills.supportSkills.manaRecharge.level"];
 
-export const manaRechargeLevel = (character: Character) =>
-  manaRecharge(character).level;
+export const manaRechargeIsActive = (config: Config) =>
+  config["character.skills.supportSkills.manaRecharge.isActive"];
 
-export const manaRechargeIsActive = (character: Character) =>
-  manaRecharge(character).isActive;
-
-export const manaRechargeTotalLastDamageModifier = (
-  character: Character,
-) =>
-  manaRechargeIsActive(character) ?
-    -(50 - manaRechargeLevel(character) * 2.5)
+export const manaRechargeTotalLastDamageModifier = (config: Config) =>
+  manaRechargeIsActive(config) ?
+    -(50 - manaRechargeLevel(config) * 2.5)
   : 0;

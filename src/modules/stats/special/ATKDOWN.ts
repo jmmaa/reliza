@@ -1,46 +1,36 @@
-import { Character } from "../../../types";
-import { floor, get, sum, flattenStatsFromEquipment } from "../../utils";
+import { Config } from "../../../types";
+import { floor, get, sum, flattenedStats } from "../../utils";
 
-export const totalBaseATKValueFromATKDOWNAGI = (character: Character) =>
+export const totalBaseATKValueFromATKDOWNAGI = (config: Config) =>
   floor(
-    flattenStatsFromEquipment(character)
-      .map(get("ATKDOWNAGI"))
-      .reduce(sum, 0) / 100,
-  ) * character.AGI;
+    flattenedStats(config).map(get("ATKDOWNAGI")).reduce(sum, 0) / 100,
+  ) * config["character.AGI"];
 
-export const totalBaseATKValueFromATKDOWNDEX = (character: Character) =>
+export const totalBaseATKValueFromATKDOWNDEX = (config: Config) =>
   floor(
-    flattenStatsFromEquipment(character)
-      .map(get("ATKDOWNDEX"))
-      .reduce(sum, 0) / 100,
-  ) * character.DEX;
+    flattenedStats(config).map(get("ATKDOWNDEX")).reduce(sum, 0) / 100,
+  ) * config["character.DEX"];
 
-export const totalBaseATKValueFromATKDOWNINT = (character: Character) =>
+export const totalBaseATKValueFromATKDOWNINT = (config: Config) =>
   floor(
-    flattenStatsFromEquipment(character)
-      .map(get("ATKDOWNINT"))
-      .reduce(sum, 0) / 100,
-  ) * character.INT;
+    flattenedStats(config).map(get("ATKDOWNINT")).reduce(sum, 0) / 100,
+  ) * config["character.INT"];
 
-export const totalBaseATKValueFromATKDOWNSTR = (character: Character) =>
+export const totalBaseATKValueFromATKDOWNSTR = (config: Config) =>
   floor(
-    flattenStatsFromEquipment(character)
-      .map(get("ATKDOWNSTR"))
-      .reduce(sum, 0) / 100,
-  ) * character.STR;
+    flattenedStats(config).map(get("ATKDOWNSTR")).reduce(sum, 0) / 100,
+  ) * config["character.STR"];
 
-export const totalBaseATKValueFromATKDOWNVIT = (character: Character) =>
+export const totalBaseATKValueFromATKDOWNVIT = (config: Config) =>
   floor(
-    flattenStatsFromEquipment(character)
-      .map(get("ATKDOWNVIT"))
-      .reduce(sum, 0) / 100,
-  ) * character.VIT;
+    flattenedStats(config).map(get("ATKDOWNVIT")).reduce(sum, 0) / 100,
+  ) * config["character.VIT"];
 
-export const totalBaseATKValueFromATKDOWN = (character: Character) =>
+export const totalBaseATKValueFromATKDOWN = (config: Config) =>
   [
-    totalBaseATKValueFromATKDOWNAGI(character),
-    totalBaseATKValueFromATKDOWNDEX(character),
-    totalBaseATKValueFromATKDOWNINT(character),
-    totalBaseATKValueFromATKDOWNSTR(character),
-    totalBaseATKValueFromATKDOWNVIT(character),
+    totalBaseATKValueFromATKDOWNAGI(config),
+    totalBaseATKValueFromATKDOWNDEX(config),
+    totalBaseATKValueFromATKDOWNINT(config),
+    totalBaseATKValueFromATKDOWNSTR(config),
+    totalBaseATKValueFromATKDOWNVIT(config),
   ].reduce(sum);

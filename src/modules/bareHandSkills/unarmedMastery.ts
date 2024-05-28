@@ -1,51 +1,23 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 import { floor } from "../utils";
 
-export const unarmedMasteryLevel = (character: Character) =>
-  character.skills.bareHandSkills.unarmedMastery.level;
+export const unarmedMasteryLevel = (config: Config) =>
+  config["character.skills.bareHandSkills.unarmedMastery.level"];
 
-// export const unarmedMasteryTotalFlatWeaponATK = (character: Character) => {
-//   const skillLevel = character.skills.bareHandSkills.unarmedMastery.level;
-//   const isMainBareHand = character.mainWeapon.type === "bare-hand";
-//   const isSubNone = character.subWeapon.type === "none";
-
-//   const total =
-//     isMainBareHand && isSubNone ?
-//       floor((character.level * skillLevel) / 10)
-//     : 0;
-
-//   return total;
-// };
-
-export const unarmedMasteryTotalFlatWeaponATK = (character: Character) =>
+export const unarmedMasteryTotalFlatWeaponATK = (config: Config) =>
   (
-    character.mainWeapon.type === "bare-hand" &&
-    character.subWeapon.type === "none"
+    config["character.mainweapon.type"] === "bare-hand" &&
+    config["character.subweapon.type"] === "none"
   ) ?
-    floor((character.level * unarmedMasteryLevel(character)) / 10)
+    floor((config["character.level"] * unarmedMasteryLevel(config)) / 10)
   : 0;
 
-// export const unarmedMasteryTotalQiChargeLimit = (character: Character) => {
-//   const skillLevel = character.skills.bareHandSkills.unarmedMastery.level;
-//   const isMainBareHand = character.mainWeapon.type === "bare-hand";
-//   const isSubNone = character.subWeapon.type === "none";
-
-//   const total =
-//     isMainBareHand && isSubNone ?
-//       skillLevel < 10 ?
-//         10 + skillLevel * 10
-//       : 100 + character.level
-//     : 0;
-
-//   return total;
-// };
-
-export const unarmedMasteryTotalQiChargeLimit = (character: Character) =>
+export const unarmedMasteryTotalQiChargeLimit = (config: Config) =>
   (
-    character.mainWeapon.type === "bare-hand" &&
-    character.subWeapon.type === "none"
+    config["character.mainweapon.type"] === "bare-hand" &&
+    config["character.subweapon.type"] === "none"
   ) ?
-    unarmedMasteryLevel(character) < 10 ?
-      10 + unarmedMasteryLevel(character) * 10
-    : 100 + character.level
+    unarmedMasteryLevel(config) < 10 ?
+      10 + unarmedMasteryLevel(config) * 10
+    : 100 + config["character.level"]
   : 0;

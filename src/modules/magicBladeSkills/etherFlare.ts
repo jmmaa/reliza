@@ -1,21 +1,20 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 import { floor } from "../utils";
 
-export const etherFlare = (character: Character) =>
-  character.skills.magicBladeSkills.etherFlare;
+export const etherFlareLevel = (config: Config) =>
+  config["character.skills.magicBladeSkills.etherFlare.level"];
 
-export const etherFlareLevel = (character: Character) =>
-  etherFlare(character).level;
+export const etherFlareInflictedIgniteOnEnemy = (config: Config) =>
+  config[
+    "character.skills.magicBladeSkills.etherFlare.inflictedIgniteOnEnemey"
+  ];
 
-export const etherFlareInflictedIgniteOnEnemy = (character: Character) =>
-  etherFlare(character).inflictedIgniteOnEnemey;
-
-export const etherFlareTotalFlatAMPR = (character: Character) =>
+export const etherFlareTotalFlatAMPR = (config: Config) =>
   (
-    character.subWeapon.type === "magic-device" &&
-    etherFlareInflictedIgniteOnEnemy(character)
+    config["character.subweapon.type"] === "magic-device" &&
+    etherFlareInflictedIgniteOnEnemy(config)
   ) ?
     15 +
-    floor(etherFlareLevel(character) / 6) * 5 +
-    floor(etherFlareLevel(character) / 5) * 5
+    floor(etherFlareLevel(config) / 6) * 5 +
+    floor(etherFlareLevel(config) / 5) * 5
   : 0;

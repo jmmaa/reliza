@@ -1,76 +1,69 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 import { floor } from "../utils";
 
-export const godspeedWield = (character: Character) =>
-  character.skills.halberdSkills.godspeedWield;
+export const godspeedWieldStacks = (config: Config) =>
+  config["character.skills.halberdSkills.godspeedWield.stacks"];
 
-export const godspeedWieldStacks = (character: Character) =>
-  godspeedWield(character).stacks;
+export const godspeedWieldLevel = (config: Config) =>
+  config["character.skills.halberdSkills.godspeedWield.level"];
 
-export const godspeedWieldLevel = (character: Character) =>
-  godspeedWield(character).level;
+export const godspeedWieldIsActive = (config: Config) =>
+  config["character.skills.halberdSkills.godspeedWield.isActive"];
 
-export const godspeedWieldIsActive = (character: Character) =>
-  godspeedWield(character).isActive;
-
-export const godspeedWieldTotalFlatASPD = (character: Character) =>
-  godspeedWieldIsActive(character) ?
-    character.mainWeapon.type === "halberd" ?
-      30 * godspeedWieldLevel(character) * godspeedWieldStacks(character) +
-      100 * godspeedWieldStacks(character)
-    : 30 * godspeedWieldLevel(character) * godspeedWieldStacks(character)
+export const godspeedWieldTotalFlatASPD = (config: Config) =>
+  godspeedWieldIsActive(config) ?
+    config["character.mainweapon.type"] === "halberd" ?
+      30 * godspeedWieldLevel(config) * godspeedWieldStacks(config) +
+      100 * godspeedWieldStacks(config)
+    : 30 * godspeedWieldLevel(config) * godspeedWieldStacks(config)
   : 0;
 
-export const godspeedWieldTotalMotionSpeed = (character: Character) =>
-  godspeedWieldIsActive(character) ?
-    godspeedWieldLevel(character) * godspeedWieldStacks(character)
+export const godspeedWieldTotalMotionSpeed = (config: Config) =>
+  godspeedWieldIsActive(config) ?
+    godspeedWieldLevel(config) * godspeedWieldStacks(config)
   : 0;
 
-export const almightyWieldLevel = (character: Character) =>
-  character.skills.halberdSkills.almightyWield.level;
+export const almightyWieldLevel = (config: Config) =>
+  config["character.skills.halberdSkills.almightyWield.level"];
 
-export const godspeedWieldTotalPhysicalResistance = (
-  character: Character,
-) =>
-  godspeedWieldIsActive(character) ?
-    character.mainWeapon.type === "halberd" ?
+export const godspeedWieldTotalPhysicalResistance = (config: Config) =>
+  godspeedWieldIsActive(config) ?
+    config["character.mainweapon.type"] === "halberd" ?
       -(
-        (100 - 3 * godspeedWieldLevel(character)) *
-          godspeedWieldStacks(character) +
-        45 * godspeedWieldStacks(character) +
-        floor(almightyWieldLevel(character) * 0.5) *
-          godspeedWieldStacks(character)
+        (100 - 3 * godspeedWieldLevel(config)) *
+          godspeedWieldStacks(config) +
+        45 * godspeedWieldStacks(config) +
+        floor(almightyWieldLevel(config) * 0.5) *
+          godspeedWieldStacks(config)
       )
     : -(
-        (100 - 3 * godspeedWieldLevel(character)) *
-        godspeedWieldStacks(character)
+        (100 - 3 * godspeedWieldLevel(config)) *
+        godspeedWieldStacks(config)
       )
   : 0;
 
-export const godspeedWieldTotalMagicResistance = (character: Character) =>
-  godspeedWieldIsActive(character) ?
-    character.mainWeapon.type === "halberd" ?
+export const godspeedWieldTotalMagicResistance = (config: Config) =>
+  godspeedWieldIsActive(config) ?
+    config["character.mainweapon.type"] === "halberd" ?
       -(
-        (100 - 3 * godspeedWieldLevel(character)) *
-          godspeedWieldStacks(character) +
-        45 * godspeedWieldStacks(character) +
-        floor(almightyWieldLevel(character) * 0.5) *
-          godspeedWieldStacks(character)
+        (100 - 3 * godspeedWieldLevel(config)) *
+          godspeedWieldStacks(config) +
+        45 * godspeedWieldStacks(config) +
+        floor(almightyWieldLevel(config) * 0.5) *
+          godspeedWieldStacks(config)
       )
     : -(
-        (100 - 3 * godspeedWieldLevel(character)) *
-        godspeedWieldStacks(character)
+        (100 - 3 * godspeedWieldLevel(config)) *
+        godspeedWieldStacks(config)
       )
   : 0;
 
-export const godspeedWieldTotalFlatMaxMP = (character: Character) =>
-  godspeedWieldIsActive(character) ?
-    -(100 * godspeedWieldStacks(character))
-  : 0;
+export const godspeedWieldTotalFlatMaxMP = (config: Config) =>
+  godspeedWieldIsActive(config) ? -(100 * godspeedWieldStacks(config)) : 0;
 
 export const godspeedWieldTotalPercentEvasionRecharge = (
-  character: Character,
+  config: Config,
 ) =>
-  godspeedWieldIsActive(character) ?
-    godspeedWieldLevel(character) * godspeedWieldStacks(character)
+  godspeedWieldIsActive(config) ?
+    godspeedWieldLevel(config) * godspeedWieldStacks(config)
   : 0;

@@ -1,17 +1,14 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
+import { isMainTHS } from "../utils";
 
-export const warCry = (character: Character) =>
-  character.skills.bladeSkills.warCry;
+export const warCryLevel = (config: Config) =>
+  config["character.skills.bladeSkills.warCry.level"];
 
-export const warCryLevel = (character: Character) =>
-  warCry(character).level;
+export const warCryIsActive = (config: Config) =>
+  config["character.skills.bladeSkills.warCry.isActive"];
 
-export const warCryIsActive = (character: Character) =>
-  warCry(character).isActive;
-
-export const warCryTotalPercentATK = (character: Character) =>
-  warCryIsActive(character) ?
-    character.mainWeapon.type === "two-handed-sword" ?
-      warCryLevel(character) * 10 + 5
-    : warCryLevel(character) * 10
+export const warCryTotalPercentATK = (config: Config) =>
+  warCryIsActive(config) ?
+    isMainTHS(config) ? warCryLevel(config) * 10 + 5
+    : warCryLevel(config) * 10
   : 0;

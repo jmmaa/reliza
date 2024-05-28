@@ -1,22 +1,22 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const magicMasteryLevel = (character: Character) =>
-  character.skills.magicSkills.magicMastery.level;
+export const magicMasteryLevel = (config: Config) =>
+  config["character.skills.magicSkills.magicMastery.level"];
 
-export const magicMasteryTotalPercentMATK = (character: Character) =>
+export const magicMasteryTotalPercentMATK = (config: Config) =>
   (
-    character.mainWeapon.type === "staff" ||
-    character.mainWeapon.type === "magic-device"
+    config["character.mainweapon.type"] === "staff" ||
+    config["character.mainweapon.type"] === "magic-device"
   ) ?
-    magicMasteryLevel(character) >= 8 ? 3
-    : magicMasteryLevel(character) >= 3 ? 2
+    magicMasteryLevel(config) >= 8 ? 3
+    : magicMasteryLevel(config) >= 3 ? 2
     : 1
   : 0;
 
-export const magicMasteryTotalPercentWeaponATK = (character: Character) =>
+export const magicMasteryTotalPercentWeaponATK = (config: Config) =>
   (
-    character.mainWeapon.type === "staff" ||
-    character.mainWeapon.type === "magic-device"
+    config["character.mainweapon.type"] === "staff" ||
+    config["character.mainweapon.type"] === "magic-device"
   ) ?
-    magicMasteryLevel(character) * 3
+    magicMasteryLevel(config) * 3
   : 0;

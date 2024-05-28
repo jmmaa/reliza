@@ -1,9 +1,9 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const heavyArmorMasteryLevel = (character: Character) =>
-  character.skills.guardSkills.heavyArmorMastery.level;
+export const heavyArmorMasteryLevel = (config: Config) =>
+  config["character.skills.guardSkills.heavyArmorMastery.level"];
 
-export const heavyArmorMasteryTotalGuardRecharge = (
-  character: Character,
-) =>
-  character.armor.type === "heavy" ? heavyArmorMasteryLevel(character) : 0;
+export const heavyArmorMasteryTotalGuardRecharge = (config: Config) =>
+  config["character.armor.type"] === "heavy" ?
+    heavyArmorMasteryLevel(config)
+  : 0;

@@ -22,6 +22,7 @@ import {
   NinjaSkills,
   WizardSkills,
   Target,
+  Config,
 } from "./types";
 
 const defaultBladeSkills: BladeSkills = {
@@ -635,6 +636,13 @@ export const defaultStatMap: StatMap = {
   invincibleAid: 0,
 };
 
+export const statMap = (
+  stats: Partial<StatMap>,
+): Partial<StatMap> & StatMap => ({
+  ...(defaultStatMap as StatMap),
+  ...stats,
+});
+
 export const defaultCharacter: Character = {
   level: 1,
 
@@ -654,8 +662,8 @@ export const defaultCharacter: Character = {
     ATK: 0,
     refinement: 0,
     stability: 0,
-    stats: [],
-    crystals: [],
+    stats: [statMap({})],
+    crystals: [[statMap({})]],
   },
 
   subWeapon: {
@@ -666,34 +674,34 @@ export const defaultCharacter: Character = {
     stability: 0,
     scrollCastTimeReduction: 0,
     scrollMPReduction: 0,
-    stats: [],
-    crystals: [],
+    stats: [statMap({})],
+    crystals: [[statMap({})]],
   },
 
   armor: {
     DEF: 0,
     refinement: 0,
     type: "none",
-    stats: [],
-    crystals: [],
+    stats: [statMap({})],
+    crystals: [[statMap({})]],
   },
 
   additionalGear: {
     DEF: 0,
     refinement: 0,
-    stats: [],
-    crystals: [],
+    stats: [statMap({})],
+    crystals: [[statMap({})]],
   },
 
   specialGear: {
     DEF: 0,
-    stats: [],
-    crystals: [],
+    stats: [statMap({})],
+    crystals: [[statMap({})]],
   },
 
-  consumables: [],
+  consumables: [statMap({})],
 
-  foodBuffs: [],
+  foodBuffs: [statMap({})],
 
   skills: skills({}),
 
@@ -722,13 +730,6 @@ export const defaultTarget: Target = {
   proration: 100,
 };
 
-export const statMap = (
-  stats: Partial<StatMap>,
-): Partial<StatMap> & StatMap => ({
-  ...(defaultStatMap as StatMap),
-  ...stats,
-});
-
 export const target = (
   target: Partial<Target>,
 ): Partial<Target> & Target => ({
@@ -736,105 +737,105 @@ export const target = (
   ...target,
 });
 
-export const calculateInGame = (character: Character) => {
+export const calculateInGameFormatStatus = (config: Config) => {
   return {
-    AGI: character.AGI,
-    DEX: character.DEX,
-    INT: character.INT,
-    STR: character.STR,
-    VIT: character.VIT,
-    ATK: stats.totalATK(character),
-    MATK: stats.totalMATK(character),
-    DEF: stats.totalDEF(character),
-    MDEF: stats.totalMDEF(character),
-    HIT: stats.totalAccuracy(character),
-    FLEE: stats.totalDodge(character),
-    ASPD: stats.totalASPD(character),
-    CSPD: stats.totalCSPD(character),
-    HP: stats.totalMaxHP(character),
-    MP: stats.totalMaxMP(character),
+    AGI: config["character.AGI"],
+    DEX: config["character.DEX"],
+    INT: config["character.INT"],
+    STR: config["character.STR"],
+    VIT: config["character.VIT"],
+    ATK: stats.totalATK(config),
+    MATK: stats.totalMATK(config),
+    DEF: stats.totalDEF(config),
+    MDEF: stats.totalMDEF(config),
+    HIT: stats.totalAccuracy(config),
+    FLEE: stats.totalDodge(config),
+    ASPD: stats.totalASPD(config),
+    CSPD: stats.totalCSPD(config),
+    HP: stats.totalMaxHP(config),
+    MP: stats.totalMaxMP(config),
   };
 };
 
-export const calculateAll = (character: Character) => ({
+export const calculateAll = (config: Config) => ({
   // AGI
-  totalBaseAGI: character.AGI,
-  totalPercentAGI: stats.totalPercentAGI(character),
-  totalFlatAGI: stats.totalFlatAGI(character),
-  totalAGI: stats.totalAGI(character),
+  totalBaseAGI: config["character.AGI"],
+  totalPercentAGI: stats.totalPercentAGI(config),
+  totalFlatAGI: stats.totalFlatAGI(config),
+  totalAGI: stats.totalAGI(config),
 
   // DEX
-  totalBaseDEX: character.DEX,
-  totalPercentDEX: stats.totalPercentDEX(character),
-  totalFlatDEX: stats.totalFlatDEX(character),
-  totalDEX: stats.totalDEX(character),
+  totalBaseDEX: config["character.DEX"],
+  totalPercentDEX: stats.totalPercentDEX(config),
+  totalFlatDEX: stats.totalFlatDEX(config),
+  totalDEX: stats.totalDEX(config),
 
   // INT
-  totalBaseINT: character.INT,
-  totalPercentINT: stats.totalPercentINT(character),
-  totalFlatINT: stats.totalFlatINT(character),
-  totalINT: stats.totalINT(character),
+  totalBaseINT: config["character.INT"],
+  totalPercentINT: stats.totalPercentINT(config),
+  totalFlatINT: stats.totalFlatINT(config),
+  totalINT: stats.totalINT(config),
 
   // STR
-  totalBaseSTR: character.STR,
-  totalPercentSTR: stats.totalPercentSTR(character),
-  totalFlatSTR: stats.totalFlatSTR(character),
-  totalSTR: stats.totalSTR(character),
+  totalBaseSTR: config["character.STR"],
+  totalPercentSTR: stats.totalPercentSTR(config),
+  totalFlatSTR: stats.totalFlatSTR(config),
+  totalSTR: stats.totalSTR(config),
 
   // VIT
-  totalBaseVIT: character.VIT,
-  totalPercentVIT: stats.totalPercentVIT(character),
-  totalFlatVIT: stats.totalFlatVIT(character),
-  totalVIT: stats.totalVIT(character),
+  totalBaseVIT: config["character.VIT"],
+  totalPercentVIT: stats.totalPercentVIT(config),
+  totalFlatVIT: stats.totalFlatVIT(config),
+  totalVIT: stats.totalVIT(config),
 
   // MAX HP
-  totalBaseMaxHP: stats.totalBaseMaxHP(character),
-  totalPercentMaxHP: stats.totalPercentMaxHP(character),
-  totalFlatMaxHP: stats.totalFlatMaxHP(character),
-  totalMaxHP: stats.totalMaxHP(character),
+  totalBaseMaxHP: stats.totalBaseMaxHP(config),
+  totalPercentMaxHP: stats.totalPercentMaxHP(config),
+  totalFlatMaxHP: stats.totalFlatMaxHP(config),
+  totalMaxHP: stats.totalMaxHP(config),
 
   // MAX MP
-  totalBaseMaxMP: stats.totalBaseMaxMP(character),
-  totalPercentMaxMP: stats.totalPercentMaxMP(character),
-  totalFlatMaxMP: stats.totalFlatMaxMP(character),
-  totalMaxMP: stats.totalMaxMP(character),
+  totalBaseMaxMP: stats.totalBaseMaxMP(config),
+  totalPercentMaxMP: stats.totalPercentMaxMP(config),
+  totalFlatMaxMP: stats.totalFlatMaxMP(config),
+  totalMaxMP: stats.totalMaxMP(config),
 
   // DEF
-  totalBaseDEF: stats.totalBaseDEF(character),
-  totalPercentDEF: stats.totalPercentDEF(character),
-  totalFlatDEF: stats.totalFlatDEF(character),
-  totalDEF: stats.totalDEF(character),
+  totalBaseDEF: stats.totalBaseDEF(config),
+  totalPercentDEF: stats.totalPercentDEF(config),
+  totalFlatDEF: stats.totalFlatDEF(config),
+  totalDEF: stats.totalDEF(config),
 
   // MDEF
-  totalBaseMDEF: stats.totalBaseMDEF(character),
-  totalPercentMDEF: stats.totalPercentMDEF(character),
-  totalFlatMDEF: stats.totalFlatMDEF(character),
-  totalMDEF: stats.totalMDEF(character),
+  totalBaseMDEF: stats.totalBaseMDEF(config),
+  totalPercentMDEF: stats.totalPercentMDEF(config),
+  totalFlatMDEF: stats.totalFlatMDEF(config),
+  totalMDEF: stats.totalMDEF(config),
 
   // Critical Damage
-  totalBaseCriticalDamage: stats.totalBaseCriticalDamage(character),
-  totalPercentCriticalDamage: stats.totalPercentCriticalDamage(character),
-  totalFlatCriticalDamage: stats.totalFlatCriticalDamage(character),
-  totalCriticalDamage: stats.totalCriticalDamage(character),
-  totalMagicCriticalDamage: stats.totalMagicCriticalDamage(character),
+  totalBaseCriticalDamage: stats.totalBaseCriticalDamage(config),
+  totalPercentCriticalDamage: stats.totalPercentCriticalDamage(config),
+  totalFlatCriticalDamage: stats.totalFlatCriticalDamage(config),
+  totalCriticalDamage: stats.totalCriticalDamage(config),
+  totalMagicCriticalDamage: stats.totalMagicCriticalDamage(config),
 
   // Critical Rate
-  totalBaseCriticalRate: stats.totalBaseCriticalRate(character),
-  totalPercentCriticalRate: stats.totalPercentCriticalRate(character),
-  totalFlatCriticalRate: stats.totalFlatCriticalRate(character),
-  totalCriticalRate: stats.totalCriticalRate(character),
-  totalMagicCriticalRate: stats.totalMagicCriticalRate(character),
+  totalBaseCriticalRate: stats.totalBaseCriticalRate(config),
+  totalPercentCriticalRate: stats.totalPercentCriticalRate(config),
+  totalFlatCriticalRate: stats.totalFlatCriticalRate(config),
+  totalCriticalRate: stats.totalCriticalRate(config),
+  totalMagicCriticalRate: stats.totalMagicCriticalRate(config),
 
   // ATK
 
   // MATK
 
   // CSPD
-  totalBaseCSPD: stats.totalBaseCSPD(character),
-  totalPercentCSPD: stats.totalPercentCSPD(character),
-  totalFlatCSPD: stats.totalFlatCSPD(character),
-  totalCSPD: stats.totalCSPD(character),
-  totalCastTimeReduction: stats.totalCastTimeReduction(character),
+  totalBaseCSPD: stats.totalBaseCSPD(config),
+  totalPercentCSPD: stats.totalPercentCSPD(config),
+  totalFlatCSPD: stats.totalFlatCSPD(config),
+  totalCSPD: stats.totalCSPD(config),
+  totalCastTimeReduction: stats.totalCastTimeReduction(config),
 });
 
 // Damage Calculator
@@ -921,116 +922,6 @@ export const defaultDamageMetadata: DamageMetadata = {
   isGrazed: false,
 };
 
-// export const damage = (metadata: DamageMetadata) => {
-//   return {
-//     metadata,
-
-//     playerLevel: (value: number) =>
-//       damage({ ...metadata, playerLevel: value }),
-
-//     targetLevel: (value: number) =>
-//       damage({ ...metadata, targetLevel: value }),
-
-//     targetDefense: (value: number) =>
-//       damage({ ...metadata, targetDefense: value }),
-
-//     targetResistance: (value: number) =>
-//       damage({ ...metadata, targetResistance: value }),
-
-//     damageSource: (value: number) =>
-//       damage({ ...metadata, damageSource: value }),
-
-//     damagePierce: (value: number) =>
-//       damage({ ...metadata, damagePierce: value }),
-
-//     damageConstant: (value: number) =>
-//       damage({ ...metadata, damageConstant: value }),
-
-//     flatUnsheatheAttack: (value: number) =>
-//       damage({ ...metadata, flatUnsheatheAttack: value }),
-
-//     criticalDamageModifier: (value: number) =>
-//       damage({ ...metadata, criticalDamageModifier: value }),
-
-//     elementDamageModifier: (value: number) =>
-//       damage({ ...metadata, elementDamageModifier: value }),
-
-//     innateSkillDamageModifier: (value: number) =>
-//       damage({ ...metadata, innateSkillDamageModifier: value }),
-
-//     percentUnsheatheAttack: (value: number) =>
-//       damage({ ...metadata, percentUnsheatheAttack: value }),
-
-//     stability: (value: number) =>
-//       damage({ ...metadata, stability: value }),
-
-//     proration: (value: number) =>
-//       damage({ ...metadata, proration: value }),
-
-//     skillDamageModifier: (value: number) =>
-//       damage({ ...metadata, skillDamageModifier: value }),
-
-//     distanceDependentDamageModifier: (value: number) =>
-//       damage({ ...metadata, distanceDependentDamageModifier: value }),
-
-//     playerIsAffectedByLethargy: () =>
-//       damage({ ...metadata, playerIsAffectedByLethargy: true }),
-
-//     lastDamageModifier: (value: number) =>
-//       damage({ ...metadata, lastDamageModifier: value }),
-
-//     comboRelatedDamageModifier: (value: number) =>
-//       damage({ ...metadata, comboRelatedDamageModifier: value }),
-
-//     baseDropGemDamageModifier: (value: number) =>
-//       damage({ ...metadata, baseDropGemDamageModifier: value }),
-
-//     isGuarded: () => damage({ ...metadata, isGuarded: true }),
-
-//     isGrazed: () => damage({ ...metadata, isGrazed: true }),
-
-//     ultimaLionRageDamageModifier: (value: number) =>
-//       damage({ ...metadata, ultimaLionRageDamageModifier: value }),
-
-//     calculate: () => {
-//       const baseDamage = Math.floor(
-//         (metadata.damageSource +
-//           metadata.playerLevel -
-//           metadata.targetLevel) *
-//           ((100 - metadata.targetResistance) / 100),
-//       );
-
-//       const effectiveDefense = Math.floor(
-//         metadata.targetDefense * ((100 - metadata.damagePierce) / 100),
-//       );
-
-//       let finalDamage = baseDamage - effectiveDefense;
-
-//       finalDamage += metadata.damageConstant;
-//       finalDamage += metadata.flatUnsheatheAttack;
-//       finalDamage *= metadata.criticalDamageModifier / 100;
-//       finalDamage *= metadata.elementDamageModifier / 100;
-//       finalDamage *= metadata.innateSkillDamageModifier / 100;
-//       finalDamage *= metadata.percentUnsheatheAttack / 100;
-//       finalDamage *= metadata.stability / 100;
-//       finalDamage *= metadata.proration / 100;
-//       finalDamage *= metadata.skillDamageModifier / 100;
-//       finalDamage *= metadata.distanceDependentDamageModifier / 100;
-//       finalDamage *=
-//         (metadata.playerIsAffectedByLethargy ? 70 : 100) / 100;
-//       finalDamage *= metadata.lastDamageModifier / 100;
-//       finalDamage *= metadata.comboRelatedDamageModifier / 100;
-//       finalDamage *= metadata.baseDropGemDamageModifier / 100;
-//       finalDamage *= (metadata.isGuarded ? 25 : 100) / 100;
-//       finalDamage *= metadata.ultimaLionRageDamageModifier / 100;
-
-//       finalDamage = Math.floor(finalDamage);
-
-//       return finalDamage;
-//     },
-//   };
-// };
-
 export const damage = (metadata: DamageMetadata) => {
   const baseDamage = Math.floor(
     (metadata.damageSource + metadata.playerLevel - metadata.targetLevel) *
@@ -1043,10 +934,16 @@ export const damage = (metadata: DamageMetadata) => {
 
   let finalDamage = baseDamage - effectiveDefense;
 
-  finalDamage += metadata.damageConstant;
-  finalDamage += metadata.flatUnsheatheAttack;
-  finalDamage *= metadata.criticalDamageModifier / 100;
-  finalDamage *= metadata.elementDamageModifier / 100;
+  finalDamage = finalDamage + metadata.damageConstant;
+  finalDamage = finalDamage + metadata.flatUnsheatheAttack;
+  finalDamage = Math.floor(
+    (finalDamage * metadata.criticalDamageModifier) / 100,
+  );
+
+  finalDamage = Math.floor(
+    (finalDamage * metadata.elementDamageModifier) / 100,
+  );
+
   finalDamage *= metadata.innateSkillDamageModifier / 100;
   finalDamage *= metadata.percentUnsheatheAttack / 100;
   finalDamage *= metadata.stability / 100;
@@ -1064,3 +961,6 @@ export const damage = (metadata: DamageMetadata) => {
 
   return finalDamage;
 };
+
+// REFACTOR THE CHARACTER DATA INTO A VSCODE-LIKE CONFIG
+// FIX THE UTILS!!!!

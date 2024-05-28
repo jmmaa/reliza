@@ -1,28 +1,22 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const shotMasteryTotalPercentATK = (character: Character) => {
-  const skillLevel = character.skills.shotSkills.shotMastery.level;
+export const shotMasteryLevel = (config: Config) =>
+  config["character.skills.shotSkills.shotMastery.level"];
 
-  const total =
-    character.mainWeapon.type === "bowgun" ||
-    character.mainWeapon.type === "bow"
-      ? skillLevel >= 8
-        ? 3
-        : skillLevel >= 3
-        ? 2
-        : 1
-      : 0;
+export const shotMasteryTotalPercentATK = (config: Config) =>
+  (
+    config["character.mainweapon.type"] === "bowgun" ||
+    config["character.mainweapon.type"] === "bow"
+  ) ?
+    shotMasteryLevel(config) >= 8 ? 3
+    : shotMasteryLevel(config) >= 3 ? 2
+    : 1
+  : 0;
 
-  return total;
-};
-
-export const shotMasteryTotalPercentWeaponATK = (character: Character) => {
-  const skillLevel = character.skills.shotSkills.shotMastery.level;
-
-  const total =
-    character.mainWeapon.type === "bowgun" ||
-    character.mainWeapon.type === "bow"
-      ? skillLevel * 3
-      : 0;
-  return total;
-};
+export const shotMasteryTotalPercentWeaponATK = (config: Config) =>
+  (
+    config["character.mainweapon.type"] === "bowgun" ||
+    config["character.mainweapon.type"] === "bow"
+  ) ?
+    shotMasteryLevel(config) * 3
+  : 0;

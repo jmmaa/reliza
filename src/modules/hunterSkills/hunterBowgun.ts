@@ -1,17 +1,17 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 import { floor } from "../utils";
 
-export const hunterBowgunLevel = (character: Character) =>
-  character.skills.hunterSkills.hunterBowgun.level;
+export const hunterBowgunLevel = (config: Config) =>
+  config["character.skills.hunterSkills.hunterBowgun.level"];
 
-export const hunterBowgunTotalBaseATK = (character: Character) =>
+export const hunterBowgunTotalBaseATK = (config: Config) =>
   (
-    character.mainWeapon.type === "bowgun" &&
+    config["character.mainweapon.type"] === "bowgun" &&
     !(
-      character.subWeapon.type === "arrow" ||
-      character.subWeapon.type === "none"
+      config["character.subweapon.type"] === "arrow" ||
+      config["character.subweapon.type"] === "none"
     )
   ) ?
-    (1 + (floor(hunterBowgunLevel(character) * 1.5) * 5) / 3 / 100) *
-    character.mainWeapon.ATK
+    (1 + (floor(hunterBowgunLevel(config) * 1.5) * 5) / 3 / 100) *
+    config["character.mainweapon.ATK"]
   : 0;

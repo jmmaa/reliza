@@ -1,9 +1,9 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const lightArmorMasteryLevel = (character: Character) =>
-  character.skills.guardSkills.lightArmorMastery.level;
+export const lightArmorMasteryLevel = (config: Config) =>
+  config["character.skills.guardSkills.lightArmorMastery.level"];
 
-export const lightArmorMasteryTotalEvasionRecharge = (
-  character: Character,
-) =>
-  character.armor.type === "light" ? lightArmorMasteryLevel(character) : 0;
+export const lightArmorMasteryTotalEvasionRecharge = (config: Config) =>
+  config["character.armor.type"] === "light" ?
+    lightArmorMasteryLevel(config)
+  : 0;

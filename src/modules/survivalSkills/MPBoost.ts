@@ -1,7 +1,7 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const MPBoostLevel = (character: Character) =>
-  character.skills.survivalSkills.MPBoost.level;
+export const MPBoostLevel = (config: Config) =>
+  config["character.skills.survivalSkills.MPBoost.level"];
 
-export const MPBoostTotalFlatMaxMP = (character: Character) =>
-  MPBoostLevel(character) * 30;
+export const MPBoostTotalFlatMaxMP = (config: Config) =>
+  MPBoostLevel(config) * 30;

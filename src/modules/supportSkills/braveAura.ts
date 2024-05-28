@@ -1,16 +1,15 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const braveAura = (character: Character) =>
-  character.skills.supportSkills.braveAura;
+export const braveAuraLevel = (config: Config) =>
+  config["character.skills.supportSkills.braveAura.level"];
 
-export const braveAuraLevel = (character: Character) =>
-  braveAura(character).level;
+export const braveAuraIsActive = (config: Config) =>
+  config["character.skills.supportSkills.braveAura.isActive"];
 
-export const braveAuraIsActive = (character: Character) =>
-  braveAura(character).isActive;
+export const braveAuraTotalPercentWeaponATK = (config: Config) =>
+  braveAuraIsActive(config) ? 10 + braveAuraLevel(config) * 2 : 0;
 
-export const braveAuraTotalPercentWeaponATK = (character: Character) =>
-  braveAuraIsActive(character) ? 10 + braveAuraLevel(character) * 2 : 0;
+export const braveAuraTotalLastDamageModifier = (config: Config) =>
+  braveAuraIsActive(config) ? braveAuraLevel(config) * 2 : 0;
 
-export const braveAuraTotalLastDamageModifier = (character: Character) =>
-  braveAuraIsActive(character) ? braveAuraLevel(character) * 2 : 0;
+// CONTINUE THIS TOMORROW

@@ -1,39 +1,37 @@
-import { Character } from "../../../types";
+import { Config } from "../../../types";
 import { berserkTotalStability } from "../../bladeSkills/berserk";
 import { twoHandedTotalStability } from "../../mononofuSkills";
 import { samuraiArcheryTotalStability } from "../../shotSkills/samuraiArchery";
-import { floor, get, sum, flattenStatsFromEquipment } from "../../utils";
+import { floor, get, sum, flattenedStats } from "../../utils";
 import { totalBaseStability } from "../derived";
 
-export const totalStabilityFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("stability"))
-    .reduce(sum, 0);
+export const totalStabilityFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("stability")).reduce(sum, 0);
 
-export const totalStabilityFromSkills = (character: Character) =>
-  berserkTotalStability(character) +
-  samuraiArcheryTotalStability(character) +
-  twoHandedTotalStability(character);
+export const totalStabilityFromSkills = (config: Config) =>
+  berserkTotalStability(config) +
+  samuraiArcheryTotalStability(config) +
+  twoHandedTotalStability(config);
 
-export const totalStability = (character: Character) =>
-  totalBaseStability(character) +
-  totalStabilityFromEquipment(character) +
-  totalStabilityFromSkills(character);
+export const totalStability = (config: Config) =>
+  totalBaseStability(config) +
+  totalStabilityFromEquipment(config) +
+  totalStabilityFromSkills(config);
 
 /** graze effect lacking here */
-export const totalMinimumStability = (character: Character) =>
-  totalStability(character);
+export const totalMinimumStability = (config: Config) =>
+  totalStability(config);
 
 /** graze effect lacking here */
-export const totalMaximumStability = (character: Character) => 100;
+export const totalMaximumStability = (config: Config) => 100;
 
-export const totalMagicStability = (character: Character) =>
-  floor((100 + totalStability(character)) / 2);
+export const totalMagicStability = (config: Config) =>
+  floor((100 + totalStability(config)) / 2);
 
-export const totalMinimumMagicStability = (character: Character) =>
-  totalMagicStability(character);
+export const totalMinimumMagicStability = (config: Config) =>
+  totalMagicStability(config);
 
-export const totalMaximumMagicStability = (character: Character) =>
-  totalMagicStability(character) > 90 ?
-    totalMagicStability(character) - 90 + 100
+export const totalMaximumMagicStability = (config: Config) =>
+  totalMagicStability(config) > 90 ?
+    totalMagicStability(config) - 90 + 100
   : 100;

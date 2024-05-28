@@ -1,9 +1,9 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const advancedEvasionLevel = (character: Character) =>
-  character.skills.guardSkills.advancedEvasion.level;
+export const advancedEvasionLevel = (config: Config) =>
+  config["character.skills.guardSkills.advancedEvasion.level"];
 
-export const advancedEvasionTotalEvasionRecharge = (
-  character: Character,
-) =>
-  character.armor.type === "light" ? advancedEvasionLevel(character) : 0;
+export const advancedEvasionTotalEvasionRecharge = (config: Config) =>
+  config["character.armor.type"] === "light" ?
+    advancedEvasionLevel(config)
+  : 0;

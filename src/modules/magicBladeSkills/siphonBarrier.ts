@@ -1,30 +1,25 @@
-import { Character } from "../../types";
+import { Character, Config } from "../../types";
 
-export const siphonBarrier = (character: Character) =>
-  character.skills.magicBladeSkills.siphonBarrier;
+export const siphonBarrierLevel = (config: Config) =>
+  config["character.skills.magicBladeSkills.siphonBarrier.level"];
 
-export const siphonBarrierLevel = (character: Character) =>
-  siphonBarrier(character).level;
+export const siphonBarrierIsActive = (config: Config) =>
+  config["character.skills.magicBladeSkills.siphonBarrier.isActive"];
 
-export const siphonBarrierIsActive = (character: Character) =>
-  siphonBarrier(character).isActive;
-
-export const siphonBarrierTotalPhysicalResistance = (
-  character: Character,
-) =>
+export const siphonBarrierTotalPhysicalResistance = (config: Config) =>
   (
-    (character.mainWeapon.type === "magic-device" ||
-      character.subWeapon.type === "magic-device") &&
-    siphonBarrierIsActive(character)
+    (config["character.mainweapon.type"] === "magic-device" ||
+      config["character.subweapon.type"] === "magic-device") &&
+    siphonBarrierIsActive(config)
   ) ?
-    siphonBarrierLevel(character) * 9
+    siphonBarrierLevel(config) * 9
   : 0;
 
-export const siphonBarrierTotalMagicResistance = (character: Character) =>
+export const siphonBarrierTotalMagicResistance = (config: Config) =>
   (
-    (character.mainWeapon.type === "magic-device" ||
-      character.subWeapon.type === "magic-device") &&
-    siphonBarrierIsActive(character)
+    (config["character.mainweapon.type"] === "magic-device" ||
+      config["character.subweapon.type"]) &&
+    siphonBarrierIsActive(config)
   ) ?
-    siphonBarrierLevel(character) * 9
+    siphonBarrierLevel(config) * 9
   : 0;

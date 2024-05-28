@@ -1,8 +1,8 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 import { floor } from "../utils";
 
-export const magicUPLevel = (character: Character) =>
-  character.skills.battleSkills.magicUP.level;
+export const magicUPLevel = (config: Config) =>
+  config["character.skills.battleSkills.magicUP.level"];
 
-export const magicUPTotalFlatMATK = (character: Character) =>
-  floor((character.level * (2.5 * magicUPLevel(character))) / 100);
+export const magicUPTotalFlatMATK = (config: Config) =>
+  floor((config["character.level"] * (2.5 * magicUPLevel(config))) / 100);

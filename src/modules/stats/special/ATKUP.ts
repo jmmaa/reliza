@@ -1,46 +1,31 @@
-import { Character } from "../../../types";
-import { floor, get, sum, flattenStatsFromEquipment } from "../../utils";
+import { Config } from "../../../types";
+import { floor, get, sum, flattenedStats } from "../../utils";
 
-export const totalBaseATKValueFromATKUPAGI = (character: Character) =>
-  floor(
-    flattenStatsFromEquipment(character)
-      .map(get("ATKUPAGI"))
-      .reduce(sum, 0) / 100,
-  ) * character.AGI;
+export const totalBaseATKValueFromATKUPAGI = (config: Config) =>
+  floor(flattenedStats(config).map(get("ATKUPAGI")).reduce(sum, 0) / 100) *
+  config["character.AGI"];
 
-export const totalBaseATKValueFromATKUPDEX = (character: Character) =>
-  floor(
-    flattenStatsFromEquipment(character)
-      .map(get("ATKUPDEX"))
-      .reduce(sum, 0) / 100,
-  ) * character.DEX;
+export const totalBaseATKValueFromATKUPDEX = (config: Config) =>
+  floor(flattenedStats(config).map(get("ATKUPDEX")).reduce(sum, 0) / 100) *
+  config["character.DEX"];
 
-export const totalBaseATKValueFromATKUPINT = (character: Character) =>
-  floor(
-    flattenStatsFromEquipment(character)
-      .map(get("ATKUPINT"))
-      .reduce(sum, 0) / 100,
-  ) * character.INT;
+export const totalBaseATKValueFromATKUPINT = (config: Config) =>
+  floor(flattenedStats(config).map(get("ATKUPINT")).reduce(sum, 0) / 100) *
+  config["character.INT"];
 
-export const totalBaseATKValueFromATKUPSTR = (character: Character) =>
-  floor(
-    flattenStatsFromEquipment(character)
-      .map(get("ATKUPSTR"))
-      .reduce(sum, 0) / 100,
-  ) * character.STR;
+export const totalBaseATKValueFromATKUPSTR = (config: Config) =>
+  floor(flattenedStats(config).map(get("ATKUPSTR")).reduce(sum, 0) / 100) *
+  config["character.STR"];
 
-export const totalBaseATKValueFromATKUPVIT = (character: Character) =>
-  floor(
-    flattenStatsFromEquipment(character)
-      .map(get("ATKUPVIT"))
-      .reduce(sum, 0) / 100,
-  ) * character.VIT;
+export const totalBaseATKValueFromATKUPVIT = (config: Config) =>
+  floor(flattenedStats(config).map(get("ATKUPVIT")).reduce(sum, 0) / 100) *
+  config["character.VIT"];
 
-export const totalBaseATKValueFromATKUP = (character: Character) =>
+export const totalBaseATKValueFromATKUP = (config: Config) =>
   [
-    totalBaseATKValueFromATKUPAGI(character),
-    totalBaseATKValueFromATKUPDEX(character),
-    totalBaseATKValueFromATKUPINT(character),
-    totalBaseATKValueFromATKUPSTR(character),
-    totalBaseATKValueFromATKUPVIT(character),
+    totalBaseATKValueFromATKUPAGI(config),
+    totalBaseATKValueFromATKUPDEX(config),
+    totalBaseATKValueFromATKUPINT(config),
+    totalBaseATKValueFromATKUPSTR(config),
+    totalBaseATKValueFromATKUPVIT(config),
   ].reduce(sum);

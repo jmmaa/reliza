@@ -1,4 +1,4 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const dodgeUPTotalFlatDodge = (character: Character) =>
-  character.skills.battleSkills.dodgeUP.level;
+export const dodgeUPTotalFlatDodge = (config: Config) =>
+  config["character.skills.battleSkills.dodgeUP.level"];

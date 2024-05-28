@@ -1,19 +1,12 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 import { isDualWielder } from "../utils";
 
-export const dualSwordMasteryLevel = (character: Character) =>
-  character.skills.dualSwordSkills.dualSwordMastery.level;
+export const dualSwordMasteryLevel = (config: Config) =>
+  config["character.skills.dualSwordSkills.dualSwordMastery.level"];
 
 export const dualSwordMasteryTotalPercentCriticalRate = (
-  character: Character,
-) =>
-  isDualWielder(character) ?
-    -55 + dualSwordMasteryLevel(character) * 3
-  : 0;
+  config: Config,
+) => (isDualWielder(config) ? -55 + dualSwordMasteryLevel(config) * 3 : 0);
 
-export const dualSwordMasteryTotalPercentAccuracy = (
-  character: Character,
-) =>
-  isDualWielder(character) ?
-    -55 + dualSwordMasteryLevel(character) * 3
-  : 0;
+export const dualSwordMasteryTotalPercentAccuracy = (config: Config) =>
+  isDualWielder(config) ? -55 + dualSwordMasteryLevel(config) * 3 : 0;

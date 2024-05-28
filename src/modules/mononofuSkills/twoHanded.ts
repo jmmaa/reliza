@@ -1,150 +1,99 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 import { totalATK } from "../stats";
 import { floor } from "../utils";
 
-export const twoHandedLevel = (character: Character) =>
-  character.skills.mononofuSkills.twoHanded.level;
+export const twoHandedLevel = (config: Config) =>
+  config["character.skills.mononofuSkills.twoHanded.level"];
 
-export const isNinjaSpiritMaxed = (character: Character) =>
-  character.skills.ninjaSkills.ninjaSpirit.level === 10;
+export const isNinjaSpiritMaxed = (config: Config) =>
+  config["character.skills.ninjaSkills.ninjaSpirit.level"] === 10;
 
-export const twoHandedTotalPercentWeaponATK = (character: Character) =>
+export const twoHandedTotalPercentWeaponATK = (config: Config) =>
   (
-    character.mainWeapon.type === "katana" ||
-    character.mainWeapon.type === "one-handed-sword" ||
-    character.mainWeapon.type === "magic-device"
+    config["character.mainweapon.type"] === "katana" ||
+    config["character.mainweapon.type"] === "one-handed-sword" ||
+    config["character.mainweapon.type"] === "magic-device"
   ) ?
     (
-      (character.subWeapon.type === "ninjutsu-scroll" &&
-        isNinjaSpiritMaxed(character)) ||
-      character.subWeapon.type === "none"
+      (config["character.subweapon.type"] === "ninjutsu-scroll" &&
+        isNinjaSpiritMaxed(config)) ||
+      config["character.subweapon.type"] === "none"
     ) ?
-      twoHandedLevel(character)
+      twoHandedLevel(config)
     : 0
-  : character.subWeapon.type === "none" ? twoHandedLevel(character)
+  : config["character.subweapon.type"] === "none" ? twoHandedLevel(config)
   : 0;
 
-export const twoHandedTotalPercentAccuracy = (character: Character) =>
+export const twoHandedTotalPercentAccuracy = (config: Config) =>
   (
-    character.mainWeapon.type === "katana" ||
-    character.mainWeapon.type === "one-handed-sword" ||
-    character.mainWeapon.type === "magic-device"
+    config["character.mainweapon.type"] === "katana" ||
+    config["character.mainweapon.type"] === "one-handed-sword" ||
+    config["character.mainweapon.type"] === "magic-device"
   ) ?
     (
-      (character.subWeapon.type === "ninjutsu-scroll" &&
-        isNinjaSpiritMaxed(character)) ||
-      character.subWeapon.type === "none"
+      (config["character.subweapon.type"] === "ninjutsu-scroll" &&
+        isNinjaSpiritMaxed(config)) ||
+      config["character.subweapon.type"] === "none"
     ) ?
-      twoHandedLevel(character)
+      twoHandedLevel(config)
     : 0
-  : character.subWeapon.type === "none" ? twoHandedLevel(character)
+  : config["character.subweapon.type"] === "none" ? twoHandedLevel(config)
   : 0;
 
-export const twoHandedTotalFlatCriticalRate = (character: Character) =>
+export const twoHandedTotalFlatCriticalRate = (config: Config) =>
   (
-    character.mainWeapon.type === "katana" ||
-    character.mainWeapon.type === "one-handed-sword" ||
-    character.mainWeapon.type === "magic-device"
+    config["character.mainweapon.type"] === "katana" ||
+    config["character.mainweapon.type"] === "one-handed-sword" ||
+    config["character.mainweapon.type"] === "magic-device"
   ) ?
     (
-      (character.subWeapon.type === "ninjutsu-scroll" &&
-        isNinjaSpiritMaxed(character)) ||
-      character.subWeapon.type === "none"
+      (config["character.subweapon.type"] === "ninjutsu-scroll" &&
+        isNinjaSpiritMaxed(config)) ||
+      config["character.subweapon.type"] === "none"
     ) ?
-      character.mainWeapon.type === "katana" ? twoHandedLevel(character)
+      config["character.mainweapon.type"] === "katana" ?
+        twoHandedLevel(config)
       : (
-        character.mainWeapon.type === "one-handed-sword" ||
-        character.mainWeapon.type === "magic-device"
+        config["character.mainweapon.type"] === "one-handed-sword" ||
+        config["character.mainweapon.type"] === "magic-device"
       ) ?
-        floor(twoHandedLevel(character) * 0.5)
+        floor(twoHandedLevel(config) * 0.5)
       : 0
     : 0
-  : character.subWeapon.type === "none" ?
-    floor(twoHandedLevel(character) * 0.5)
+  : config["character.subweapon.type"] === "none" ?
+    floor(twoHandedLevel(config) * 0.5)
   : 0;
 
-// export const twoHandedTotalFlatCriticalRate = (character: Character) => {
-//   const skillLevel = character.skills.mononofuSkills.twoHanded.level;
-
-//   const isMainKTN = character.mainWeapon.type === "katana";
-//   const isMainOHS = character.mainWeapon.type === "one-handed-sword";
-//   const isMainMD = character.mainWeapon.type === "magic-device";
-
-//   const isSubNone = character.subWeapon.type === "none";
-//   const isSubScroll = character.subWeapon.type === "ninjutsu-scroll";
-//   const isMaxNinjaSpirit =
-//     character.skills.ninjaSkills.ninjaSpirit.level === 10;
-
-//   const total =
-//     isMainKTN ?
-//       (isSubScroll && isMaxNinjaSpirit) || isSubNone ? skillLevel
-//       : isMainOHS || isMainMD ?
-//         (isSubScroll && isMaxNinjaSpirit) || isSubNone ?
-//           floor(skillLevel * 0.5)
-//         : isSubNone ? floor(skillLevel * 0.5)
-//         : 0
-//       : 0
-//     : 0;
-
-//   return total;
-// };
-
-// export const twoHandedTotalStability = (character: Character) => {
-//   const skillLevel = character.skills.mononofuSkills.twoHanded.level;
-
-//   const isMainKTN = character.mainWeapon.type === "katana";
-//   const isMainOHS = character.mainWeapon.type === "one-handed-sword";
-//   const isMainMD = character.mainWeapon.type === "magic-device";
-
-//   const isSubNone = character.subWeapon.type === "none";
-//   const isSubScroll = character.subWeapon.type === "ninjutsu-scroll";
-//   const isMaxNinjaSpirit =
-//     character.skills.ninjaSkills.ninjaSpirit.level === 10;
-
-//   const total =
-//     isMainKTN ?
-//       (isSubScroll && isMaxNinjaSpirit) || isSubNone ? skillLevel
-//       : isMainOHS || isMainMD ?
-//         (isSubScroll && isMaxNinjaSpirit) || isSubNone ?
-//           floor(skillLevel * 0.5)
-//         : isSubNone ? floor(skillLevel * 0.5)
-//         : 0
-//       : 0
-//     : 0;
-
-//   return total;
-// };
-
-export const twoHandedTotalStability = (character: Character) =>
+export const twoHandedTotalStability = (config: Config) =>
   (
-    character.mainWeapon.type === "katana" ||
-    character.mainWeapon.type === "one-handed-sword" ||
-    character.mainWeapon.type === "magic-device"
+    config["character.mainweapon.type"] === "katana" ||
+    config["character.mainweapon.type"] === "one-handed-sword" ||
+    config["character.mainweapon.type"] === "magic-device"
   ) ?
     (
-      (character.subWeapon.type === "ninjutsu-scroll" &&
-        isNinjaSpiritMaxed(character)) ||
-      character.subWeapon.type === "none"
+      (config["character.subweapon.type"] === "ninjutsu-scroll" &&
+        isNinjaSpiritMaxed(config)) ||
+      config["character.subweapon.type"] === "none"
     ) ?
-      character.mainWeapon.type === "katana" ? twoHandedLevel(character)
+      config["character.mainweapon.type"] === "katana" ?
+        twoHandedLevel(config)
       : (
-        character.mainWeapon.type === "one-handed-sword" ||
-        character.mainWeapon.type === "magic-device"
+        config["character.mainweapon.type"] === "one-handed-sword" ||
+        config["character.mainweapon.type"] === "magic-device"
       ) ?
-        floor(twoHandedLevel(character) * 0.5)
+        floor(twoHandedLevel(config) * 0.5)
       : 0
     : 0
-  : character.subWeapon.type === "none" ?
-    floor(twoHandedLevel(character) * 0.5)
+  : config["character.subweapon.type"] === "none" ?
+    floor(twoHandedLevel(config) * 0.5)
   : 0;
 
-export const twoHandedTotalATKOnCrit = (character: Character) =>
+export const twoHandedTotalATKOnCrit = (config: Config) =>
   (
-    character.mainWeapon.type === "katana" &&
-    (character.subWeapon.type === "none" ||
-      (character.subWeapon.type === "ninjutsu-scroll" &&
-        isNinjaSpiritMaxed(character)))
+    config["character.mainweapon.type"] === "katana" &&
+    (config["character.subweapon.type"] === "none" ||
+      (config["character.subweapon.type"] === "ninjutsu-scroll" &&
+        isNinjaSpiritMaxed(config)))
   ) ?
-    totalATK(character) *
-    floor((100 + 5 * twoHandedLevel(character)) / 100)
+    totalATK(config) * floor((100 + 5 * twoHandedLevel(config)) / 100)
   : 0;

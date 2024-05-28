@@ -1,184 +1,145 @@
-import { Character, Entries } from "../../types";
+import { Character, Config, Entries } from "../../types";
 import { totalATK, totalINT, totalMATK, totalSTR } from "../stats";
 import { subWeaponMagicDevicePercentATKModifier } from "../stats/derived/modifiers";
-import { flattenStatsFromEquipment, floor, get, sum } from "../utils";
+import { flattenedStats, floor, get, sum } from "../utils";
 
-export const dualBringer = (character: Character) =>
-  character.skills.magicBladeSkills.dualBringer;
-export const dualBringerLevel = (character: Character) =>
-  dualBringer(character).level;
-export const dualBringerIsActive = (character: Character) =>
-  dualBringer(character).isActive;
+export const dualBringerLevel = (config: Config) =>
+  config["character.skills.magicBladeSkills.dualBringer.level"];
+export const dualBringerIsActive = (config: Config) =>
+  config["character.skills.magicBladeSkills.dualBringer.isActive"];
 
-export const totalNumberOfMagicBladeSkills = (character: Character) =>
-  (
-    Object.entries(character.skills.magicBladeSkills) as Entries<
-      typeof character.skills.magicBladeSkills
-    >
-  ).filter((skill) => skill[1].level > 0).length;
+export const totalNumberOfMagicBladeSkills = (config: Config) =>
+  [
+    (
+      config[
+        "character.skills.magicBladeSkills.magicWarriorMastery.level"
+      ] > 0
+    ) ?
+      1
+    : 0,
+    config["character.skills.magicBladeSkills.conversion.level"] > 0 ?
+      1
+    : 0,
+    config["character.skills.magicBladeSkills.resonance.level"] > 0 ?
+      1
+    : 0,
+    config["character.skills.magicBladeSkills.enchantedSpell.level"] > 0 ?
+      1
+    : 0,
+    config["character.skills.magicBladeSkills.dualBringer.level"] > 0 ?
+      1
+    : 0,
+    config["character.skills.magicBladeSkills.etherFlare.level"] > 0 ?
+      1
+    : 0,
+    config["character.skills.magicBladeSkills.elementSlash.level"] > 0 ?
+      1
+    : 0,
+    config["character.skills.magicBladeSkills.enchantSword.level"] > 0 ?
+      1
+    : 0,
+    config["character.skills.magicBladeSkills.enchantedBurst.level"] > 0 ?
+      1
+    : 0,
+    config["character.skills.magicBladeSkills.unionSword.level"] > 0 ?
+      1
+    : 0,
+    config["character.skills.magicBladeSkills.siphonBarrier.level"] > 0 ?
+      1
+    : 0,
+    config["character.skills.magicBladeSkills.teleport.level"] > 0 ? 1 : 0,
+    config["character.skills.magicBladeSkills.siphonRecall.level"] > 0 ?
+      1
+    : 0,
+    config["character.skills.magicBladeSkills.floatDash.level"] > 0 ?
+      1
+    : 0,
+    config["character.skills.magicBladeSkills.magicSkin.level"] > 0 ?
+      1
+    : 0,
+  ].reduce(sum, 0);
 
-export const totalNegativePercentATK = (character: Character) =>
-  flattenStatsFromEquipment(character)
+export const totalNegativePercentATK = (config: Config) =>
+  flattenedStats(config)
     .map(get("percentATK"))
     .filter((value) => value < 0)
-    .reduce(sum, 0) + subWeaponMagicDevicePercentATKModifier(character);
+    .reduce(sum, 0) + subWeaponMagicDevicePercentATKModifier(config);
 
-export const totalNegativePercentMATK = (character: Character) =>
-  flattenStatsFromEquipment(character)
+export const totalNegativePercentMATK = (config: Config) =>
+  flattenedStats(config)
     .map(get("percentATK"))
     .filter((value) => value < 0)
     .reduce(sum, 0);
 
-// export const dualBringerTotalATK = (character: Character) => {
-//   const magicBladeSkills = character.skills.magicBladeSkills;
-//   const dualBringer = magicBladeSkills.dualBringer;
-//   const skillLevel = dualBringer.level;
-//   const isActive = dualBringer.isActive;
-//   const isSubMD = character.subWeapon.type === "magic-device";
-
-//   const totalNegativePercentB =
-//     flattenStatsFromEquipment(character)
-//       .map(get("percentATK"))
-//       .filter((value) => value < 0)
-//       .reduce(sum, 0) + subWeaponMagicDevicePercentATKModifier(character);
-
-//   const totalNumberOfMagicBladeSkills = (
-//     Object.entries(magicBladeSkills) as Entries<typeof magicBladeSkills>
-//   ).filter((skill) => skill[1].level > 0).length;
-
-//   const skillModifier = Math.min(
-//     100,
-//     skillLevel * totalNumberOfMagicBladeSkills,
-//   );
-
-//   const A = totalMATK(character);
-//   const B = totalATK(character);
-
-//   const total =
-//     isActive && isSubMD ?
-//       floor(
-//         Math.max(
-//           0,
-//           (A - B) *
-//             ((100 - Math.abs(totalNegativePercentB)) / 100) *
-//             ((skillModifier - B * Math.abs(totalNegativePercentB)) / 100),
-//         ),
-//       )
-//     : 0;
-
-//   return total;
-// };
-
-export const dualBringerTotalATK = (character: Character) =>
+export const dualBringerTotalATK = (config: Config) =>
   (
-    dualBringerIsActive(character) &&
-    character.subWeapon.type === "magic-device"
+    dualBringerIsActive(config) &&
+    config["character.subweapon.type"] === "magic-device"
   ) ?
     floor(
       Math.max(
         0,
-        (totalMATK(character) - totalATK(character)) *
-          ((100 - Math.abs(totalNegativePercentATK(character))) / 100) *
+        (totalMATK(config) - totalATK(config)) *
+          ((100 - Math.abs(totalNegativePercentATK(config))) / 100) *
           ((Math.min(
             100,
-            dualBringerLevel(character) *
-              totalNumberOfMagicBladeSkills(character),
+            dualBringerLevel(config) *
+              totalNumberOfMagicBladeSkills(config),
           ) -
-            totalATK(character) *
-              Math.abs(totalNegativePercentATK(character))) /
+            totalATK(config) * Math.abs(totalNegativePercentATK(config))) /
             100),
       ),
     )
   : 0;
 
-// export const dualBringerTotalMATK = (character: Character) => {
-//   const magicBladeSkills = character.skills.magicBladeSkills;
-//   const dualBringer = magicBladeSkills.dualBringer;
-//   const skillLevel = dualBringer.level;
-//   const isActive = dualBringer.isActive;
-//   const isSubMD = character.subWeapon.type === "magic-device";
-
-//   const totalNegativePercentB =
-//     flattenStatsFromEquipment(character)
-//       .map(get("percentMATK"))
-//       .filter((value) => value < 0)
-//       .reduce(sum, 0) + subWeaponMagicDevicePercentATKModifier(character);
-
-//   const totalNumberOfMagicBladeSkills = (
-//     Object.entries(magicBladeSkills) as Entries<typeof magicBladeSkills>
-//   ).filter((skill) => skill[1].level > 0).length;
-
-//   const skillModifier = Math.min(
-//     100,
-//     skillLevel * totalNumberOfMagicBladeSkills,
-//   );
-
-//   const A = totalATK(character);
-//   const B = totalMATK(character);
-
-//   const total =
-//     isActive && isSubMD ?
-//       floor(
-//         Math.max(
-//           0,
-//           (A - B) *
-//             ((100 - Math.abs(totalNegativePercentB)) / 100) *
-//             ((skillModifier - B * Math.abs(totalNegativePercentB)) / 100),
-//         ),
-//       )
-//     : 0;
-
-//   return total;
-// };
-
-export const dualBringerTotalMATK = (character: Character) =>
+export const dualBringerTotalMATK = (config: Config) =>
   (
-    dualBringerIsActive(character) &&
-    character.subWeapon.type === "magic-device"
+    dualBringerIsActive(config) &&
+    config["character.subweapon.type"] === "magic-device"
   ) ?
     floor(
       Math.max(
         0,
-        (totalATK(character) - totalMATK(character)) *
-          ((100 - Math.abs(totalNegativePercentMATK(character))) / 100) *
+        (totalATK(config) - totalMATK(config)) *
+          ((100 - Math.abs(totalNegativePercentMATK(config))) / 100) *
           ((Math.min(
             100,
-            dualBringerLevel(character) *
-              totalNumberOfMagicBladeSkills(character),
+            dualBringerLevel(config) *
+              totalNumberOfMagicBladeSkills(config),
           ) -
-            totalMATK(character) *
-              Math.abs(totalNegativePercentMATK(character))) /
+            totalMATK(config) *
+              Math.abs(totalNegativePercentMATK(config))) /
             100),
       ),
     )
   : 0;
 
-export const dualBringerTotalDuration = (character: Character) =>
+export const dualBringerTotalDuration = (config: Config) =>
   (
-    dualBringerIsActive(character) &&
-    character.subWeapon.type === "magic-device"
+    dualBringerIsActive(config) &&
+    config["character.subweapon.type"] === "magic-device"
   ) ?
-    Math.max(10, floor(character.subWeapon.ATK / 10))
+    Math.max(10, floor(config["character.subweapon.ATK"] / 10))
   : 0;
 
 export const dualBringerTotalMagicCriticalDamageConversion = (
-  character: Character,
+  config: Config,
 ) =>
   (
-    dualBringerIsActive(character) &&
-    character.subWeapon.type === "magic-device" &&
-    totalINT(character) > totalSTR(character)
+    dualBringerIsActive(config) &&
+    config["character.subweapon.type"] === "magic-device" &&
+    totalINT(config) > totalSTR(config)
   ) ?
-    floor(dualBringerLevel(character) * 2.5)
+    floor(dualBringerLevel(config) * 2.5)
   : 0;
 
 export const dualBringerTotalMagicCriticalRateConversion = (
-  character: Character,
+  config: Config,
 ) =>
   (
-    dualBringerIsActive(character) &&
-    character.subWeapon.type === "magic-device" &&
-    totalSTR(character) > totalINT(character)
+    dualBringerIsActive(config) &&
+    config["character.subweapon.type"] === "magic-device" &&
+    totalSTR(config) > totalINT(config)
   ) ?
-    floor(dualBringerLevel(character) * 2.5)
+    floor(dualBringerLevel(config) * 2.5)
   : 0;

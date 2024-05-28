@@ -1,10 +1,10 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const HPBoostLevel = (character: Character) =>
-  character.skills.survivalSkills.HPBoost.level;
+export const HPBoostLevel = (config: Config) =>
+  config["character.skills.survivalSkills.HPBoost.level"];
 
-export const HPBoostTotalPercentMaxHP = (character: Character) =>
-  HPBoostLevel(character) * 2;
+export const HPBoostTotalPercentMaxHP = (config: Config) =>
+  HPBoostLevel(config) * 2;
 
-export const HPBoostTotalFlatMaxHP = (character: Character) =>
-  HPBoostLevel(character) * 100;
+export const HPBoostTotalFlatMaxHP = (config: Config) =>
+  HPBoostLevel(config) * 100;

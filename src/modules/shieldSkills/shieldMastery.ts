@@ -1,11 +1,11 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const shieldMasteryLevel = (character: Character) =>
-  character.skills.shieldSkills.shieldMastery.level;
+export const shieldMasteryLevel = (config: Config) =>
+  config["character.skills.shieldSkills.shieldMastery.level"];
 
 export const shieldMasteryPercentASPDPenaltyReduction = (
-  character: Character,
+  config: Config,
 ) =>
-  character.subWeapon.type === "shield" ?
-    shieldMasteryLevel(character) * 5
+  config["character.subweapon.type"] === "shield" ?
+    shieldMasteryLevel(config) * 5
   : 0;

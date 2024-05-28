@@ -1,23 +1,25 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const bushidoLevel = (character: Character) =>
-  character.skills.mononofuSkills.bushido.level;
+export const bushidoLevel = (config: Config) =>
+  config["character.skills.mononofuSkills.bushido.level"];
 
-export const bushidoTotalPercentATK = (character: Character) =>
-  character.mainWeapon.type === "katana" ?
-    bushidoLevel(character) >= 8 ? 3
-    : bushidoLevel(character) >= 3 ? 2
+export const bushidoTotalPercentATK = (config: Config) =>
+  config["character.mainweapon.type"] === "katana" ?
+    bushidoLevel(config) >= 8 ? 3
+    : bushidoLevel(config) >= 3 ? 2
     : 1
   : 0;
 
-export const bushidoTotalPercentWeaponATK = (character: Character) =>
-  character.mainWeapon.type === "katana" ? bushidoLevel(character) * 3 : 0;
+export const bushidoTotalPercentWeaponATK = (config: Config) =>
+  config["character.mainweapon.type"] === "katana" ?
+    bushidoLevel(config) * 3
+  : 0;
 
-export const bushidoTotalFlatMaxHP = (character: Character) =>
-  bushidoLevel(character) * 10;
+export const bushidoTotalFlatMaxHP = (config: Config) =>
+  bushidoLevel(config) * 10;
 
-export const bushidoTotalFlatMaxMP = (character: Character) =>
-  bushidoLevel(character) * 10;
+export const bushidoTotalFlatMaxMP = (config: Config) =>
+  bushidoLevel(config) * 10;
 
-export const bushidoTotalFlatAccuracy = (character: Character) =>
-  bushidoLevel(character);
+export const bushidoTotalFlatAccuracy = (config: Config) =>
+  bushidoLevel(config);

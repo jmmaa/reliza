@@ -1,4 +1,5 @@
-import { Character, Entries, Target } from "../../types";
+import { defaultStatMap, statMap } from "../..";
+import { Config, Entries, Target } from "../../types";
 
 export const total = (base: number, percent: number, flat: number) =>
   Math.floor(base * ((100 + percent) / 100)) + flat;
@@ -20,131 +21,60 @@ export const min = Math.min;
 
 export const concat = <V>(first: V[], second: V[]) => first.concat(second);
 
-export const entries = (character: Character) =>
-  Object.entries(character) as Entries<Character>;
+export const entries = <T extends {}>(o: T) =>
+  Object.entries(o) as Entries<T>;
 
-// export const armor = (character: Character) => character.armor;
-// export const armorCrystals = (character: Character) =>
-//   armor(character).crystals;
-// export const armorStats = (character: Character) => armor(character).stats;
+export const equipmentStatSources = <T extends Config>(config: T) => ({
+  "character.mainweapon.stats": config["character.mainweapon.stats"],
+  "character.subweapon.stats":
+    (
+      config["character.subweapon.type"] === "arrow" ||
+      config["character.subweapon.type"] === "dagger" ||
+      config["character.subweapon.type"] === "ninjutsu-scroll" ||
+      config["character.subweapon.type"] === "shield"
+    ) ?
+      config["character.subweapon.stats"]
+    : [defaultStatMap],
+  "character.additionalGear.stats":
+    config["character.additionalGear.stats"],
+  "character.armor.stats": config["character.armor.stats"],
+  "character.specialGear.stats": config["character.specialGear.stats"],
+});
 
-// export const additionalGear = (character: Character) =>
-//   character.additionalGear;
-// export const additionalGearCrystals = (character: Character) =>
-//   additionalGear(character).crystals;
-// export const additionalGearStats = (character: Character) =>
-//   additionalGear(character).stats;
+export const equipmentCrystalSources = <T extends Config>(config: T) => ({
+  "character.mainweapon.crystals": config["character.mainweapon.crystals"],
+  "character.subweapon.crystals": [[defaultStatMap]], // need to confirm if subweapon crystals doesnt count
+  "character.additionalGear.crystals":
+    config["character.additionalGear.crystals"],
+  "character.armor.crystals": config["character.armor.crystals"],
+  "character.specialGear.crystals":
+    config["character.specialGear.crystals"],
+});
 
-// export const specialGear = (character: Character) => character.specialGear;
-// export const specialGearCrystals = (character: Character) =>
-//   specialGear(character).crystals;
-// export const specialGearStats = (character: Character) =>
-//   specialGear(character).stats;
-
-// export const subWeapon = (character: Character) => character.subWeapon;
-// export const subWeaponCrystals = (character: Character) =>
-//   subWeapon(character).crystals;
-// export const subWeaponStats = (character: Character) =>
-//   subWeapon(character).stats;
-
-// export const mainWeapon = (character: Character) => character.mainWeapon;
-// export const mainWeaponCrystals = (character: Character) =>
-//   mainWeapon(character).crystals;
-// export const mainWeaponStats = (character: Character) =>
-//   mainWeapon(character).stats;
-
-// export const statsMapping = (character: Character) => ({
-//   mainWeapon: mainWeaponStats(character),
-//   subWeapon: subWeaponStats(character),
-//   additionalGear: additionalGearStats(character),
-//   armor: armorStats(character),
-//   specialGear: specialGearStats(character),
-// });
-
-// export const crystalsMapping = (character: Character) => ({
-//   mainWeapon: mainWeaponCrystals(character),
-//   subWeapon: subWeaponCrystals(character),
-//   additionalGear: additionalGearCrystals(character),
-//   armor: armorCrystals(character),
-//   specialGear: specialGearCrystals(character),
-// });
-
-// export const
-
-export const equipmentStatSources = <T extends Character>(character: T) =>
-  entries(character).filter(
-    (value) =>
-      value[0] === "mainWeapon" ||
-      value[0] === "subWeapon" ||
-      value[0] === "additionalGear" ||
-      value[0] === "armor" ||
-      value[0] === "specialGear",
-  ) as Entries<{
-    mainWeapon: T["mainWeapon"];
-    subWeapon: T["subWeapon"];
-    additionalGear: T["additionalGear"];
-    armor: T["armor"];
-    specialGear: T["specialGear"];
-  }>;
-
-export const equipmentStats = (character: Character) =>
-  equipmentStatSources(character)
-    .filter(
-      (value) =>
-        value[0] === "mainWeapon" ||
-        (value[0] === "subWeapon" &&
-          (value[1].type === "arrow" ||
-            value[1].type === "dagger" ||
-            value[1].type === "ninjutsu-scroll" ||
-            value[1].type === "shield")) ||
-        value[0] === "additionalGear" ||
-        value[0] === "armor" ||
-        value[0] === "specialGear",
-    )
-    .map((source) => source[1].stats);
-
-export const equipmentCrystals = (character: Character) =>
-  equipmentStatSources(character)
-    .filter(
-      (value) =>
-        value[0] === "mainWeapon" ||
-        value[0] === "additionalGear" ||
-        value[0] === "armor" ||
-        value[0] === "specialGear",
-    )
-    .map((source) => source[1].crystals);
-
-export const flattenedStats = (character: Character) =>
-  equipmentStats(character)
+export const flattenedStats = (config: Config) =>
+  entries(equipmentStatSources(config))
+    .map((value) => value[1]) // extract statmaps
     .concat(
-      equipmentCrystals(character).map((crystals) =>
-        crystals.map((crystal) => crystal(character)),
-      ),
+      entries(equipmentCrystalSources(config))
+        .map((value) => value[1]) // extract nested statmaps
+        .map((crystalSources) =>
+          crystalSources.reduce((left, right) => left.concat(right), []),
+        )
+        .map((value) => value[1]),
     )
     .reduce((left, right) => left.concat(right))
-    .concat(character.foodBuffs)
-    .concat(character.consumables);
+    .concat(config["character.consumables"])
+    .concat(config["character.foodBuffs"]);
 
-export const flattenStatsFromEquipment = (character: Character) =>
-  equipmentStats(character)
-    .concat(
-      equipmentCrystals(character).map((crystals) =>
-        crystals.map((crystal) => crystal(character)),
-      ),
-    )
-    .reduce((left, right) => left.concat(right))
-    .concat(character.foodBuffs)
-    .concat(character.consumables);
+// //  -- data accessors --
 
-//  -- data accessors --
+export const isDualWielder = (config: Config) =>
+  config["character.mainweapon.type"] === "one-handed-sword" &&
+  config["character.subweapon.type"] === "one-handed-sword" &&
+  config["character.skills.dualSwordSkills.dualSwordMastery.level"] > 0;
 
-export const isDualWielder = (character: Character) =>
-  character.mainWeapon.type === "one-handed-sword" &&
-  character.subWeapon.type === "one-handed-sword" &&
-  character.skills.dualSwordSkills.dualSwordMastery.level > 0;
+export const isMainOHS = (config: Config) =>
+  config["character.mainweapon.type"] === "one-handed-sword";
 
-// -- aggregators --
-
-// export const totalElementDamageModifier = (character: Character) => (target: Target) => {
-
-// }
+export const isMainTHS = (config: Config) =>
+  config["character.mainweapon.type"] === "two-handed-sword";

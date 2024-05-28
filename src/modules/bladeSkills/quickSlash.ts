@@ -1,20 +1,13 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
+import { isMainOHS, isMainTHS } from "../utils";
 
-export const quickSlashLevel = (character: Character) =>
-  character.skills.bladeSkills.quickSlash.level;
+export const quickSlashLevel = (config: Config) =>
+  config["character.skills.bladeSkills.quickSlash.level"];
 
-export const quickSlashTotalPercentASPD = (character: Character) =>
-  (
-    character.mainWeapon.type === "one-handed-sword" ||
-    character.mainWeapon.type === "two-handed-sword"
-  ) ?
-    quickSlashLevel(character)
-  : 0;
+export const quickSlashTotalPercentASPD = (config: Config) =>
+  isMainOHS(config) || isMainTHS(config) ? quickSlashLevel(config) : 0;
 
-export const quickSlashTotalFlatASPD = (character: Character) =>
-  (
-    character.mainWeapon.type === "one-handed-sword" ||
-    character.mainWeapon.type === "two-handed-sword"
-  ) ?
-    quickSlashLevel(character) * 10
+export const quickSlashTotalFlatASPD = (config: Config) =>
+  isMainOHS(config) || isMainTHS(config) ?
+    quickSlashLevel(config) * 10
   : 0;

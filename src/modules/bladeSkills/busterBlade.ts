@@ -1,19 +1,14 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
+import { isMainOHS, isMainTHS } from "../utils";
 
-export const busterBlade = (character: Character) =>
-  character.skills.bladeSkills.busterBlade;
+export const busterBladeLevel = (config: Config) =>
+  config["character.skills.bladeSkills.busterBlade.level"];
 
-export const busterBladeLevel = (character: Character) =>
-  busterBlade(character).level;
+export const busterBladeIsActive = (config: Config) =>
+  config["character.skills.bladeSkills.busterBlade.isActive"];
 
-export const busterBladeIsActive = (character: Character) =>
-  busterBlade(character).isActive;
-
-export const busterBladeTotalPercentWeaponATK = (character: Character) =>
-  (
-    character.mainWeapon.type === "one-handed-sword" ||
-    character.mainWeapon.type === "two-handed-sword"
-  ) ?
-    busterBladeIsActive(character) ? busterBladeLevel(character)
+export const busterBladeTotalPercentWeaponATK = (config: Config) =>
+  isMainOHS(config) || isMainTHS(config) ?
+    busterBladeIsActive(config) ? busterBladeLevel(config)
     : 0
   : 0;

@@ -1,4 +1,4 @@
-import { Character } from "../../../types";
+import { Config } from "../../../types";
 import {
   godspeedWieldTotalMagicResistance,
   godspeedWieldTotalPhysicalResistance,
@@ -11,64 +11,46 @@ import {
   forceShieldTotalPhysicalResistance,
   magicalShieldTotalMagicResistance,
 } from "../../shieldSkills";
-import { get, sum, flattenStatsFromEquipment } from "../../utils";
+import { get, sum, flattenedStats } from "../../utils";
 
-export const totalPhysicalResistanceFromEquipment = (
-  character: Character,
-) =>
-  flattenStatsFromEquipment(character)
-    .map(get("physicalResistance"))
-    .reduce(sum, 0);
+export const totalPhysicalResistanceFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("physicalResistance")).reduce(sum, 0);
 
-export const totalPhysicalResistanceFromSkills = (character: Character) =>
-  forceShieldTotalPhysicalResistance(character) +
-  godspeedWieldTotalPhysicalResistance(character) +
-  siphonBarrierTotalPhysicalResistance(character);
+export const totalPhysicalResistanceFromSkills = (config: Config) =>
+  forceShieldTotalPhysicalResistance(config) +
+  godspeedWieldTotalPhysicalResistance(config) +
+  siphonBarrierTotalPhysicalResistance(config);
 
-export const totalPhysicalResistance = (character: Character) =>
-  totalPhysicalResistanceFromEquipment(character) +
-  totalPhysicalResistanceFromSkills(character);
+export const totalPhysicalResistance = (config: Config) =>
+  totalPhysicalResistanceFromEquipment(config) +
+  totalPhysicalResistanceFromSkills(config);
 
-export const totalMagicResistanceFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("magicResistance"))
-    .reduce(sum, 0);
+export const totalMagicResistanceFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("magicResistance")).reduce(sum, 0);
 
-export const totalMagicResistanceFromSkills = (character: Character) =>
-  magicalShieldTotalMagicResistance(character) +
-  godspeedWieldTotalMagicResistance(character) +
-  siphonBarrierTotalMagicResistance(character);
+export const totalMagicResistanceFromSkills = (config: Config) =>
+  magicalShieldTotalMagicResistance(config) +
+  godspeedWieldTotalMagicResistance(config) +
+  siphonBarrierTotalMagicResistance(config);
 
-export const totalMagicResistance = (character: Character) =>
-  totalMagicResistanceFromEquipment(character) +
-  totalMagicResistanceFromSkills(character);
+export const totalMagicResistance = (config: Config) =>
+  totalMagicResistanceFromEquipment(config) +
+  totalMagicResistanceFromSkills(config);
 
-export const totalLightResistance = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("lightResistance"))
-    .reduce(sum, 0);
+export const totalLightResistance = (config: Config) =>
+  flattenedStats(config).map(get("lightResistance")).reduce(sum, 0);
 
-export const totalDarkResistance = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("darkResistance"))
-    .reduce(sum, 0);
+export const totalDarkResistance = (config: Config) =>
+  flattenedStats(config).map(get("darkResistance")).reduce(sum, 0);
 
-export const totalFireResistance = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("fireResistance"))
-    .reduce(sum, 0);
+export const totalFireResistance = (config: Config) =>
+  flattenedStats(config).map(get("fireResistance")).reduce(sum, 0);
 
-export const totalEarthResistance = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("earthResistance"))
-    .reduce(sum, 0);
+export const totalEarthResistance = (config: Config) =>
+  flattenedStats(config).map(get("earthResistance")).reduce(sum, 0);
 
-export const totalWindResistance = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("windResistance"))
-    .reduce(sum, 0);
+export const totalWindResistance = (config: Config) =>
+  flattenedStats(config).map(get("windResistance")).reduce(sum, 0);
 
-export const totalWaterResistance = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("waterResistance"))
-    .reduce(sum, 0);
+export const totalWaterResistance = (config: Config) =>
+  flattenedStats(config).map(get("waterResistance")).reduce(sum, 0);

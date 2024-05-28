@@ -1,24 +1,22 @@
-import { Character } from "../../../types";
+import { Config } from "../../../types";
 import { godspeedTotalFlatAGI } from "../../dualSwordSkills";
-import { sum, total, flattenStatsFromEquipment, get } from "../../utils";
+import { sum, total, flattenedStats, get } from "../../utils";
 
-export const totalPercentAGIFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("percentAGI"))
-    .reduce(sum, 0);
+export const totalPercentAGIFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("percentAGI")).reduce(sum, 0);
 
-export const totalPercentAGI = (character: Character) =>
-  totalPercentAGIFromEquipment(character);
+export const totalPercentAGI = (config: Config) =>
+  totalPercentAGIFromEquipment(config);
 
-export const totalFlatAGIFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character).map(get("flatAGI")).reduce(sum, 0);
+export const totalFlatAGIFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("flatAGI")).reduce(sum, 0);
 
-export const totalFlatAGI = (character: Character) =>
-  totalFlatAGIFromEquipment(character) + godspeedTotalFlatAGI(character);
+export const totalFlatAGI = (config: Config) =>
+  totalFlatAGIFromEquipment(config) + godspeedTotalFlatAGI(config);
 
-export const totalAGI = (character: Character) =>
+export const totalAGI = (config: Config) =>
   total(
-    character.AGI,
-    totalPercentAGI(character),
-    totalFlatAGI(character),
+    config["character.AGI"],
+    totalPercentAGI(config),
+    totalFlatAGI(config),
   );

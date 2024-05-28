@@ -1,12 +1,16 @@
-import { Character } from "../../../types";
-import { get } from "../../utils";
+import { Config } from "../../../types";
+import { equipmentStatSources, get } from "../../utils";
 
-export const mainWeaponElement = (character: Character) =>
-  character.mainWeapon.stats
-    .map(get("element"))
-    .reduce((prev, next) => (next !== "neutral" ? next : prev), "neutral");
+export const mainWeaponElement = (config: Config) =>
+  equipmentStatSources(config)["character.mainweapon.stats"].reduce(
+    (prev, value) =>
+      value["element"] !== "neutral" ? value["element"] : prev,
+    "neutral",
+  );
 
-export const subWeaponElement = (character: Character) =>
-  character.subWeapon.stats
-    .map(get("element"))
-    .reduce((prev, next) => (next !== "neutral" ? next : prev), "neutral");
+export const subWeaponElement = (config: Config) =>
+  equipmentStatSources(config)["character.subweapon.stats"].reduce(
+    (prev, value) =>
+      value["element"] !== "neutral" ? value["element"] : prev,
+    "neutral",
+  );

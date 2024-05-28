@@ -1,4 +1,4 @@
-import { Character } from "../../../types";
+import { Config } from "../../../types";
 import {
   quickSlashTotalFlatASPD,
   quickSlashTotalPercentASPD,
@@ -18,7 +18,7 @@ import {
   sum,
   get,
   floor,
-  flattenStatsFromEquipment,
+  flattenedStats,
   isDualWielder,
   total,
 } from "../../utils";
@@ -32,246 +32,143 @@ import {
 
 // TODO: erase pino and implement an explicit calculation instead!
 
-export const totalDualWieldBaseASPD = (character: Character) =>
+export const totalDualWieldBaseASPD = (config: Config) =>
   floor(
     100 +
-      character.level +
-      totalAGI(character) * 4 +
-      (totalAGI(character) + totalSTR(character) - 1) / 5,
+      config["character.level"] +
+      totalAGI(config) * 4 +
+      (totalAGI(config) + totalSTR(config) - 1) / 5,
   );
 
-export const totalOneHandedSwordBaseASPD = (character: Character) =>
+export const totalOneHandedSwordBaseASPD = (config: Config) =>
   floor(
     100 +
-      character.level +
-      totalAGI(character) * 4 +
-      (totalAGI(character) + totalSTR(character) - 1) / 5,
+      config["character.level"] +
+      totalAGI(config) * 4 +
+      (totalAGI(config) + totalSTR(config) - 1) / 5,
   );
 
-export const totalTwoHandedSwordBaseASPD = (character: Character) =>
+export const totalTwoHandedSwordBaseASPD = (config: Config) =>
   floor(
     50 +
-      character.level +
-      totalAGI(character) * 2 +
-      (totalAGI(character) + totalSTR(character) - 1) / 5,
+      config["character.level"] +
+      totalAGI(config) * 2 +
+      (totalAGI(config) + totalSTR(config) - 1) / 5,
   );
 
-export const totalBowBaseASPD = (character: Character) =>
+export const totalBowBaseASPD = (config: Config) =>
   floor(
     75 +
-      character.level +
-      totalAGI(character) * 3 +
-      (totalAGI(character) + totalDEX(character) * 2 - 1) / 10,
+      config["character.level"] +
+      totalAGI(config) * 3 +
+      (totalAGI(config) + totalDEX(config) * 2 - 1) / 10,
   );
 
-export const totalBowgunBaseASPD = (character: Character) =>
+export const totalBowgunBaseASPD = (config: Config) =>
   floor(
     30 +
-      character.level +
-      totalAGI(character) * 2.2 +
-      totalDEX(character) * 0.2,
+      config["character.level"] +
+      totalAGI(config) * 2.2 +
+      totalDEX(config) * 0.2,
   );
 
-export const totalStaffBaseASPD = (character: Character) =>
+export const totalStaffBaseASPD = (config: Config) =>
   floor(
     60 +
-      character.level +
-      totalAGI(character) +
-      (totalAGI(character) + totalINT(character) - 1) / 5,
+      config["character.level"] +
+      totalAGI(config) +
+      (totalAGI(config) + totalINT(config) - 1) / 5,
   );
 
-export const totalMagicDeviceBaseASPD = (character: Character) =>
+export const totalMagicDeviceBaseASPD = (config: Config) =>
   floor(
     90 +
-      character.level +
-      totalAGI(character) * 4 +
-      (totalINT(character) - 1) / 5,
+      config["character.level"] +
+      totalAGI(config) * 4 +
+      (totalINT(config) - 1) / 5,
   );
 
-export const totalKnuckleBaseASPD = (character: Character) =>
+export const totalKnuckleBaseASPD = (config: Config) =>
   floor(
     120 +
-      character.level +
-      totalAGI(character) * 4.6 +
-      totalDEX(character) / 10 +
-      totalSTR(character) / 10,
+      config["character.level"] +
+      totalAGI(config) * 4.6 +
+      totalDEX(config) / 10 +
+      totalSTR(config) / 10,
   );
 
-export const totalHalberdBaseASPD = (character: Character) =>
+export const totalHalberdBaseASPD = (config: Config) =>
   floor(
     25 +
-      character.level +
-      totalAGI(character) * 3.5 +
-      totalSTR(character) * 0.2,
+      config["character.level"] +
+      totalAGI(config) * 3.5 +
+      totalSTR(config) * 0.2,
   );
 
-export const totalKatanaBaseASPD = (character: Character) =>
+export const totalKatanaBaseASPD = (config: Config) =>
   floor(
     200 +
-      character.level +
-      totalAGI(character) * 3.9 +
-      totalSTR(character) * 0.3,
+      config["character.level"] +
+      totalAGI(config) * 3.9 +
+      totalSTR(config) * 0.3,
   );
 
-export const totalBareHandBaseASPD = (character: Character) =>
-  floor(1000 + character.level + totalAGI(character) * 9.6);
+export const totalBareHandBaseASPD = (config: Config) =>
+  floor(1000 + config["character.level"] + totalAGI(config) * 9.6);
 
-// export const totalBaseASPD = (character: Character) => {
-//   return (
-//     isDualWielder(character) ?
-//       pino.dualWieldBaseAttackSpeed(
-//         character.level,
-//         totalAGI(character),
-//         totalSTR(character),
-//       )
-//     : character.mainWeapon.type === "one-handed-sword" ?
-//       pino.oneHandedSwordBaseAttackSpeed(
-//         character.level,
-//         totalAGI(character),
-//         totalSTR(character),
-//       )
-//     : character.mainWeapon.type === "two-handed-sword" ?
-//       pino.twoHandedSwordBaseAttackSpeed(
-//         character.level,
-//         totalAGI(character),
-//         totalSTR(character),
-//       )
-//     : character.mainWeapon.type === "bow" ?
-//       pino.bowBaseAttackSpeed(
-//         character.level,
-//         totalAGI(character),
-//         totalDEX(character),
-//       )
-//     : character.mainWeapon.type === "bowgun" ?
-//       pino.bowgunBaseAttackSpeed(
-//         character.level,
-//         totalAGI(character),
-//         totalDEX(character),
-//       )
-//     : character.mainWeapon.type === "staff" ?
-//       pino.staffBaseAttackSpeed(
-//         character.level,
-//         totalAGI(character),
-//         totalINT(character),
-//       )
-//     : character.mainWeapon.type === "magic-device" ?
-//       pino.magicDeviceBaseAttackSpeed(
-//         character.level,
-//         totalAGI(character),
-//         totalINT(character),
-//       )
-//     : character.mainWeapon.type === "knuckle" ?
-//       pino.knuckleBaseAttackSpeed(
-//         character.level,
-//         totalAGI(character),
-//         totalSTR(character),
-//         totalDEX(character),
-//       )
-//     : character.mainWeapon.type === "katana" ?
-//       pino.katanaBaseAttackSpeed(
-//         character.level,
-//         totalAGI(character),
-//         totalSTR(character),
-//       )
-//     : character.mainWeapon.type === "halberd" ?
-//       pino.halberdBaseAttackSpeed(
-//         character.level,
-//         totalAGI(character),
-//         totalSTR(character),
-//       )
-//     : character.mainWeapon.type === "bare-hand" ?
-//       pino.bareHandBaseAttackSpeed(character.level, totalAGI(character))
-//     : 0
-//   );
-// };
+export const totalBaseASPD = (config: Config) =>
+  isDualWielder(config) ? totalDualWieldBaseASPD(config)
+  : config["character.mainweapon.type"] === "one-handed-sword" ?
+    totalOneHandedSwordBaseASPD(config)
+  : config["character.mainweapon.type"] === "two-handed-sword" ?
+    totalTwoHandedSwordBaseASPD(config)
+  : config["character.mainweapon.type"] === "bow" ?
+    totalBowBaseASPD(config)
+  : config["character.mainweapon.type"] === "bowgun" ?
+    totalBowgunBaseASPD(config)
+  : config["character.mainweapon.type"] === "staff" ?
+    totalStaffBaseASPD(config)
+  : config["character.mainweapon.type"] === "magic-device" ?
+    totalMagicDeviceBaseASPD(config)
+  : config["character.mainweapon.type"] === "knuckle" ?
+    totalKnuckleBaseASPD(config)
+  : config["character.mainweapon.type"] === "halberd" ?
+    totalHalberdBaseASPD(config)
+  : config["character.mainweapon.type"] === "katana" ?
+    totalKatanaBaseASPD(config)
+  : totalBareHandBaseASPD(config);
 
-export const totalBaseASPD = (character: Character) =>
-  isDualWielder(character) ? totalDualWieldBaseASPD(character)
-  : character.mainWeapon.type === "one-handed-sword" ?
-    totalOneHandedSwordBaseASPD(character)
-  : character.mainWeapon.type === "two-handed-sword" ?
-    totalTwoHandedSwordBaseASPD(character)
-  : character.mainWeapon.type === "bow" ? totalBowBaseASPD(character)
-  : character.mainWeapon.type === "bowgun" ? totalBowgunBaseASPD(character)
-  : character.mainWeapon.type === "staff" ? totalStaffBaseASPD(character)
-  : character.mainWeapon.type === "magic-device" ?
-    totalMagicDeviceBaseASPD(character)
-  : character.mainWeapon.type === "knuckle" ?
-    totalKnuckleBaseASPD(character)
-  : character.mainWeapon.type === "halberd" ?
-    totalHalberdBaseASPD(character)
-  : character.mainWeapon.type === "katana" ? totalKatanaBaseASPD(character)
-  : totalBareHandBaseASPD(character);
+export const totalPercentASPDFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("percentASPD")).reduce(sum, 0) +
+  armorTypePercentASPDModifier(config) +
+  subWeaponShieldPercentASPDModifier(config);
 
-export const totalPercentASPDFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("percentASPD"))
-    .reduce(sum, 0) +
-  armorTypePercentASPDModifier(character) +
-  subWeaponShieldPercentASPDModifier(character);
+export const totalPercentASPDFromSkills = (config: Config) =>
+  quickSlashTotalPercentASPD(config) +
+  berserkTotalPercentASPD(config) +
+  quickAuraTotalPercentASPD(config);
 
-export const totalPercentASPDFromSkills = (character: Character) =>
-  quickSlashTotalPercentASPD(character) +
-  berserkTotalPercentASPD(character) +
-  quickAuraTotalPercentASPD(character);
+export const totalPercentASPD = (config: Config) =>
+  totalPercentASPDFromEquipment(config) +
+  totalPercentASPDFromSkills(config);
 
-export const totalPercentASPD = (character: Character) =>
-  totalPercentASPDFromEquipment(character) +
-  totalPercentASPDFromSkills(character);
+export const totalFlatASPDFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("flatASPD")).reduce(sum, 0);
 
-// export const totalPercentASPD = (character: Character) => {
-//   const fromEquipments =
-//     flattenStatsFromEquipment(character)
-//       .map(get("percentASPD"))
-//       .reduce(sum, 0) +
-//     armorTypePercentASPDModifier(character) +
-//     subWeaponShieldPercentASPDModifier(character);
+export const totalFlatASPDFromSkills = (config: Config) =>
+  quickSlashTotalFlatASPD(config) +
+  berserkTotalFlatASPD(config) +
+  martialDisciplineTotalFlatASPD(config) +
+  dualSwordControlTotalFlatASPD(config) +
+  quickAuraTotalFlatASPD(config) +
+  godspeedWieldTotalFlatASPD(config);
 
-//   const fromSkills =
-//     quickSlashTotalPercentASPD(character) +
-//     berserkTotalPercentASPD(character) +
-//     quickAuraTotalPercentASPD(character);
+export const totalFlatASPD = (config: Config) =>
+  totalFlatASPDFromEquipment(config) + totalFlatASPDFromSkills(config);
 
-//   const total = fromEquipments + fromSkills;
-
-//   return total;
-// };
-
-export const totalFlatASPDFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character).map(get("flatASPD")).reduce(sum, 0);
-
-export const totalFlatASPDFromSkills = (character: Character) =>
-  quickSlashTotalFlatASPD(character) +
-  berserkTotalFlatASPD(character) +
-  martialDisciplineTotalFlatASPD(character) +
-  dualSwordControlTotalFlatASPD(character) +
-  quickAuraTotalFlatASPD(character) +
-  godspeedWieldTotalFlatASPD(character);
-
-export const totalFlatASPD = (character: Character) =>
-  totalFlatASPDFromEquipment(character) +
-  totalFlatASPDFromSkills(character);
-
-// export const totalFlatASPD = (character: Character) => {
-//   const fromEquipments = flattenStatsFromEquipment(character)
-//     .map(get("flatASPD"))
-//     .reduce(sum, 0);
-
-//   const fromSkills =
-//     quickSlashTotalFlatASPD(character) +
-//     berserkTotalFlatASPD(character) +
-//     martialDisciplineTotalFlatASPD(character) +
-//     dualSwordControlTotalFlatASPD(character) +
-//     quickAuraTotalFlatASPD(character);
-
-//   const total = fromEquipments + fromSkills;
-
-//   return total;
-// };
-
-export const totalASPD = (character: Character) =>
+export const totalASPD = (config: Config) =>
   total(
-    totalBaseASPD(character),
-    totalPercentASPD(character),
-    totalFlatASPD(character),
+    totalBaseASPD(config),
+    totalPercentASPD(config),
+    totalFlatASPD(config),
   );

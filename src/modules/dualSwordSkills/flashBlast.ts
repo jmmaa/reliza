@@ -1,23 +1,18 @@
-import { Character } from "../../types";
+import { Character, Config } from "../../types";
 import { isDualWielder } from "../utils";
 
-export const flashBlast = (character: Character) =>
-  character.skills.dualSwordSkills.flashBlast;
-export const flashBlastLevel = (character: Character) =>
-  flashBlast(character).level;
+export const flashBlastLevel = (config: Config) =>
+  config["character.skills.dualSwordSkills.flashBlast.level"];
 
-export const flashBlastIsActive = (character: Character) =>
-  flashBlast(character).isActive;
+export const flashBlastIsActive = (config: Config) =>
+  config["character.skills.dualSwordSkills.flashBlast.isActive"];
 
-export const flashBlastTotalPercentUnsheatheAttack = (
-  character: Character,
-) => (flashBlastIsActive(character) ? flashBlastLevel(character) : 0);
+export const flashBlastTotalPercentUnsheatheAttack = (config: Config) =>
+  flashBlastIsActive(config) ? flashBlastLevel(config) : 0;
 
-export const flashBlastTotalPercentMainWeaponATK = (
-  character: Character,
-) =>
-  flashBlastIsActive(character) ?
-    isDualWielder(character) && flashBlastLevel(character) > 0 ?
+export const flashBlastTotalPercentMainWeaponATK = (config: Config) =>
+  flashBlastIsActive(config) ?
+    isDualWielder(config) && flashBlastLevel(config) > 0 ?
       25
     : 0
   : 0;

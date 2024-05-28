@@ -1,4 +1,4 @@
-import { Character } from "../../../types";
+import { Config } from "../../../types";
 import { accuracyUPTotalFlatAccuracy } from "../../battleSkills";
 import {
   dualSwordControlTotalPercentAccuracy,
@@ -9,79 +9,38 @@ import {
   twoHandedTotalPercentAccuracy,
 } from "../../mononofuSkills";
 import { samuraiArcheryTotalPercentAccuracy } from "../../shotSkills";
-import {
-  sum,
-  floor,
-  flattenStatsFromEquipment,
-  total,
-  get,
-} from "../../utils";
+import { sum, floor, flattenedStats, total, get } from "../../utils";
 import { totalDEX } from "../basic";
 
-export const totalBaseAccuracy = (character: Character) =>
-  floor(character.level + totalDEX(character));
+export const totalBaseAccuracy = (config: Config) =>
+  floor(config["character.level"] + totalDEX(config));
 
-export const totalPercentAccuracyFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("percentAccuracy"))
-    .reduce(sum, 0);
+export const totalPercentAccuracyFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("percentAccuracy")).reduce(sum, 0);
 
-// export const totalPercentAccuracy = (character: Character) => {
-//   const fromEquipments = flattenStatsFromEquipment(character)
-//     .map(get("percentAccuracy"))
-//     .reduce(sum, 0);
+export const totalPercentAccuracyFromSkills = (config: Config) =>
+  samuraiArcheryTotalPercentAccuracy(config) +
+  twoHandedTotalPercentAccuracy(config) +
+  dualSwordMasteryTotalPercentAccuracy(config) +
+  dualSwordControlTotalPercentAccuracy(config);
 
-//   const fromSkills =
-//     samuraiArcheryTotalPercentAccuracy(character) +
-//     twoHandedTotalPercentAccuracy(character) +
-//     dualSwordMasteryTotalPercentAccuracy(character) +
-//     dualSwordControlTotalPercentAccuracy(character);
+export const totalPercentAccuracy = (config: Config) =>
+  totalPercentAccuracyFromEquipment(config) +
+  totalFlatAccuracyFromSkills(config);
 
-//   const total = fromEquipments + fromSkills;
+export const totalFlatAccuracyFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("flatAccuracy")).reduce(sum, 0);
 
-//   return total;
-// };
+export const totalFlatAccuracyFromSkills = (config: Config) =>
+  bushidoTotalFlatAccuracy(config) + accuracyUPTotalFlatAccuracy(config);
 
-export const totalPercentAccuracyFromSkills = (character: Character) =>
-  samuraiArcheryTotalPercentAccuracy(character) +
-  twoHandedTotalPercentAccuracy(character) +
-  dualSwordMasteryTotalPercentAccuracy(character) +
-  dualSwordControlTotalPercentAccuracy(character);
+export const totalFlatAccuracy = (config: Config) =>
+  totalFlatAccuracyFromEquipment(config) +
+  totalFlatAccuracyFromSkills(config);
 
-export const totalPercentAccuracy = (character: Character) =>
-  totalPercentAccuracyFromEquipment(character) +
-  totalFlatAccuracyFromSkills(character);
-
-export const totalFlatAccuracyFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("flatAccuracy"))
-    .reduce(sum, 0);
-
-// export const totalFlatAccuracy = (character: Character) => {
-//   const fromEquipments = flattenStatsFromEquipment(character)
-//     .map(get("flatAccuracy"))
-//     .reduce(sum, 0);
-
-//   const fromSkills =
-//     bushidoTotalFlatAccuracy(character) +
-//     accuracyUPTotalFlatAccuracy(character);
-
-//   const total = fromEquipments + fromSkills;
-
-//   return total;
-// };
-
-export const totalFlatAccuracyFromSkills = (character: Character) =>
-  bushidoTotalFlatAccuracy(character) +
-  accuracyUPTotalFlatAccuracy(character);
-
-export const totalFlatAccuracy = (character: Character) =>
-  totalFlatAccuracyFromEquipment(character) +
-  totalFlatAccuracyFromSkills(character);
-
-export const totalAccuracy = (character: Character) =>
+export const totalAccuracy = (config: Config) =>
   total(
-    totalBaseAccuracy(character),
-    totalPercentAccuracy(character),
-    totalFlatAccuracy(character),
+    totalBaseAccuracy(config),
+    totalPercentAccuracy(config),
+    totalFlatAccuracy(config),
   );

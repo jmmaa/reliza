@@ -1,35 +1,38 @@
-import { Character, Entries } from "../../types";
+import { Entries, Config } from "../../types";
 import { floor } from "../utils";
 
-export const castMasteryLevel = (character: Character) =>
-  character.skills.wizardSkills.castMastery.level;
+export const castMasteryLevel = (config: Config) =>
+  config["character.skills.wizardSkills.castMastery.level"];
 
-export const wizardSkillsLearned = (character: Character) =>
-  (
-    Object.entries(character.skills.wizardSkills) as Entries<
-      typeof character.skills.wizardSkills
-    >
-  ).filter((skill) => skill[1].level > 0);
+// TODO REFACTOR THIS LATER
+export const wizardSkillsLearned = (config: Config) =>
+  (Object.entries(config) as Entries<typeof config>)
+    .filter((entry) => entry[0].slice(0, 16) === "wizardSkills")
+    .filter(
+      (entry) =>
+        // entry should totally be a number right? right?
+        entry[0].slice(-5) === "level" && (entry[1] as number) > 0,
+    );
 
-export const totalWizardSkillsLearned = (character: Character) =>
-  wizardSkillsLearned(character).length;
+export const totalWizardSkillsLearned = (config: Config) =>
+  wizardSkillsLearned(config).length;
 
-export const totalWizardSkillsPoints = (character: Character) =>
-  wizardSkillsLearned(character).reduce(
-    (total, next) => total + next[1].level,
+export const totalWizardSkillsPoints = (config: Config) =>
+  wizardSkillsLearned(config).reduce(
+    (total, next) => total + (next[1] as number),
     0,
   );
 
-export const castMasteryTotalPercentCSPD = (character: Character) =>
-  floor(castMasteryLevel(character) * 1.5) +
-  (totalWizardSkillsLearned(character) - 1) *
-    floor(castMasteryLevel(character) / 2);
+export const castMasteryTotalPercentCSPD = (config: Config) =>
+  floor(castMasteryLevel(config) * 1.5) +
+  (totalWizardSkillsLearned(config) - 1) *
+    floor(castMasteryLevel(config) / 2);
 
-export const castMasteryTotalFlatCSPD = (character: Character) =>
-  castMasteryLevel(character) * totalWizardSkillsPoints(character);
+export const castMasteryTotalFlatCSPD = (config: Config) =>
+  castMasteryLevel(config) * totalWizardSkillsPoints(config);
 
-export const castMasteryTotalPercentATK = (character: Character) =>
-  -Math.ceil(50 - 2.5 * castMasteryLevel(character));
+export const castMasteryTotalPercentATK = (config: Config) =>
+  -Math.ceil(50 - 2.5 * castMasteryLevel(config));
 
 // not yet added to stats!
 // TODO: create a custom calculation for ATK% in wizard ATK

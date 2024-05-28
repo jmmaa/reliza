@@ -1,15 +1,13 @@
-import { Character } from "../../types";
-import { floor, isDualWielder } from "../utils";
+import { Config } from "../../types";
+import { isDualWielder } from "../utils";
 
-export const godspeedLevel = (character: Character) =>
-  character.skills.dualSwordSkills.godspeed.level;
+export const godspeedLevel = (config: Config) =>
+  config["character.skills.dualSwordSkills.godspeed.level"];
 
-export const godspeedTotalFlatAGI = (character: Character) =>
-  godspeedLevel(character) + Math.max(godspeedLevel(character) - 5, 0);
+export const godspeedTotalFlatAGI = (config: Config) =>
+  godspeedLevel(config) + Math.max(godspeedLevel(config) - 5, 0);
 
-export const godspeedTotalPercentUnsheatheAttack = (
-  character: Character,
-) =>
-  isDualWielder(character) ?
-    godspeedLevel(character) + 15
-  : godspeedLevel(character) + 5;
+export const godspeedTotalPercentUnsheatheAttack = (config: Config) =>
+  isDualWielder(config) ?
+    godspeedLevel(config) + 15
+  : godspeedLevel(config) + 5;

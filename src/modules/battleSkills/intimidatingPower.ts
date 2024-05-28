@@ -1,10 +1,11 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 import { floor } from "../utils";
 
-export const intimidatingPowerLevel = (character: Character) =>
-  character.skills.battleSkills.intimidatingPower.level;
+export const intimidatingPowerLevel = (config: Config) =>
+  config["character.skills.battleSkills.intimidatingPower.level"];
 
-export const intimidatingPowerTotalFlatATK = (character: Character) =>
+export const intimidatingPowerTotalFlatATK = (config: Config) =>
   floor(
-    (character.level * (2.5 * intimidatingPowerLevel(character))) / 100,
+    (config["character.level"] * (2.5 * intimidatingPowerLevel(config))) /
+      100,
   );

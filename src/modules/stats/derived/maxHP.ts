@@ -1,4 +1,4 @@
-import { Character } from "../../../types";
+import { Config } from "../../../types";
 import { bushidoTotalFlatMaxHP } from "../../mononofuSkills";
 import { maxHPBoostTotalFlatMaxMP } from "../../regislets";
 import {
@@ -9,48 +9,39 @@ import {
   HPBoostTotalFlatMaxHP,
   HPBoostTotalPercentMaxHP,
 } from "../../survivalSkills";
-import {
-  floor,
-  get,
-  sum,
-  total,
-  flattenStatsFromEquipment,
-} from "../../utils";
+import { get, sum, total, flattenedStats } from "../../utils";
 import { totalVIT } from "../basic";
 
-export const totalBaseMaxHP = (character: Character) =>
-  93 + Math.floor((totalVIT(character) + 22.4) * (character.level / 3)); // need to confirm this
+export const totalBaseMaxHP = (config: Config) =>
+  93 +
+  Math.floor((totalVIT(config) + 22.4) * (config["character.level"] / 3)); // need to confirm this
 
-export const totalPercentMaxHPFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("percentMaxHP"))
-    .reduce(sum, 0);
+export const totalPercentMaxHPFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("percentMaxHP")).reduce(sum, 0);
 
-export const totalPercentMaxHPFromSkills = (character: Character) =>
-  HPBoostTotalPercentMaxHP(character);
+export const totalPercentMaxHPFromSkills = (config: Config) =>
+  HPBoostTotalPercentMaxHP(config);
 
-export const totalPercentMaxHP = (character: Character) =>
-  totalPercentMaxHPFromEquipment(character) +
-  totalPercentMaxHPFromSkills(character);
+export const totalPercentMaxHP = (config: Config) =>
+  totalPercentMaxHPFromEquipment(config) +
+  totalPercentMaxHPFromSkills(config);
 
-export const totalFlatMaxHPFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("flatMaxHP"))
-    .reduce(sum, 0) + maxHPBoostTotalFlatMaxMP(character);
+export const totalFlatMaxHPFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("flatMaxHP")).reduce(sum, 0) +
+  maxHPBoostTotalFlatMaxMP(config);
 
-export const totalFlatMaxHPFromSkills = (character: Character) =>
-  bushidoTotalFlatMaxHP(character) +
-  HPBoostTotalFlatMaxHP(character) +
-  forceShieldTotalFlatMaxHP(character) +
-  magicalShieldTotalFlatMaxHP(character);
+export const totalFlatMaxHPFromSkills = (config: Config) =>
+  bushidoTotalFlatMaxHP(config) +
+  HPBoostTotalFlatMaxHP(config) +
+  forceShieldTotalFlatMaxHP(config) +
+  magicalShieldTotalFlatMaxHP(config);
 
-export const totalFlatMaxHP = (character: Character) =>
-  totalFlatMaxHPFromEquipment(character) +
-  totalFlatMaxHPFromSkills(character);
+export const totalFlatMaxHP = (config: Config) =>
+  totalFlatMaxHPFromEquipment(config) + totalFlatMaxHPFromSkills(config);
 
-export const totalMaxHP = (character: Character) =>
+export const totalMaxHP = (config: Config) =>
   total(
-    totalBaseMaxHP(character),
-    totalPercentMaxHP(character),
-    totalFlatMaxHP(character),
+    totalBaseMaxHP(config),
+    totalPercentMaxHP(config),
+    totalFlatMaxHP(config),
   );

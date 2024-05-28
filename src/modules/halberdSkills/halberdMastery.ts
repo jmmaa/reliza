@@ -1,18 +1,16 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const halberdMasteryLevel = (character: Character) =>
-  character.skills.halberdSkills.halberdMastery.level;
+export const halberdMasteryLevel = (config: Config) =>
+  config["character.skills.halberdSkills.halberdMastery.level"];
 
-export const halberdMasteryTotalPercentATK = (character: Character) =>
-  character.mainWeapon.type === "halberd" ?
-    halberdMasteryLevel(character) >= 8 ? 3
-    : halberdMasteryLevel(character) >= 3 ? 2
+export const halberdMasteryTotalPercentATK = (config: Config) =>
+  config["character.mainweapon.type"] === "halberd" ?
+    halberdMasteryLevel(config) >= 8 ? 3
+    : halberdMasteryLevel(config) >= 3 ? 2
     : 1
   : 0;
 
-export const halberdMasteryTotalPercentWeaponATK = (
-  character: Character,
-) =>
-  character.mainWeapon.type === "halberd" ?
-    halberdMasteryLevel(character) * 3
+export const halberdMasteryTotalPercentWeaponATK = (config: Config) =>
+  config["character.mainweapon.type"] ?
+    halberdMasteryLevel(config) * 3
   : 0;

@@ -1,46 +1,36 @@
-import { Character } from "../../../types";
+import { Config } from "../../../types";
 import { bushidoTotalFlatMaxMP } from "../../mononofuSkills";
 import { maxMPBoostTotalFlatMaxMP } from "../../regislets";
 import { MPBoostTotalFlatMaxMP } from "../../survivalSkills";
-import {
-  floor,
-  get,
-  sum,
-  total,
-  flattenStatsFromEquipment,
-} from "../../utils";
+import { floor, get, sum, total, flattenedStats } from "../../utils";
 import { totalINT } from "../basic";
 
-export const totalBaseMaxMP = (character: Character) =>
-  character.TEC > 0 ?
+export const totalBaseMaxMP = (config: Config) =>
+  config["character.TEC"] > 0 ?
     floor(
       100 +
-        character.level +
-        totalINT(character) / 10 +
-        (character.TEC - 1),
+        config["character.level"] +
+        totalINT(config) / 10 +
+        (config["character.TEC"] - 1),
     )
-  : floor(100 + character.level + totalINT(character) / 10);
+  : floor(100 + config["character.level"] + totalINT(config) / 10);
 
-export const totalPercentMaxMP = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("percentMaxMP"))
-    .reduce(sum, 0);
+export const totalPercentMaxMP = (config: Config) =>
+  flattenedStats(config).map(get("percentMaxMP")).reduce(sum, 0);
 
-export const totalFlatMaxMPFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("flatMaxMP"))
-    .reduce(sum, 0) + maxMPBoostTotalFlatMaxMP(character);
+export const totalFlatMaxMPFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("flatMaxMP")).reduce(sum, 0) +
+  maxMPBoostTotalFlatMaxMP(config);
 
-export const totalFlatMaxMPFromSkills = (character: Character) =>
-  bushidoTotalFlatMaxMP(character) + MPBoostTotalFlatMaxMP(character);
+export const totalFlatMaxMPFromSkills = (config: Config) =>
+  bushidoTotalFlatMaxMP(config) + MPBoostTotalFlatMaxMP(config);
 
-export const totalFlatMaxMP = (character: Character) =>
-  totalFlatMaxMPFromEquipment(character) +
-  totalFlatMaxMPFromSkills(character);
+export const totalFlatMaxMP = (config: Config) =>
+  totalFlatMaxMPFromEquipment(config) + totalFlatMaxMPFromSkills(config);
 
-export const totalMaxMP = (character: Character) =>
+export const totalMaxMP = (config: Config) =>
   total(
-    totalBaseMaxMP(character),
-    totalPercentMaxMP(character),
-    totalFlatMaxMP(character),
+    totalBaseMaxMP(config),
+    totalPercentMaxMP(config),
+    totalFlatMaxMP(config),
   );

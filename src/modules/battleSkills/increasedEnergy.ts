@@ -1,7 +1,7 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const increasedEnergyLevel = (character: Character) =>
-  character.skills.battleSkills.increasedEnergy.level;
+export const increasedEnergyLevel = (config: Config) =>
+  config["character.skills.battleSkills.increasedEnergy.level"];
 
-export const increasedEnergyTotalFlatMATK = (character: Character) =>
-  (character.level * (2.5 * increasedEnergyLevel(character))) / 100;
+export const increasedEnergyTotalFlatMATK = (config: Config) =>
+  (config["character.level"] * (2.5 * increasedEnergyLevel(config))) / 100;

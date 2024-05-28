@@ -1,18 +1,16 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const martialMasteryLevel = (character: Character) =>
-  character.skills.martialSkills.martialMastery.level;
+export const martialMasteryLevel = (config: Config) =>
+  config["character.skills.martialSkills.martialMastery.level"];
 
-export const martialMasteryTotalPercentATK = (character: Character) =>
-  character.mainWeapon.type === "knuckle" ?
-    martialMasteryLevel(character) >= 8 ? 3
-    : martialMasteryLevel(character) >= 3 ? 2
+export const martialMasteryTotalPercentATK = (config: Config) =>
+  config["character.mainweapon.type"] === "knuckle" ?
+    martialMasteryLevel(config) >= 8 ? 3
+    : martialMasteryLevel(config) >= 3 ? 2
     : 1
   : 0;
 
-export const martialMasteryTotalPercentWeaponATK = (
-  character: Character,
-) =>
-  character.mainWeapon.type === "knuckle" ?
-    martialMasteryLevel(character) * 3
+export const martialMasteryTotalPercentWeaponATK = (config: Config) =>
+  config["character.mainweapon.type"] === "knuckle" ?
+    martialMasteryLevel(config) * 3
   : 0;

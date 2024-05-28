@@ -1,71 +1,72 @@
-import { Character } from "../../../types";
+import { Config } from "../../../types";
 import { floor, isDualWielder } from "../../utils";
 import { totalDEX, totalSTR } from "../basic";
 
-export const totalDualWieldBaseStability = (character: Character) =>
+export const totalDualWieldBaseStability = (config: Config) =>
   floor(
-    character.mainWeapon.stability +
-      (totalSTR(character) + totalDEX(character) * 3) / 40,
+    config["character.mainweapon.stability"] +
+      (totalSTR(config) + totalDEX(config) * 3) / 40,
   );
 
-export const totalOneHandedSwordBaseStability = (character: Character) =>
+export const totalOneHandedSwordBaseStability = (config: Config) =>
   floor(
-    character.mainWeapon.stability +
-      (totalSTR(character) + totalDEX(character) * 3) / 40,
+    config["character.mainweapon.stability"] +
+      (totalSTR(config) + totalDEX(config) * 3) / 40,
   );
 
-export const totalTwoHandedSwordBaseStability = (character: Character) =>
-  floor(character.mainWeapon.stability + totalDEX(character) / 10);
+export const totalTwoHandedSwordBaseStability = (config: Config) =>
+  floor(config["character.mainweapon.stability"] + totalDEX(config) / 10);
 
-export const totalBowBaseStability = (character: Character) =>
+export const totalBowBaseStability = (config: Config) =>
   floor(
-    character.mainWeapon.stability +
-      (totalSTR(character) + totalDEX(character)) / 20,
+    config["character.mainweapon.stability"] +
+      (totalSTR(config) + totalDEX(config)) / 20,
   );
 
-export const totalBowgunBaseStability = (character: Character) =>
-  floor(character.mainWeapon.stability + totalSTR(character) / 20);
+export const totalBowgunBaseStability = (config: Config) =>
+  floor(config["character.mainweapon.stability"] + totalSTR(config) / 20);
 
-export const totalStaffBaseStability = (character: Character) =>
-  floor(character.mainWeapon.stability + totalSTR(character) / 20);
+export const totalStaffBaseStability = (config: Config) =>
+  floor(config["character.mainweapon.stability"] + totalSTR(config) / 20);
 
-export const totalMagicDeviceBaseStability = (character: Character) =>
-  floor(character.mainWeapon.stability + totalDEX(character) / 10);
+export const totalMagicDeviceBaseStability = (config: Config) =>
+  floor(config["character.mainweapon.stability"] + totalDEX(config) / 10);
 
-export const totalKnuckleBaseStability = (character: Character) =>
-  floor(character.mainWeapon.stability + totalDEX(character) / 40);
+export const totalKnuckleBaseStability = (config: Config) =>
+  floor(config["character.mainweapon.stability"] + totalDEX(config) / 40);
 
-export const totalHalberdBaseStability = (character: Character) =>
+export const totalHalberdBaseStability = (config: Config) =>
   floor(
-    character.mainWeapon.stability +
-      (totalSTR(character) + totalDEX(character)) / 20,
+    config["character.mainweapon.stability"] +
+      (totalSTR(config) + totalDEX(config)) / 20,
   );
 
-export const totalKatanaBaseStability = (character: Character) =>
+export const totalKatanaBaseStability = (config: Config) =>
   floor(
-    character.mainWeapon.stability +
-      (totalSTR(character) * 3 + totalDEX(character)) / 40,
+    config["character.mainweapon.stability"] +
+      (totalSTR(config) * 3 + totalDEX(config)) / 40,
   );
-export const totalBareHandBaseStability = (character: Character) =>
-  floor(1 + totalDEX(character) / 3);
+export const totalBareHandBaseStability = (config: Config) =>
+  floor(1 + totalDEX(config) / 3);
 
-export const totalBaseStability = (character: Character) =>
-  isDualWielder(character) ? totalDualWieldBaseStability(character)
-  : character.mainWeapon.type === "one-handed-sword" ?
-    totalOneHandedSwordBaseStability(character)
-  : character.mainWeapon.type === "two-handed-sword" ?
-    totalTwoHandedSwordBaseStability(character)
-  : character.mainWeapon.type === "bow" ? totalBowBaseStability(character)
-  : character.mainWeapon.type === "bowgun" ?
-    totalBowgunBaseStability(character)
-  : character.mainWeapon.type === "staff" ?
-    totalStaffBaseStability(character)
-  : character.mainWeapon.type === "magic-device" ?
-    totalMagicDeviceBaseStability(character)
-  : character.mainWeapon.type === "knuckle" ?
-    totalKnuckleBaseStability(character)
-  : character.mainWeapon.type === "halberd" ?
-    totalHalberdBaseStability(character)
-  : character.mainWeapon.type === "katana" ?
-    totalKatanaBaseStability(character)
-  : totalBareHandBaseStability(character);
+export const totalBaseStability = (config: Config) =>
+  isDualWielder(config) ? totalDualWieldBaseStability(config)
+  : config["character.mainweapon.type"] === "one-handed-sword" ?
+    totalOneHandedSwordBaseStability(config)
+  : config["character.mainweapon.type"] === "two-handed-sword" ?
+    totalTwoHandedSwordBaseStability(config)
+  : config["character.mainweapon.type"] === "bow" ?
+    totalBowBaseStability(config)
+  : config["character.mainweapon.type"] === "bowgun" ?
+    totalBowgunBaseStability(config)
+  : config["character.mainweapon.type"] === "staff" ?
+    totalStaffBaseStability(config)
+  : config["character.mainweapon.type"] === "magic-device" ?
+    totalMagicDeviceBaseStability(config)
+  : config["character.mainweapon.type"] === "knuckle" ?
+    totalKnuckleBaseStability(config)
+  : config["character.mainweapon.type"] === "halberd" ?
+    totalHalberdBaseStability(config)
+  : config["character.mainweapon.type"] === "katana" ?
+    totalKatanaBaseStability(config)
+  : totalBareHandBaseStability(config);

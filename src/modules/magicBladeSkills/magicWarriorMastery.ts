@@ -1,33 +1,31 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const magicWarriorMasteryLevel = (character: Character) =>
-  character.skills.magicBladeSkills.magicWarriorMastery.level;
+export const magicWarriorMasteryLevel = (config: Config) =>
+  config["character.skills.magicBladeSkills.magicWarriorMastery.level"];
 
 export const magicWarriorMasteryTotalPercentATKPenaltyReduction = (
-  character: Character,
+  config: Config,
 ) =>
-  character.subWeapon.type === "magic-device" ?
-    magicWarriorMasteryLevel(character) +
-    (character.mainWeapon.type === "one-handed-sword" ? 5 : 0)
+  config["character.subweapon.type"] === "magic-device" ?
+    magicWarriorMasteryLevel(config) +
+    (config["character.mainweapon.type"] === "one-handed-sword" ? 5 : 0)
   : 0;
 
-export const magicWarriorMasteryTotalFlatMATK = (character: Character) =>
-  character.subWeapon.type === "magic-device" ?
-    magicWarriorMasteryLevel(character) * 2 +
-    (magicWarriorMasteryLevel(character) - 5 > 0 ?
-      magicWarriorMasteryLevel(character) - 5
+export const magicWarriorMasteryTotalFlatMATK = (config: Config) =>
+  config["character.subweapon.type"] === "magic-device" ?
+    magicWarriorMasteryLevel(config) * 2 +
+    (magicWarriorMasteryLevel(config) - 5 > 0 ?
+      magicWarriorMasteryLevel(config) - 5
     : 0)
   : 0;
 
-export const magicWarriorMasteryTotalFlatCSPD = (character: Character) =>
-  character.subWeapon.type === "magic-device" ?
-    magicWarriorMasteryLevel(character) * 10
+export const magicWarriorMasteryTotalFlatCSPD = (config: Config) =>
+  config["character.subweapon.type"] === "magic-device" ?
+    magicWarriorMasteryLevel(config) * 10
   : 0;
 
-export const magicWarriorMasteryTotalPercentCSPD = (
-  character: Character,
-) =>
-  character.subWeapon.type === "magic-device" ?
-    magicWarriorMasteryLevel(character) * 1 +
-    Math.max(magicWarriorMasteryLevel(character) - 5, 0)
+export const magicWarriorMasteryTotalPercentCSPD = (config: Config) =>
+  config["character.subweapon.type"] === "magic-device" ?
+    magicWarriorMasteryLevel(config) * 1 +
+    Math.max(magicWarriorMasteryLevel(config) - 5, 0)
   : 0;

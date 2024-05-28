@@ -1,21 +1,20 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const qadal = (character: Character) =>
-  character.skills.magicSkills.qadal;
+export const qadalLevel = (config: Config) =>
+  config["character.skills.magicSkills.qadal.level"];
 
-export const qadalLevel = (character: Character) => qadal(character).level;
+export const qadalIsActive = (config: Config) =>
+  config["character.skills.magicSkills.qadal.isActive"];
 
-export const qadalIsActive = (character: Character) =>
-  qadal(character).isActive;
+export const qadalCharge = (config: Config) =>
+  config["character.skills.magicSkills.qadal.charge"];
 
-export const qadalCharge = (character: Character) =>
-  qadal(character).charge;
+export const qadalTimer = (config: Config) =>
+  config["character.skills.magicSkills.qadal.timer"];
 
-export const qadalTimer = (character: Character) => qadal(character).timer;
-
-export const qadalTotalLastDamageModifier = (character: Character) =>
-  qadalIsActive(character) ?
-    qadalCharge(character) > Math.floor(qadalTimer(character) / 3) ?
-      Math.floor(qadalTimer(character) / 3)
-    : qadalCharge(character)
+export const qadalTotalLastDamageModifier = (config: Config) =>
+  qadalIsActive(config) ?
+    qadalCharge(config) > Math.floor(qadalTimer(config) / 3) ?
+      Math.floor(qadalTimer(config) / 3)
+    : qadalCharge(config)
   : 0;

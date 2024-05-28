@@ -1,12 +1,12 @@
-import { Character } from "../../types";
+import { Character, Config } from "../../types";
 
-export const sorceryGuideLevel = (charater: Character) =>
-  charater.skills.wizardSkills.sorceryGuide.level;
+export const sorceryGuideLevel = (config: Config) =>
+  config["character.skills.wizardSkills.sorceryGuide.level"];
 
 export const sorceryGuideTotalCSPDPenaltyReductionForOverlimit = (
-  character: Character,
-) => sorceryGuideLevel(character) * 50;
+  config: Config,
+) => sorceryGuideLevel(config) * 50;
 
 export const sorceryGuideTotalElementDamageModifierBonusForOverlimit = (
-  character: Character,
-) => sorceryGuideLevel(character);
+  config: Config,
+) => sorceryGuideLevel(config);

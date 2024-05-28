@@ -1,23 +1,23 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 import { floor } from "../utils";
 
-export const ultimaQiChargeLevel = (character: Character) =>
-  character.skills.bareHandSkills.ultimaQiCharge.level;
+export const ultimaQiChargeLevel = (config: Config) =>
+  config["character.skills.bareHandSkills.ultimaQiCharge.level"];
 
-export const ultimaQiChargeTotalFlatAMPR = (character: Character) =>
+export const ultimaQiChargeTotalFlatAMPR = (config: Config) =>
   (
-    character.mainWeapon.type === "bare-hand" &&
-    character.subWeapon.type === "none"
+    config["character.mainweapon.type"] === "bare-hand" &&
+    config["character.subweapon.type"] === "none"
   ) ?
-    floor(ultimaQiChargeLevel(character) * 0.5)
+    floor(ultimaQiChargeLevel(config) * 0.5)
   : 0;
 
 export const ultimaQiChargeTotalCostQiReductionForNonBareHandSkills = (
-  character: Character,
+  config: Config,
 ) =>
   (
-    character.mainWeapon.type === "bare-hand" &&
-    character.subWeapon.type === "none"
+    config["character.mainweapon.type"] === "bare-hand" &&
+    config["character.subweapon.type"] === "none"
   ) ?
-    20 - ultimaQiChargeLevel(character)
+    20 - ultimaQiChargeLevel(config)
   : 0;

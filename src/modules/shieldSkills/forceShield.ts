@@ -1,22 +1,24 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const forceShieldLevel = (character: Character) =>
-  character.skills.shieldSkills.forceShield.level;
+export const forceShieldLevel = (config: Config) =>
+  config["character.skills.shieldSkills.forceShield.level"];
 
-export const forceShieldTotalFlatDEF = (character: Character) =>
-  character.subWeapon.type === "shield" ?
-    forceShieldLevel(character) * 2
+export const forceShieldTotalFlatDEF = (config: Config) =>
+  config["character.subweapon.type"] === "shield" ?
+    forceShieldLevel(config) * 2
   : 0;
 
-export const forceShieldTotalPercentDEF = (character: Character) =>
-  character.subWeapon.type === "shield" ? forceShieldLevel(character) : 0;
-
-export const forceShieldTotalFlatMaxHP = (character: Character) =>
-  character.subWeapon.type === "shield" ?
-    forceShieldLevel(character) * 50
+export const forceShieldTotalPercentDEF = (config: Config) =>
+  config["character.subweapon.type"] === "shield" ?
+    forceShieldLevel(config)
   : 0;
 
-export const forceShieldTotalPhysicalResistance = (
-  character: Character,
-) =>
-  character.subWeapon.type === "shield" ? forceShieldLevel(character) : 0;
+export const forceShieldTotalFlatMaxHP = (config: Config) =>
+  config["character.subweapon.type"] === "shield" ?
+    forceShieldLevel(config) * 50
+  : 0;
+
+export const forceShieldTotalPhysicalResistance = (config: Config) =>
+  config["character.subweapon.type"] === "shield" ?
+    forceShieldLevel(config)
+  : 0;

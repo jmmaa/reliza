@@ -1,12 +1,12 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const magicSkinLevel = (character: Character) =>
-  character.skills.magicBladeSkills.magicSkin.level;
+export const magicSkinLevel = (config: Config) =>
+  config["character.skills.magicBladeSkills.magicSkin.level"];
 
-export const magicSkinTotalRefinementReduction = (character: Character) =>
+export const magicSkinTotalRefinementReduction = (config: Config) =>
   (
-    character.subWeapon.type === "magic-device" &&
-    magicSkinLevel(character) > 0
+    config["character.subweapon.type"] === "magic-device" &&
+    magicSkinLevel(config) > 0
   ) ?
-    character.subWeapon.refinement
+    config["character.subweapon.refinement"]
   : 0;

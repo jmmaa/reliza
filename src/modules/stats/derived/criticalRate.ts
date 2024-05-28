@@ -1,4 +1,4 @@
-import { Character } from "../../../types";
+import { Config } from "../../../types";
 import {
   criticalUPTotalFlatCriticalRate,
   spellBurstTotalMagicCriticalRateConversion,
@@ -12,73 +12,64 @@ import {
   criticalSpearTotalPercentCriticalRate,
 } from "../../halberdSkills";
 import { twoHandedTotalFlatCriticalRate } from "../../mononofuSkills";
-import {
-  floor,
-  get,
-  sum,
-  total,
-  flattenStatsFromEquipment,
-} from "../../utils";
+import { floor, get, sum, total, flattenedStats } from "../../utils";
 
-export const totalBaseCriticalRate = (character: Character) =>
-  floor(25 + character.CRT / 3.4);
+export const totalBaseCriticalRate = (config: Config) =>
+  floor(25 + config["character.CRT"] / 3.4);
 
-export const totalPercentCriticalRateFromEquipment = (
-  character: Character,
-) =>
-  flattenStatsFromEquipment(character)
-    .map(get("percentCriticalRate"))
-    .reduce(sum, 0);
+export const totalPercentCriticalRateFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("percentCriticalRate")).reduce(sum, 0);
 
-export const totalPercentCriticalRateFromSkills = (character: Character) =>
-  criticalSpearTotalPercentCriticalRate(character) +
-  dualSwordMasteryTotalPercentCriticalRate(character) +
-  dualSwordControlTotalPercentCriticalRate(character);
+export const totalPercentCriticalRateFromSkills = (config: Config) =>
+  criticalSpearTotalPercentCriticalRate(config) +
+  dualSwordMasteryTotalPercentCriticalRate(config) +
+  dualSwordControlTotalPercentCriticalRate(config);
 
-export const totalPercentCriticalRate = (character: Character) =>
-  totalPercentCriticalRateFromEquipment(character) +
-  totalPercentCriticalRateFromSkills(character);
+export const totalPercentCriticalRate = (config: Config) =>
+  totalPercentCriticalRateFromEquipment(config) +
+  totalPercentCriticalRateFromSkills(config);
 
-export const totalFlatCriticalRateFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("flatCriticalRate"))
-    .reduce(sum, 0);
+export const totalFlatCriticalRateFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("flatCriticalRate")).reduce(sum, 0);
 
-export const totalFlatCriticalRateFromSkills = (character: Character) =>
-  criticalSpearTotalFlatCriticalRate(character) +
-  twoHandedTotalFlatCriticalRate(character) +
-  criticalUPTotalFlatCriticalRate(character);
+export const totalFlatCriticalRateFromSkills = (config: Config) =>
+  criticalSpearTotalFlatCriticalRate(config) +
+  twoHandedTotalFlatCriticalRate(config) +
+  criticalUPTotalFlatCriticalRate(config);
 
-export const totalFlatCriticalRate = (character: Character) =>
-  totalFlatCriticalRateFromEquipment(character) +
-  totalFlatCriticalRateFromSkills(character);
+export const totalFlatCriticalRate = (config: Config) =>
+  totalFlatCriticalRateFromEquipment(config) +
+  totalFlatCriticalRateFromSkills(config);
 
-export const totalCriticalRate = (character: Character) => {
+export const totalCriticalRate = (config: Config) => {
   return total(
-    totalBaseCriticalRate(character),
-    totalPercentCriticalRate(character),
-    totalFlatCriticalRate(character),
+    totalBaseCriticalRate(config),
+    totalPercentCriticalRate(config),
+    totalFlatCriticalRate(config),
   );
 };
 
-//
+/** NOTE:
+ * this is only for display purposes, magic critical damage is dynamic therefore
+ * it is not advisable to add this function to the skill calculations due to
+ * several factors that can increase the `mcdmg` conversion.
+ */
+export const totalMagicCriticalRateConversion = (config: Config) =>
+  spellBurstTotalMagicCriticalRateConversion(config);
 
-export const totalMagicCriticalRateConversion = (character: Character) =>
-  spellBurstTotalMagicCriticalRateConversion(character);
-
-export const totalMagicCriticalRate = (character: Character) =>
+export const totalMagicCriticalRate = (config: Config) =>
   floor(
-    totalCriticalRate(character) *
-      (totalMagicCriticalRateConversion(character) / 100),
+    totalCriticalRate(config) *
+      (totalMagicCriticalRateConversion(config) / 100),
   );
 
 // add edge cases?
 export const totalMagicCriticalRateAgainstWeakenedTarget = (
-  character: Character,
+  config: Config,
 ) => {
   const total =
-    totalCriticalRate(character) *
-    ((totalMagicCriticalRateConversion(character) + 50) / 100);
+    totalCriticalRate(config) *
+    ((totalMagicCriticalRateConversion(config) + 50) / 100);
 
   return total;
 };

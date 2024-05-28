@@ -1,19 +1,14 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 import { floor } from "../utils";
 
-export const quickAura = (character: Character) =>
-  character.skills.halberdSkills.quickAura;
+export const quickAuraLevel = (config: Config) =>
+  config["character.skills.halberdSkills.quickAura.level"];
 
-export const quickAuraLevel = (character: Character) =>
-  quickAura(character).level;
+export const quickAuraIsActive = (config: Config) =>
+  config["character.skills.halberdSkills.quickAura.isActive"];
 
-export const quickAuraIsActive = (character: Character) =>
-  quickAura(character).isActive;
+export const quickAuraTotalFlatASPD = (config: Config) =>
+  quickAuraIsActive(config) ? quickAuraLevel(config) * 50 : 0;
 
-export const quickAuraTotalFlatASPD = (character: Character) =>
-  quickAuraIsActive(character) ? quickAuraLevel(character) * 50 : 0;
-
-export const quickAuraTotalPercentASPD = (character: Character) =>
-  quickAuraIsActive(character) ?
-    floor(quickAuraLevel(character) * 2.5)
-  : 0;
+export const quickAuraTotalPercentASPD = (config: Config) =>
+  quickAuraIsActive(config) ? floor(quickAuraLevel(config) * 2.5) : 0;

@@ -1,4 +1,4 @@
-import { Character } from "../../../types";
+import { Config } from "../../../types";
 import {
   increasedEnergyTotalFlatMATK,
   magicUPTotalFlatMATK,
@@ -14,7 +14,7 @@ import {
   get,
   sum,
   total,
-  flattenStatsFromEquipment,
+  flattenedStats,
   isDualWielder,
 } from "../../utils";
 import { totalAGI, totalDEX, totalINT } from "../basic";
@@ -25,105 +25,108 @@ import {
 } from "../special";
 import { subWeaponKnucklePercentMATKModifier } from "./modifiers";
 
-export const totalDualWieldBaseMATK = (character: Character) =>
-  character.level + totalINT(character) * 3 + totalDEX(character);
+export const totalDualWieldBaseMATK = (config: Config) =>
+  config["character.level"] + totalINT(config) * 3 + totalDEX(config);
 
-export const totalOneHandedSwordBaseMATK = (character: Character) =>
-  character.level + totalINT(character) * 3 + totalDEX(character);
+export const totalOneHandedSwordBaseMATK = (config: Config) =>
+  config["character.level"] + totalINT(config) * 3 + totalDEX(config);
 
-export const totalTwoHandedSwordBaseMATK = (character: Character) =>
-  character.level + totalINT(character) * 3 + totalDEX(character);
+export const totalTwoHandedSwordBaseMATK = (config: Config) =>
+  config["character.level"] + totalINT(config) * 3 + totalDEX(config);
 
-export const totalBowBaseMATK = (character: Character) =>
-  character.level + totalINT(character) * 3 + totalDEX(character);
+export const totalBowBaseMATK = (config: Config) =>
+  config["character.level"] + totalINT(config) * 3 + totalDEX(config);
 
-export const totalBowgunBaseMATK = (character: Character) =>
-  character.level + totalINT(character) * 3 + totalDEX(character);
+export const totalBowgunBaseMATK = (config: Config) =>
+  config["character.level"] + totalINT(config) * 3 + totalDEX(config);
 
-export const totalStaffBaseMATK = (character: Character) =>
-  character.level +
-  totalINT(character) * 4 +
-  totalDEX(character) +
-  totalMainWeaponATK(character);
+export const totalStaffBaseMATK = (config: Config) =>
+  config["character.level"] +
+  totalINT(config) * 4 +
+  totalDEX(config) +
+  totalMainWeaponATK(config);
 
-export const totalMagicDeviceBaseMATK = (character: Character) =>
-  character.level +
-  totalINT(character) * 4 +
-  totalDEX(character) +
-  totalMainWeaponATK(character);
+export const totalMagicDeviceBaseMATK = (config: Config) =>
+  config["character.level"] +
+  totalINT(config) * 4 +
+  totalDEX(config) +
+  totalMainWeaponATK(config);
 
-export const totalKnuckleBaseMATK = (character: Character) =>
+export const totalKnuckleBaseMATK = (config: Config) =>
   floor(
-    character.level +
-      totalINT(character) * 4 +
-      totalDEX(character) +
-      totalMainWeaponATK(character) * 0.5,
+    config["character.level"] +
+      totalINT(config) * 4 +
+      totalDEX(config) +
+      totalMainWeaponATK(config) * 0.5,
   );
 
-export const totalHalberdBaseMATK = (character: Character) =>
+export const totalHalberdBaseMATK = (config: Config) =>
   floor(
-    character.level +
-      totalINT(character) * 2 +
-      totalDEX(character) +
-      totalAGI(character),
+    config["character.level"] +
+      totalINT(config) * 2 +
+      totalDEX(config) +
+      totalAGI(config),
   );
 
-export const totalKatanaBaseMATK = (character: Character) =>
-  floor(character.level + totalINT(character) * 1.5 + totalDEX(character));
+export const totalKatanaBaseMATK = (config: Config) =>
+  floor(
+    config["character.level"] + totalINT(config) * 1.5 + totalDEX(config),
+  );
 
-export const totalBareHandBaseMATK = (character: Character) =>
-  character.level + totalINT(character) * 3 + totalDEX(character) + 1;
+export const totalBareHandBaseMATK = (config: Config) =>
+  config["character.level"] + totalINT(config) * 3 + totalDEX(config) + 1;
 
-export const totalBaseMATK = (character: Character) =>
-  (isDualWielder(character) ? totalDualWieldBaseMATK(character)
-  : character.mainWeapon.type === "one-handed-sword" ?
-    totalOneHandedSwordBaseMATK(character)
-  : character.mainWeapon.type === "two-handed-sword" ?
-    totalTwoHandedSwordBaseMATK(character)
-  : character.mainWeapon.type === "bow" ? totalBowBaseMATK(character)
-  : character.mainWeapon.type === "bowgun" ? totalBowgunBaseMATK(character)
-  : character.mainWeapon.type === "staff" ? totalStaffBaseMATK(character)
-  : character.mainWeapon.type === "magic-device" ?
-    totalMagicDeviceBaseMATK(character)
-  : character.mainWeapon.type === "knuckle" ?
-    totalKnuckleBaseMATK(character)
-  : character.mainWeapon.type === "halberd" ?
-    totalHalberdBaseMATK(character)
-  : character.mainWeapon.type === "katana" ? totalKatanaBaseMATK(character)
-  : totalBareHandBaseMATK(character)) +
-  totalBaseMATKValueFromMATKUP(character) +
-  totalBaseMATKValueFromMATKDOWN(character);
+export const totalBaseMATK = (config: Config) =>
+  (isDualWielder(config) ? totalDualWieldBaseMATK(config)
+  : config["character.mainweapon.type"] === "one-handed-sword" ?
+    totalOneHandedSwordBaseMATK(config)
+  : config["character.mainweapon.type"] === "two-handed-sword" ?
+    totalTwoHandedSwordBaseMATK(config)
+  : config["character.mainweapon.type"] === "bow" ?
+    totalBowBaseMATK(config)
+  : config["character.mainweapon.type"] === "bowgun" ?
+    totalBowgunBaseMATK(config)
+  : config["character.mainweapon.type"] === "staff" ?
+    totalStaffBaseMATK(config)
+  : config["character.mainweapon.type"] === "magic-device" ?
+    totalMagicDeviceBaseMATK(config)
+  : config["character.mainweapon.type"] === "knuckle" ?
+    totalKnuckleBaseMATK(config)
+  : config["character.mainweapon.type"] === "halberd" ?
+    totalHalberdBaseMATK(config)
+  : config["character.mainweapon.type"] === "katana" ?
+    totalKatanaBaseMATK(config)
+  : totalBareHandBaseMATK(config)) +
+  totalBaseMATKValueFromMATKUP(config) +
+  totalBaseMATKValueFromMATKDOWN(config);
 
-export const totalPercentMATKFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("percentMATK"))
-    .reduce(sum, 0) + subWeaponKnucklePercentMATKModifier(character);
+export const totalPercentMATKFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("percentMATK")).reduce(sum, 0) +
+  subWeaponKnucklePercentMATKModifier(config);
 
-export const totalPercentMATKFromSkills = (character: Character) =>
-  magicMasteryTotalPercentMATK(character);
+export const totalPercentMATKFromSkills = (config: Config) =>
+  magicMasteryTotalPercentMATK(config);
 
-export const totalPercentMATK = (character: Character) =>
-  totalPercentMATKFromEquipment(character) +
-  totalPercentMATKFromSkills(character);
+export const totalPercentMATK = (config: Config) =>
+  totalPercentMATKFromEquipment(config) +
+  totalPercentMATKFromSkills(config);
 
-export const totalFlatMATKFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("flatMATK"))
-    .reduce(sum, 0) + magicAttackBoostTotalFlatMATK(character);
+export const totalFlatMATKFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("flatMATK")).reduce(sum, 0) +
+  magicAttackBoostTotalFlatMATK(config);
 
-export const totalFlatMATKFromSkills = (character: Character) =>
-  magicUPTotalFlatMATK(character) +
-  increasedEnergyTotalFlatMATK(character) +
-  magicWarriorMasteryTotalFlatMATK(character) +
-  conversionTotalFlatMATK(character);
+export const totalFlatMATKFromSkills = (config: Config) =>
+  magicUPTotalFlatMATK(config) +
+  increasedEnergyTotalFlatMATK(config) +
+  magicWarriorMasteryTotalFlatMATK(config) +
+  conversionTotalFlatMATK(config);
 
-export const totalFlatMATK = (character: Character) =>
-  totalFlatMATKFromEquipment(character) +
-  totalFlatMATKFromSkills(character);
+export const totalFlatMATK = (config: Config) =>
+  totalFlatMATKFromEquipment(config) + totalFlatMATKFromSkills(config);
 
-export const totalMATK = (character: Character) =>
+export const totalMATK = (config: Config) =>
   total(
-    totalBaseMATK(character),
-    totalPercentMATK(character),
-    totalFlatMATK(character),
+    totalBaseMATK(config),
+    totalPercentMATK(config),
+    totalFlatMATK(config),
   );

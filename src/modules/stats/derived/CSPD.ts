@@ -1,4 +1,4 @@
-import { Character } from "../../../types";
+import { Character, Config } from "../../../types";
 import {
   magicWarriorMasteryTotalFlatCSPD,
   magicWarriorMasteryTotalPercentCSPD,
@@ -7,49 +7,40 @@ import {
   highCycleTotalFlatCSPD,
   highCycleTotalPercentCSPD,
 } from "../../supportSkills";
-import {
-  floor,
-  get,
-  sum,
-  total,
-  flattenStatsFromEquipment,
-} from "../../utils";
+import { floor, get, sum, total, flattenedStats } from "../../utils";
 import { totalAGI, totalDEX } from "../basic";
 
-export const totalBaseCSPD = (character: Character) =>
+export const totalBaseCSPD = (config: Config) =>
   floor(
-    character.level +
-      1.16 * totalAGI(character) +
-      2.94 * totalDEX(character),
+    config["character.level"] +
+      1.16 * totalAGI(config) +
+      2.94 * totalDEX(config),
   );
 
-export const totalPercentCSPDFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character)
-    .map(get("percentCSPD"))
-    .reduce(sum, 0);
+export const totalPercentCSPDFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("percentCSPD")).reduce(sum, 0);
 
-export const totalPercentCSPDFromSkills = (character: Character) =>
-  magicWarriorMasteryTotalPercentCSPD(character) +
-  highCycleTotalPercentCSPD(character);
+export const totalPercentCSPDFromSkills = (config: Config) =>
+  magicWarriorMasteryTotalPercentCSPD(config) +
+  highCycleTotalPercentCSPD(config);
 
-export const totalPercentCSPD = (character: Character) =>
-  totalPercentCSPDFromEquipment(character) +
-  totalPercentCSPDFromSkills(character);
+export const totalPercentCSPD = (config: Config) =>
+  totalPercentCSPDFromEquipment(config) +
+  totalPercentCSPDFromSkills(config);
 
-export const totalFlatCSPDFromEquipment = (character: Character) =>
-  flattenStatsFromEquipment(character).map(get("flatCSPD")).reduce(sum, 0);
+export const totalFlatCSPDFromEquipment = (config: Config) =>
+  flattenedStats(config).map(get("flatCSPD")).reduce(sum, 0);
 
-export const totalFlatCSPDFromSkills = (character: Character) =>
-  magicWarriorMasteryTotalFlatCSPD(character) +
-  highCycleTotalFlatCSPD(character);
+export const totalFlatCSPDFromSkills = (config: Config) =>
+  magicWarriorMasteryTotalFlatCSPD(config) +
+  highCycleTotalFlatCSPD(config);
 
-export const totalFlatCSPD = (character: Character) =>
-  totalFlatCSPDFromEquipment(character) +
-  totalFlatCSPDFromSkills(character);
+export const totalFlatCSPD = (config: Config) =>
+  totalFlatCSPDFromEquipment(config) + totalFlatCSPDFromSkills(config);
 
-export const totalCSPD = (character: Character) =>
+export const totalCSPD = (config: Config) =>
   total(
-    totalBaseCSPD(character),
-    totalPercentCSPD(character),
-    totalFlatCSPD(character),
+    totalBaseCSPD(config),
+    totalPercentCSPD(config),
+    totalFlatCSPD(config),
   );

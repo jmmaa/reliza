@@ -1,18 +1,15 @@
-import { Character } from "../../types";
+import { Character, Config } from "../../types";
 import { isDualWielder } from "../utils";
 
-export const dualSwordControlLevel = (character: Character) =>
-  character.skills.dualSwordSkills.dualSwordControl.level;
+export const dualSwordControlLevel = (config: Config) =>
+  config["character.skills.dualSwordSkills.dualSwordControl.level"];
 
 export const dualSwordControlTotalPercentCriticalRate = (
-  character: Character,
-) =>
-  isDualWielder(character) ? 5 + dualSwordControlLevel(character) * 3 : 0;
+  config: Config,
+) => (isDualWielder(config) ? 5 + dualSwordControlLevel(config) * 3 : 0);
 
-export const dualSwordControlTotalPercentAccuracy = (
-  character: Character,
-) =>
-  isDualWielder(character) ? 5 + dualSwordControlLevel(character) * 3 : 0;
+export const dualSwordControlTotalPercentAccuracy = (config: Config) =>
+  isDualWielder(config) ? 5 + dualSwordControlLevel(config) * 3 : 0;
 
-export const dualSwordControlTotalFlatASPD = (character: Character) =>
-  isDualWielder(character) ? 50 * dualSwordControlLevel(character) : 0;
+export const dualSwordControlTotalFlatASPD = (config: Config) =>
+  isDualWielder(config) ? 50 * dualSwordControlLevel(config) : 0;

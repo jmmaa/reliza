@@ -1,7 +1,7 @@
-import { Character } from "../../types";
+import { Character, Config } from "../../types";
 
-export const longRangeLevel = (character: Character) =>
-  character.skills.shotSkills.longRange.level;
+export const longRangeLevel = (config: Config) =>
+  config["character.skills.shotSkills.longRange.level"];
 
-export const longRangeTotalSkillDamageModifier = (character: Character) =>
-  longRangeLevel(character);
+export const longRangeTotalSkillDamageModifier = (config: Config) =>
+  longRangeLevel(config);

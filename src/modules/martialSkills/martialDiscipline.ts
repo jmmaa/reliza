@@ -1,21 +1,21 @@
-import { Character } from "../../types";
+import { Config } from "../../types";
 
-export const martialDisciplineLevel = (character: Character) =>
-  character.skills.martialSkills.martialDiscipline.level;
+export const martialDisciplineLevel = (config: Config) =>
+  config["character.skills.martialSkills.martialDiscipline.level"];
 
 export const martialDisciplineTotalMartialSkillDamageBonus = (
-  character: Character,
+  config: Config,
 ) =>
-  character.mainWeapon.type === "knuckle" ?
-    martialDisciplineLevel(character)
+  config["character.mainweapon.type"] === "knuckle" ?
+    martialDisciplineLevel(config)
   : 0;
 
-export const martialDisciplineTotalPercentASPD = (character: Character) =>
-  character.mainWeapon.type === "knuckle" ?
-    martialDisciplineLevel(character)
+export const martialDisciplineTotalPercentASPD = (config: Config) =>
+  config["character.mainweapon.type"] === "knuckle" ?
+    martialDisciplineLevel(config)
   : 0;
 
-export const martialDisciplineTotalFlatASPD = (character: Character) =>
-  character.mainWeapon.type === "knuckle" ?
-    martialDisciplineLevel(character)
+export const martialDisciplineTotalFlatASPD = (config: Config) =>
+  config["character.mainweapon.type"] === "knuckle" ?
+    martialDisciplineLevel(config)
   : 0;
