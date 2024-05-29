@@ -1,4 +1,4 @@
-import { Config } from "../../types";
+import type { Config } from "../../types";
 
 export const magicWarriorMasteryLevel = (config: Config) =>
   config["character.skills.magicBladeSkills.magicWarriorMastery.level"];

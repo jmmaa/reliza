@@ -1,4 +1,4 @@
-import { Config } from "../../types";
+import type { Config } from "../../types";
 import { isDualWielder } from "../utils";
 
 export const dualSwordMasteryLevel = (config: Config) =>

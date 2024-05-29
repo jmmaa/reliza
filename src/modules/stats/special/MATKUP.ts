@@ -1,4 +1,4 @@
-import { Config } from "../../../types";
+import type { Config } from "../../../types";
 import { floor, get, sum, flattenedStats } from "../../utils";
 
 export const totalBaseMATKValueFromMATKUPAGI = (config: Config) =>

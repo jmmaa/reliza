@@ -1,4 +1,4 @@
-import { Character } from "../../types";
+import type { Config } from "../../types";
 
-export const ninjaSpiritTotalFlatDodge = (character: Character) =>
-  character.skills.ninjaSkills.ninjaSpirit.level;
+export const ninjaSpiritTotalFlatDodge = (config: Config) =>
+  config["character.skills.ninjaSkills.ninjaSpirit.level"];

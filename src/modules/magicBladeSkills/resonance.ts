@@ -1,4 +1,4 @@
-import { Character, Config, Entries } from "../../types";
+import type { Config } from "../../types";
 import {
   focusResonanceTotalReduction,
   powerResonanceTotalReduction,

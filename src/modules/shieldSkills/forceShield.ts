@@ -1,4 +1,4 @@
-import { Config } from "../../types";
+import type { Config } from "../../types";
 
 export const forceShieldLevel = (config: Config) =>
   config["character.skills.shieldSkills.forceShield.level"];

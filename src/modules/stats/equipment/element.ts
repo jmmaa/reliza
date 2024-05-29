@@ -1,4 +1,4 @@
-import { Config } from "../../../types";
+import type { Config } from "../../../types";
 import { equipmentStatSources, get } from "../../utils";
 
 export const mainWeaponElement = (config: Config) =>

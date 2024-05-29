@@ -1,4 +1,4 @@
-import { Config } from "../../../types";
+import type { Config } from "../../../types";
 import { unarmedMasteryTotalFlatWeaponATK } from "../../bareHandSkills";
 import { swordMasteryTotalPercentWeaponATK } from "../../bladeSkills";
 import { busterBladeTotalPercentWeaponATK } from "../../bladeSkills/busterBlade";

@@ -1,4 +1,4 @@
-import { Config } from "../../../types";
+import type { Config } from "../../../types";
 import { berserkTotalStability } from "../../bladeSkills/berserk";
 import { twoHandedTotalStability } from "../../mononofuSkills";
 import { samuraiArcheryTotalStability } from "../../shotSkills/samuraiArchery";

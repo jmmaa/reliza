@@ -1,4 +1,4 @@
-import { Config } from "../../types";
+import type { Config } from "../../types";
 
 export const advancedEvasionLevel = (config: Config) =>
   config["character.skills.guardSkills.advancedEvasion.level"];

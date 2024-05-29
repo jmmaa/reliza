@@ -1,4 +1,4 @@
-import { Config } from "../../../types";
+import type { Config } from "../../../types";
 import { get, sum, floor, flattenedStats } from "../../utils";
 import { totalASPD } from "../derived";
 

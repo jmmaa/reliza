@@ -1,4 +1,4 @@
-import { Config } from "../../../types";
+import type { Config } from "../../../types";
 import { floor, isDualWielder } from "../../utils";
 import { totalDEX, totalSTR } from "../basic";
 

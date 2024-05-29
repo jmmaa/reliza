@@ -1,4 +1,4 @@
-import { Character, Config } from "../../types";
+import type { Config } from "../../types";
 
 export const longRangeLevel = (config: Config) =>
   config["character.skills.shotSkills.longRange.level"];

@@ -1,4 +1,4 @@
-import { Entries, Config } from "../../types";
+import type { Entries, Config } from "../../types";
 import { floor } from "../utils";
 
 export const castMasteryLevel = (config: Config) =>

@@ -1,4 +1,4 @@
-import { Config } from "../../../types";
+import type { Config } from "../../../types";
 import { sum, total, flattenedStats, get } from "../../utils";
 
 export const totalPercentINTFromEquipment = (config: Config) =>

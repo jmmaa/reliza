@@ -1,4 +1,4 @@
-import { Config } from "../../types";
+import type { Config } from "../../types";
 import { totalATK } from "../stats";
 import { floor } from "../utils";
 

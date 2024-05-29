@@ -1,4 +1,4 @@
-import { Character, Config, Entries } from "../../types";
+import type { Config } from "../../types";
 import { totalATK, totalINT, totalMATK, totalSTR } from "../stats";
 import { subWeaponMagicDevicePercentATKModifier } from "../stats/derived/modifiers";
 import { flattenedStats, floor, get, sum } from "../utils";

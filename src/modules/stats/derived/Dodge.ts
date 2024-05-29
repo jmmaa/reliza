@@ -1,4 +1,4 @@
-import { Config } from "../../../types";
+import type { Config } from "../../../types";
 import { dodgeUPTotalFlatDodge } from "../../battleSkills";
 import { get, sum, total, flattenedStats, floor } from "../../utils";
 import { totalAGI } from "../basic";

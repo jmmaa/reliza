@@ -1,4 +1,4 @@
-import { Character, Config } from "../../types";
+import type { Config } from "../../types";
 import { floor } from "../utils";
 
 export const samuraiArcheryLevel = (config: Config) =>

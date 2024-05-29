@@ -1,4 +1,4 @@
-import { Character, Config } from "../../types";
+import type { Config } from "../../types";
 import { isDualWielder } from "../utils";
 
 export const flashBlastLevel = (config: Config) =>

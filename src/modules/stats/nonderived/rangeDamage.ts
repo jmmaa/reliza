@@ -1,4 +1,4 @@
-import { Config } from "../../../types";
+import type { Config } from "../../../types";
 import { get, sum, flattenedStats } from "../../utils";
 
 export const totalLongRangeDamage = (config: Config) =>

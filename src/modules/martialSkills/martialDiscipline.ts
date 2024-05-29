@@ -1,4 +1,4 @@
-import { Config } from "../../types";
+import type { Config } from "../../types";
 
 export const martialDisciplineLevel = (config: Config) =>
   config["character.skills.martialSkills.martialDiscipline.level"];

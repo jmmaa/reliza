@@ -1,4 +1,4 @@
-import { Config } from "../../types";
+import type { Config } from "../../types";
 
 export const magicAttackBoostTotalFlatMATK = (config: Config) =>
   config["character.regislets.magicAttackBoost.level"];

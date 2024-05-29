@@ -1,4 +1,4 @@
-import { Config } from "../../types";
+import type { Config } from "../../types";
 
 export const braveAuraLevel = (config: Config) =>
   config["character.skills.supportSkills.braveAura.level"];

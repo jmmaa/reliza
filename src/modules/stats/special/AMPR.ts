@@ -1,4 +1,4 @@
-import { Config } from "../../../types";
+import type { Config } from "../../../types";
 import { ultimaQiChargeTotalFlatAMPR } from "../../bareHandSkills";
 import { etherFlareTotalFlatAMPR } from "../../magicBladeSkills";
 import { aggravateTotalFlatAMPR } from "../../martialSkills";

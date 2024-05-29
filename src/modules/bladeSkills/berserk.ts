@@ -1,4 +1,4 @@
-import { Config } from "../../types";
+import type { Config } from "../../types";
 import { floor, isDualWielder, isMainOHS, isMainTHS } from "../utils";
 
 export const berserkIsActive = (config: Config) =>

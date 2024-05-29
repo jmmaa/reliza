@@ -1,4 +1,4 @@
-import { Config } from "../../../types";
+import type { Config } from "../../../types";
 import { flattenedStats, get, sum } from "../../utils";
 
 export const isFlinchUnavailable = (config: Config) =>

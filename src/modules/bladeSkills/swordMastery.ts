@@ -1,4 +1,4 @@
-import { Character, Config } from "../../types";
+import type { Config } from "../../types";
 import { isMainOHS, isMainTHS } from "../utils";
 
 export const swordMasteryLevel = (config: Config) =>

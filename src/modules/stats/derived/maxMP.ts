@@ -1,4 +1,4 @@
-import { Config } from "../../../types";
+import type { Config } from "../../../types";
 import { bushidoTotalFlatMaxMP } from "../../mononofuSkills";
 import { maxMPBoostTotalFlatMaxMP } from "../../regislets";
 import { MPBoostTotalFlatMaxMP } from "../../survivalSkills";

@@ -1,4 +1,4 @@
-import { Config } from "../../types";
+import type { Config } from "../../types";
 import { isMainTHS } from "../utils";
 
 export const warCryLevel = (config: Config) =>

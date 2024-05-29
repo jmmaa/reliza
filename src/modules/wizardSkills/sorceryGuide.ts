@@ -1,4 +1,4 @@
-import { Character, Config } from "../../types";
+import type { Config } from "../../types";
 
 export const sorceryGuideLevel = (config: Config) =>
   config["character.skills.wizardSkills.sorceryGuide.level"];
