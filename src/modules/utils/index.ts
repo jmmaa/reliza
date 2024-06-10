@@ -1,4 +1,3 @@
-import { defaultStatMap } from "../..";
 import type { Config, Entries } from "../../types";
 
 export const total = (base: number, percent: number, flat: number) =>
