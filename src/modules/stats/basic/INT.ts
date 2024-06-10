@@ -1,14 +1,20 @@
-import type { Config } from "../../../types";
-import { sum, total, flattenedStats, get } from "../../utils";
+import { StatId, type Config } from "../../../types";
+import { sum, total, flattenedStats } from "../../utils";
 
 export const totalPercentINTFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("percentINT")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.percentINT)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalPercentINT = (config: Config) =>
   totalPercentINTFromEquipment(config);
 
 export const totalFlatINTFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("flatINT")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.flatINT)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalFlatINT = (config: Config) =>
   totalFlatINTFromEquipment(config);

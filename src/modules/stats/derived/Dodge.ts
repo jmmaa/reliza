@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import { dodgeUPTotalFlatDodge } from "../../battleSkills";
 import { get, sum, total, flattenedStats, floor } from "../../utils";
 import { totalAGI } from "../basic";
@@ -24,11 +24,16 @@ export const totalBaseDodge = (config: Config) =>
   : noArmorBaseDodge(config);
 
 export const totalPercentDodge = (config: Config) =>
-  flattenedStats(config).map(get("percentDodge")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.percentDodge)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalFlatDodge = (config: Config) =>
-  flattenedStats(config).map(get("flatDodge")).reduce(sum, 0) +
-  dodgeUPTotalFlatDodge(config);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.flatDodge)
+    .map((stat) => stat[1])
+    .reduce(sum, 0) + dodgeUPTotalFlatDodge(config);
 
 export const totalDodge = (config: Config) =>
   total(

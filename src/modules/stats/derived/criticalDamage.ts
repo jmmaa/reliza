@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import {
   criticalUPTotalPercentCriticalDamage,
   spellBurstTotalMagicCriticalDamageConversion,
@@ -14,7 +14,10 @@ export const totalBaseCriticalDamage = (config: Config) => {
 };
 
 export const totalPercentCriticalDamageFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("percentCriticalDamage")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.percentCriticalDamage)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalPercentCriticalDamageFromSkills = (config: Config) =>
   criticalUPTotalPercentCriticalDamage(config);
@@ -24,7 +27,10 @@ export const totalPercentCriticalDamage = (config: Config) =>
   totalPercentCriticalDamageFromSkills(config);
 
 export const totalFlatCriticalDamage = (config: Config) =>
-  flattenedStats(config).map(get("flatCriticalDamage")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.flatCriticalDamage)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalCriticalDamage = (config: Config) => {
   const val = total(

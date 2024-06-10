@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import { bushidoTotalFlatMaxHP } from "../../mononofuSkills";
 import { maxHPBoostTotalFlatMaxMP } from "../../regislets";
 import {
@@ -17,7 +17,10 @@ export const totalBaseMaxHP = (config: Config) =>
   Math.floor((totalVIT(config) + 22.4) * (config["character.level"] / 3)); // need to confirm this
 
 export const totalPercentMaxHPFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("percentMaxHP")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.percentMaxHP)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalPercentMaxHPFromSkills = (config: Config) =>
   HPBoostTotalPercentMaxHP(config);
@@ -27,8 +30,10 @@ export const totalPercentMaxHP = (config: Config) =>
   totalPercentMaxHPFromSkills(config);
 
 export const totalFlatMaxHPFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("flatMaxHP")).reduce(sum, 0) +
-  maxHPBoostTotalFlatMaxMP(config);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.flatMaxHP)
+    .map((stat) => stat[1])
+    .reduce(sum, 0) + maxHPBoostTotalFlatMaxMP(config);
 
 export const totalFlatMaxHPFromSkills = (config: Config) =>
   bushidoTotalFlatMaxHP(config) +

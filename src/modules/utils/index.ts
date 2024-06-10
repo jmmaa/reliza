@@ -1,5 +1,5 @@
-import { defaultStatMap, statMap } from "../..";
-import { Config, Entries, Target } from "../../types";
+import { defaultStatMap } from "../..";
+import type { Config, Entries } from "../../types";
 
 export const total = (base: number, percent: number, flat: number) =>
   Math.floor(base * ((100 + percent) / 100)) + flat;
@@ -27,14 +27,9 @@ export const entries = <T extends {}>(o: T) =>
 export const equipmentStatSources = <T extends Config>(config: T) => ({
   "character.mainweapon.stats": config["character.mainweapon.stats"],
   "character.subweapon.stats":
-    (
-      config["character.subweapon.type"] === "arrow" ||
-      config["character.subweapon.type"] === "dagger" ||
-      config["character.subweapon.type"] === "ninjutsu-scroll" ||
-      config["character.subweapon.type"] === "shield"
-    ) ?
+    isUsingStatAccessibleSubweapon(config) ?
       config["character.subweapon.stats"]
-    : [defaultStatMap],
+    : [],
   "character.additionalGear.stats":
     config["character.additionalGear.stats"],
   "character.armor.stats": config["character.armor.stats"],
@@ -43,7 +38,7 @@ export const equipmentStatSources = <T extends Config>(config: T) => ({
 
 export const equipmentCrystalSources = <T extends Config>(config: T) => ({
   "character.mainweapon.crystals": config["character.mainweapon.crystals"],
-  "character.subweapon.crystals": [[defaultStatMap]], // need to confirm if subweapon crystals doesnt count
+  // "character.subweapon.crystals": config["character.subweapon.crystals"], // need to confirm if subweapon crystals doesnt count
   "character.additionalGear.crystals":
     config["character.additionalGear.crystals"],
   "character.armor.crystals": config["character.armor.crystals"],
@@ -58,9 +53,8 @@ export const flattenedStats = (config: Config) =>
       entries(equipmentCrystalSources(config))
         .map((value) => value[1]) // extract nested statmaps
         .map((crystalSources) =>
-          crystalSources.reduce((left, right) => left.concat(right), []),
-        )
-        .map((value) => value[1]),
+          crystalSources.reduce((left, right) => left.concat(right)),
+        ),
     )
     .reduce((left, right) => left.concat(right))
     .concat(config["character.consumables"])
@@ -78,3 +72,9 @@ export const isMainOHS = (config: Config) =>
 
 export const isMainTHS = (config: Config) =>
   config["character.mainweapon.type"] === "two-handed-sword";
+
+export const isUsingStatAccessibleSubweapon = (config: Config) =>
+  config["character.subweapon.type"] === "arrow" ||
+  config["character.subweapon.type"] === "dagger" ||
+  config["character.subweapon.type"] === "ninjutsu-scroll" ||
+  config["character.subweapon.type"] === "shield";

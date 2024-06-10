@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import { bushidoTotalFlatMaxMP } from "../../mononofuSkills";
 import { maxMPBoostTotalFlatMaxMP } from "../../regislets";
 import { MPBoostTotalFlatMaxMP } from "../../survivalSkills";
@@ -16,11 +16,16 @@ export const totalBaseMaxMP = (config: Config) =>
   : floor(100 + config["character.level"] + totalINT(config) / 10);
 
 export const totalPercentMaxMP = (config: Config) =>
-  flattenedStats(config).map(get("percentMaxMP")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.percentMaxMP)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalFlatMaxMPFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("flatMaxMP")).reduce(sum, 0) +
-  maxMPBoostTotalFlatMaxMP(config);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.flatMaxMP)
+    .map((stat) => stat[1])
+    .reduce(sum, 0) + maxMPBoostTotalFlatMaxMP(config);
 
 export const totalFlatMaxMPFromSkills = (config: Config) =>
   bushidoTotalFlatMaxMP(config) + MPBoostTotalFlatMaxMP(config);

@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import { ultimaQiChargeTotalFlatAMPR } from "../../bareHandSkills";
 import { etherFlareTotalFlatAMPR } from "../../magicBladeSkills";
 import { aggravateTotalFlatAMPR } from "../../martialSkills";
@@ -10,11 +10,15 @@ export const totalBaseAMPR = (config: Config) =>
 
 export const totalPercentAMPR = (config: Config) =>
   flattenedStats(config)
-    .map(get("percentAttackMPRecovery"))
-    .reduce(sum, 9);
+    .filter((stat) => stat[0] === StatId.percentAttackMPRecovery)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalFlatAMPRFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("flatAttackMPRecovery")).reduce(sum, 9);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.flatAttackMPRecovery)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalFlatAMPRFromSkills = (config: Config) =>
   aggravateTotalFlatAMPR(config) +

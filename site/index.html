@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello world!</title>
+  </head>
+  <link rel="stylesheet" href="styles.css" />
+  <body>
+    <main class="specs">
+      <details class="stats">
+        <summary>Character Stats</summary>
+
+        <div class="stats__container">
+          <label class="stats__item-label" for="DEX">DEX</label>
+          <input id="DEX" type="number" />
+        </div>
+
+        <div class="stats__container">
+          <label class="stats__label" for="STR">STR</label>
+          <input id="STR" type="number" />
+        </div>
+
+        <div class="stats__container">
+          <label class="stats__label" for="INT">INT</label>
+          <input id="INT" type="number" />
+        </div>
+
+        <div class="stats__container">
+          <label class="stats__label" for="AGI">AGI</label>
+          <input id="AGI" type="number" />
+        </div>
+
+        <div class="stats__container">
+          <label class="stats__label" for="VIT">VIT</label>
+          <input id="VIT" type="number" />
+        </div>
+
+        <div>
+          <select>
+            <option>-</option>
+            <option>CRT</option>
+            <option>MTL</option>
+            <option>LUK</option>
+            <option>TEC</option>
+          </select>
+
+          <input type="number" />
+        </div>
+      </details>
+
+      <details class="equipments">
+        <summary>Equipments</summary>
+
+        <div class="equipments__weapon">
+          <span>Weapon</span>
+
+          <div>
+            <label for="weapon-type">type</label>
+            <select id="weapon-type">
+              <option>bare hand</option>
+              <option>1H sword</option>
+              <option>2H sword</option>
+              <option>bow</option>
+              <option>bowgun</option>
+              <option>bow</option>
+              <option>staff</option>
+              <option>magic device</option>
+              <option>knuckle</option>
+              <option>halberd</option>
+              <option>katana</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="weapon-ATK">ATK</label>
+            <input id="weapon-ATK" type="number" />
+          </div>
+
+          <div>
+            <label for="weapon-stability">stability</label>
+            <input id="weapon-stability" type="number" />
+          </div>
+
+          <div>
+            <label for="weapon-refinement">refinement</label>
+            <select id="weapon-refinement">
+              <option>+S</option>
+              <option>+A</option>
+              <option>+B</option>
+              <option>+C</option>
+              <option>+D</option>
+              <option>+E</option>
+              <option>+9</option>
+              <option>+8</option>
+              <option>+7</option>
+              <option>+6</option>
+              <option>+5</option>
+              <option>+4</option>
+              <option>+3</option>
+              <option>+2</option>
+              <option>+1</option>
+              <option>+0</option>
+            </select>
+          </div>
+
+          <!-- FIGURE OUT HOW TO PUT STATS -->
+        </div>
+      </details>
+    </main>
+  </body>
+  <script src="../lib/index.iife.js"></script>
+  <script>
+    function showValue(e, id) {
+      const value = e.target.value;
+
+      const target = document.getElementById(id);
+
+      console.log(target);
+
+      target.innerHTML = value;
+    }
+  </script>
+</html>

@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import {
   defenseMasteryTotalFlatMDEF,
   defenseUPTotalFlatMDEF,
@@ -45,8 +45,10 @@ export const totalBaseMDEF = (config: Config) =>
   : noArmorBaseMDEF(config);
 
 export const totalPercentMDEFFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("percentMDEF")).reduce(sum, 0) +
-  subWeaponArrowPercentMDEFModifier(config);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.percentMDEF)
+    .map((stat) => stat[1])
+    .reduce(sum, 0) + subWeaponArrowPercentMDEFModifier(config);
 
 export const totalPercentMDEFFromSkills = (config: Config) =>
   berserkTotalPercentMDEF(config) + magicalShieldTotalPercentMDEF(config);
@@ -56,7 +58,10 @@ export const totalPercentMDEF = (config: Config) =>
   totalPercentMDEFFromSkills(config);
 
 export const totalFlatMDEFFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("flatMDEF")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.flatMDEF)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalFlatMDEFFromSkills = (config: Config) =>
   magicalShieldTotalFlatMDEF(config) +

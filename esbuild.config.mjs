@@ -20,3 +20,14 @@ await esbuild.build({
   logLevel: "info",
 });
 
+await esbuild.build({
+  entryPoints: ["src/index.ts"],
+  tsconfig: "tsconfig.json",
+  outfile: "lib/index.iife.js",
+  format: "iife",
+  minify: true,
+  bundle: true,
+  globalName: "__reliza__",
+  logLevel: "info",
+});
+

@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import {
   godspeedWieldTotalMagicResistance,
   godspeedWieldTotalPhysicalResistance,
@@ -14,7 +14,10 @@ import {
 import { get, sum, flattenedStats } from "../../utils";
 
 export const totalPhysicalResistanceFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("physicalResistance")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.physicalResistance)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalPhysicalResistanceFromSkills = (config: Config) =>
   forceShieldTotalPhysicalResistance(config) +
@@ -26,7 +29,10 @@ export const totalPhysicalResistance = (config: Config) =>
   totalPhysicalResistanceFromSkills(config);
 
 export const totalMagicResistanceFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("magicResistance")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.magicResistance)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalMagicResistanceFromSkills = (config: Config) =>
   magicalShieldTotalMagicResistance(config) +
@@ -38,19 +44,37 @@ export const totalMagicResistance = (config: Config) =>
   totalMagicResistanceFromSkills(config);
 
 export const totalLightResistance = (config: Config) =>
-  flattenedStats(config).map(get("lightResistance")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.lightResistance)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalDarkResistance = (config: Config) =>
-  flattenedStats(config).map(get("darkResistance")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.darkResistance)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalFireResistance = (config: Config) =>
-  flattenedStats(config).map(get("fireResistance")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.fireResistance)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalEarthResistance = (config: Config) =>
-  flattenedStats(config).map(get("earthResistance")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.earthResistance)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalWindResistance = (config: Config) =>
-  flattenedStats(config).map(get("windResistance")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.windResistance)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalWaterResistance = (config: Config) =>
-  flattenedStats(config).map(get("waterResistance")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.waterResistance)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);

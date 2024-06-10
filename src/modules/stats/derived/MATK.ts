@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import {
   increasedEnergyTotalFlatMATK,
   magicUPTotalFlatMATK,
@@ -101,8 +101,10 @@ export const totalBaseMATK = (config: Config) =>
   totalBaseMATKValueFromMATKDOWN(config);
 
 export const totalPercentMATKFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("percentMATK")).reduce(sum, 0) +
-  subWeaponKnucklePercentMATKModifier(config);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.percentMATK)
+    .map((stat) => stat[1])
+    .reduce(sum, 0) + subWeaponKnucklePercentMATKModifier(config);
 
 export const totalPercentMATKFromSkills = (config: Config) =>
   magicMasteryTotalPercentMATK(config);
@@ -112,8 +114,10 @@ export const totalPercentMATK = (config: Config) =>
   totalPercentMATKFromSkills(config);
 
 export const totalFlatMATKFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("flatMATK")).reduce(sum, 0) +
-  magicAttackBoostTotalFlatMATK(config);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.flatMATK)
+    .map((stat) => stat[1])
+    .reduce(sum, 0) + magicAttackBoostTotalFlatMATK(config);
 
 export const totalFlatMATKFromSkills = (config: Config) =>
   magicUPTotalFlatMATK(config) +

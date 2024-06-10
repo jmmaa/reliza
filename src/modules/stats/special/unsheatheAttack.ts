@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import {
   flashBlastTotalPercentUnsheatheAttack,
   godspeedTotalPercentUnsheatheAttack,
@@ -6,7 +6,10 @@ import {
 import { flattenedStats, get, sum } from "../../utils";
 
 export const totalPercentUnsheatheAttackFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("percentUnsheatheAttack")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.percentUnsheatheAttack)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalPercentUnsheatheAttackFromSkills = (config: Config) =>
   godspeedTotalPercentUnsheatheAttack(config) +
@@ -17,4 +20,7 @@ export const totalPercentUnsheatheAttack = (config: Config) =>
   totalPercentUnsheatheAttackFromSkills(config);
 
 export const totalFlatUnsheatheAttack = (config: Config) =>
-  flattenedStats(config).map(get("flatUnsheatheAttack")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.flatUnsheatheAttack)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);

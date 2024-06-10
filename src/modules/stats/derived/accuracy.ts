@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import { accuracyUPTotalFlatAccuracy } from "../../battleSkills";
 import {
   dualSwordControlTotalPercentAccuracy,
@@ -15,8 +15,13 @@ import { totalDEX } from "../basic";
 export const totalBaseAccuracy = (config: Config) =>
   floor(config["character.level"] + totalDEX(config));
 
+// refactor
+
 export const totalPercentAccuracyFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("percentAccuracy")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.percentAccuracy)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalPercentAccuracyFromSkills = (config: Config) =>
   samuraiArcheryTotalPercentAccuracy(config) +
@@ -29,7 +34,10 @@ export const totalPercentAccuracy = (config: Config) =>
   totalFlatAccuracyFromSkills(config);
 
 export const totalFlatAccuracyFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("flatAccuracy")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.flatAccuracy)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalFlatAccuracyFromSkills = (config: Config) =>
   bushidoTotalFlatAccuracy(config) + accuracyUPTotalFlatAccuracy(config);

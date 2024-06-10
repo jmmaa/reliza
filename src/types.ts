@@ -82,6 +82,146 @@ export type ElementType =
   | Earth
   | Neutral;
 
+export enum StatId {
+  flatSTR,
+  percentSTR,
+
+  flatINT,
+  percentINT,
+
+  flatDEX,
+  percentDEX,
+
+  flatVIT,
+  percentVIT,
+
+  flatAGI,
+  percentAGI,
+
+  flatWeaponATK,
+  percentWeaponATK,
+
+  flatMATK,
+  percentMATK,
+
+  flatATK,
+  percentATK,
+
+  flatASPD,
+  percentASPD,
+
+  flatCSPD,
+  percentCSPD,
+
+  flatCriticalRate,
+  percentCriticalRate,
+
+  flatCriticalDamage,
+  percentCriticalDamage,
+
+  flatMaxHP,
+  percentMaxHP,
+
+  flatMaxMP,
+  percentMaxMP,
+
+  flatAccuracy,
+  percentAccuracy,
+
+  flatDodge,
+  percentDodge,
+
+  flatDEF,
+  percentDEF,
+
+  flatMDEF,
+  percentMDEF,
+
+  flatUnsheatheAttack,
+  percentUnsheatheAttack,
+
+  flatAttackMPRecovery,
+  percentAttackMPRecovery,
+
+  stability,
+
+  magicPierce,
+  physicalPierce,
+
+  longRangeDamage,
+  shortRangeDamage,
+
+  motionSpeed,
+
+  ATKUPSTR,
+  ATKUPINT,
+  ATKUPDEX,
+  ATKUPVIT,
+  ATKUPAGI,
+
+  MATKUPSTR,
+  MATKUPINT,
+  MATKUPDEX,
+  MATKUPVIT,
+  MATKUPAGI,
+
+  ATKDOWNSTR,
+  ATKDOWNINT,
+  ATKDOWNDEX,
+  ATKDOWNVIT,
+  ATKDOWNAGI,
+
+  MATKDOWNSTR,
+  MATKDOWNINT,
+  MATKDOWNDEX,
+  MATKDOWNVIT,
+  MATKDOWNAGI,
+
+  magicResistance,
+  physicalResistance,
+
+  lightResistance,
+  darkResistance,
+
+  fireResistance,
+  waterResistance,
+  earthResistance,
+  windResistance,
+
+  neutralResistance,
+  ailmentResistance,
+
+  damageToDark,
+  damageToLight,
+  damageToEarth,
+  damageToWater,
+  damageToFire,
+  damageToWind,
+
+  aggro,
+
+  tumbleUnavailable,
+  flinchUnavailable,
+  stunUnavailable,
+
+  darkElement,
+  lightElement,
+  earthElement,
+  waterElement,
+  fireElement,
+  windElement,
+
+  guardPower,
+  guardRecharge,
+
+  evasionRecharge,
+
+  itemCooldown,
+  invincibleAid,
+}
+
+export type Stat = [StatId, number];
+
 export interface StatMap {
   flatSTR: number;
   percentSTR: number;
@@ -233,33 +373,33 @@ export interface Config {
   "character.mainweapon.ATK": number;
   "character.mainweapon.refinement": number;
   "character.mainweapon.stability": number;
-  "character.mainweapon.stats": StatMap[];
-  "character.mainweapon.crystals": StatMap[][];
+  "character.mainweapon.stats": Stat[];
+  "character.mainweapon.crystals": Stat[][];
 
   "character.subweapon.type": SubWeaponType;
   "character.subweapon.ATK": number;
   "character.subweapon.DEF": number;
   "character.subweapon.refinement": number;
   "character.subweapon.stability": number;
-  "character.subweapon.stats": StatMap[];
-  "character.subweapon.crystals": StatMap[][];
+  "character.subweapon.stats": Stat[];
+  "character.subweapon.crystals": Stat[][];
   "character.subweapon.scrollCastTimeReduction": number;
   "character.subweapon.scrollMPReduction": number;
 
   "character.armor.DEF": number;
   "character.armor.refinement": number;
   "character.armor.type": ArmorType;
-  "character.armor.stats": StatMap[];
-  "character.armor.crystals": StatMap[][];
+  "character.armor.stats": Stat[];
+  "character.armor.crystals": Stat[][];
 
   "character.additionalGear.DEF": number;
   "character.additionalGear.refinement": number;
-  "character.additionalGear.stats": StatMap[];
-  "character.additionalGear.crystals": StatMap[][];
+  "character.additionalGear.stats": Stat[];
+  "character.additionalGear.crystals": Stat[][];
 
   "character.specialGear.DEF": number;
-  "character.specialGear.stats": StatMap[];
-  "character.specialGear.crystals": StatMap[][];
+  "character.specialGear.stats": Stat[];
+  "character.specialGear.crystals": Stat[][];
 
   "character.skills.bladeSkills.hardHit.level": number;
   "character.skills.bladeSkills.astute.level": number;
@@ -568,8 +708,8 @@ export interface Config {
   "character.regislets.speedResonance.level": number;
   "character.regislets.powerResonance.level": number;
 
-  "character.consumables": StatMap[]; // statmap for now
-  "character.foodBuffs": StatMap[]; // statmap for now
+  "character.consumables": Stat[]; // statmap for now
+  "character.foodBuffs": Stat[]; // statmap for now
 
   "character.ailments.weaken.isActive": boolean;
   "character.ailments.flinch.isActive": boolean;

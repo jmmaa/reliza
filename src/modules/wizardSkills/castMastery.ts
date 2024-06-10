@@ -7,10 +7,9 @@ export const castMasteryLevel = (config: Config) =>
 // TODO REFACTOR THIS LATER
 export const wizardSkillsLearned = (config: Config) =>
   (Object.entries(config) as Entries<typeof config>)
-    .filter((entry) => entry[0].slice(0, 16) === "wizardSkills")
+    .filter((entry) => entry[0].slice(17, 29) === "wizardSkills")
     .filter(
       (entry) =>
-        // entry should totally be a number right? right?
         entry[0].slice(-5) === "level" && (entry[1] as number) > 0,
     );
 

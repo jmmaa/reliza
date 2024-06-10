@@ -1,9 +1,10 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import { floor, sum, flattenedStats } from "../../utils";
 
 export const totalAilmentResistanceFromEquipment = (config: Config) =>
   flattenedStats(config)
-    .map((value) => value["ailmentResistance"])
+    .filter((stat) => stat[0] === StatId.ailmentResistance)
+    .map((stat) => stat[1])
     .reduce(sum, 0);
 
 export const totalAilmentResistanceFromMTL = (config: Config) =>

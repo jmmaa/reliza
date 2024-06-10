@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import { berserkTotalStability } from "../../bladeSkills/berserk";
 import { twoHandedTotalStability } from "../../mononofuSkills";
 import { samuraiArcheryTotalStability } from "../../shotSkills/samuraiArchery";
@@ -6,7 +6,10 @@ import { floor, get, sum, flattenedStats } from "../../utils";
 import { totalBaseStability } from "../derived";
 
 export const totalStabilityFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("stability")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.stability)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalStabilityFromSkills = (config: Config) =>
   berserkTotalStability(config) +

@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import {
   quickSlashTotalFlatASPD,
   quickSlashTotalPercentASPD,
@@ -139,7 +139,10 @@ export const totalBaseASPD = (config: Config) =>
   : totalBareHandBaseASPD(config);
 
 export const totalPercentASPDFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("percentASPD")).reduce(sum, 0) +
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.percentASPD)
+    .map((stat) => stat[1])
+    .reduce(sum, 0) +
   armorTypePercentASPDModifier(config) +
   subWeaponShieldPercentASPDModifier(config);
 
@@ -153,7 +156,10 @@ export const totalPercentASPD = (config: Config) =>
   totalPercentASPDFromSkills(config);
 
 export const totalFlatASPDFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("flatASPD")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.flatASPD)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalFlatASPDFromSkills = (config: Config) =>
   quickSlashTotalFlatASPD(config) +

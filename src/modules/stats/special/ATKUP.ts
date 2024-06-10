@@ -1,25 +1,53 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import { floor, get, sum, flattenedStats } from "../../utils";
 
 export const totalBaseATKValueFromATKUPAGI = (config: Config) =>
-  floor(flattenedStats(config).map(get("ATKUPAGI")).reduce(sum, 0) / 100) *
-  config["character.AGI"];
+  floor(
+    flattenedStats(config)
+      .filter((stat) => stat[0] === StatId.ATKUPAGI)
+      .map((stat) => stat[1])
+      .reduce(sum, 0) / 100,
+  ) * config["character.AGI"];
 
 export const totalBaseATKValueFromATKUPDEX = (config: Config) =>
-  floor(flattenedStats(config).map(get("ATKUPDEX")).reduce(sum, 0) / 100) *
-  config["character.DEX"];
+  floor(
+    flattenedStats(config)
+      .filter((stat) => stat[0] === StatId.ATKUPDEX)
+      .map((stat) => stat[1])
+      .reduce(sum, 0) /
+      100 /
+      100,
+  ) * config["character.DEX"];
 
 export const totalBaseATKValueFromATKUPINT = (config: Config) =>
-  floor(flattenedStats(config).map(get("ATKUPINT")).reduce(sum, 0) / 100) *
-  config["character.INT"];
+  floor(
+    flattenedStats(config)
+      .filter((stat) => stat[0] === StatId.ATKUPINT)
+      .map((stat) => stat[1])
+      .reduce(sum, 0) /
+      100 /
+      100,
+  ) * config["character.INT"];
 
 export const totalBaseATKValueFromATKUPSTR = (config: Config) =>
-  floor(flattenedStats(config).map(get("ATKUPSTR")).reduce(sum, 0) / 100) *
-  config["character.STR"];
+  floor(
+    flattenedStats(config)
+      .filter((stat) => stat[0] === StatId.ATKUPSTR)
+      .map((stat) => stat[1])
+      .reduce(sum, 0) /
+      100 /
+      100,
+  ) * config["character.STR"];
 
 export const totalBaseATKValueFromATKUPVIT = (config: Config) =>
-  floor(flattenedStats(config).map(get("ATKUPVIT")).reduce(sum, 0) / 100) *
-  config["character.VIT"];
+  floor(
+    flattenedStats(config)
+      .filter((stat) => stat[0] === StatId.ATKUPVIT)
+      .map((stat) => stat[1])
+      .reduce(sum, 0) /
+      100 /
+      100,
+  ) * config["character.VIT"];
 
 export const totalBaseATKValueFromATKUP = (config: Config) =>
   [

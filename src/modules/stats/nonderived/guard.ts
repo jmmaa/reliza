@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import {
   hiddenTalentTotalBaseGuardPower,
   hiddenTalentTotalBaseGuardRecharge,
@@ -21,7 +21,10 @@ export const totalBaseGuardPower = (config: Config) =>
   );
 
 export const totalPercentGuardPower = (config: Config) =>
-  flattenedStats(config).map(get("guardPower")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.guardPower)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalGuardPower = (config: Config) =>
   totalBaseGuardPower(config) * (totalPercentGuardPower(config) / 100);
@@ -36,8 +39,10 @@ export const totalBaseGuardRecharge = (config: Config) =>
   ].reduce(sum);
 
 export const totalPercentGuardRecharge = (config: Config) =>
-  flattenedStats(config).map(get("guardRecharge")).reduce(sum, 0) +
-  heavyArmorMasteryTotalGuardRecharge(config);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.guardRecharge)
+    .map((stat) => stat[1])
+    .reduce(sum, 0) + heavyArmorMasteryTotalGuardRecharge(config);
 
 export const totalGuardRecharge = (config: Config) =>
   floor(

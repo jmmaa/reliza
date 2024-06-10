@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import {
   magicWarriorMasteryTotalFlatCSPD,
   magicWarriorMasteryTotalPercentCSPD,
@@ -18,7 +18,10 @@ export const totalBaseCSPD = (config: Config) =>
   );
 
 export const totalPercentCSPDFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("percentCSPD")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.percentCSPD)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalPercentCSPDFromSkills = (config: Config) =>
   magicWarriorMasteryTotalPercentCSPD(config) +
@@ -29,7 +32,10 @@ export const totalPercentCSPD = (config: Config) =>
   totalPercentCSPDFromSkills(config);
 
 export const totalFlatCSPDFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("flatCSPD")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.flatCSPD)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalFlatCSPDFromSkills = (config: Config) =>
   magicWarriorMasteryTotalFlatCSPD(config) +

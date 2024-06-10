@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import {
   attackUPTotalFlatATK,
   intimidatingPowerTotalFlatATK,
@@ -124,8 +124,10 @@ export const totalBaseATK = (config: Config) =>
   totalBaseATKValueFromATKDOWN(config);
 
 export const totalPercentATKFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("percentATK")).reduce(sum, 0) +
-  subWeaponMagicDevicePercentATKModifier(config);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.percentATK)
+    .map((stat) => stat[1])
+    .reduce(sum, 0) + subWeaponMagicDevicePercentATKModifier(config);
 
 export const totalPercentATKFromSkills = (config: Config) =>
   swordMasteryTotalPercentATK(config) +
@@ -145,8 +147,10 @@ export const totalPercentATKForWizardSkills = (config: Config) =>
   totalPercentATKFromEquipment(config) + totalPercentATKFromSkills(config);
 
 export const totalFlatATKFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("flatATK")).reduce(sum, 0) +
-  physicalAttackBoostTotalFlatATK(config);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.flatATK)
+    .map((stat) => stat[1])
+    .reduce(sum, 0) + physicalAttackBoostTotalFlatATK(config);
 
 export const totalFlatATKFromSkills = (config: Config) =>
   attackUPTotalFlatATK(config) + intimidatingPowerTotalFlatATK(config);

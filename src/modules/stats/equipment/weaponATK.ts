@@ -1,4 +1,4 @@
-import type { Config } from "../../../types";
+import { StatId, type Config } from "../../../types";
 import { unarmedMasteryTotalFlatWeaponATK } from "../../bareHandSkills";
 import { swordMasteryTotalPercentWeaponATK } from "../../bladeSkills";
 import { busterBladeTotalPercentWeaponATK } from "../../bladeSkills/busterBlade";
@@ -40,7 +40,10 @@ export const totalSubWeaponRefinementBonusSubWeaponATK = (
   : 0;
 
 export const totalPercentWeaponATKFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("percentWeaponATK")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.percentWeaponATK)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalPercentWeaponATKFromSkills = (config: Config) =>
   swordMasteryTotalPercentWeaponATK(config) +
@@ -58,7 +61,10 @@ export const totalPercentWeaponATK = (config: Config) =>
   totalPercentWeaponATKFromSkills(config);
 
 export const totalFlatWeaponATKFromEquipment = (config: Config) =>
-  flattenedStats(config).map(get("flatWeaponATK")).reduce(sum, 0);
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.flatWeaponATK)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);
 
 export const totalFlatWeaponATKFromSkills = (config: Config) =>
   samuraiArcheryTotalFlatWeaponATK(config) +
