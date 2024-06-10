@@ -1,4 +1,4 @@
-import type { Config } from "../../types";
+import { StatId, type Config } from "../../types";
 import { totalATK, totalINT, totalMATK, totalSTR } from "../stats";
 import { subWeaponMagicDevicePercentATKModifier } from "../stats/derived/modifiers";
 import { flattenedStats, floor, get, sum } from "../utils";
@@ -61,14 +61,14 @@ export const totalNumberOfMagicBladeSkills = (config: Config) =>
 
 export const totalNegativePercentATK = (config: Config) =>
   flattenedStats(config)
-    .map(get("percentATK"))
-    .filter((value) => value < 0)
+    .filter((stat) => stat[0] === StatId.percentATK && stat[1] < 0)
+    .map((stat) => stat[1])
     .reduce(sum, 0) + subWeaponMagicDevicePercentATKModifier(config);
 
 export const totalNegativePercentMATK = (config: Config) =>
   flattenedStats(config)
-    .map(get("percentATK"))
-    .filter((value) => value < 0)
+    .filter((stat) => stat[0] === StatId.percentMATK && stat[1] < 0)
+    .map((stat) => stat[1])
     .reduce(sum, 0);
 
 export const dualBringerTotalATK = (config: Config) =>
