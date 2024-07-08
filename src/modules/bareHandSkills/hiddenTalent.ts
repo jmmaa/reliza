@@ -1,10 +1,12 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 import { floor } from "../utils";
 
-export const hiddenTalentLevel = (config: Config) =>
+export const hiddenTalentLevel = (config: IntermediateConfig) =>
   config["character.skills.bareHandSkills.hiddenTalent.level"];
 
-export const hiddenTalentTotalBaseGuardPower = (config: Config) =>
+export const hiddenTalentTotalBaseGuardPower = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "bare-hand" &&
     config["character.subweapon.type"] === "none"
@@ -12,7 +14,9 @@ export const hiddenTalentTotalBaseGuardPower = (config: Config) =>
     hiddenTalentLevel(config) * 500
   : 0;
 
-export const hiddenTalentTotalBaseGuardRecharge = (config: Config) =>
+export const hiddenTalentTotalBaseGuardRecharge = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "bare-hand" &&
     config["character.subweapon.type"] === "none"
@@ -20,7 +24,9 @@ export const hiddenTalentTotalBaseGuardRecharge = (config: Config) =>
     5 + 2 * hiddenTalentLevel(config)
   : 0;
 
-export const hiddenTalentTotalEvasionCount = (config: Config) =>
+export const hiddenTalentTotalEvasionCount = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "bare-hand" &&
     config["character.subweapon.type"] === "none"
@@ -28,7 +34,9 @@ export const hiddenTalentTotalEvasionCount = (config: Config) =>
     floor(2 + hiddenTalentLevel(config) * 0.4)
   : 0;
 
-export const hiddenTalentTotalBaseEvasionRecharge = (config: Config) =>
+export const hiddenTalentTotalBaseEvasionRecharge = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "bare-hand" &&
     config["character.subweapon.type"] === "none"
@@ -39,7 +47,7 @@ export const hiddenTalentTotalBaseEvasionRecharge = (config: Config) =>
   : 0;
 
 export const hiddenTalentTotalCostQiReductionForNonBareHandSkills = (
-  config: Config,
+  config: IntermediateConfig,
 ) =>
   (
     config["character.mainweapon.type"] === "bare-hand" &&

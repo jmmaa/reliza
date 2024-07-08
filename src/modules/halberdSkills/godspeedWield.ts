@@ -1,16 +1,16 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 import { floor } from "../utils";
 
-export const godspeedWieldStacks = (config: Config) =>
+export const godspeedWieldStacks = (config: IntermediateConfig) =>
   config["character.skills.halberdSkills.godspeedWield.stacks"];
 
-export const godspeedWieldLevel = (config: Config) =>
+export const godspeedWieldLevel = (config: IntermediateConfig) =>
   config["character.skills.halberdSkills.godspeedWield.level"];
 
-export const godspeedWieldIsActive = (config: Config) =>
+export const godspeedWieldIsActive = (config: IntermediateConfig) =>
   config["character.skills.halberdSkills.godspeedWield.isActive"];
 
-export const godspeedWieldTotalFlatASPD = (config: Config) =>
+export const godspeedWieldTotalFlatASPD = (config: IntermediateConfig) =>
   godspeedWieldIsActive(config) ?
     config["character.mainweapon.type"] === "halberd" ?
       30 * godspeedWieldLevel(config) * godspeedWieldStacks(config) +
@@ -18,15 +18,19 @@ export const godspeedWieldTotalFlatASPD = (config: Config) =>
     : 30 * godspeedWieldLevel(config) * godspeedWieldStacks(config)
   : 0;
 
-export const godspeedWieldTotalMotionSpeed = (config: Config) =>
+export const godspeedWieldTotalMotionSpeed = (
+  config: IntermediateConfig,
+) =>
   godspeedWieldIsActive(config) ?
     godspeedWieldLevel(config) * godspeedWieldStacks(config)
   : 0;
 
-export const almightyWieldLevel = (config: Config) =>
+export const almightyWieldLevel = (config: IntermediateConfig) =>
   config["character.skills.halberdSkills.almightyWield.level"];
 
-export const godspeedWieldTotalPhysicalResistance = (config: Config) =>
+export const godspeedWieldTotalPhysicalResistance = (
+  config: IntermediateConfig,
+) =>
   godspeedWieldIsActive(config) ?
     config["character.mainweapon.type"] === "halberd" ?
       -(
@@ -42,7 +46,9 @@ export const godspeedWieldTotalPhysicalResistance = (config: Config) =>
       )
   : 0;
 
-export const godspeedWieldTotalMagicResistance = (config: Config) =>
+export const godspeedWieldTotalMagicResistance = (
+  config: IntermediateConfig,
+) =>
   godspeedWieldIsActive(config) ?
     config["character.mainweapon.type"] === "halberd" ?
       -(
@@ -58,11 +64,11 @@ export const godspeedWieldTotalMagicResistance = (config: Config) =>
       )
   : 0;
 
-export const godspeedWieldTotalFlatMaxMP = (config: Config) =>
+export const godspeedWieldTotalFlatMaxMP = (config: IntermediateConfig) =>
   godspeedWieldIsActive(config) ? -(100 * godspeedWieldStacks(config)) : 0;
 
 export const godspeedWieldTotalPercentEvasionRecharge = (
-  config: Config,
+  config: IntermediateConfig,
 ) =>
   godspeedWieldIsActive(config) ?
     godspeedWieldLevel(config) * godspeedWieldStacks(config)

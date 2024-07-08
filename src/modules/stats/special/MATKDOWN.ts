@@ -1,7 +1,10 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 import { floor, get, sum, flattenedStats } from "../../utils";
 
-export const totalBaseMATKValueFromMATKDOWNAGI = (config: Config) =>
+export const totalBaseMATKValueFromMATKDOWNAGI = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATKDOWNAGI)
@@ -9,7 +12,9 @@ export const totalBaseMATKValueFromMATKDOWNAGI = (config: Config) =>
       .reduce(sum, 0) / 100,
   ) * config["character.AGI"];
 
-export const totalBaseMATKValueFromMATKDOWNDEX = (config: Config) =>
+export const totalBaseMATKValueFromMATKDOWNDEX = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATKDOWNDEX)
@@ -19,7 +24,9 @@ export const totalBaseMATKValueFromMATKDOWNDEX = (config: Config) =>
       100,
   ) * config["character.DEX"];
 
-export const totalBaseMATKValueFromMATKDOWNINT = (config: Config) =>
+export const totalBaseMATKValueFromMATKDOWNINT = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATKDOWNINT)
@@ -29,7 +36,9 @@ export const totalBaseMATKValueFromMATKDOWNINT = (config: Config) =>
       100,
   ) * config["character.INT"];
 
-export const totalBaseMATKValueFromMATKDOWNSTR = (config: Config) =>
+export const totalBaseMATKValueFromMATKDOWNSTR = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATKDOWNSTR)
@@ -39,7 +48,9 @@ export const totalBaseMATKValueFromMATKDOWNSTR = (config: Config) =>
       100,
   ) * config["character.STR"];
 
-export const totalBaseMATKValueFromMATKDOWNVIT = (config: Config) =>
+export const totalBaseMATKValueFromMATKDOWNVIT = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATKDOWNVIT)
@@ -49,7 +60,9 @@ export const totalBaseMATKValueFromMATKDOWNVIT = (config: Config) =>
       100,
   ) * config["character.VIT"];
 
-export const totalBaseMATKValueFromMATKDOWN = (config: Config) =>
+export const totalBaseMATKValueFromMATKDOWN = (
+  config: IntermediateConfig,
+) =>
   [
     totalBaseMATKValueFromMATKDOWNAGI(config),
     totalBaseMATKValueFromMATKDOWNDEX(config),

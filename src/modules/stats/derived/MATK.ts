@@ -1,4 +1,5 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 import {
   increasedEnergyTotalFlatMATK,
   magicUPTotalFlatMATK,
@@ -25,34 +26,34 @@ import {
 } from "../special";
 import { subWeaponKnucklePercentMATKModifier } from "./modifiers";
 
-export const totalDualWieldBaseMATK = (config: Config) =>
+export const totalDualWieldBaseMATK = (config: IntermediateConfig) =>
   config["character.level"] + totalINT(config) * 3 + totalDEX(config);
 
-export const totalOneHandedSwordBaseMATK = (config: Config) =>
+export const totalOneHandedSwordBaseMATK = (config: IntermediateConfig) =>
   config["character.level"] + totalINT(config) * 3 + totalDEX(config);
 
-export const totalTwoHandedSwordBaseMATK = (config: Config) =>
+export const totalTwoHandedSwordBaseMATK = (config: IntermediateConfig) =>
   config["character.level"] + totalINT(config) * 3 + totalDEX(config);
 
-export const totalBowBaseMATK = (config: Config) =>
+export const totalBowBaseMATK = (config: IntermediateConfig) =>
   config["character.level"] + totalINT(config) * 3 + totalDEX(config);
 
-export const totalBowgunBaseMATK = (config: Config) =>
+export const totalBowgunBaseMATK = (config: IntermediateConfig) =>
   config["character.level"] + totalINT(config) * 3 + totalDEX(config);
 
-export const totalStaffBaseMATK = (config: Config) =>
+export const totalStaffBaseMATK = (config: IntermediateConfig) =>
   config["character.level"] +
   totalINT(config) * 4 +
   totalDEX(config) +
   totalMainWeaponATK(config);
 
-export const totalMagicDeviceBaseMATK = (config: Config) =>
+export const totalMagicDeviceBaseMATK = (config: IntermediateConfig) =>
   config["character.level"] +
   totalINT(config) * 4 +
   totalDEX(config) +
   totalMainWeaponATK(config);
 
-export const totalKnuckleBaseMATK = (config: Config) =>
+export const totalKnuckleBaseMATK = (config: IntermediateConfig) =>
   floor(
     config["character.level"] +
       totalINT(config) * 4 +
@@ -60,7 +61,7 @@ export const totalKnuckleBaseMATK = (config: Config) =>
       totalMainWeaponATK(config) * 0.5,
   );
 
-export const totalHalberdBaseMATK = (config: Config) =>
+export const totalHalberdBaseMATK = (config: IntermediateConfig) =>
   floor(
     config["character.level"] +
       totalINT(config) * 2 +
@@ -68,15 +69,15 @@ export const totalHalberdBaseMATK = (config: Config) =>
       totalAGI(config),
   );
 
-export const totalKatanaBaseMATK = (config: Config) =>
+export const totalKatanaBaseMATK = (config: IntermediateConfig) =>
   floor(
     config["character.level"] + totalINT(config) * 1.5 + totalDEX(config),
   );
 
-export const totalBareHandBaseMATK = (config: Config) =>
+export const totalBareHandBaseMATK = (config: IntermediateConfig) =>
   config["character.level"] + totalINT(config) * 3 + totalDEX(config) + 1;
 
-export const totalBaseMATK = (config: Config) =>
+export const totalBaseMATK = (config: IntermediateConfig) =>
   (isDualWielder(config) ? totalDualWieldBaseMATK(config)
   : config["character.mainweapon.type"] === "one-handed-sword" ?
     totalOneHandedSwordBaseMATK(config)
@@ -100,35 +101,37 @@ export const totalBaseMATK = (config: Config) =>
   totalBaseMATKValueFromMATKUP(config) +
   totalBaseMATKValueFromMATKDOWN(config);
 
-export const totalPercentMATKFromEquipment = (config: Config) =>
+export const totalPercentMATKFromEquipment = (
+  config: IntermediateConfig,
+) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.percentMATK)
     .map((stat) => stat[1])
     .reduce(sum, 0) + subWeaponKnucklePercentMATKModifier(config);
 
-export const totalPercentMATKFromSkills = (config: Config) =>
+export const totalPercentMATKFromSkills = (config: IntermediateConfig) =>
   magicMasteryTotalPercentMATK(config);
 
-export const totalPercentMATK = (config: Config) =>
+export const totalPercentMATK = (config: IntermediateConfig) =>
   totalPercentMATKFromEquipment(config) +
   totalPercentMATKFromSkills(config);
 
-export const totalFlatMATKFromEquipment = (config: Config) =>
+export const totalFlatMATKFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.flatMATK)
     .map((stat) => stat[1])
     .reduce(sum, 0) + magicAttackBoostTotalFlatMATK(config);
 
-export const totalFlatMATKFromSkills = (config: Config) =>
+export const totalFlatMATKFromSkills = (config: IntermediateConfig) =>
   magicUPTotalFlatMATK(config) +
   increasedEnergyTotalFlatMATK(config) +
   magicWarriorMasteryTotalFlatMATK(config) +
   conversionTotalFlatMATK(config);
 
-export const totalFlatMATK = (config: Config) =>
+export const totalFlatMATK = (config: IntermediateConfig) =>
   totalFlatMATKFromEquipment(config) + totalFlatMATKFromSkills(config);
 
-export const totalMATK = (config: Config) =>
+export const totalMATK = (config: IntermediateConfig) =>
   total(
     totalBaseMATK(config),
     totalPercentMATK(config),

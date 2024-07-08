@@ -1,9 +1,11 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 
-export const magicMasteryLevel = (config: Config) =>
+export const magicMasteryLevel = (config: IntermediateConfig) =>
   config["character.skills.magicSkills.magicMastery.level"];
 
-export const magicMasteryTotalPercentMATK = (config: Config) =>
+export const magicMasteryTotalPercentMATK = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "staff" ||
     config["character.mainweapon.type"] === "magic-device"
@@ -13,7 +15,9 @@ export const magicMasteryTotalPercentMATK = (config: Config) =>
     : 1
   : 0;
 
-export const magicMasteryTotalPercentWeaponATK = (config: Config) =>
+export const magicMasteryTotalPercentWeaponATK = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "staff" ||
     config["character.mainweapon.type"] === "magic-device"

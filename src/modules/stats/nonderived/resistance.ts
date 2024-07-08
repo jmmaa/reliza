@@ -1,4 +1,5 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 import {
   godspeedWieldTotalMagicResistance,
   godspeedWieldTotalPhysicalResistance,
@@ -13,67 +14,75 @@ import {
 } from "../../shieldSkills";
 import { get, sum, flattenedStats } from "../../utils";
 
-export const totalPhysicalResistanceFromEquipment = (config: Config) =>
+export const totalPhysicalResistanceFromEquipment = (
+  config: IntermediateConfig,
+) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.physicalResistance)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const totalPhysicalResistanceFromSkills = (config: Config) =>
+export const totalPhysicalResistanceFromSkills = (
+  config: IntermediateConfig,
+) =>
   forceShieldTotalPhysicalResistance(config) +
   godspeedWieldTotalPhysicalResistance(config) +
   siphonBarrierTotalPhysicalResistance(config);
 
-export const totalPhysicalResistance = (config: Config) =>
+export const totalPhysicalResistance = (config: IntermediateConfig) =>
   totalPhysicalResistanceFromEquipment(config) +
   totalPhysicalResistanceFromSkills(config);
 
-export const totalMagicResistanceFromEquipment = (config: Config) =>
+export const totalMagicResistanceFromEquipment = (
+  config: IntermediateConfig,
+) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.magicResistance)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const totalMagicResistanceFromSkills = (config: Config) =>
+export const totalMagicResistanceFromSkills = (
+  config: IntermediateConfig,
+) =>
   magicalShieldTotalMagicResistance(config) +
   godspeedWieldTotalMagicResistance(config) +
   siphonBarrierTotalMagicResistance(config);
 
-export const totalMagicResistance = (config: Config) =>
+export const totalMagicResistance = (config: IntermediateConfig) =>
   totalMagicResistanceFromEquipment(config) +
   totalMagicResistanceFromSkills(config);
 
-export const totalLightResistance = (config: Config) =>
+export const totalLightResistance = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.lightResistance)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const totalDarkResistance = (config: Config) =>
+export const totalDarkResistance = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.darkResistance)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const totalFireResistance = (config: Config) =>
+export const totalFireResistance = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.fireResistance)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const totalEarthResistance = (config: Config) =>
+export const totalEarthResistance = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.earthResistance)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const totalWindResistance = (config: Config) =>
+export const totalWindResistance = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.windResistance)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const totalWaterResistance = (config: Config) =>
+export const totalWaterResistance = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.waterResistance)
     .map((stat) => stat[1])

@@ -1,6 +1,6 @@
-import type { Config } from "../../../types";
+import type { IntermediateConfig } from "../../../types";
 
-export const totalEquipmentDEF = (config: Config) =>
+export const totalEquipmentDEF = (config: IntermediateConfig) =>
   (config["character.subweapon.type"] === "shield" ?
     config["character.subweapon.DEF"]
   : 0) +
@@ -8,7 +8,7 @@ export const totalEquipmentDEF = (config: Config) =>
   config["character.additionalGear.DEF"] +
   config["character.specialGear.DEF"];
 
-export const totalRefinementReduction = (config: Config) =>
+export const totalRefinementReduction = (config: IntermediateConfig) =>
   ((
     config["character.subweapon.type"] === "shield" ||
     (config["character.subweapon.type"] === "magic-device" && // magic skin

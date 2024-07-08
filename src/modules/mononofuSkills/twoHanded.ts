@@ -1,14 +1,16 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 import { totalATK } from "../stats";
 import { floor } from "../utils";
 
-export const twoHandedLevel = (config: Config) =>
+export const twoHandedLevel = (config: IntermediateConfig) =>
   config["character.skills.mononofuSkills.twoHanded.level"];
 
-export const isNinjaSpiritMaxed = (config: Config) =>
+export const isNinjaSpiritMaxed = (config: IntermediateConfig) =>
   config["character.skills.ninjaSkills.ninjaSpirit.level"] === 10;
 
-export const twoHandedTotalPercentWeaponATK = (config: Config) =>
+export const twoHandedTotalPercentWeaponATK = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "katana" ||
     config["character.mainweapon.type"] === "one-handed-sword" ||
@@ -24,7 +26,9 @@ export const twoHandedTotalPercentWeaponATK = (config: Config) =>
   : config["character.subweapon.type"] === "none" ? twoHandedLevel(config)
   : 0;
 
-export const twoHandedTotalPercentAccuracy = (config: Config) =>
+export const twoHandedTotalPercentAccuracy = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "katana" ||
     config["character.mainweapon.type"] === "one-handed-sword" ||
@@ -40,7 +44,9 @@ export const twoHandedTotalPercentAccuracy = (config: Config) =>
   : config["character.subweapon.type"] === "none" ? twoHandedLevel(config)
   : 0;
 
-export const twoHandedTotalFlatCriticalRate = (config: Config) =>
+export const twoHandedTotalFlatCriticalRate = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "katana" ||
     config["character.mainweapon.type"] === "one-handed-sword" ||
@@ -64,7 +70,7 @@ export const twoHandedTotalFlatCriticalRate = (config: Config) =>
     floor(twoHandedLevel(config) * 0.5)
   : 0;
 
-export const twoHandedTotalStability = (config: Config) =>
+export const twoHandedTotalStability = (config: IntermediateConfig) =>
   (
     config["character.mainweapon.type"] === "katana" ||
     config["character.mainweapon.type"] === "one-handed-sword" ||
@@ -88,7 +94,7 @@ export const twoHandedTotalStability = (config: Config) =>
     floor(twoHandedLevel(config) * 0.5)
   : 0;
 
-export const twoHandedTotalATKOnCrit = (config: Config) =>
+export const twoHandedTotalATKOnCrit = (config: IntermediateConfig) =>
   (
     config["character.mainweapon.type"] === "katana" &&
     (config["character.subweapon.type"] === "none" ||

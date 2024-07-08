@@ -1,4 +1,4 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 
-export const dodgeUPTotalFlatDodge = (config: Config) =>
+export const dodgeUPTotalFlatDodge = (config: IntermediateConfig) =>
   config["character.skills.battleSkills.dodgeUP.level"];

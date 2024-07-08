@@ -1,25 +1,26 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 import { sum, total, flattenedStats } from "../../utils";
 
-export const totalPercentSTRFromEquipment = (config: Config) =>
+export const totalPercentSTRFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.percentSTR)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const totalPercentSTR = (config: Config) =>
+export const totalPercentSTR = (config: IntermediateConfig) =>
   totalPercentSTRFromEquipment(config);
 
-export const totalFlatSTRFromEquipment = (config: Config) =>
+export const totalFlatSTRFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.flatSTR)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const totalFlatSTR = (config: Config) =>
+export const totalFlatSTR = (config: IntermediateConfig) =>
   totalFlatSTRFromEquipment(config);
 
-export const totalSTR = (config: Config) =>
+export const totalSTR = (config: IntermediateConfig) =>
   total(
     config["character.STR"],
     totalPercentSTR(config),

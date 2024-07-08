@@ -1,12 +1,13 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 import { isDualWielder } from "../utils";
 
-export const dualSwordMasteryLevel = (config: Config) =>
+export const dualSwordMasteryLevel = (config: IntermediateConfig) =>
   config["character.skills.dualSwordSkills.dualSwordMastery.level"];
 
 export const dualSwordMasteryTotalPercentCriticalRate = (
-  config: Config,
+  config: IntermediateConfig,
 ) => (isDualWielder(config) ? -55 + dualSwordMasteryLevel(config) * 3 : 0);
 
-export const dualSwordMasteryTotalPercentAccuracy = (config: Config) =>
-  isDualWielder(config) ? -55 + dualSwordMasteryLevel(config) * 3 : 0;
+export const dualSwordMasteryTotalPercentAccuracy = (
+  config: IntermediateConfig,
+) => (isDualWielder(config) ? -55 + dualSwordMasteryLevel(config) * 3 : 0);

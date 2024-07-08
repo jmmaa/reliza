@@ -1,8 +1,9 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 import { get, sum, floor, flattenedStats } from "../../utils";
 import { totalASPD } from "../derived";
 
-export const totalMotionSpeed = (config: Config) =>
+export const totalMotionSpeed = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.motionSpeed)
     .map((stat) => stat[1])

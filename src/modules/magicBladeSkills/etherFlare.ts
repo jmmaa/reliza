@@ -1,15 +1,17 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 import { floor } from "../utils";
 
-export const etherFlareLevel = (config: Config) =>
+export const etherFlareLevel = (config: IntermediateConfig) =>
   config["character.skills.magicBladeSkills.etherFlare.level"];
 
-export const etherFlareInflictedIgniteOnEnemy = (config: Config) =>
+export const etherFlareInflictedIgniteOnEnemy = (
+  config: IntermediateConfig,
+) =>
   config[
     "character.skills.magicBladeSkills.etherFlare.inflictedIgniteOnEnemey"
   ];
 
-export const etherFlareTotalFlatAMPR = (config: Config) =>
+export const etherFlareTotalFlatAMPR = (config: IntermediateConfig) =>
   (
     config["character.subweapon.type"] === "magic-device" &&
     etherFlareInflictedIgniteOnEnemy(config)

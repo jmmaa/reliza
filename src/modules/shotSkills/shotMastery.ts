@@ -1,9 +1,9 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 
-export const shotMasteryLevel = (config: Config) =>
+export const shotMasteryLevel = (config: IntermediateConfig) =>
   config["character.skills.shotSkills.shotMastery.level"];
 
-export const shotMasteryTotalPercentATK = (config: Config) =>
+export const shotMasteryTotalPercentATK = (config: IntermediateConfig) =>
   (
     config["character.mainweapon.type"] === "bowgun" ||
     config["character.mainweapon.type"] === "bow"
@@ -13,7 +13,9 @@ export const shotMasteryTotalPercentATK = (config: Config) =>
     : 1
   : 0;
 
-export const shotMasteryTotalPercentWeaponATK = (config: Config) =>
+export const shotMasteryTotalPercentWeaponATK = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "bowgun" ||
     config["character.mainweapon.type"] === "bow"

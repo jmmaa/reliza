@@ -1,4 +1,5 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 import {
   defenseMasteryTotalFlatDEF,
   defenseUPTotalFlatDEF,
@@ -13,64 +14,64 @@ import { totalVIT } from "../basic";
 import { totalEquipmentDEF } from "../equipment";
 import { subWeaponArrowPercentDEFModifier } from "./modifiers";
 
-export const normalArmorBaseDEF = (config: Config) =>
+export const normalArmorBaseDEF = (config: IntermediateConfig) =>
   config["character.level"] + totalVIT(config) + totalEquipmentDEF(config);
 
-export const lightArmorBaseDEF = (config: Config) =>
+export const lightArmorBaseDEF = (config: IntermediateConfig) =>
   floor(
     config["character.level"] * 0.8 +
       totalVIT(config) * 0.25 +
       totalEquipmentDEF(config),
   );
 
-export const heavyArmorBaseDEF = (config: Config) =>
+export const heavyArmorBaseDEF = (config: IntermediateConfig) =>
   floor(
     config["character.level"] * 1.2 +
       totalVIT(config) * 2 +
       totalEquipmentDEF(config),
   );
 
-export const noArmorBaseDEF = (config: Config) =>
+export const noArmorBaseDEF = (config: IntermediateConfig) =>
   floor(
     config["character.level"] * 0.4 +
       totalVIT(config) * 0.1 +
       totalEquipmentDEF(config),
   );
 
-export const totalBaseDEF = (config: Config) =>
+export const totalBaseDEF = (config: IntermediateConfig) =>
   config["character.armor.type"] === "light" ? lightArmorBaseDEF(config)
   : config["character.armor.type"] === "heavy" ? heavyArmorBaseDEF(config)
   : config["character.armor.type"] === "normal" ?
     normalArmorBaseDEF(config)
   : noArmorBaseDEF(config);
 
-export const totalPercentDEFFromEquipment = (config: Config) =>
+export const totalPercentDEFFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.percentDEF)
     .map((stat) => stat[1])
     .reduce(sum, 0) + subWeaponArrowPercentDEFModifier(config);
 
-export const totalPercentDEFFromSkills = (config: Config) =>
+export const totalPercentDEFFromSkills = (config: IntermediateConfig) =>
   berserkTotalPercentDEF(config) + forceShieldTotalPercentDEF(config);
 
-export const totalPercentDEF = (config: Config) =>
+export const totalPercentDEF = (config: IntermediateConfig) =>
   totalPercentDEFFromEquipment(config) + totalPercentDEFFromSkills(config);
 
-export const totalFlatDEFFromEquipment = (config: Config) =>
+export const totalFlatDEFFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.flatDEF)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const totalFlatDEFFromSkills = (config: Config) =>
+export const totalFlatDEFFromSkills = (config: IntermediateConfig) =>
   forceShieldTotalFlatDEF(config) +
   defenseUPTotalFlatDEF(config) +
   defenseMasteryTotalFlatDEF(config);
 
-export const totalFlatDEF = (config: Config) =>
+export const totalFlatDEF = (config: IntermediateConfig) =>
   totalFlatDEFFromEquipment(config) + totalFlatDEFFromSkills(config);
 
-export const totalDEF = (config: Config) =>
+export const totalDEF = (config: IntermediateConfig) =>
   total(
     totalBaseDEF(config),
     totalPercentDEF(config),

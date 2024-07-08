@@ -1,10 +1,10 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 
-export const shieldMasteryLevel = (config: Config) =>
+export const shieldMasteryLevel = (config: IntermediateConfig) =>
   config["character.skills.shieldSkills.shieldMastery.level"];
 
 export const shieldMasteryPercentASPDPenaltyReduction = (
-  config: Config,
+  config: IntermediateConfig,
 ) =>
   config["character.subweapon.type"] === "shield" ?
     shieldMasteryLevel(config) * 5

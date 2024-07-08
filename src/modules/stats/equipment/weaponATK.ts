@@ -1,4 +1,5 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 import { unarmedMasteryTotalFlatWeaponATK } from "../../bareHandSkills";
 import { swordMasteryTotalPercentWeaponATK } from "../../bladeSkills";
 import { busterBladeTotalPercentWeaponATK } from "../../bladeSkills/busterBlade";
@@ -23,14 +24,14 @@ import {
 } from "../../utils";
 
 export const totalMainWeaponRefinementBonusMainWeaponATK = (
-  config: Config,
+  config: IntermediateConfig,
 ) =>
   floor(
     config["character.mainweapon.ATK"] *
       (config["character.mainweapon.refinement"] ** 2 / 100),
   ) + config["character.mainweapon.refinement"];
 export const totalSubWeaponRefinementBonusSubWeaponATK = (
-  config: Config,
+  config: IntermediateConfig,
 ) =>
   isDualWielder(config) ?
     floor(
@@ -39,13 +40,17 @@ export const totalSubWeaponRefinementBonusSubWeaponATK = (
     ) + config["character.mainweapon.refinement"]
   : 0;
 
-export const totalPercentWeaponATKFromEquipment = (config: Config) =>
+export const totalPercentWeaponATKFromEquipment = (
+  config: IntermediateConfig,
+) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.percentWeaponATK)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const totalPercentWeaponATKFromSkills = (config: Config) =>
+export const totalPercentWeaponATKFromSkills = (
+  config: IntermediateConfig,
+) =>
   swordMasteryTotalPercentWeaponATK(config) +
   shotMasteryTotalPercentWeaponATK(config) +
   martialMasteryTotalPercentWeaponATK(config) +
@@ -56,25 +61,27 @@ export const totalPercentWeaponATKFromSkills = (config: Config) =>
   braveAuraTotalPercentWeaponATK(config) +
   busterBladeTotalPercentWeaponATK(config);
 
-export const totalPercentWeaponATK = (config: Config) =>
+export const totalPercentWeaponATK = (config: IntermediateConfig) =>
   totalPercentWeaponATKFromEquipment(config) +
   totalPercentWeaponATKFromSkills(config);
 
-export const totalFlatWeaponATKFromEquipment = (config: Config) =>
+export const totalFlatWeaponATKFromEquipment = (
+  config: IntermediateConfig,
+) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.flatWeaponATK)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const totalFlatWeaponATKFromSkills = (config: Config) =>
+export const totalFlatWeaponATKFromSkills = (config: IntermediateConfig) =>
   samuraiArcheryTotalFlatWeaponATK(config) +
   unarmedMasteryTotalFlatWeaponATK(config);
 
-export const totalFlatWeaponATK = (config: Config) =>
+export const totalFlatWeaponATK = (config: IntermediateConfig) =>
   totalFlatWeaponATKFromEquipment(config) +
   totalFlatWeaponATKFromSkills(config);
 
-export const totalMainWeaponATK = (config: Config) =>
+export const totalMainWeaponATK = (config: IntermediateConfig) =>
   total(
     config["character.mainweapon.ATK"],
     totalPercentWeaponATK(config) +
@@ -83,7 +90,7 @@ export const totalMainWeaponATK = (config: Config) =>
       totalMainWeaponRefinementBonusMainWeaponATK(config),
   );
 
-export const totalSubWeaponATK = (config: Config) =>
+export const totalSubWeaponATK = (config: IntermediateConfig) =>
   isDualWielder(config) ?
     total(
       config["character.subweapon.ATK"],

@@ -1,11 +1,12 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 import { bushidoTotalFlatMaxMP } from "../../mononofuSkills";
 import { maxMPBoostTotalFlatMaxMP } from "../../regislets";
 import { MPBoostTotalFlatMaxMP } from "../../survivalSkills";
 import { floor, get, sum, total, flattenedStats } from "../../utils";
 import { totalINT } from "../basic";
 
-export const totalBaseMaxMP = (config: Config) =>
+export const totalBaseMaxMP = (config: IntermediateConfig) =>
   config["character.TEC"] > 0 ?
     floor(
       100 +
@@ -15,25 +16,25 @@ export const totalBaseMaxMP = (config: Config) =>
     )
   : floor(100 + config["character.level"] + totalINT(config) / 10);
 
-export const totalPercentMaxMP = (config: Config) =>
+export const totalPercentMaxMP = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.percentMaxMP)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const totalFlatMaxMPFromEquipment = (config: Config) =>
+export const totalFlatMaxMPFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.flatMaxMP)
     .map((stat) => stat[1])
     .reduce(sum, 0) + maxMPBoostTotalFlatMaxMP(config);
 
-export const totalFlatMaxMPFromSkills = (config: Config) =>
+export const totalFlatMaxMPFromSkills = (config: IntermediateConfig) =>
   bushidoTotalFlatMaxMP(config) + MPBoostTotalFlatMaxMP(config);
 
-export const totalFlatMaxMP = (config: Config) =>
+export const totalFlatMaxMP = (config: IntermediateConfig) =>
   totalFlatMaxMPFromEquipment(config) + totalFlatMaxMPFromSkills(config);
 
-export const totalMaxMP = (config: Config) =>
+export const totalMaxMP = (config: IntermediateConfig) =>
   total(
     totalBaseMaxMP(config),
     totalPercentMaxMP(config),

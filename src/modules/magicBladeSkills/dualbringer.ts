@@ -1,14 +1,18 @@
-import { StatId, type Config } from "../../types";
+import { StatId } from "../..";
+import { type IntermediateConfig } from "../../types";
 import { totalATK, totalINT, totalMATK, totalSTR } from "../stats";
 import { subWeaponMagicDevicePercentATKModifier } from "../stats/derived/modifiers";
 import { flattenedStats, floor, get, sum } from "../utils";
 
-export const dualBringerLevel = (config: Config) =>
+export const dualBringerLevel = (config: IntermediateConfig) =>
   config["character.skills.magicBladeSkills.dualBringer.level"];
-export const dualBringerIsActive = (config: Config) =>
+export const dualBringerIsActive = (config: IntermediateConfig) =>
   config["character.skills.magicBladeSkills.dualBringer.isActive"];
 
-export const totalNumberOfMagicBladeSkills = (config: Config) =>
+// refactor this
+export const totalNumberOfMagicBladeSkills = (
+  config: IntermediateConfig,
+) =>
   [
     (
       config[
@@ -59,19 +63,27 @@ export const totalNumberOfMagicBladeSkills = (config: Config) =>
     : 0,
   ].reduce(sum, 0);
 
-export const totalNegativePercentATK = (config: Config) =>
+export const totalNegativePercentATK = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.percentATK && stat[1] < 0)
     .map((stat) => stat[1])
     .reduce(sum, 0) + subWeaponMagicDevicePercentATKModifier(config);
 
-export const totalNegativePercentMATK = (config: Config) =>
+export const totalNegativePercentMATK = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.percentMATK && stat[1] < 0)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const dualBringerTotalATK = (config: Config) =>
+export const dualBringerTotalSkillModifier = (
+  config: IntermediateConfig,
+) =>
+  Math.min(
+    100,
+    dualBringerLevel(config) * totalNumberOfMagicBladeSkills(config),
+  );
+
+export const dualBringerTotalATK = (config: IntermediateConfig) =>
   (
     dualBringerIsActive(config) &&
     config["character.subweapon.type"] === "magic-device"
@@ -81,18 +93,14 @@ export const dualBringerTotalATK = (config: Config) =>
         0,
         (totalMATK(config) - totalATK(config)) *
           ((100 - Math.abs(totalNegativePercentATK(config))) / 100) *
-          ((Math.min(
+          (dualBringerTotalSkillModifier(config) / 100) -
+          (totalATK(config) * Math.abs(totalNegativePercentATK(config))) /
             100,
-            dualBringerLevel(config) *
-              totalNumberOfMagicBladeSkills(config),
-          ) -
-            totalATK(config) * Math.abs(totalNegativePercentATK(config))) /
-            100),
       ),
     )
   : 0;
 
-export const dualBringerTotalMATK = (config: Config) =>
+export const dualBringerTotalMATK = (config: IntermediateConfig) =>
   (
     dualBringerIsActive(config) &&
     config["character.subweapon.type"] === "magic-device"
@@ -102,19 +110,15 @@ export const dualBringerTotalMATK = (config: Config) =>
         0,
         (totalATK(config) - totalMATK(config)) *
           ((100 - Math.abs(totalNegativePercentMATK(config))) / 100) *
-          ((Math.min(
+          (dualBringerTotalSkillModifier(config) / 100) -
+          (totalMATK(config) *
+            Math.abs(totalNegativePercentMATK(config))) /
             100,
-            dualBringerLevel(config) *
-              totalNumberOfMagicBladeSkills(config),
-          ) -
-            totalMATK(config) *
-              Math.abs(totalNegativePercentMATK(config))) /
-            100),
       ),
     )
   : 0;
 
-export const dualBringerTotalDuration = (config: Config) =>
+export const dualBringerTotalDuration = (config: IntermediateConfig) =>
   (
     dualBringerIsActive(config) &&
     config["character.subweapon.type"] === "magic-device"
@@ -123,7 +127,7 @@ export const dualBringerTotalDuration = (config: Config) =>
   : 0;
 
 export const dualBringerTotalMagicCriticalDamageConversion = (
-  config: Config,
+  config: IntermediateConfig,
 ) =>
   (
     dualBringerIsActive(config) &&
@@ -134,7 +138,7 @@ export const dualBringerTotalMagicCriticalDamageConversion = (
   : 0;
 
 export const dualBringerTotalMagicCriticalRateConversion = (
-  config: Config,
+  config: IntermediateConfig,
 ) =>
   (
     dualBringerIsActive(config) &&

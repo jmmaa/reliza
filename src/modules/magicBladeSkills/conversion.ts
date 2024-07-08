@@ -1,11 +1,11 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 import { totalMainWeaponATK } from "../stats";
 import { floor } from "../utils";
 
-export const conversionLevel = (config: Config) =>
+export const conversionLevel = (config: IntermediateConfig) =>
   config["character.skills.magicBladeSkills.conversion.level"];
 
-export const conversionTotalFlatMATK = (config: Config) =>
+export const conversionTotalFlatMATK = (config: IntermediateConfig) =>
   (
     config["character.mainweapon.type"] === "two-handed-sword" ||
     config["character.mainweapon.type"] === "bowgun" ||

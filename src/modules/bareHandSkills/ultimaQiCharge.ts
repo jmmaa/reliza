@@ -1,10 +1,10 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 import { floor } from "../utils";
 
-export const ultimaQiChargeLevel = (config: Config) =>
+export const ultimaQiChargeLevel = (config: IntermediateConfig) =>
   config["character.skills.bareHandSkills.ultimaQiCharge.level"];
 
-export const ultimaQiChargeTotalFlatAMPR = (config: Config) =>
+export const ultimaQiChargeTotalFlatAMPR = (config: IntermediateConfig) =>
   (
     config["character.mainweapon.type"] === "bare-hand" &&
     config["character.subweapon.type"] === "none"
@@ -13,7 +13,7 @@ export const ultimaQiChargeTotalFlatAMPR = (config: Config) =>
   : 0;
 
 export const ultimaQiChargeTotalCostQiReductionForNonBareHandSkills = (
-  config: Config,
+  config: IntermediateConfig,
 ) =>
   (
     config["character.mainweapon.type"] === "bare-hand" &&

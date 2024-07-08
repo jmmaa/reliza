@@ -1,10 +1,12 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 import { floor } from "../utils";
 
-export const unarmedMasteryLevel = (config: Config) =>
+export const unarmedMasteryLevel = (config: IntermediateConfig) =>
   config["character.skills.bareHandSkills.unarmedMastery.level"];
 
-export const unarmedMasteryTotalFlatWeaponATK = (config: Config) =>
+export const unarmedMasteryTotalFlatWeaponATK = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "bare-hand" &&
     config["character.subweapon.type"] === "none"
@@ -12,7 +14,9 @@ export const unarmedMasteryTotalFlatWeaponATK = (config: Config) =>
     floor((config["character.level"] * unarmedMasteryLevel(config)) / 10)
   : 0;
 
-export const unarmedMasteryTotalQiChargeLimit = (config: Config) =>
+export const unarmedMasteryTotalQiChargeLimit = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "bare-hand" &&
     config["character.subweapon.type"] === "none"

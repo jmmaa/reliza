@@ -1,7 +1,10 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 import { floor, get, sum, flattenedStats } from "../../utils";
 
-export const totalBaseATKValueFromATKUPAGI = (config: Config) =>
+export const totalBaseATKValueFromATKUPAGI = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATKUPAGI)
@@ -9,7 +12,9 @@ export const totalBaseATKValueFromATKUPAGI = (config: Config) =>
       .reduce(sum, 0) / 100,
   ) * config["character.AGI"];
 
-export const totalBaseATKValueFromATKUPDEX = (config: Config) =>
+export const totalBaseATKValueFromATKUPDEX = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATKUPDEX)
@@ -19,7 +24,9 @@ export const totalBaseATKValueFromATKUPDEX = (config: Config) =>
       100,
   ) * config["character.DEX"];
 
-export const totalBaseATKValueFromATKUPINT = (config: Config) =>
+export const totalBaseATKValueFromATKUPINT = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATKUPINT)
@@ -29,7 +36,9 @@ export const totalBaseATKValueFromATKUPINT = (config: Config) =>
       100,
   ) * config["character.INT"];
 
-export const totalBaseATKValueFromATKUPSTR = (config: Config) =>
+export const totalBaseATKValueFromATKUPSTR = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATKUPSTR)
@@ -39,7 +48,9 @@ export const totalBaseATKValueFromATKUPSTR = (config: Config) =>
       100,
   ) * config["character.STR"];
 
-export const totalBaseATKValueFromATKUPVIT = (config: Config) =>
+export const totalBaseATKValueFromATKUPVIT = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATKUPVIT)
@@ -49,7 +60,7 @@ export const totalBaseATKValueFromATKUPVIT = (config: Config) =>
       100,
   ) * config["character.VIT"];
 
-export const totalBaseATKValueFromATKUP = (config: Config) =>
+export const totalBaseATKValueFromATKUP = (config: IntermediateConfig) =>
   [
     totalBaseATKValueFromATKUPAGI(config),
     totalBaseATKValueFromATKUPDEX(config),

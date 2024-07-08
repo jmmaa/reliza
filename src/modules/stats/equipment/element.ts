@@ -1,6 +1,7 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 
-export const mainWeaponElement = (config: Config) =>
+export const mainWeaponElement = (config: IntermediateConfig) =>
   config["character.mainweapon.stats"]
     .filter(
       (stat) =>
@@ -23,7 +24,7 @@ export const mainWeaponElement = (config: Config) =>
     )
     .reduce((prev, curr) => (curr !== "neutral" ? curr : prev), "neutral");
 
-export const subWeaponElement = (config: Config) =>
+export const subWeaponElement = (config: IntermediateConfig) =>
   config["character.subweapon.stats"]
     .filter(
       (stat) =>

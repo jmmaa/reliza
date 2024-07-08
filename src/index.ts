@@ -1,7 +1,151 @@
+import * as magicBladeSkills from "./modules/magicBladeSkills";
 import * as stats from "./modules/stats";
-import { Config } from "./types";
+import * as wizardSKills from "./modules/wizardSkills";
+import { IntermediateConfig } from "./types";
 
-export const calculateInGameFormatStatus = (config: Config) => ({
+export { createIntermediateConfig } from "./modules/configWrapper";
+
+export enum StatId {
+  flatSTR,
+  percentSTR,
+
+  flatINT,
+  percentINT,
+
+  flatDEX,
+  percentDEX,
+
+  flatVIT,
+  percentVIT,
+
+  flatAGI,
+  percentAGI,
+
+  flatWeaponATK,
+  percentWeaponATK,
+
+  flatMATK,
+  percentMATK,
+
+  flatATK,
+  percentATK,
+
+  flatASPD,
+  percentASPD,
+
+  flatCSPD,
+  percentCSPD,
+
+  flatCriticalRate,
+  percentCriticalRate,
+
+  flatCriticalDamage,
+  percentCriticalDamage,
+
+  flatMaxHP,
+  percentMaxHP,
+
+  flatMaxMP,
+  percentMaxMP,
+
+  flatAccuracy,
+  percentAccuracy,
+
+  flatDodge,
+  percentDodge,
+
+  flatDEF,
+  percentDEF,
+
+  flatMDEF,
+  percentMDEF,
+
+  flatUnsheatheAttack,
+  percentUnsheatheAttack,
+
+  flatAttackMPRecovery,
+  percentAttackMPRecovery,
+
+  stability,
+
+  magicPierce,
+  physicalPierce,
+
+  longRangeDamage,
+  shortRangeDamage,
+
+  motionSpeed,
+
+  ATKUPSTR,
+  ATKUPINT,
+  ATKUPDEX,
+  ATKUPVIT,
+  ATKUPAGI,
+
+  MATKUPSTR,
+  MATKUPINT,
+  MATKUPDEX,
+  MATKUPVIT,
+  MATKUPAGI,
+
+  ATKDOWNSTR,
+  ATKDOWNINT,
+  ATKDOWNDEX,
+  ATKDOWNVIT,
+  ATKDOWNAGI,
+
+  MATKDOWNSTR,
+  MATKDOWNINT,
+  MATKDOWNDEX,
+  MATKDOWNVIT,
+  MATKDOWNAGI,
+
+  magicResistance,
+  physicalResistance,
+
+  lightResistance,
+  darkResistance,
+
+  fireResistance,
+  waterResistance,
+  earthResistance,
+  windResistance,
+
+  neutralResistance,
+  ailmentResistance,
+
+  damageToDark,
+  damageToLight,
+  damageToEarth,
+  damageToWater,
+  damageToFire,
+  damageToWind,
+
+  aggro,
+
+  tumbleUnavailable,
+  flinchUnavailable,
+  stunUnavailable,
+
+  darkElement,
+  lightElement,
+  earthElement,
+  waterElement,
+  fireElement,
+  windElement,
+
+  guardPower,
+  guardRecharge,
+
+  evasionRecharge,
+
+  itemCooldown,
+  invincibleAid,
+}
+
+export const calculateInGameFormatStatus = (
+  config: IntermediateConfig,
+) => ({
   AGI: config["character.AGI"],
   DEX: config["character.DEX"],
   INT: config["character.INT"],
@@ -19,7 +163,7 @@ export const calculateInGameFormatStatus = (config: Config) => ({
   MP: stats.totalMaxMP(config),
 });
 
-export const calculateAll = (config: Config) => ({
+export const calculateAll = (config: IntermediateConfig) => ({
   // AGI
   totalBaseAGI: config["character.AGI"],
   totalPercentAGI: stats.totalPercentAGI(config),
@@ -89,8 +233,16 @@ export const calculateAll = (config: Config) => ({
   totalMagicCriticalRate: stats.totalMagicCriticalRate(config),
 
   // ATK
+  totalBaseATK: stats.totalBaseATK(config),
+  totalPercentATK: stats.totalPercentATK(config),
+  totalFlatATK: stats.totalFlatATK(config),
+  totalATK: stats.totalATK(config),
 
   // MATK
+  totalBaseMATK: stats.totalBaseMATK(config),
+  totalPercentMATK: stats.totalPercentMATK(config),
+  totalFlatMATK: stats.totalFlatMATK(config),
+  totalMATK: stats.totalMATK(config),
 
   // CSPD
   totalBaseCSPD: stats.totalBaseCSPD(config),
@@ -98,4 +250,26 @@ export const calculateAll = (config: Config) => ({
   totalFlatCSPD: stats.totalFlatCSPD(config),
   totalCSPD: stats.totalCSPD(config),
   totalCastTimeReduction: stats.totalCastTimeReduction(config),
+
+  // pierce
+  magicPierce: stats.totalMagicPierce(config),
+  physicalPierce: stats.totalPhysicalPierce(config),
+
+  // wizard skills
+  totalWizardATK: wizardSKills.totalWizardATK(config),
+  totalWizardSkillsLearned: wizardSKills.totalWizardSkillsLearned(config),
+  totalWizardSkillsPoints: wizardSKills.totalWizardSkillsPoints(config),
+
+  // magic warrior skills
+  dualBringerTotalATK: magicBladeSkills.dualBringerTotalATK(config),
+  dualBringerTotalMATK: magicBladeSkills.dualBringerTotalMATK(config),
+  dualBringerTotalMagicCriticalRateConversion:
+    magicBladeSkills.dualBringerTotalMagicCriticalRateConversion(config),
+  dualBringerTotalMagicCriticalDamageConversion:
+    magicBladeSkills.dualBringerTotalMagicCriticalDamageConversion(config),
 });
+
+// GOALS
+
+// make the frontend
+// --

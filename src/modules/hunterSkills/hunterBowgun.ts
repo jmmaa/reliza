@@ -1,10 +1,10 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 import { floor } from "../utils";
 
-export const hunterBowgunLevel = (config: Config) =>
+export const hunterBowgunLevel = (config: IntermediateConfig) =>
   config["character.skills.hunterSkills.hunterBowgun.level"];
 
-export const hunterBowgunTotalBaseATK = (config: Config) =>
+export const hunterBowgunTotalBaseATK = (config: IntermediateConfig) =>
   (
     config["character.mainweapon.type"] === "bowgun" &&
     !(

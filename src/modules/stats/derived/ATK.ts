@@ -1,4 +1,5 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 import {
   attackUPTotalFlatATK,
   intimidatingPowerTotalFlatATK,
@@ -28,7 +29,7 @@ import {
 } from "../special";
 import { subWeaponMagicDevicePercentATKModifier } from "./modifiers";
 
-export const totalDualWieldBaseATK = (config: Config) =>
+export const totalDualWieldBaseATK = (config: IntermediateConfig) =>
   config["character.level"] +
   totalSTR(config) +
   totalDEX(config) * 2 +
@@ -36,43 +37,43 @@ export const totalDualWieldBaseATK = (config: Config) =>
   totalMainWeaponATK(config);
 
 // A bit skeptical on this one, maybe this does not multiply STR/DEX by 2 if and only if STR/DEX  is equal to 1
-export const totalOneHandedSwordBaseATK = (config: Config) =>
+export const totalOneHandedSwordBaseATK = (config: IntermediateConfig) =>
   config["character.level"] +
   totalSTR(config) * 2 +
   totalDEX(config) * 2 +
   totalMainWeaponATK(config);
 
-export const totalTwoHandedSwordBaseATK = (config: Config) =>
+export const totalTwoHandedSwordBaseATK = (config: IntermediateConfig) =>
   config["character.level"] +
   totalSTR(config) * 3 +
   totalDEX(config) +
   totalMainWeaponATK(config);
 
-export const totalBowBaseATK = (config: Config) =>
+export const totalBowBaseATK = (config: IntermediateConfig) =>
   config["character.level"] +
   totalDEX(config) * 3 +
   totalSTR(config) +
   totalMainWeaponATK(config);
 
-export const totalBowgunBaseATK = (config: Config) =>
+export const totalBowgunBaseATK = (config: IntermediateConfig) =>
   config["character.level"] +
   totalDEX(config) * 4 +
   totalMainWeaponATK(config) +
   hunterBowgunTotalBaseATK(config);
 
-export const totalStaffBaseATK = (config: Config) =>
+export const totalStaffBaseATK = (config: IntermediateConfig) =>
   config["character.level"] +
   totalSTR(config) * 3 +
   totalINT(config) +
   totalMainWeaponATK(config);
 
-export const totalMagicDeviceBaseATK = (config: Config) =>
+export const totalMagicDeviceBaseATK = (config: IntermediateConfig) =>
   config["character.level"] +
   totalINT(config) * 2 +
   totalAGI(config) * 2 +
   totalMainWeaponATK(config);
 
-export const totalKnuckleBaseATK = (config: Config) =>
+export const totalKnuckleBaseATK = (config: IntermediateConfig) =>
   floor(
     config["character.level"] +
       totalAGI(config) * 2 +
@@ -80,7 +81,7 @@ export const totalKnuckleBaseATK = (config: Config) =>
       totalMainWeaponATK(config),
   );
 
-export const totalHalberdBaseATK = (config: Config) =>
+export const totalHalberdBaseATK = (config: IntermediateConfig) =>
   floor(
     config["character.level"] +
       totalSTR(config) * 2.5 +
@@ -88,19 +89,19 @@ export const totalHalberdBaseATK = (config: Config) =>
       totalMainWeaponATK(config),
   );
 
-export const totalKatanaBaseATK = (config: Config) =>
+export const totalKatanaBaseATK = (config: IntermediateConfig) =>
   config["character.level"] +
   totalSTR(config) * 1.5 +
   totalDEX(config) * 2.5 +
   totalMainWeaponATK(config);
 
-export const totalBareHandBaseATK = (config: Config) =>
+export const totalBareHandBaseATK = (config: IntermediateConfig) =>
   config["character.level"] +
   totalSTR(config) +
   1 +
   totalMainWeaponATK(config);
 
-export const totalBaseATK = (config: Config) =>
+export const totalBaseATK = (config: IntermediateConfig) =>
   (isDualWielder(config) ? totalDualWieldBaseATK(config)
   : config["character.mainweapon.type"] === "one-handed-sword" ?
     totalOneHandedSwordBaseATK(config)
@@ -123,13 +124,13 @@ export const totalBaseATK = (config: Config) =>
   totalBaseATKValueFromATKUP(config) +
   totalBaseATKValueFromATKDOWN(config);
 
-export const totalPercentATKFromEquipment = (config: Config) =>
+export const totalPercentATKFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.percentATK)
     .map((stat) => stat[1])
     .reduce(sum, 0) + subWeaponMagicDevicePercentATKModifier(config);
 
-export const totalPercentATKFromSkills = (config: Config) =>
+export const totalPercentATKFromSkills = (config: IntermediateConfig) =>
   swordMasteryTotalPercentATK(config) +
   shotMasteryTotalPercentATK(config) +
   martialMasteryTotalPercentATK(config) +
@@ -137,28 +138,30 @@ export const totalPercentATKFromSkills = (config: Config) =>
   bushidoTotalPercentATK(config) +
   warCryTotalPercentATK(config);
 
-export const totalPercentATK = (config: Config) =>
+export const totalPercentATK = (config: IntermediateConfig) =>
   totalPercentATKFromEquipment(config) +
   totalPercentATKFromSkills(config) +
   castMasteryTotalPercentATK(config); // this one is a special case, so im not going to include it in skills func;
 
 // this fuhction is only dedicated for wizard atk calculation
-export const totalPercentATKForWizardSkills = (config: Config) =>
+export const totalPercentATKForWizardSkills = (
+  config: IntermediateConfig,
+) =>
   totalPercentATKFromEquipment(config) + totalPercentATKFromSkills(config);
 
-export const totalFlatATKFromEquipment = (config: Config) =>
+export const totalFlatATKFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.flatATK)
     .map((stat) => stat[1])
     .reduce(sum, 0) + physicalAttackBoostTotalFlatATK(config);
 
-export const totalFlatATKFromSkills = (config: Config) =>
+export const totalFlatATKFromSkills = (config: IntermediateConfig) =>
   attackUPTotalFlatATK(config) + intimidatingPowerTotalFlatATK(config);
 
-export const totalFlatATK = (config: Config) =>
+export const totalFlatATK = (config: IntermediateConfig) =>
   totalFlatATKFromEquipment(config) + totalFlatATKFromSkills(config);
 
-export const totalATK = (config: Config) =>
+export const totalATK = (config: IntermediateConfig) =>
   total(
     totalBaseATK(config),
     totalPercentATK(config),

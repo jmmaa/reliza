@@ -1,7 +1,10 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 import { floor, get, sum, flattenedStats } from "../../utils";
 
-export const totalBaseATKValueFromATKDOWNAGI = (config: Config) =>
+export const totalBaseATKValueFromATKDOWNAGI = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATKDOWNAGI)
@@ -9,7 +12,9 @@ export const totalBaseATKValueFromATKDOWNAGI = (config: Config) =>
       .reduce(sum, 0) / 100,
   ) * config["character.AGI"];
 
-export const totalBaseATKValueFromATKDOWNDEX = (config: Config) =>
+export const totalBaseATKValueFromATKDOWNDEX = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATKDOWNDEX)
@@ -19,7 +24,9 @@ export const totalBaseATKValueFromATKDOWNDEX = (config: Config) =>
       100,
   ) * config["character.DEX"];
 
-export const totalBaseATKValueFromATKDOWNINT = (config: Config) =>
+export const totalBaseATKValueFromATKDOWNINT = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATKDOWNINT)
@@ -29,7 +36,9 @@ export const totalBaseATKValueFromATKDOWNINT = (config: Config) =>
       100,
   ) * config["character.INT"];
 
-export const totalBaseATKValueFromATKDOWNSTR = (config: Config) =>
+export const totalBaseATKValueFromATKDOWNSTR = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATKDOWNSTR)
@@ -39,7 +48,9 @@ export const totalBaseATKValueFromATKDOWNSTR = (config: Config) =>
       100,
   ) * config["character.STR"];
 
-export const totalBaseATKValueFromATKDOWNVIT = (config: Config) =>
+export const totalBaseATKValueFromATKDOWNVIT = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATKDOWNVIT)
@@ -49,7 +60,7 @@ export const totalBaseATKValueFromATKDOWNVIT = (config: Config) =>
       100,
   ) * config["character.VIT"];
 
-export const totalBaseATKValueFromATKDOWN = (config: Config) =>
+export const totalBaseATKValueFromATKDOWN = (config: IntermediateConfig) =>
   [
     totalBaseATKValueFromATKDOWNAGI(config),
     totalBaseATKValueFromATKDOWNDEX(config),

@@ -1,12 +1,13 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 import { godspeedWieldTotalPercentEvasionRecharge } from "../../halberdSkills";
 import { flattenedStats, get, sum } from "../../utils";
 
-export const totalBaseEvasionRecharge = (config: Config) => {
+export const totalBaseEvasionRecharge = (config: IntermediateConfig) => {
   // TODO
 };
 
-export const totalPercentEvasionRecharge = (config: Config) =>
+export const totalPercentEvasionRecharge = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.evasionRecharge)
     .map((stat) => stat[1])

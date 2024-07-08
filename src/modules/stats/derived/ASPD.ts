@@ -1,4 +1,5 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 import {
   quickSlashTotalFlatASPD,
   quickSlashTotalPercentASPD,
@@ -32,7 +33,7 @@ import {
 
 // TODO: erase pino and implement an explicit calculation instead!
 
-export const totalDualWieldBaseASPD = (config: Config) =>
+export const totalDualWieldBaseASPD = (config: IntermediateConfig) =>
   floor(
     100 +
       config["character.level"] +
@@ -40,7 +41,7 @@ export const totalDualWieldBaseASPD = (config: Config) =>
       (totalAGI(config) + totalSTR(config) - 1) / 5,
   );
 
-export const totalOneHandedSwordBaseASPD = (config: Config) =>
+export const totalOneHandedSwordBaseASPD = (config: IntermediateConfig) =>
   floor(
     100 +
       config["character.level"] +
@@ -48,7 +49,7 @@ export const totalOneHandedSwordBaseASPD = (config: Config) =>
       (totalAGI(config) + totalSTR(config) - 1) / 5,
   );
 
-export const totalTwoHandedSwordBaseASPD = (config: Config) =>
+export const totalTwoHandedSwordBaseASPD = (config: IntermediateConfig) =>
   floor(
     50 +
       config["character.level"] +
@@ -56,7 +57,7 @@ export const totalTwoHandedSwordBaseASPD = (config: Config) =>
       (totalAGI(config) + totalSTR(config) - 1) / 5,
   );
 
-export const totalBowBaseASPD = (config: Config) =>
+export const totalBowBaseASPD = (config: IntermediateConfig) =>
   floor(
     75 +
       config["character.level"] +
@@ -64,7 +65,7 @@ export const totalBowBaseASPD = (config: Config) =>
       (totalAGI(config) + totalDEX(config) * 2 - 1) / 10,
   );
 
-export const totalBowgunBaseASPD = (config: Config) =>
+export const totalBowgunBaseASPD = (config: IntermediateConfig) =>
   floor(
     30 +
       config["character.level"] +
@@ -72,7 +73,7 @@ export const totalBowgunBaseASPD = (config: Config) =>
       totalDEX(config) * 0.2,
   );
 
-export const totalStaffBaseASPD = (config: Config) =>
+export const totalStaffBaseASPD = (config: IntermediateConfig) =>
   floor(
     60 +
       config["character.level"] +
@@ -80,7 +81,7 @@ export const totalStaffBaseASPD = (config: Config) =>
       (totalAGI(config) + totalINT(config) - 1) / 5,
   );
 
-export const totalMagicDeviceBaseASPD = (config: Config) =>
+export const totalMagicDeviceBaseASPD = (config: IntermediateConfig) =>
   floor(
     90 +
       config["character.level"] +
@@ -88,7 +89,7 @@ export const totalMagicDeviceBaseASPD = (config: Config) =>
       (totalINT(config) - 1) / 5,
   );
 
-export const totalKnuckleBaseASPD = (config: Config) =>
+export const totalKnuckleBaseASPD = (config: IntermediateConfig) =>
   floor(
     120 +
       config["character.level"] +
@@ -97,7 +98,7 @@ export const totalKnuckleBaseASPD = (config: Config) =>
       totalSTR(config) / 10,
   );
 
-export const totalHalberdBaseASPD = (config: Config) =>
+export const totalHalberdBaseASPD = (config: IntermediateConfig) =>
   floor(
     25 +
       config["character.level"] +
@@ -105,7 +106,7 @@ export const totalHalberdBaseASPD = (config: Config) =>
       totalSTR(config) * 0.2,
   );
 
-export const totalKatanaBaseASPD = (config: Config) =>
+export const totalKatanaBaseASPD = (config: IntermediateConfig) =>
   floor(
     200 +
       config["character.level"] +
@@ -113,10 +114,10 @@ export const totalKatanaBaseASPD = (config: Config) =>
       totalSTR(config) * 0.3,
   );
 
-export const totalBareHandBaseASPD = (config: Config) =>
+export const totalBareHandBaseASPD = (config: IntermediateConfig) =>
   floor(1000 + config["character.level"] + totalAGI(config) * 9.6);
 
-export const totalBaseASPD = (config: Config) =>
+export const totalBaseASPD = (config: IntermediateConfig) =>
   isDualWielder(config) ? totalDualWieldBaseASPD(config)
   : config["character.mainweapon.type"] === "one-handed-sword" ?
     totalOneHandedSwordBaseASPD(config)
@@ -138,7 +139,9 @@ export const totalBaseASPD = (config: Config) =>
     totalKatanaBaseASPD(config)
   : totalBareHandBaseASPD(config);
 
-export const totalPercentASPDFromEquipment = (config: Config) =>
+export const totalPercentASPDFromEquipment = (
+  config: IntermediateConfig,
+) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.percentASPD)
     .map((stat) => stat[1])
@@ -146,22 +149,22 @@ export const totalPercentASPDFromEquipment = (config: Config) =>
   armorTypePercentASPDModifier(config) +
   subWeaponShieldPercentASPDModifier(config);
 
-export const totalPercentASPDFromSkills = (config: Config) =>
+export const totalPercentASPDFromSkills = (config: IntermediateConfig) =>
   quickSlashTotalPercentASPD(config) +
   berserkTotalPercentASPD(config) +
   quickAuraTotalPercentASPD(config);
 
-export const totalPercentASPD = (config: Config) =>
+export const totalPercentASPD = (config: IntermediateConfig) =>
   totalPercentASPDFromEquipment(config) +
   totalPercentASPDFromSkills(config);
 
-export const totalFlatASPDFromEquipment = (config: Config) =>
+export const totalFlatASPDFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.flatASPD)
     .map((stat) => stat[1])
     .reduce(sum, 0);
 
-export const totalFlatASPDFromSkills = (config: Config) =>
+export const totalFlatASPDFromSkills = (config: IntermediateConfig) =>
   quickSlashTotalFlatASPD(config) +
   berserkTotalFlatASPD(config) +
   martialDisciplineTotalFlatASPD(config) +
@@ -169,10 +172,10 @@ export const totalFlatASPDFromSkills = (config: Config) =>
   quickAuraTotalFlatASPD(config) +
   godspeedWieldTotalFlatASPD(config);
 
-export const totalFlatASPD = (config: Config) =>
+export const totalFlatASPD = (config: IntermediateConfig) =>
   totalFlatASPDFromEquipment(config) + totalFlatASPDFromSkills(config);
 
-export const totalASPD = (config: Config) =>
+export const totalASPD = (config: IntermediateConfig) =>
   total(
     totalBaseASPD(config),
     totalPercentASPD(config),

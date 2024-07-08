@@ -1,13 +1,15 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 import { floor } from "../utils";
 
-export const samuraiArcheryLevel = (config: Config) =>
+export const samuraiArcheryLevel = (config: IntermediateConfig) =>
   config["character.skills.shotSkills.samuraiArchery.level"];
 
-export const samuraiArcheryStacks = (config: Config) =>
+export const samuraiArcheryStacks = (config: IntermediateConfig) =>
   config["character.skills.shotSkills.samuraiArchery.stacks"];
 
-export const samuraiArcheryTotalFlatWeaponATK = (config: Config) =>
+export const samuraiArcheryTotalFlatWeaponATK = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "bow" &&
     config["character.subweapon.type"] === "katana"
@@ -27,14 +29,18 @@ export const samuraiArcheryTotalFlatWeaponATK = (config: Config) =>
     )
   : 0;
 
-export const samuraiArcheryTotalStability = (config: Config) =>
+export const samuraiArcheryTotalStability = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "bow" &&
     config["character.subweapon.type"] === "katana"
   ) ?
     floor(config["character.subweapon.stability"] / 4)
   : 0;
-export const samuraiArcheryTotalPercentAccuracy = (config: Config) =>
+export const samuraiArcheryTotalPercentAccuracy = (
+  config: IntermediateConfig,
+) =>
   (
     config["character.mainweapon.type"] === "bow" &&
     config["character.subweapon.type"] === "katana"

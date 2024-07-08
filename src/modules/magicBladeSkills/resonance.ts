@@ -1,4 +1,4 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 import {
   focusResonanceTotalReduction,
   powerResonanceTotalReduction,
@@ -6,14 +6,14 @@ import {
 } from "../regislets";
 import { entries, floor } from "../utils";
 
-export const resonanceLevel = (config: Config) =>
+export const resonanceLevel = (config: IntermediateConfig) =>
   config["character.skills.magicBladeSkills.resonance.level"];
-export const resonanceIsActive = (config: Config) =>
+export const resonanceIsActive = (config: IntermediateConfig) =>
   config["character.skills.magicBladeSkills.resonance.isActive"];
-export const resonanceActiveSet = (config: Config) =>
+export const resonanceActiveSet = (config: IntermediateConfig) =>
   config["character.skills.magicBladeSkills.resonance.activeSet"];
 
-export const activeResonanceRegislet = (config: Config) =>
+export const activeResonanceRegislet = (config: IntermediateConfig) =>
   config["character.regislets.focusResonance.level"] > 0 ? "focusResonance"
   : config["character.regislets.focusResonance.level"] > 0 ?
     "speedResonance"
@@ -21,7 +21,7 @@ export const activeResonanceRegislet = (config: Config) =>
     "powerResonance"
   : "none";
 
-export const resonanceTotalFlatATK = (config: Config) =>
+export const resonanceTotalFlatATK = (config: IntermediateConfig) =>
   activeResonanceRegislet(config) === "powerResonance" ?
     (
       resonanceIsActive(config) &&
@@ -46,7 +46,7 @@ export const resonanceTotalFlatATK = (config: Config) =>
     )
   : 0;
 
-export const resonanceTotalFlatMATK = (config: Config) =>
+export const resonanceTotalFlatMATK = (config: IntermediateConfig) =>
   activeResonanceRegislet(config) === "powerResonance" ?
     (
       resonanceIsActive(config) &&
@@ -71,7 +71,7 @@ export const resonanceTotalFlatMATK = (config: Config) =>
     )
   : 0;
 
-export const resonanceTotalFlatASPD = (config: Config) =>
+export const resonanceTotalFlatASPD = (config: IntermediateConfig) =>
   activeResonanceRegislet(config) === "speedResonance" ?
     (
       resonanceIsActive(config) &&
@@ -96,7 +96,7 @@ export const resonanceTotalFlatASPD = (config: Config) =>
     )
   : 0;
 
-export const resonanceTotalFlatCSPD = (config: Config) =>
+export const resonanceTotalFlatCSPD = (config: IntermediateConfig) =>
   activeResonanceRegislet(config) === "speedResonance" ?
     (
       resonanceIsActive(config) &&
@@ -121,7 +121,7 @@ export const resonanceTotalFlatCSPD = (config: Config) =>
     )
   : 0;
 
-export const resonanceTotalFlatAccuracy = (config: Config) =>
+export const resonanceTotalFlatAccuracy = (config: IntermediateConfig) =>
   activeResonanceRegislet(config) === "focusResonance" ?
     (
       resonanceIsActive(config) &&
@@ -149,7 +149,9 @@ export const resonanceTotalFlatAccuracy = (config: Config) =>
     )
   : 0;
 
-export const resonanceTotalFlatCriticalRate = (config: Config) =>
+export const resonanceTotalFlatCriticalRate = (
+  config: IntermediateConfig,
+) =>
   activeResonanceRegislet(config) === "focusResonance" ?
     (
       resonanceIsActive(config) &&

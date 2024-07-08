@@ -1,18 +1,20 @@
-import type { Config } from "../../types";
+import type { IntermediateConfig } from "../../types";
 
-export const qadalLevel = (config: Config) =>
+export const qadalLevel = (config: IntermediateConfig) =>
   config["character.skills.magicSkills.qadal.level"];
 
-export const qadalIsActive = (config: Config) =>
+export const qadalIsActive = (config: IntermediateConfig) =>
   config["character.skills.magicSkills.qadal.isActive"];
 
-export const qadalCharge = (config: Config) =>
+export const qadalCharge = (config: IntermediateConfig) =>
   config["character.skills.magicSkills.qadal.charge"];
 
-export const qadalTimer = (config: Config) =>
+export const qadalTimer = (config: IntermediateConfig) =>
   config["character.skills.magicSkills.qadal.timer"];
 
-export const qadalTotalLastDamageModifier = (config: Config) =>
+export const qadalTotalLastDamageModifier = (
+  config: IntermediateConfig,
+) =>
   qadalIsActive(config) ?
     qadalCharge(config) > Math.floor(qadalTimer(config) / 3) ?
       Math.floor(qadalTimer(config) / 3)

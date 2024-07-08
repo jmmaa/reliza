@@ -1,7 +1,10 @@
-import { StatId, type Config } from "../../../types";
+import { StatId } from "../../..";
+import { type IntermediateConfig } from "../../../types";
 import { floor, get, sum, flattenedStats } from "../../utils";
 
-export const totalBaseMATKValueFromMATKUPAGI = (config: Config) =>
+export const totalBaseMATKValueFromMATKUPAGI = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATKUPAGI)
@@ -9,7 +12,9 @@ export const totalBaseMATKValueFromMATKUPAGI = (config: Config) =>
       .reduce(sum, 0) / 100,
   ) * config["character.AGI"];
 
-export const totalBaseMATKValueFromMATKUPDEX = (config: Config) =>
+export const totalBaseMATKValueFromMATKUPDEX = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATKUPDEX)
@@ -19,7 +24,9 @@ export const totalBaseMATKValueFromMATKUPDEX = (config: Config) =>
       100,
   ) * config["character.DEX"];
 
-export const totalBaseMATKValueFromMATKUPINT = (config: Config) =>
+export const totalBaseMATKValueFromMATKUPINT = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATKUPINT)
@@ -29,7 +36,9 @@ export const totalBaseMATKValueFromMATKUPINT = (config: Config) =>
       100,
   ) * config["character.INT"];
 
-export const totalBaseMATKValueFromMATKUPSTR = (config: Config) =>
+export const totalBaseMATKValueFromMATKUPSTR = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATKUPSTR)
@@ -39,7 +48,9 @@ export const totalBaseMATKValueFromMATKUPSTR = (config: Config) =>
       100,
   ) * config["character.STR"];
 
-export const totalBaseMATKValueFromMATKUPVIT = (config: Config) =>
+export const totalBaseMATKValueFromMATKUPVIT = (
+  config: IntermediateConfig,
+) =>
   floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATKUPVIT)
@@ -49,7 +60,7 @@ export const totalBaseMATKValueFromMATKUPVIT = (config: Config) =>
       100,
   ) * config["character.VIT"];
 
-export const totalBaseMATKValueFromMATKUP = (config: Config) =>
+export const totalBaseMATKValueFromMATKUP = (config: IntermediateConfig) =>
   [
     totalBaseMATKValueFromMATKUPAGI(config),
     totalBaseMATKValueFromMATKUPDEX(config),
