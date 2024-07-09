@@ -1,49 +1,6 @@
 import { calculateAll, createIntermediateConfig } from "../src";
 import { StatId } from "../src";
-import {
-  dualBringerTotalATK,
-  magicWarriorMasteryTotalPercentATKPenaltyReduction,
-  totalNegativePercentATK,
-} from "../src/modules/magicBladeSkills";
-import {
-  totalPercentATK,
-  totalPercentATKFromEquipment,
-  totalPercentATKFromSkills,
-} from "../src/modules/stats";
-import {
-  castMasteryTotalPercentATK,
-  castMasteryTotalPercentCSPD,
-  totalWizardSkillsLearned,
-  totalWizardSkillsPoints,
-} from "../src/modules/wizardSkills";
 import { IntermediateConfig, Stat } from "../src/types";
-
-const bangrudom = (config: unknown): Stat[] => [
-  [StatId.percentMaxHP, -20],
-  [StatId.percentATK, 10],
-  [StatId.percentMATK, 10],
-  [StatId.percentASPD, 10],
-  [StatId.percentCSPD, 10],
-  [
-    StatId.percentDEX,
-    (
-      (config as unknown as IntermediateConfig)[
-        "character.subweapon.type"
-      ] === "shield"
-    ) ?
-      5
-    : 0,
-  ],
-  [
-    StatId.magicPierce,
-    (
-      (config as unknown as IntermediateConfig)["character.armor.type"] ===
-      "light"
-    ) ?
-      5
-    : 0,
-  ],
-];
 
 const diark: Stat[] = [
   [StatId.percentMATK, 8],
@@ -142,7 +99,7 @@ const config = createIntermediateConfig({
         [
           [StatId.percentMATK, 9],
           [StatId.percentINT, 3],
-          // guard break here
+          [StatId.guardBreak, 10],
         ],
       ],
     },
@@ -183,11 +140,28 @@ const config = createIntermediateConfig({
       magicBladeSkills: {
         magicWarriorMastery: { level: 10 },
       },
+
+      priestSkills: {
+        prayer: { level: 10, isActive: false },
+      },
     },
 
     regislets: {
       magicSpeedBoost: { level: 100 },
     },
+
+    consumables: [
+      [StatId.flatCSPD, 700],
+      [StatId.magicPierce, 10],
+    ],
+
+    foodBuffs: [
+      [StatId.flatSTR, 30],
+      [StatId.flatMaxMP, 1000],
+      [StatId.damageToEarth, 15],
+      [StatId.flatWeaponATK, 58],
+      [StatId.flatCriticalRate, 30],
+    ],
   },
 });
 

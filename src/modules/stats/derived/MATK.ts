@@ -9,6 +9,7 @@ import {
   magicWarriorMasteryTotalFlatMATK,
 } from "../../magicBladeSkills";
 import { magicMasteryTotalPercentMATK } from "../../magicSkills/magicMastery";
+import { prayerTotalPercentMATK } from "../../priestSkills";
 import { magicAttackBoostTotalFlatMATK } from "../../regislets";
 import {
   floor,
@@ -110,7 +111,7 @@ export const totalPercentMATKFromEquipment = (
     .reduce(sum, 0) + subWeaponKnucklePercentMATKModifier(config);
 
 export const totalPercentMATKFromSkills = (config: IntermediateConfig) =>
-  magicMasteryTotalPercentMATK(config);
+  magicMasteryTotalPercentMATK(config) + prayerTotalPercentMATK(config);
 
 export const totalPercentMATK = (config: IntermediateConfig) =>
   totalPercentMATKFromEquipment(config) +

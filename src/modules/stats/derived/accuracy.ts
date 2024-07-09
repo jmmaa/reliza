@@ -59,3 +59,9 @@ export const totalAccuracy = (config: IntermediateConfig) =>
     totalPercentAccuracy(config),
     totalFlatAccuracy(config),
   );
+
+export const totalAnticipate = (config: IntermediateConfig) =>
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.anticipate)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);

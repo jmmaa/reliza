@@ -423,6 +423,9 @@ export interface IntermediateConfig {
   "character.skills.wizardSkills.overlimit.isActive": boolean;
   "character.skills.wizardSkills.sorceryGuide.level": number;
 
+  "character.skills.priestSkills.prayer.level": number;
+  "character.skills.priestSkills.prayer.isActive": boolean;
+
   "character.regislets.zeroStance.level": number;
   "character.regislets.maxHPBoost.level": number;
   "character.regislets.maxMPBoost.level": number;
@@ -895,7 +898,7 @@ export type Config = {
         holyFist: { level: number };
         holyLight: { level: number };
         etherBarrier: { level: number };
-        prayer: { level: number };
+        prayer: { level: number; isActive: boolean };
         staffThrust: { level: number };
         exorcism: { level: number };
         holyBook: { level: number };

@@ -50,3 +50,9 @@ export const totalGuardRecharge = (config: IntermediateConfig) =>
     (totalBaseGuardRecharge(config) * totalPercentGuardRecharge(config)) /
       100,
   );
+
+export const totalGuardBreak = (config: IntermediateConfig) =>
+  flattenedStats(config)
+    .filter((stat) => stat[0] === StatId.guardBreak)
+    .map((stat) => stat[1])
+    .reduce(sum, 0);

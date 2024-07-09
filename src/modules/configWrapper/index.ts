@@ -667,6 +667,11 @@ export const createIntermediateConfig = (
     "character.skills.wizardSkills.sorceryGuide.level":
       config.character?.skills?.wizardSkills?.sorceryGuide?.level || 0,
 
+    "character.skills.priestSkills.prayer.level":
+      config.character?.skills?.priestSkills?.prayer?.level || 0,
+    "character.skills.priestSkills.prayer.isActive":
+      config.character?.skills?.priestSkills?.prayer?.isActive || false,
+
     "character.regislets.zeroStance.level":
       config.character?.regislets?.zeroStance?.level || 0,
     "character.regislets.maxHPBoost.level":
@@ -696,29 +701,50 @@ export const createIntermediateConfig = (
     "character.regislets.powerResonance.level":
       config.character?.regislets?.powerResonance?.level || 0,
 
-    "character.consumables": [], // statmap for now
-    "character.foodBuffs": [], // statmap for now
+    "character.consumables":
+      (config.character?.consumables as Stat[]) || [], // stat for now
+    "character.foodBuffs": (config.character?.foodBuffs as Stat[]) || [], // stat for now
 
-    "character.ailments.weaken.isActive": false,
-    "character.ailments.flinch.isActive": false,
-    "character.ailments.tumble.isActive": false,
-    "character.ailments.stun.isActive": false,
-    "character.ailments.knockback.isActive": false,
-    "character.ailments.poison.isActive": false,
-    "character.ailments.paralysis.isActive": false,
-    "character.ailments.blindness.isActive": false,
-    "character.ailments.ignition.isActive": false,
-    "character.ailments.freeze.isActive": false,
-    "character.ailments.armorBreak.isActive": false,
-    "character.ailments.slow.isActive": false,
-    "character.ailments.stop.isActive": false,
-    "character.ailments.fear.isActive": false,
-    "character.ailments.dizzy.isActive": false,
-    "character.ailments.lethargy.isActive": false,
-    "character.ailments.silence.isActive": false,
-    "character.ailments.bleed.isActive": false,
-    "character.ailments.fatigue.isActive": false,
-    "character.ailments.dazzled.isActive": false,
+    "character.ailments.weaken.isActive":
+      config.character?.ailments?.weaken?.isActive || false,
+    "character.ailments.flinch.isActive":
+      config.character?.ailments?.flinch?.isActive || false,
+    "character.ailments.tumble.isActive":
+      config.character?.ailments?.tumble?.isActive || false,
+    "character.ailments.stun.isActive":
+      config.character?.ailments?.stun?.isActive || false,
+    "character.ailments.knockback.isActive":
+      config.character?.ailments?.knockback?.isActive || false,
+    "character.ailments.poison.isActive":
+      config.character?.ailments?.poison?.isActive || false,
+    "character.ailments.paralysis.isActive":
+      config.character?.ailments?.paralysis?.isActive || false,
+    "character.ailments.blindness.isActive":
+      config.character?.ailments?.blindness?.isActive || false,
+    "character.ailments.ignition.isActive":
+      config.character?.ailments?.ignition?.isActive || false,
+    "character.ailments.freeze.isActive":
+      config.character?.ailments?.freeze?.isActive || false,
+    "character.ailments.armorBreak.isActive":
+      config.character?.ailments?.armorBreak?.isActive || false,
+    "character.ailments.slow.isActive":
+      config.character?.ailments?.slow?.isActive || false,
+    "character.ailments.stop.isActive":
+      config.character?.ailments?.stop?.isActive || false,
+    "character.ailments.fear.isActive":
+      config.character?.ailments?.fear?.isActive || false,
+    "character.ailments.dizzy.isActive":
+      config.character?.ailments?.dizzy?.isActive || false,
+    "character.ailments.lethargy.isActive":
+      config.character?.ailments?.lethargy?.isActive || false,
+    "character.ailments.silence.isActive":
+      config.character?.ailments?.silence?.isActive || false,
+    "character.ailments.bleed.isActive":
+      config.character?.ailments?.bleed?.isActive || false,
+    "character.ailments.fatigue.isActive":
+      config.character?.ailments?.fatigue?.isActive || false,
+    "character.ailments.dazzled.isActive":
+      config.character?.ailments?.dazzled?.isActive || false,
 
     // target
     "target.level": 0,

@@ -136,8 +136,10 @@ export enum StatId {
 
   guardPower,
   guardRecharge,
+  guardBreak,
 
   evasionRecharge,
+  anticipate,
 
   itemCooldown,
   invincibleAid,
