@@ -1,5 +1,4 @@
-import { StatId } from "../..";
-import type { IntermediateConfig, Entries, Stat } from "../../types";
+import type { IntermediateConfig, Stat } from "../../types";
 
 export const total = (base: number, percent: number, flat: number) =>
   Math.floor(base * ((100 + percent) / 100)) + flat;
@@ -24,43 +23,49 @@ export const concat = <V>(first: V[], second: V[]) => first.concat(second);
 export const entries = <T extends {}>(o: T) =>
   Object.entries(o) as Entries<T>;
 
-export const equipmentStatSources = <T extends IntermediateConfig>(
-  config: T,
-) => ({
-  "character.mainweapon.stats": config["character.mainweapon.stats"],
-  "character.subweapon.stats":
-    isUsingStatAccessibleSubweapon(config) ?
-      config["character.subweapon.stats"]
-    : [],
-  "character.additionalGear.stats":
-    config["character.additionalGear.stats"],
-  "character.armor.stats": config["character.armor.stats"],
-  "character.specialGear.stats": config["character.specialGear.stats"],
-});
-
-export const equipmentCrystalSources = <T extends IntermediateConfig>(
-  config: T,
-) => ({
-  "character.mainweapon.crystals": config["character.mainweapon.crystals"],
-  // "character.subweapon.crystals": config["character.subweapon.crystals"], // need to confirm if subweapon crystals doesnt count
-  "character.additionalGear.crystals":
-    config["character.additionalGear.crystals"],
-  "character.armor.crystals": config["character.armor.crystals"],
-  "character.specialGear.crystals":
-    config["character.specialGear.crystals"],
-});
-
 export const flattenedStats = (config: IntermediateConfig) =>
-  entries(equipmentStatSources(config))
-    .map((value) => value[1]) // extract statmaps
+  ([] as Stat[])
+    .concat(config["character.mainweapon.stats"](config))
     .concat(
-      entries(equipmentCrystalSources(config))
-        .map((crystalSources) => crystalSources[1])
-        .reduce((left, right) => left.concat(right)),
+      config["character.mainweapon.crystals"].reduce(
+        (arr, next) => arr.concat(next(config)),
+        [] as Stat[],
+      ),
     )
-    .reduce((left, right) => left.concat(right))
-    .concat(config["character.consumables"])
-    .concat(config["character.foodBuffs"]);
+    .concat(
+      isUsingStatAccessibleSubweapon(config) ?
+        config["character.subweapon.stats"](config)
+      : [],
+    )
+    .concat(
+      isUsingStatAccessibleSubweapon(config) ?
+        config["character.subweapon.crystals"].reduce(
+          (arr, next) => arr.concat(next(config)),
+          [] as Stat[],
+        )
+      : [],
+    )
+    .concat(config["character.additionalGear.stats"](config))
+    .concat(
+      config["character.additionalGear.crystals"].reduce(
+        (arr, next) => arr.concat(next(config)),
+        [] as Stat[],
+      ),
+    )
+    .concat(config["character.armor.stats"](config))
+    .concat(
+      config["character.armor.crystals"].reduce(
+        (arr, next) => arr.concat(next(config)),
+        [] as Stat[],
+      ),
+    )
+    .concat(config["character.specialGear.stats"](config))
+    .concat(
+      config["character.specialGear.crystals"].reduce(
+        (arr, next) => arr.concat(next(config)),
+        [] as Stat[],
+      ),
+    );
 
 // export const crystalMapping: Record<
 //   HardCodedCrystal,

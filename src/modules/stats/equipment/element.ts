@@ -2,7 +2,7 @@ import { StatId } from "../../..";
 import { type IntermediateConfig } from "../../../types";
 
 export const mainWeaponElement = (config: IntermediateConfig) =>
-  config["character.mainweapon.stats"]
+  config["character.mainweapon.stats"](config)
     .filter(
       (stat) =>
         (stat[0] === StatId.earthElement ||
@@ -25,7 +25,7 @@ export const mainWeaponElement = (config: IntermediateConfig) =>
     .reduce((prev, curr) => (curr !== "neutral" ? curr : prev), "neutral");
 
 export const subWeaponElement = (config: IntermediateConfig) =>
-  config["character.subweapon.stats"]
+  config["character.subweapon.stats"](config)
     .filter(
       (stat) =>
         (stat[0] === StatId.earthElement ||

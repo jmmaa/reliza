@@ -3,8 +3,6 @@ import * as stats from "./modules/stats";
 import * as wizardSKills from "./modules/wizardSkills";
 import { IntermediateConfig } from "./types";
 
-export { createIntermediateConfig } from "./modules/configWrapper";
-
 export enum StatId {
   flatSTR,
   percentSTR,
