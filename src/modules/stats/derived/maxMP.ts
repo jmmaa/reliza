@@ -1,4 +1,4 @@
-import { StatId } from "../../..";
+import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import { bushidoTotalFlatMaxMP } from "../../mononofuSkills";
 import { maxMPBoostTotalFlatMaxMP } from "../../regislets";
@@ -7,14 +7,16 @@ import { floor, get, sum, total, flattenedStats } from "../../utils";
 import { totalINT } from "../basic";
 
 export const totalBaseMaxMP = (config: IntermediateConfig) =>
-  config["character.TEC"] > 0 ?
-    floor(
-      100 +
-        config["character.level"] +
-        totalINT(config) / 10 +
-        (config["character.TEC"] - 1),
-    )
-  : floor(100 + config["character.level"] + totalINT(config) / 10);
+  config["character.personalStat"] === "TEC" ?
+    config["character.personalStatValue"] > 0 ?
+      floor(
+        100 +
+          config["character.level"] +
+          totalINT(config) / 10 +
+          (config["character.personalStatValue"] - 1),
+      )
+    : floor(100 + config["character.level"] + totalINT(config) / 10)
+  : 0;
 
 export const totalPercentMaxMP = (config: IntermediateConfig) =>
   flattenedStats(config)

@@ -1,5 +1,4 @@
 //
-import { StatId } from ".";
 
 export type OneHandedSword = "one-handed-sword";
 
@@ -98,10 +97,8 @@ export interface IntermediateConfig {
   "character.VIT": number;
   "character.AGI": number;
 
-  "character.CRT": number;
-  "character.MTL": number;
-  "character.TEC": number;
-  "character.LUK": number;
+  "character.personalStat": "CRT" | "LUK" | "TEC" | "MTL" | "none";
+  "character.personalStatValue": number;
 
   "character.mainweapon.type": MainWeaponType;
   "character.mainweapon.ATK": number;
@@ -138,7 +135,9 @@ export interface IntermediateConfig {
   "character.skills.bladeSkills.hardHit.level": number;
   "character.skills.bladeSkills.astute.level": number;
   "character.skills.bladeSkills.triggerSlash.level": number;
+  "character.skills.bladeSkills.triggerSlash.isActive": boolean;
   "character.skills.bladeSkills.rampage.level": number;
+  "character.skills.bladeSkills.rampage.isActive": boolean;
   "character.skills.bladeSkills.meteorBreaker.level": number;
   "character.skills.bladeSkills.shutOut.level": number;
   "character.skills.bladeSkills.lunarSlash.level": number;
@@ -165,6 +164,8 @@ export interface IntermediateConfig {
   "character.skills.shotSkills.crossFire.level": number;
   "character.skills.shotSkills.vanquisher.level": number;
   "character.skills.shotSkills.twinStorm.level": number;
+  "character.skills.shotSkills.twinStorm.isActive": boolean;
+  "character.skills.shotSkills.twinStorm.onCooldown": boolean;
   "character.skills.shotSkills.retrogradeShot.level": number;
   "character.skills.shotSkills.moebaShot.level": number;
   "character.skills.shotSkills.paralysisShot.level": number;
@@ -173,6 +174,7 @@ export interface IntermediateConfig {
   "character.skills.shotSkills.parabolaCannon.level": number;
   "character.skills.shotSkills.shotMastery.level": number;
   "character.skills.shotSkills.samuraiArchery.level": number;
+  "character.skills.shotSkills.samuraiArchery.isActive": boolean;
   "character.skills.shotSkills.samuraiArchery.stacks": number;
   "character.skills.shotSkills.sneakAttack.level": number;
   "character.skills.shotSkills.longRange.level": number;
@@ -197,12 +199,16 @@ export interface IntermediateConfig {
   "character.skills.magicSkills.qadal.level": number;
   "character.skills.magicSkills.qadal.charge": number;
   "character.skills.magicSkills.qadal.isActive": boolean;
-  "character.skills.magicSkills.qadal.timer": number;
-  "character.skills.magicSkills.MPCharge.level": number;
+  "character.skills.magicSkills.qadal.timeActive": number;
+  "character.skills.magicSkills.mPCharge.level": number;
   "character.skills.magicSkills.chainCast.level": number;
+  "character.skills.magicSkills.chainCast.isActive": boolean;
+  "character.skills.magicSkills.chainCast.stacks": number;
   "character.skills.magicSkills.powerWave.level": number;
   "character.skills.magicSkills.maximizer.level": number;
   "character.skills.magicSkills.rapidCharge.level": number;
+  "character.skills.magicSkills.rapidCharge.isActive": boolean;
+  "character.skills.magicSkills.rapidCharge.amountMPRecoveredFromMaximizer": number;
   "character.skills.magicSkills.enchantedBarriers.level": number;
   "character.skills.magicSkills.magicGuardianBeam.level": number;
 
@@ -231,8 +237,11 @@ export interface IntermediateConfig {
   "character.skills.supportSkills.manaRecharge.level": number;
   "character.skills.supportSkills.manaRecharge.isActive": boolean;
   "character.skills.supportSkills.magicBarrier.level": number;
+  "character.skills.supportSkills.magicBarrier.isActive": boolean;
   "character.skills.supportSkills.immunity.level": number;
+  "character.skills.supportSkills.immunity.isActive": boolean;
   "character.skills.supportSkills.fastReaction.level": number;
+  "character.skills.supportSkills.fastReaction.isActive": boolean;
 
   "character.skills.battleSkills.magicUP.level": number;
   "character.skills.battleSkills.concentrate.level": number;
@@ -253,6 +262,7 @@ export interface IntermediateConfig {
   "character.skills.mononofuSkills.issen.level": number;
   "character.skills.mononofuSkills.pulseBlade.level": number;
   "character.skills.mononofuSkills.tripleThrust.level": number;
+  "character.skills.mononofuSkills.tripleThrust.isActive": boolean;
   "character.skills.mononofuSkills.hassoHappa.level": number;
   "character.skills.mononofuSkills.tenryuRansei.level": number;
   "character.skills.mononofuSkills.kasumisetsuGetsuka.level": number;
@@ -263,12 +273,18 @@ export interface IntermediateConfig {
   "character.skills.mononofuSkills.zanteiSettetsu.level": number;
   "character.skills.mononofuSkills.bushido.level": number;
   "character.skills.mononofuSkills.shukuchi.level": number;
+  "character.skills.mononofuSkills.shukuchi.isActive": boolean;
   "character.skills.mononofuSkills.nukiuchiSennosen.level": number;
   "character.skills.mononofuSkills.twoHanded.level": number;
   "character.skills.mononofuSkills.meikyouShisui.level": number;
+  "character.skills.mononofuSkills.meikyouShisui.isActive": boolean;
   "character.skills.mononofuSkills.kairikiRanshin.level": number;
+  "character.skills.mononofuSkills.kairikiRanshin.isActive": boolean;
   "character.skills.mononofuSkills.dauntless.level": number;
+  "character.skills.mononofuSkills.dauntless.isActive": boolean;
+  "character.skills.mononofuSkills.dauntless.stacks": number;
   "character.skills.mononofuSkills.bouncingBlade.level": number;
+  "character.skills.mononofuSkills.bouncingBlade.isActive": boolean;
 
   "character.skills.dualSwordSkills.dualSwordMastery.level": number;
   "character.skills.dualSwordSkills.twinSlash.level": number;
@@ -276,11 +292,15 @@ export interface IntermediateConfig {
   "character.skills.dualSwordSkills.phantomSlash.level": number;
   "character.skills.dualSwordSkills.aerialCut.level": number;
   "character.skills.dualSwordSkills.crossParry.level": number;
+  "character.skills.dualSwordSkills.crossParry.isActive": boolean;
+  "character.skills.dualSwordSkills.crossParryIsParried": boolean;
   "character.skills.dualSwordSkills.chargingSlash.level": number;
   "character.skills.dualSwordSkills.shadowStep.level": number;
+  "character.skills.dualSwordSkills.shadowStep.isActive": boolean;
   "character.skills.dualSwordSkills.shiningCross.level": number;
   "character.skills.dualSwordSkills.lunarMisfortune.level": number;
   "character.skills.dualSwordSkills.twinBusterBlade.level": number;
+  "character.skills.dualSwordSkills.twinBusterBlade.isActive": number;
   "character.skills.dualSwordSkills.reflex.level": number;
   "character.skills.dualSwordSkills.flashBlast.level": number;
   "character.skills.dualSwordSkills.flashBlast.isActive": boolean;
@@ -303,7 +323,7 @@ export interface IntermediateConfig {
   "character.skills.magicBladeSkills.dualBringer.level": number;
   "character.skills.magicBladeSkills.dualBringer.isActive": boolean;
   "character.skills.magicBladeSkills.etherFlare.level": number;
-  "character.skills.magicBladeSkills.etherFlare.inflictedIgniteOnEnemey": boolean;
+  "character.skills.magicBladeSkills.etherFlare.isActive": boolean;
   "character.skills.magicBladeSkills.elementSlash.level": number;
   "character.skills.magicBladeSkills.enchantSword.level": number;
   "character.skills.magicBladeSkills.enchantedBurst.level": number;
@@ -326,7 +346,9 @@ export interface IntermediateConfig {
   "character.skills.shieldSkills.shieldRepair.level": number;
   "character.skills.shieldSkills.belagerung.level": number;
   "character.skills.shieldSkills.protection.level": number;
+  "character.skills.shieldSkills.protection.isActive": boolean;
   "character.skills.shieldSkills.aegis.level": number;
+  "character.skills.shieldSkills.aegis.isActive": boolean;
   "character.skills.shieldSkills.guardian.level": number;
 
   "character.skills.guardSkills.heavyArmorMastery.level": number;
@@ -369,12 +391,16 @@ export interface IntermediateConfig {
   "character.skills.martialSkills.earthbind.level": number;
   "character.skills.martialSkills.tripleKick.level": number;
   "character.skills.martialSkills.rush.level": number;
+  "character.skills.martialSkills.rush.isActive": boolean;
   "character.skills.martialSkills.asuraAura.level": number;
+  "character.skills.martialSkills.asuraAura.isActive": boolean;
   "character.skills.martialSkills.flashBlink.level": number;
   "character.skills.martialSkills.martialMastery.level": number;
   "character.skills.martialSkills.martialDiscipline.level": number;
   "character.skills.martialSkills.chakra.level": number;
+  "character.skills.martialSkills.chakra.isActive": boolean;
   "character.skills.martialSkills.energyControl.level": number;
+  "character.skills.martialSkills.energyControl.isActive": boolean;
   "character.skills.martialSkills.aggravate.level": number;
   "character.skills.martialSkills.strongChaseAttack.level": number;
   "character.skills.martialSkills.slide.level": number;
@@ -391,10 +417,12 @@ export interface IntermediateConfig {
   "character.skills.bareHandSkills.ultimaQiCharge.level": number;
   "character.skills.bareHandSkills.hiddenTalent.level": number;
   "character.skills.bareHandSkills.earthShaker.level": number;
+  "character.skills.bareHandSkills.earthShaker.isActive": boolean;
 
   "character.skills.hunterSkills.kick.level": number;
   "character.skills.hunterSkills.sunriseArrow.level": number;
   "character.skills.hunterSkills.magicArrow.level": number;
+  "character.skills.hunterSkills.magicArrow.isActive": boolean;
   "character.skills.hunterSkills.satelliteArrow.level": number;
   "character.skills.hunterSkills.sleepTrap.level": number;
   "character.skills.hunterSkills.bearTrap.level": number;
@@ -402,10 +430,13 @@ export interface IntermediateConfig {
   "character.skills.hunterSkills.darkTrap.level": number;
   "character.skills.hunterSkills.homingShot.level": number;
   "character.skills.hunterSkills.detection.level": number;
+  "character.skills.hunterSkills.detection.isActive": boolean;
   "character.skills.hunterSkills.cycloneArrow.level": number;
   "character.skills.hunterSkills.verticalAir.level": number;
   "character.skills.hunterSkills.hunterBowgun.level": number;
   "character.skills.hunterSkills.multipleHunt.level": number;
+  "character.skills.hunterSkills.tripleAceShots.isActive": boolean;
+  "character.skills.hunterSkills.wolfSniper.isActive": boolean;
 
   "character.skills.ninjaSkills.ninjutsu.level": number;
   "character.skills.ninjaSkills.ninjaSpirit.level": number;
@@ -421,14 +452,28 @@ export interface IntermediateConfig {
   "character.skills.wizardSkills.manaCrystal.level": number;
   "character.skills.wizardSkills.stoneBarrier.level": number;
   "character.skills.wizardSkills.advancedFamilia.level": number;
+  "character.skills.wizardSkills.advancedFamilia.isActive": number;
   "character.skills.wizardSkills.castMastery.level": number;
   "character.skills.wizardSkills.crystalLaser.level": number;
   "character.skills.wizardSkills.overlimit.level": number;
   "character.skills.wizardSkills.overlimit.isActive": boolean;
   "character.skills.wizardSkills.sorceryGuide.level": number;
 
+  "character.skills.priestSkills.bless.level": number;
+  "character.skills.priestSkills.gloria.level": number;
+  "character.skills.priestSkills.enhancedBless.level": number;
+  "character.skills.priestSkills.royalHeal.level": number;
+  "character.skills.priestSkills.holyFist.level": number;
+  "character.skills.priestSkills.holyLight.level": number;
+  "character.skills.priestSkills.etherBarrier.level": number;
+  "character.skills.priestSkills.etherBarrier.isActive": boolean;
   "character.skills.priestSkills.prayer.level": number;
   "character.skills.priestSkills.prayer.isActive": boolean;
+  "character.skills.priestSkills.staffThrust.level": number;
+  "character.skills.priestSkills.exorcism.level": number;
+  "character.skills.priestSkills.holyBook.level": number;
+  "character.skills.priestSkills.holyBook.isActive": boolean;
+  "character.skills.priestSkills.nemesis.level": number;
 
   "character.regislets.zeroStance.level": number;
   "character.regislets.maxHPBoost.level": number;
@@ -445,8 +490,8 @@ export interface IntermediateConfig {
   "character.regislets.speedResonance.level": number;
   "character.regislets.powerResonance.level": number;
 
-  "character.consumables": StatMapBuilder; // statmap for now
-  "character.foodBuffs": StatMapBuilder; // statmap for now
+  "character.consumables": Stat[]; // statmap for now
+  "character.foodBuffs": Stat[]; // statmap for now
 
   "character.ailments.weaken.isActive": boolean;
   "character.ailments.flinch.isActive": boolean;
@@ -524,7 +569,7 @@ export interface IntermediateConfig {
 
 // export type Config = {
 //   character: {
-//     level: number;
+//     .level: number;
 
 //     baseStat: {
 //       basic: {
@@ -585,376 +630,376 @@ export interface IntermediateConfig {
 //       crystals: StatMapBuilder[];
 //     };
 
-//     skills: {
-//       bladeSkills: {
-//         hardHit: { level: number };
-//         astute: { level: number };
-//         triggerSlash: { level: number };
-//         rampage: { level: number };
-//         meteorBreaker: { level: number };
-//         shutOut: { level: number };
-//         lunarSlash: { level: number };
-//         sonicBlade: { level: number };
-//         spiralAir: { level: number };
-//         swordTempest: { level: number };
-//         busterBlade: { level: number; isActive: boolean };
-//         auraBlade: { level: number };
-//         swordMastery: { level: number };
-//         quickSlash: { level: number };
-//         swordTechniques: { level: number };
-//         warCry: { level: number; isActive: boolean };
-//         berserk: { level: number; isActive: boolean };
-//         gladiate: { level: number };
-//         swiftAttack: { level: number };
+//     skills.: {
+//       bladeSkills.: {
+//         hardHit: { .level: number };
+//         astute: { .level: number };
+//         triggerSlash: { .level: number };
+//         rampage: { .level: number };
+//         meteorBreaker: { .level: number };
+//         shutOut: { .level: number };
+//         lunarSlash: { .level: number };
+//         sonicBlade: { .level: number };
+//         spiralAir: { .level: number };
+//         swordTempest: { .level: number };
+//         busterBlade: { .level: number; isActive: boolean };
+//         auraBlade: { .level: number };
+//         swordMastery: { .level: number };
+//         quickSlash: { .level: number };
+//         swordTechniques: { .level: number };
+//         warCry: { .level: number; isActive: boolean };
+//         berserk: { .level: number; isActive: boolean };
+//         gladiate: { .level: number };
+//         swiftAttack: { .level: number };
 //       };
-//       shotSkills: {
-//         powerShot: { level: number };
-//         bullseye: { level: number };
-//         arrowRain: { level: number };
-//         snipe: { level: number };
-//         crossFire: { level: number };
-//         vanquisher: { level: number };
-//         twinStorm: { level: number };
-//         retrogradeShot: { level: number };
-//         moebaShot: { level: number };
-//         paralysisShot: { level: number };
-//         smokeDust: { level: number };
-//         armBreak: { level: number };
-//         parabolaCannon: { level: number };
-//         shotMastery: { level: number };
-//         samuraiArchery: { level: number; stacks: number };
-//         sneakAttack: { level: number };
-//         longRange: { level: number };
-//         quickDraw: { level: number };
-//         decoyShot: { level: number };
-//         fatalShot: { level: number };
+//       shotSkills.: {
+//         powerShot: { .level: number };
+//         bullseye: { .level: number };
+//         arrowRain: { .level: number };
+//         snipe: { .level: number };
+//         crossFire: { .level: number };
+//         vanquisher: { .level: number };
+//         twinStorm: { .level: number };
+//         retrogradeShot: { .level: number };
+//         moebaShot: { .level: number };
+//         paralysisShot: { .level: number };
+//         smokeDust: { .level: number };
+//         armBreak: { .level: number };
+//         parabolaCannon: { .level: number };
+//         shotMastery: { .level: number };
+//         samuraiArchery: { .level: number; stacks: number };
+//         sneakAttack: { .level: number };
+//         longRange: { .level: number };
+//         quickDraw: { .level: number };
+//         decoyShot: { .level: number };
+//         fatalShot: { .level: number };
 //       };
-//       magicSkills: {
-//         magicArrows: { level: number };
-//         magicJavelin: { level: number };
-//         magicLances: { level: number };
-//         magicImpact: { level: number };
-//         magicFinale: { level: number };
-//         chronosShift: { level: number };
-//         magicWall: { level: number };
-//         magicBlast: { level: number };
-//         magicStorm: { level: number };
-//         magicBurst: { level: number };
-//         magicCannon: { level: number };
-//         magicCrash: { level: number };
-//         magicMastery: { level: number };
-//         magicKnife: { level: number };
+//       magicSkills.: {
+//         magicArrows: { .level: number };
+//         magicJavelin: { .level: number };
+//         magicLances: { .level: number };
+//         magicImpact: { .level: number };
+//         magicFinale: { .level: number };
+//         chronosShift: { .level: number };
+//         magicWall: { .level: number };
+//         magicBlast: { .level: number };
+//         magicStorm: { .level: number };
+//         magicBurst: { .level: number };
+//         magicCannon: { .level: number };
+//         magicCrash: { .level: number };
+//         magicMastery: { .level: number };
+//         magicKnife: { .level: number };
 //         qadal: {
-//           level: number;
+//           .level: number;
 //           charge: number;
 //           isActive: boolean;
 //           timer: number;
 //         };
-//         MPCharge: { level: number };
-//         chainCast: { level: number };
-//         powerWave: { level: number };
-//         maximizer: { level: number };
-//         rapidCharge: { level: number };
-//         enchantedBarriers: { level: number };
-//         magicGuardianBeam: { level: number };
+//         MPCharge: { .level: number };
+//         chainCast: { .level: number };
+//         powerWave: { .level: number };
+//         maximizer: { .level: number };
+//         rapidCharge: { .level: number };
+//         enchantedBarriers: { .level: number };
+//         magicGuardianBeam: { .level: number };
 //       };
-//       survivalSkills: {
-//         playDead: { level: number };
-//         EXPGainUP: { level: number };
-//         dropRateUP: { level: number };
-//         safeRest: { level: number };
-//         HPBoost: { level: number };
-//         fightersHigh: { level: number };
-//         shortRest: { level: number };
-//         MPBoost: { level: number };
-//         soberAnalysis: { level: number };
+//       survivalSkills.: {
+//         playDead: { .level: number };
+//         EXPGainUP: { .level: number };
+//         dropRateUP: { .level: number };
+//         safeRest: { .level: number };
+//         HPBoost: { .level: number };
+//         fightersHigh: { .level: number };
+//         shortRest: { .level: number };
+//         MPBoost: { .level: number };
+//         soberAnalysis: { .level: number };
 //       };
-//       supportSkills: {
-//         firstAid: { level: number };
-//         miniHeal: { level: number };
-//         recovery: { level: number };
-//         sanctuary: { level: number };
-//         heal: { level: number };
-//         lifeRecovery: { level: number };
-//         braveAura: { level: number; isActive: boolean };
-//         highCycle: { level: number; isActive: boolean };
-//         quickMotion: { level: number; isActive: boolean };
-//         manaRecharge: { level: number; isActive: boolean };
-//         magicBarrier: { level: number };
-//         immunity: { level: number };
-//         fastReaction: { level: number };
+//       supportSkills.: {
+//         firstAid: { .level: number };
+//         miniHeal: { .level: number };
+//         recovery: { .level: number };
+//         sanctuary: { .level: number };
+//         heal: { .level: number };
+//         lifeRecovery: { .level: number };
+//         braveAura: { .level: number; isActive: boolean };
+//         highCycle: { .level: number; isActive: boolean };
+//         quickMotion: { .level: number; isActive: boolean };
+//         manaRecharge: { .level: number; isActive: boolean };
+//         magicBarrier: { .level: number };
+//         immunity: { .level: number };
+//         fastReaction: { .level: number };
 //       };
-//       battleSkills: {
-//         magicUP: { level: number };
-//         concentrate: { level: number };
-//         attackUP: { level: number };
-//         whack: { level: number };
-//         defenseUP: { level: number };
-//         dodgeUP: { level: number };
-//         desperateResist: { level: number };
-//         criticalUP: { level: number };
-//         accuracyUP: { level: number };
-//         increasedEnergy: { level: number };
-//         intimidatingPower: { level: number };
-//         defenseMastery: { level: number };
-//         spellBurst: { level: number };
-//         secretChaseAttack: { level: number };
-//         superGrip: { level: number };
+//       battleSkills.: {
+//         magicUP: { .level: number };
+//         concentrate: { .level: number };
+//         attackUP: { .level: number };
+//         whack: { .level: number };
+//         defenseUP: { .level: number };
+//         dodgeUP: { .level: number };
+//         desperateResist: { .level: number };
+//         criticalUP: { .level: number };
+//         accuracyUP: { .level: number };
+//         increasedEnergy: { .level: number };
+//         intimidatingPower: { .level: number };
+//         defenseMastery: { .level: number };
+//         spellBurst: { .level: number };
+//         secretChaseAttack: { .level: number };
+//         superGrip: { .level: number };
 //       };
-//       mononofuSkills: {
-//         issen: { level: number };
-//         pulseBlade: { level: number };
-//         tripleThrust: { level: number };
-//         hassoHappa: { level: number };
-//         tenryuRansei: { level: number };
-//         kasumisetsuGetsuka: { level: number };
-//         garyouTensei: { level: number };
-//         shadowLessSlash: { level: number };
-//         pommelStrike: { level: number };
-//         magadachi: { level: number };
-//         zanteiSettetsu: { level: number };
-//         bushido: { level: number };
-//         shukuchi: { level: number };
-//         nukiuchiSennosen: { level: number };
-//         twoHanded: { level: number };
-//         meikyouShisui: { level: number };
-//         kairikiRanshin: { level: number };
-//         dauntless: { level: number };
-//         bouncingBlade: { level: number };
+//       mononofuSkills.: {
+//         issen: { .level: number };
+//         pulseBlade: { .level: number };
+//         tripleThrust: { .level: number };
+//         hassoHappa: { .level: number };
+//         tenryuRansei: { .level: number };
+//         kasumisetsuGetsuka: { .level: number };
+//         garyouTensei: { .level: number };
+//         shadowLessSlash: { .level: number };
+//         pommelStrike: { .level: number };
+//         magadachi: { .level: number };
+//         zanteiSettetsu: { .level: number };
+//         bushido: { .level: number };
+//         shukuchi: { .level: number };
+//         nukiuchiSennosen: { .level: number };
+//         twoHanded: { .level: number };
+//         meikyouShisui: { .level: number };
+//         kairikiRanshin: { .level: number };
+//         dauntless: { .level: number };
+//         bouncingBlade: { .level: number };
 //       };
-//       dualSwordSkills: {
-//         dualSwordMastery: { level: number };
-//         twinSlash: { level: number };
-//         spinningSlash: { level: number };
-//         phantomSlash: { level: number };
-//         aerialCut: { level: number };
-//         crossParry: { level: number };
-//         chargingSlash: { level: number };
-//         shadowStep: { level: number };
-//         shiningCross: { level: number };
-//         lunarMisfortune: { level: number };
-//         twinBusterBlade: { level: number };
-//         reflex: { level: number };
-//         flashBlast: { level: number; isActive: boolean };
-//         stormReaper: { level: number };
-//         dualSwordControl: { level: number };
-//         godspeed: { level: number };
-//         saberAura: { level: number };
-//         crescentSaber: { level: number };
+//       dualSwordSkills.: {
+//         dualSwordMastery: { .level: number };
+//         twinSlash: { .level: number };
+//         spinningSlash: { .level: number };
+//         phantomSlash: { .level: number };
+//         aerialCut: { .level: number };
+//         crossParry: { .level: number };
+//         chargingSlash: { .level: number };
+//         shadowStep: { .level: number };
+//         shiningCross: { .level: number };
+//         lunarMisfortune: { .level: number };
+//         twinBusterBlade: { .level: number };
+//         reflex: { .level: number };
+//         flashBlast: { .level: number; isActive: boolean };
+//         stormReaper: { .level: number };
+//         dualSwordControl: { .level: number };
+//         godspeed: { .level: number };
+//         saberAura: { .level: number };
+//         crescentSaber: { .level: number };
 //       };
-//       magicBladeSkills: {
-//         magicWarriorMastery: { level: number };
-//         conversion: { level: number; isActive: boolean };
+//       magicBladeSkills.: {
+//         magicWarriorMastery: { .level: number };
+//         conversion: { .level: number; isActive: boolean };
 //         resonance: {
-//           level: number;
+//           .level: number;
 //           isActive: boolean;
 //           activeSet: "ATK/MATK" | "ASPD/CSPD" | "ACC/CRIT";
 //         };
-//         enchantedSpell: { level: number };
-//         dualBringer: { level: number; isActive: boolean };
-//         etherFlare: { level: number; inflictedIgniteOnEnemey: boolean };
-//         elementSlash: { level: number };
-//         enchantSword: { level: number };
-//         enchantedBurst: { level: number };
-//         unionSword: { level: number };
-//         siphonBarrier: { level: number; isActive: boolean };
-//         teleport: { level: number };
-//         siphonRecall: { level: number };
-//         floatDash: { level: number };
-//         magicSkin: { level: number };
+//         enchantedSpell: { .level: number };
+//         dualBringer: { .level: number; isActive: boolean };
+//         etherFlare: { .level: number; inflictedIgniteOnEnemey: boolean };
+//         elementSlash: { .level: number };
+//         enchantSword: { .level: number };
+//         enchantedBurst: { .level: number };
+//         unionSword: { .level: number };
+//         siphonBarrier: { .level: number; isActive: boolean };
+//         teleport: { .level: number };
+//         siphonRecall: { .level: number };
+//         floatDash: { .level: number };
+//         magicSkin: { .level: number };
 //       };
-//       shieldSkills: {
-//         shieldMastery: { level: number };
-//         shieldBash: { level: number };
-//         shieldCannon: { level: number };
-//         guardStrike: { level: number };
-//         forceShield: { level: number };
-//         magicalShield: { level: number };
-//         shieldUppercut: { level: number };
-//         dualShields: { level: number };
-//         shieldRepair: { level: number };
-//         belagerung: { level: number };
-//         protection: { level: number };
-//         aegis: { level: number };
-//         guardian: { level: number };
+//       shieldSkills.: {
+//         shieldMastery: { .level: number };
+//         shieldBash: { .level: number };
+//         shieldCannon: { .level: number };
+//         guardStrike: { .level: number };
+//         forceShield: { .level: number };
+//         magicalShield: { .level: number };
+//         shieldUppercut: { .level: number };
+//         dualShields: { .level: number };
+//         shieldRepair: { .level: number };
+//         belagerung: { .level: number };
+//         protection: { .level: number };
+//         aegis: { .level: number };
+//         guardian: { .level: number };
 //       };
-//       guardSkills: {
-//         heavyArmorMastery: { level: number };
-//         advancedGuard: { level: number };
-//         physicalGuard: { level: number };
-//         lightArmorMastery: { level: number };
-//         advancedEvasion: { level: number };
-//         mirageEvasion: { level: number };
+//       guardSkills.: {
+//         heavyArmorMastery: { .level: number };
+//         advancedGuard: { .level: number };
+//         physicalGuard: { .level: number };
+//         lightArmorMastery: { .level: number };
+//         advancedEvasion: { .level: number };
+//         mirageEvasion: { .level: number };
 //       };
-//       halberdSkills: {
-//         flashStab: { level: number };
-//         cannonSpear: { level: number };
-//         dragonTail: { level: number };
-//         diveImpact: { level: number };
-//         dragonTooth: { level: number };
-//         draconicCharge: { level: number };
-//         deadlySpear: { level: number };
-//         punishRay: { level: number };
-//         strikeStab: { level: number };
-//         chronosDivine: { level: number };
-//         infiniteDimension: { level: number };
-//         halberdMastery: { level: number };
-//         criticalSpear: { level: number };
-//         tornadoLance: { level: number };
-//         quickAura: { level: number; isActive: boolean };
-//         warCryOfStruggle: { level: number };
+//       halberdSkills.: {
+//         flashStab: { .level: number };
+//         cannonSpear: { .level: number };
+//         dragonTail: { .level: number };
+//         diveImpact: { .level: number };
+//         dragonTooth: { .level: number };
+//         draconicCharge: { .level: number };
+//         deadlySpear: { .level: number };
+//         punishRay: { .level: number };
+//         strikeStab: { .level: number };
+//         chronosDivine: { .level: number };
+//         infiniteDimension: { .level: number };
+//         halberdMastery: { .level: number };
+//         criticalSpear: { .level: number };
+//         tornadoLance: { .level: number };
+//         quickAura: { .level: number; isActive: boolean };
+//         warCryOfStruggle: { .level: number };
 //         godspeedWield: {
-//           level: number;
+//           .level: number;
 //           isActive: boolean;
 //           stacks: number;
 //         };
-//         almightyWield: { level: number };
-//         busterLance: { level: number };
+//         almightyWield: { .level: number };
+//         busterLance: { .level: number };
 //       };
-//       martialSkills: {
-//         smash: { level: number };
-//         bash: { level: number };
-//         shellBreak: { level: number };
-//         heavySmash: { level: number };
-//         chariot: { level: number };
-//         abstractArms: { level: number };
-//         sonicWave: { level: number };
-//         earthbind: { level: number };
-//         tripleKick: { level: number };
-//         rush: { level: number };
-//         asuraAura: { level: number };
-//         flashBlink: { level: number };
-//         martialMastery: { level: number };
-//         martialDiscipline: { level: number };
-//         chakra: { level: number };
-//         energyControl: { level: number };
-//         aggravate: { level: number };
-//         strongChaseAttack: { level: number };
-//         slide: { level: number };
+//       martialSkills.: {
+//         smash: { .level: number };
+//         bash: { .level: number };
+//         shellBreak: { .level: number };
+//         heavySmash: { .level: number };
+//         chariot: { .level: number };
+//         abstractArms: { .level: number };
+//         sonicWave: { .level: number };
+//         earthbind: { .level: number };
+//         tripleKick: { .level: number };
+//         rush: { .level: number };
+//         asuraAura: { .level: number };
+//         flashBlink: { .level: number };
+//         martialMastery: { .level: number };
+//         martialDiscipline: { .level: number };
+//         chakra: { .level: number };
+//         energyControl: { .level: number };
+//         aggravate: { .level: number };
+//         strongChaseAttack: { .level: number };
+//         slide: { .level: number };
 //       };
-//       crusherSkills: {
-//         forefistPunch: { level: number };
-//         goliathPunch: { level: number };
-//         godHand: { level: number };
-//         divineRigidBody: { level: number };
-//         breathWork: { level: number };
-//         floatingKick: { level: number };
-//         geyserKick: { level: number };
-//         combination: { level: number };
-//         annihilator: { level: number };
-//         terrablast: { level: number };
+//       crusherSkills.: {
+//         forefistPunch: { .level: number };
+//         goliathPunch: { .level: number };
+//         godHand: { .level: number };
+//         divineRigidBody: { .level: number };
+//         breathWork: { .level: number };
+//         floatingKick: { .level: number };
+//         geyserKick: { .level: number };
+//         combination: { .level: number };
+//         annihilator: { .level: number };
+//         terrablast: { .level: number };
 //       };
-//       assassinSkills: {
-//         assassinStab: { level: number };
-//         backstep: { level: number };
-//         arcaneStrike: { level: number };
-//         sicarius: { level: number };
-//         evasion: { level: number };
-//         serum: { level: number };
-//         foresight: { level: number };
-//         shadowWalk: { level: number };
-//         venomInjection: { level: number };
-//         corrossivePoison: { level: number };
-//         venomThief: { level: number };
-//         deathReception: { level: number };
+//       assassinSkills.: {
+//         assassinStab: { .level: number };
+//         backstep: { .level: number };
+//         arcaneStrike: { .level: number };
+//         sicarius: { .level: number };
+//         evasion: { .level: number };
+//         serum: { .level: number };
+//         foresight: { .level: number };
+//         shadowWalk: { .level: number };
+//         venomInjection: { .level: number };
+//         corrossivePoison: { .level: number };
+//         venomThief: { .level: number };
+//         deathReception: { .level: number };
 //       };
-//       knightSkills: {
-//         assaultAttack: { level: number };
-//         parry: { level: number };
-//         pDefense: { level: number };
-//         fareth: { level: number };
-//         provoke: { level: number };
-//         rageSword: { level: number };
-//         bindingStrike: { level: number };
-//         knightWill: { level: number };
-//         sonicThrust: { level: number };
-//         revenir: { level: number };
-//         knightStance: { level: number };
-//         knightRemedy: { level: number };
+//       knightSkills.: {
+//         assaultAttack: { .level: number };
+//         parry: { .level: number };
+//         pDefense: { .level: number };
+//         fareth: { .level: number };
+//         provoke: { .level: number };
+//         rageSword: { .level: number };
+//         bindingStrike: { .level: number };
+//         knightWill: { .level: number };
+//         sonicThrust: { .level: number };
+//         revenir: { .level: number };
+//         knightStance: { .level: number };
+//         knightRemedy: { .level: number };
 //       };
-//       ninjaSkills: {
-//         ninjutsu: { level: number };
-//         ninjaSpirit: { level: number };
-//         ninjutsuDrillI: { level: number };
-//         ninjutsuDrillII: { level: number };
+//       ninjaSkills.: {
+//         ninjutsu: { .level: number };
+//         ninjaSpirit: { .level: number };
+//         ninjutsuDrillI: { .level: number };
+//         ninjutsuDrillII: { .level: number };
 //       };
-//       hunterSkills: {
-//         kick: { level: number };
-//         sunriseArrow: { level: number };
-//         magicArrow: { level: number };
-//         satelliteArrow: { level: number };
-//         sleepTrap: { level: number };
-//         bearTrap: { level: number };
-//         landMine: { level: number };
-//         darkTrap: { level: number };
-//         homingShot: { level: number };
-//         detection: { level: number };
-//         cycloneArrow: { level: number };
-//         verticalAir: { level: number };
-//         hunterBowgun: { level: number };
-//         multipleHunt: { level: number };
+//       hunterSkills.: {
+//         kick: { .level: number };
+//         sunriseArrow: { .level: number };
+//         magicArrow: { .level: number };
+//         satelliteArrow: { .level: number };
+//         sleepTrap: { .level: number };
+//         bearTrap: { .level: number };
+//         landMine: { .level: number };
+//         darkTrap: { .level: number };
+//         homingShot: { .level: number };
+//         detection: { .level: number };
+//         cycloneArrow: { .level: number };
+//         verticalAir: { .level: number };
+//         hunterBowgun: { .level: number };
+//         multipleHunt: { .level: number };
 //       };
-//       priestSkills: {
-//         bless: { level: number };
-//         gloria: { level: number };
-//         enhancedBless: { level: number };
-//         royalHeal: { level: number };
-//         holyFist: { level: number };
-//         holyLight: { level: number };
-//         etherBarrier: { level: number };
-//         prayer: { level: number; isActive: boolean };
-//         staffThrust: { level: number };
-//         exorcism: { level: number };
-//         holyBook: { level: number };
-//         nemesis: { level: number };
-//       };
-
-//       bareHandSkills: {
-//         unarmedMastery: { level: number };
-//         qiCharge: { level: number };
-//         lionRage: { level: number };
-//         ultimaLionRage: { level: number };
-//         ravingStorm: { level: number };
-//         ultimaRavingStorm: { level: number };
-//         internalElixir: { level: number };
-//         clashOfEnmity: { level: number };
-//         miracleComeback: { level: number };
-//         ultimaQiCharge: { level: number };
-//         hiddenTalent: { level: number };
-//         earthShaker: { level: number };
+//       priestSkills.: {
+//         bless: { .level: number };
+//         gloria: { .level: number };
+//         enhancedBless: { .level: number };
+//         royalHeal: { .level: number };
+//         holyFist: { .level: number };
+//         holyLight: { .level: number };
+//         etherBarrier: { .level: number };
+//         prayer: { .level: number; isActive: boolean };
+//         staffThrust: { .level: number };
+//         exorcism: { .level: number };
+//         holyBook: { .level: number };
+//         nemesis: { .level: number };
 //       };
 
-//       wizardSkills: {
-//         familia: { level: number; isActive: boolean };
-//         lightning: { level: number };
-//         blizzard: { level: number };
-//         meteorStrike: { level: number };
-//         imperialRay: { level: number };
-//         manaCrystal: { level: number };
-//         stoneBarrier: { level: number };
-//         advancedFamilia: { level: number };
-//         castMastery: { level: number };
-//         crystalLaser: { level: number };
-//         overlimit: { level: number; isActive: boolean };
-//         sorceryGuide: { level: number };
+//       bareHandSkills.: {
+//         unarmedMastery: { .level: number };
+//         qiCharge: { .level: number };
+//         lionRage: { .level: number };
+//         ultimaLionRage: { .level: number };
+//         ravingStorm: { .level: number };
+//         ultimaRavingStorm: { .level: number };
+//         internalElixir: { .level: number };
+//         clashOfEnmity: { .level: number };
+//         miracleComeback: { .level: number };
+//         ultimaQiCharge: { .level: number };
+//         hiddenTalent: { .level: number };
+//         earthShaker: { .level: number };
+//       };
+
+//       wizardSkills.: {
+//         familia: { .level: number; isActive: boolean };
+//         lightning: { .level: number };
+//         blizzard: { .level: number };
+//         meteorStrike: { .level: number };
+//         imperialRay: { .level: number };
+//         manaCrystal: { .level: number };
+//         stoneBarrier: { .level: number };
+//         advancedFamilia: { .level: number };
+//         castMastery: { .level: number };
+//         crystalLaser: { .level: number };
+//         overlimit: { .level: number; isActive: boolean };
+//         sorceryGuide: { .level: number };
 //       };
 //     };
 
 //     regislets: {
-//       zeroStance: { level: number };
-//       maxHPBoost: { level: number };
-//       maxMPBoost: { level: number };
-//       magicAttackBoost: { level: number };
-//       physicalAttackBoost: { level: number };
-//       magicDefenseBoost: { level: number };
-//       physicalDefenseBoost: { level: number };
-//       attackSpeedBoost: { level: number };
-//       magicSpeedBoost: { level: number };
-//       dodgeBoost: { level: number };
-//       accuracyBoost: { level: number };
-//       focusResonance: { level: number };
-//       speedResonance: { level: number };
-//       powerResonance: { level: number };
+//       zeroStance: { .level: number };
+//       maxHPBoost: { .level: number };
+//       maxMPBoost: { .level: number };
+//       magicAttackBoost: { .level: number };
+//       physicalAttackBoost: { .level: number };
+//       magicDefenseBoost: { .level: number };
+//       physicalDefenseBoost: { .level: number };
+//       attackSpeedBoost: { .level: number };
+//       magicSpeedBoost: { .level: number };
+//       dodgeBoost: { .level: number };
+//       accuracyBoost: { .level: number };
+//       focusResonance: { .level: number };
+//       speedResonance: { .level: number };
+//       powerResonance: { .level: number };
 //     };
 
 //     consumables: StatMapBuilder; // Stat type is assumed to be defined elsewhere
@@ -993,6 +1038,161 @@ export type RecursivePartial<T> = {
   [P in keyof T]?: T extends (infer L)[] ? L
   : RecursivePartial<T[P]> | undefined;
 };
+export enum StatId {
+  flatSTR,
+  percentSTR,
+
+  flatINT,
+  percentINT,
+
+  flatDEX,
+  percentDEX,
+
+  flatVIT,
+  percentVIT,
+
+  flatAGI,
+  percentAGI,
+
+  flatWeaponATK,
+  percentWeaponATK,
+
+  flatMATK,
+  percentMATK,
+
+  flatATK,
+  percentATK,
+
+  flatASPD,
+  percentASPD,
+
+  flatCSPD,
+  percentCSPD,
+
+  flatCriticalRate,
+  percentCriticalRate,
+
+  flatCriticalDamage,
+  percentCriticalDamage,
+
+  flatMaxHP,
+  percentMaxHP,
+
+  flatMaxMP,
+  percentMaxMP,
+
+  flatAccuracy,
+  percentAccuracy,
+
+  flatDodge,
+  percentDodge,
+
+  flatDEF,
+  percentDEF,
+
+  flatMDEF,
+  percentMDEF,
+
+  flatUnsheatheAttack,
+  percentUnsheatheAttack,
+
+  flatAttackMPRecovery,
+  percentAttackMPRecovery,
+
+  flatNaturalHPRegen,
+  percentNaturalHPRegen,
+  flatNaturalMPRegen,
+  percentNaturalMPRegen,
+
+  stability,
+
+  magicPierce,
+  physicalPierce,
+
+  longRangeDamage,
+  shortRangeDamage,
+
+  motionSpeed,
+
+  ATKUPSTR,
+  ATKUPINT,
+  ATKUPDEX,
+  ATKUPVIT,
+  ATKUPAGI,
+
+  MATKUPSTR,
+  MATKUPINT,
+  MATKUPDEX,
+  MATKUPVIT,
+  MATKUPAGI,
+
+  ATKDOWNSTR,
+  ATKDOWNINT,
+  ATKDOWNDEX,
+  ATKDOWNVIT,
+  ATKDOWNAGI,
+
+  MATKDOWNSTR,
+  MATKDOWNINT,
+  MATKDOWNDEX,
+  MATKDOWNVIT,
+  MATKDOWNAGI,
+
+  magicResistance,
+  physicalResistance,
+
+  lightResistance,
+  darkResistance,
+
+  fireResistance,
+  waterResistance,
+  earthResistance,
+  windResistance,
+
+  neutralResistance,
+  ailmentResistance,
+
+  damageToDark,
+  damageToLight,
+  damageToEarth,
+  damageToWater,
+  damageToFire,
+  damageToWind,
+
+  aggro,
+
+  tumbleUnavailable,
+  flinchUnavailable,
+  stunUnavailable,
+
+  darkElement,
+  lightElement,
+  earthElement,
+  waterElement,
+  fireElement,
+  windElement,
+
+  guardPower,
+  guardRecharge,
+  guardBreak,
+
+  evasionRecharge,
+  anticipate,
+
+  itemCooldown,
+  invincibleAid,
+
+  absoluteAccuracy,
+  absoluteDodge,
+
+  physicalBarrier,
+  magicBarrier,
+  fractionalBarrier,
+  barrierCooldown,
+
+  additionalMelee,
+  additionalMagic,
+}
 
 // // export type Stat =
 // //   | "flatSTR"

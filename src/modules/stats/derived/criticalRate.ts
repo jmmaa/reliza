@@ -1,4 +1,4 @@
-import { StatId } from "../../..";
+import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import {
   criticalUPTotalFlatCriticalRate,
@@ -16,7 +16,9 @@ import { twoHandedTotalFlatCriticalRate } from "../../mononofuSkills";
 import { floor, get, sum, total, flattenedStats } from "../../utils";
 
 export const totalBaseCriticalRate = (config: IntermediateConfig) =>
-  floor(25 + config["character.CRT"] / 3.4);
+  config["character.personalStat"] === "CRT" ?
+    floor(25 + config["character.personalStatValue"] / 3.4)
+  : 0;
 
 export const totalPercentCriticalRateFromEquipment = (
   config: IntermediateConfig,

@@ -1,4 +1,4 @@
-import { StatId } from "../../..";
+import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import { get, sum, floor, flattenedStats } from "../../utils";
 import { totalASPD } from "../derived";

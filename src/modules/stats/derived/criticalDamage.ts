@@ -1,5 +1,5 @@
-import { StatId } from "../../..";
-import { type IntermediateConfig } from "../../../types";
+import { StatId } from "../../../types";
+import { IntermediateConfig } from "../../../types";
 import {
   criticalUPTotalPercentCriticalDamage,
   spellBurstTotalMagicCriticalDamageConversion,

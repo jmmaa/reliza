@@ -6,10 +6,7 @@ export const etherFlareLevel = (config: IntermediateConfig) =>
 
 export const etherFlareInflictedIgniteOnEnemy = (
   config: IntermediateConfig,
-) =>
-  config[
-    "character.skills.magicBladeSkills.etherFlare.inflictedIgniteOnEnemey"
-  ];
+) => config["character.skills.magicBladeSkills.etherFlare.isActive"];
 
 export const etherFlareTotalFlatAMPR = (config: IntermediateConfig) =>
   (

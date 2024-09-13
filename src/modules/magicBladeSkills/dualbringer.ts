@@ -1,4 +1,4 @@
-import { StatId } from "../..";
+import { StatId } from "../../types";
 import { type IntermediateConfig } from "../../types";
 import { totalATK, totalINT, totalMATK, totalSTR } from "../stats";
 import { subWeaponMagicDevicePercentATKModifier } from "../stats/derived/modifiers";

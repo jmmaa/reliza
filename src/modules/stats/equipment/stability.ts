@@ -1,4 +1,4 @@
-import { StatId } from "../../..";
+import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import { berserkTotalStability } from "../../bladeSkills/berserk";
 import { twoHandedTotalStability } from "../../mononofuSkills";

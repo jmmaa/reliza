@@ -1,4 +1,4 @@
-import { StatId } from "../../..";
+import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import { floor, sum, flattenedStats } from "../../utils";
 
@@ -12,7 +12,10 @@ export const totalAilmentResistanceFromEquipment = (
 
 export const totalAilmentResistanceFromMTL = (
   config: IntermediateConfig,
-) => floor(config["character.MTL"] / 3.4);
+) =>
+  config["character.personalStat"] === "MTL" ?
+    floor(config["character.personalStatValue"] / 3.4)
+  : 0;
 
 export const totalAilmentResistance = (config: IntermediateConfig) =>
   totalAilmentResistanceFromEquipment(config) +
