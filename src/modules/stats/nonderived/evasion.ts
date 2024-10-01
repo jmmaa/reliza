@@ -1,6 +1,6 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import { godspeedWieldTotalPercentEvasionRecharge } from "../../halberdSkills";
+import { StatId } from "../../utils";
 import { flattenedStats, get, sum } from "../../utils";
 
 export const totalBaseEvasionRecharge = (config: IntermediateConfig) => {

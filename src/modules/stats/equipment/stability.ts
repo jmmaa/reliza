@@ -1,8 +1,8 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import { berserkTotalStability } from "../../bladeSkills/berserk";
 import { twoHandedTotalStability } from "../../mononofuSkills";
 import { samuraiArcheryTotalStability } from "../../shotSkills/samuraiArchery";
+import { StatId } from "../../utils";
 import { floor, get, sum, flattenedStats } from "../../utils";
 import { totalBaseStability } from "../derived";
 

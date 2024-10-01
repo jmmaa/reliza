@@ -1,9 +1,9 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import {
   flashBlastTotalPercentUnsheatheAttack,
   godspeedTotalPercentUnsheatheAttack,
 } from "../../dualSwordSkills";
+import { StatId } from "../../utils";
 import { flattenedStats, get, sum } from "../../utils";
 
 export const totalPercentUnsheatheAttackFromEquipment = (

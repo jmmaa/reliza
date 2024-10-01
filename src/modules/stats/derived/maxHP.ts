@@ -1,4 +1,3 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import { bushidoTotalFlatMaxHP } from "../../mononofuSkills";
 import { maxHPBoostTotalFlatMaxMP } from "../../regislets";
@@ -10,6 +9,7 @@ import {
   HPBoostTotalFlatMaxHP,
   HPBoostTotalPercentMaxHP,
 } from "../../survivalSkills";
+import { StatId } from "../../utils";
 import { get, sum, total, flattenedStats } from "../../utils";
 import { totalVIT } from "../basic";
 

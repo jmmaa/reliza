@@ -1,8 +1,8 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import { bushidoTotalFlatMaxMP } from "../../mononofuSkills";
 import { maxMPBoostTotalFlatMaxMP } from "../../regislets";
 import { MPBoostTotalFlatMaxMP } from "../../survivalSkills";
+import { StatId } from "../../utils";
 import { floor, get, sum, total, flattenedStats } from "../../utils";
 import { totalINT } from "../basic";
 

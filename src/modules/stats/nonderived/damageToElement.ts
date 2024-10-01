@@ -1,5 +1,5 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
+import { StatId } from "../../utils";
 import { get, sum, flattenedStats, floor } from "../../utils";
 
 export const totalMagicDamageToElementBasedFromINT = (

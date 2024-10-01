@@ -1,5 +1,5 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
+import { StatId } from "../../utils";
 import { floor, get, sum, flattenedStats } from "../../utils";
 
 export const totalBaseMATKValueFromMATKDOWNAGI = (

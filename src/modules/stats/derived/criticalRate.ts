@@ -1,4 +1,3 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import {
   criticalUPTotalFlatCriticalRate,
@@ -13,6 +12,7 @@ import {
   criticalSpearTotalPercentCriticalRate,
 } from "../../halberdSkills";
 import { twoHandedTotalFlatCriticalRate } from "../../mononofuSkills";
+import { StatId } from "../../utils";
 import { floor, get, sum, total, flattenedStats } from "../../utils";
 
 export const totalBaseCriticalRate = (config: IntermediateConfig) =>

@@ -1,4 +1,3 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import { accuracyUPTotalFlatAccuracy } from "../../battleSkills";
 import {
@@ -10,6 +9,7 @@ import {
   twoHandedTotalPercentAccuracy,
 } from "../../mononofuSkills";
 import { samuraiArcheryTotalPercentAccuracy } from "../../shotSkills";
+import { StatId } from "../../utils";
 import { sum, floor, flattenedStats, total, get } from "../../utils";
 import { totalDEX } from "../basic";
 

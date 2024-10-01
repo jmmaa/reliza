@@ -1,4 +1,3 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import {
   magicWarriorMasteryTotalFlatCSPD,
@@ -9,6 +8,7 @@ import {
   highCycleTotalFlatCSPD,
   highCycleTotalPercentCSPD,
 } from "../../supportSkills";
+import { StatId } from "../../utils";
 import { floor, get, sum, total, flattenedStats } from "../../utils";
 import {
   castMasteryTotalFlatCSPD,

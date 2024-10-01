@@ -1,4 +1,3 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import { unarmedMasteryTotalFlatWeaponATK } from "../../bareHandSkills";
 import { swordMasteryTotalPercentWeaponATK } from "../../bladeSkills";
@@ -14,6 +13,7 @@ import {
 import { samuraiArcheryTotalFlatWeaponATK } from "../../shotSkills";
 import { shotMasteryTotalPercentWeaponATK } from "../../shotSkills/shotMastery";
 import { braveAuraTotalPercentWeaponATK } from "../../supportSkills";
+import { StatId } from "../../utils";
 import {
   get,
   sum,

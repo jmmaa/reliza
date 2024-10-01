@@ -1,7 +1,7 @@
-import { StatId } from "../../types";
 import { type IntermediateConfig } from "../../types";
 import { totalATK, totalINT, totalMATK, totalSTR } from "../stats";
 import { subWeaponMagicDevicePercentATKModifier } from "../stats/derived/modifiers";
+import { StatId } from "../utils";
 import { flattenedStats, floor, get, sum } from "../utils";
 
 export const dualBringerLevel = (config: IntermediateConfig) =>

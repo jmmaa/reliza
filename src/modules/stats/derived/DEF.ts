@@ -1,4 +1,3 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import {
   defenseMasteryTotalFlatDEF,
@@ -9,6 +8,7 @@ import {
   forceShieldTotalFlatDEF,
   forceShieldTotalPercentDEF,
 } from "../../shieldSkills";
+import { StatId } from "../../utils";
 import { get, sum, total, flattenedStats, floor } from "../../utils";
 import { totalVIT } from "../basic";
 import { totalEquipmentDEF } from "../equipment";

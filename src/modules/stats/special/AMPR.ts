@@ -1,8 +1,8 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import { ultimaQiChargeTotalFlatAMPR } from "../../bareHandSkills";
 import { etherFlareTotalFlatAMPR } from "../../magicBladeSkills";
 import { aggravateTotalFlatAMPR } from "../../martialSkills";
+import { StatId } from "../../utils";
 import { flattenedStats, floor, get, sum } from "../../utils";
 import { totalMaxMP } from "../derived";
 

@@ -1,6 +1,6 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import { godspeedTotalFlatAGI } from "../../dualSwordSkills";
+import { StatId } from "../../utils";
 import { sum, total, flattenedStats } from "../../utils";
 
 export const totalPercentAGIFromEquipment = (config: IntermediateConfig) =>

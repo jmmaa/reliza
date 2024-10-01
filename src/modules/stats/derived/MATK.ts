@@ -1,4 +1,3 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import {
   increasedEnergyTotalFlatMATK,
@@ -11,6 +10,7 @@ import {
 import { magicMasteryTotalPercentMATK } from "../../magicSkills/magicMastery";
 import { prayerTotalPercentMATK } from "../../priestSkills";
 import { magicAttackBoostTotalFlatMATK } from "../../regislets";
+import { StatId } from "../../utils";
 import {
   floor,
   get,

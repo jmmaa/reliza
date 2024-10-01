@@ -1,9 +1,9 @@
-import { StatId } from "../../../types";
 import { IntermediateConfig } from "../../../types";
 import {
   criticalUPTotalPercentCriticalDamage,
   spellBurstTotalMagicCriticalDamageConversion,
 } from "../../battleSkills";
+import { StatId } from "../../utils";
 import { floor, get, sum, total, flattenedStats } from "../../utils";
 import { totalAGI, totalSTR } from "../basic";
 

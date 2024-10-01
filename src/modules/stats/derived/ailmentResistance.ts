@@ -1,5 +1,5 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
+import { StatId } from "../../utils";
 import { floor, sum, flattenedStats } from "../../utils";
 
 export const totalAilmentResistanceFromEquipment = (

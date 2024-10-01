@@ -1,10 +1,10 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import {
   hiddenTalentTotalBaseGuardPower,
   hiddenTalentTotalBaseGuardRecharge,
 } from "../../bareHandSkills";
 import { heavyArmorMasteryTotalGuardRecharge } from "../../guardSkills";
+import { StatId } from "../../utils";
 import { flattenedStats, floor, get, min, sum } from "../../utils";
 
 export const totalBaseGuardPower = (config: IntermediateConfig) =>

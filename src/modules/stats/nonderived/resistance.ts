@@ -1,4 +1,3 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import {
   godspeedWieldTotalMagicResistance,
@@ -12,6 +11,7 @@ import {
   forceShieldTotalPhysicalResistance,
   magicalShieldTotalMagicResistance,
 } from "../../shieldSkills";
+import { StatId } from "../../utils";
 import { get, sum, flattenedStats } from "../../utils";
 
 export const totalPhysicalResistanceFromEquipment = (

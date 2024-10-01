@@ -1,5 +1,5 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
+import { StatId } from "../../utils";
 
 export const mainWeaponElement = (config: IntermediateConfig) =>
   config["character.mainweapon.stats"](config)

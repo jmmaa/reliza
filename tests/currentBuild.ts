@@ -1,3 +1,4 @@
+import { calculateAll } from "../src/index";
 import {
   createIntermediateConfig,
   flattenedStats,
@@ -14,7 +15,7 @@ const myMage = createIntermediateConfig({
   "character.additionalGear.stats": (_) => [[StatId.ATKDOWNAGI, 20]],
 });
 
-console.log(flattenedStats(myMage));
+console.log(calculateAll(myMage));
 
 /** DONT FUCKING DELETE THIS SHIEEET */
 

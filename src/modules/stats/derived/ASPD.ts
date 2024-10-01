@@ -1,4 +1,3 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import {
   quickSlashTotalFlatASPD,
@@ -15,6 +14,7 @@ import {
   quickAuraTotalPercentASPD,
 } from "../../halberdSkills";
 import { martialDisciplineTotalFlatASPD } from "../../martialSkills";
+import { StatId } from "../../utils";
 import {
   sum,
   get,

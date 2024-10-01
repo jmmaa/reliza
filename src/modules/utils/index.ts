@@ -571,3 +571,159 @@ export const createIntermediateConfig = (
   ...defaultIntermediateConfig,
   ...(config as Partial<IntermediateConfig>),
 });
+
+export enum StatId {
+  flatSTR,
+  percentSTR,
+
+  flatINT,
+  percentINT,
+
+  flatDEX,
+  percentDEX,
+
+  flatVIT,
+  percentVIT,
+
+  flatAGI,
+  percentAGI,
+
+  flatWeaponATK,
+  percentWeaponATK,
+
+  flatMATK,
+  percentMATK,
+
+  flatATK,
+  percentATK,
+
+  flatASPD,
+  percentASPD,
+
+  flatCSPD,
+  percentCSPD,
+
+  flatCriticalRate,
+  percentCriticalRate,
+
+  flatCriticalDamage,
+  percentCriticalDamage,
+
+  flatMaxHP,
+  percentMaxHP,
+
+  flatMaxMP,
+  percentMaxMP,
+
+  flatAccuracy,
+  percentAccuracy,
+
+  flatDodge,
+  percentDodge,
+
+  flatDEF,
+  percentDEF,
+
+  flatMDEF,
+  percentMDEF,
+
+  flatUnsheatheAttack,
+  percentUnsheatheAttack,
+
+  flatAttackMPRecovery,
+  percentAttackMPRecovery,
+
+  flatNaturalHPRegen,
+  percentNaturalHPRegen,
+  flatNaturalMPRegen,
+  percentNaturalMPRegen,
+
+  stability,
+
+  magicPierce,
+  physicalPierce,
+
+  longRangeDamage,
+  shortRangeDamage,
+
+  motionSpeed,
+
+  ATKUPSTR,
+  ATKUPINT,
+  ATKUPDEX,
+  ATKUPVIT,
+  ATKUPAGI,
+
+  MATKUPSTR,
+  MATKUPINT,
+  MATKUPDEX,
+  MATKUPVIT,
+  MATKUPAGI,
+
+  ATKDOWNSTR,
+  ATKDOWNINT,
+  ATKDOWNDEX,
+  ATKDOWNVIT,
+  ATKDOWNAGI,
+
+  MATKDOWNSTR,
+  MATKDOWNINT,
+  MATKDOWNDEX,
+  MATKDOWNVIT,
+  MATKDOWNAGI,
+
+  magicResistance,
+  physicalResistance,
+
+  lightResistance,
+  darkResistance,
+
+  fireResistance,
+  waterResistance,
+  earthResistance,
+  windResistance,
+
+  neutralResistance,
+  ailmentResistance,
+
+  damageToDark,
+  damageToLight,
+  damageToEarth,
+  damageToWater,
+  damageToFire,
+  damageToWind,
+
+  aggro,
+
+  tumbleUnavailable,
+  flinchUnavailable,
+  stunUnavailable,
+
+  darkElement,
+  lightElement,
+  earthElement,
+  waterElement,
+  fireElement,
+  windElement,
+
+  guardPower,
+  guardRecharge,
+  guardBreak,
+
+  evasionRecharge,
+  anticipate,
+
+  itemCooldown,
+  invincibleAid,
+
+  absoluteAccuracy,
+  absoluteDodge,
+
+  physicalBarrier,
+  magicBarrier,
+  fractionalBarrier,
+  barrierCooldown,
+
+  additionalMelee,
+  additionalMagic,
+}

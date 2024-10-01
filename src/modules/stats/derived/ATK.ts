@@ -1,4 +1,3 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import {
   attackUPTotalFlatATK,
@@ -12,6 +11,7 @@ import { martialMasteryTotalPercentATK } from "../../martialSkills";
 import { bushidoTotalPercentATK } from "../../mononofuSkills";
 import { physicalAttackBoostTotalFlatATK } from "../../regislets";
 import { shotMasteryTotalPercentATK } from "../../shotSkills";
+import { StatId } from "../../utils";
 import {
   sum,
   floor,

@@ -1,5 +1,5 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
+import { StatId } from "../../utils";
 import { sum, total, flattenedStats } from "../../utils";
 
 export const totalPercentDEXFromEquipment = (config: IntermediateConfig) =>

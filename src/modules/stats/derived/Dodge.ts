@@ -1,6 +1,6 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
 import { dodgeUPTotalFlatDodge } from "../../battleSkills";
+import { StatId } from "../../utils";
 import { get, sum, total, flattenedStats, floor } from "../../utils";
 import { totalAGI } from "../basic";
 

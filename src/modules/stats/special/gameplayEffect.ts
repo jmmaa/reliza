@@ -1,5 +1,5 @@
-import { StatId } from "../../../types";
 import { type IntermediateConfig } from "../../../types";
+import { StatId } from "../../utils";
 import { flattenedStats, get, sum } from "../../utils";
 
 export const isFlinchUnavailable = (config: IntermediateConfig) =>
