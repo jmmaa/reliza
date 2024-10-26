@@ -1030,74 +1030,77 @@ const isUsingMainTHS = (config: IntermediateConfig) =>
   config[Param.CHARACTER_MAINWEAPON_TYPE] ===
   MainWeaponType.TWO_HANDED_SWORD;
 
+const isUsingMainHAL = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_MAINWEAPON_TYPE] === MainWeaponType.HALBERD;
+
 const isUsingDualSwords = (config: IntermediateConfig) =>
   isUsingMainOHS(config) &&
   isUsingSubOHS(config) &&
   config[Param.CHARACTER_SKILLS_DUALSWORDSKILLS_DUALSWORDMASTERY_LEVEL] >
     0;
 
-const getFlattenedStatsFromMainWeapon = (config: IntermediateConfig) =>
+const flattenedStatsFromMainWeapon = (config: IntermediateConfig) =>
   config[Param.CHARACTER_MAINWEAPON_STATMAP](config);
 
-const getFlattenedStatsFromMainWeaponCrystal1 = (
+const flattenedStatsFromMainWeaponCrystal1 = (
   config: IntermediateConfig,
 ) => config[Param.CHARACTER_MAINWEAPON_CRYSTAL1_STATMAP](config);
 
-const getFlattenedStatsFromMainWeaponCrystal2 = (
+const flattenedStatsFromMainWeaponCrystal2 = (
   config: IntermediateConfig,
 ) => config[Param.CHARACTER_MAINWEAPON_CRYSTAL2_STATMAP](config);
 
-const getFlattenedStatsFromSubWeapon = (config: IntermediateConfig) =>
+const flattenedStatsFromSubWeapon = (config: IntermediateConfig) =>
   isUsingStatAccessibleSubWeapon(config) ?
     config[Param.CHARACTER_SUBWEAPON_STATMAP](config)
   : [];
 
-const getFlattenedStatsFromArmor = (config: IntermediateConfig) =>
+const flattenedStatsFromArmor = (config: IntermediateConfig) =>
   config[Param.CHARACTER_ARMOR_STATMAP](config);
 
-const getFlattenedStatsFromArmorCrystal1 = (config: IntermediateConfig) =>
+const flattenedStatsFromArmorCrystal1 = (config: IntermediateConfig) =>
   config[Param.CHARACTER_ARMOR_CRYSTAL1_STATMAP](config);
 
-const getFlattenedStatsFromArmorCrystal2 = (config: IntermediateConfig) =>
+const flattenedStatsFromArmorCrystal2 = (config: IntermediateConfig) =>
   config[Param.CHARACTER_ARMOR_CRYSTAL2_STATMAP](config);
 
-const getFlattenedStatsFromAdditionalGear = (config: IntermediateConfig) =>
+const flattenedStatsFromAdditionalGear = (config: IntermediateConfig) =>
   config[Param.CHARACTER_ADDITIONAL_GEAR_STATMAP](config);
 
-const getFlattenedStatsFromAdditionalGearCrystal1 = (
+const flattenedStatsFromAdditionalGearCrystal1 = (
   config: IntermediateConfig,
 ) => config[Param.CHARACTER_ADDITIONAL_GEAR_CRYSTAL1_STATMAP](config);
 
-const getFlattenedStatsFromAdditionalGearCrystal2 = (
+const flattenedStatsFromAdditionalGearCrystal2 = (
   config: IntermediateConfig,
 ) => config[Param.CHARACTER_ADDITIONAL_GEAR_CRYSTAL2_STATMAP](config);
 
-const getFlattenedStatsFromSpecialGear = (config: IntermediateConfig) =>
+const flattenedStatsFromSpecialGear = (config: IntermediateConfig) =>
   config[Param.CHARACTER_SPECIAL_GEAR_STATMAP](config);
 
-const getFlattenedStatsFromSpecialGearCrystal1 = (
+const flattenedStatsFromSpecialGearCrystal1 = (
   config: IntermediateConfig,
 ) => config[Param.CHARACTER_SPECIAL_GEAR_CRYSTAL1_STATMAP](config);
 
-const getFlattenedStatsFromSpecialGearCrystal2 = (
+const flattenedStatsFromSpecialGearCrystal2 = (
   config: IntermediateConfig,
 ) => config[Param.CHARACTER_SPECIAL_GEAR_CRYSTAL2_STATMAP](config);
 
-const getFlattenedStats = (config: IntermediateConfig) =>
+const flattenedStats = (config: IntermediateConfig) =>
   ([] as Stat[]).concat(
-    getFlattenedStatsFromMainWeapon(config),
-    getFlattenedStatsFromMainWeaponCrystal1(config),
-    getFlattenedStatsFromMainWeaponCrystal2(config),
-    getFlattenedStatsFromSubWeapon(config),
-    getFlattenedStatsFromArmor(config),
-    getFlattenedStatsFromArmorCrystal1(config),
-    getFlattenedStatsFromArmorCrystal2(config),
-    getFlattenedStatsFromAdditionalGear(config),
-    getFlattenedStatsFromAdditionalGearCrystal1(config),
-    getFlattenedStatsFromAdditionalGearCrystal2(config),
-    getFlattenedStatsFromSpecialGear(config),
-    getFlattenedStatsFromSpecialGearCrystal1(config),
-    getFlattenedStatsFromSpecialGearCrystal2(config),
+    flattenedStatsFromMainWeapon(config),
+    flattenedStatsFromMainWeaponCrystal1(config),
+    flattenedStatsFromMainWeaponCrystal2(config),
+    flattenedStatsFromSubWeapon(config),
+    flattenedStatsFromArmor(config),
+    flattenedStatsFromArmorCrystal1(config),
+    flattenedStatsFromArmorCrystal2(config),
+    flattenedStatsFromAdditionalGear(config),
+    flattenedStatsFromAdditionalGearCrystal1(config),
+    flattenedStatsFromAdditionalGearCrystal2(config),
+    flattenedStatsFromSpecialGear(config),
+    flattenedStatsFromSpecialGearCrystal1(config),
+    flattenedStatsFromSpecialGearCrystal2(config),
     config[Param.CHARACTER_FOODBUFFS],
     config[Param.CHARACTER_CONSUMABLES],
   );
@@ -1105,136 +1108,136 @@ const getFlattenedStats = (config: IntermediateConfig) =>
 // ---------- BASIC STATS --------------
 
 // AGI
-const getTotalPercentAGIFromEquipment = (config: IntermediateConfig) =>
-  getFlattenedStats(config)
+const totalPercentAGIFromEquipment = (config: IntermediateConfig) =>
+  flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_AGI)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-const getTotalPercentAGI = (config: IntermediateConfig) =>
-  getTotalPercentAGIFromEquipment(config);
+const totalPercentAGI = (config: IntermediateConfig) =>
+  totalPercentAGIFromEquipment(config);
 
-const getTotalFlatAGIFromEquipment = (config: IntermediateConfig) =>
-  getFlattenedStats(config)
+const totalFlatAGIFromEquipment = (config: IntermediateConfig) =>
+  flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_AGI)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-const getTotalFlatAGI = (config: IntermediateConfig) =>
-  getTotalFlatAGIFromEquipment(config);
+const totalFlatAGI = (config: IntermediateConfig) =>
+  totalFlatAGIFromEquipment(config) + godspeedTotalFlatAGI(config);
 
-const getTotalAGI = (config: IntermediateConfig) =>
+const totalAGI = (config: IntermediateConfig) =>
   finalizeTotal(
     config[Param.CHARACTER_BASE_AGI],
-    getTotalPercentAGI(config),
-    getTotalFlatAGI(config),
+    totalPercentAGI(config),
+    totalFlatAGI(config),
   );
 
 // DEX
-const getTotalPercentDEXFromEquipment = (config: IntermediateConfig) =>
-  getFlattenedStats(config)
+const totalPercentDEXFromEquipment = (config: IntermediateConfig) =>
+  flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_DEX)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-const getTotalPercentDEX = (config: IntermediateConfig) =>
-  getTotalPercentDEXFromEquipment(config);
+const totalPercentDEX = (config: IntermediateConfig) =>
+  totalPercentDEXFromEquipment(config);
 
-const getTotalFlatDEXFromEquipment = (config: IntermediateConfig) =>
-  getFlattenedStats(config)
+const totalFlatDEXFromEquipment = (config: IntermediateConfig) =>
+  flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_DEX)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-const getTotalFlatDEX = (config: IntermediateConfig) =>
-  getTotalFlatDEXFromEquipment(config);
+const totalFlatDEX = (config: IntermediateConfig) =>
+  totalFlatDEXFromEquipment(config);
 
-const getTotalDEX = (config: IntermediateConfig) =>
+const totalDEX = (config: IntermediateConfig) =>
   finalizeTotal(
     config[Param.CHARACTER_BASE_DEX],
-    getTotalPercentDEX(config),
-    getTotalFlatDEX(config),
+    totalPercentDEX(config),
+    totalFlatDEX(config),
   );
 
 // STR
 
-const getTotalPercentSTRFromEquipment = (config: IntermediateConfig) =>
-  getFlattenedStats(config)
+const totalPercentSTRFromEquipment = (config: IntermediateConfig) =>
+  flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_STR)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-const getTotalPercentSTR = (config: IntermediateConfig) =>
-  getTotalPercentSTRFromEquipment(config);
+const totalPercentSTR = (config: IntermediateConfig) =>
+  totalPercentSTRFromEquipment(config);
 
-const getTotalFlatSTRFromEquipment = (config: IntermediateConfig) =>
-  getFlattenedStats(config)
+const totalFlatSTRFromEquipment = (config: IntermediateConfig) =>
+  flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_STR)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-const getTotalFlatSTR = (config: IntermediateConfig) =>
-  getTotalFlatSTRFromEquipment(config);
+const totalFlatSTR = (config: IntermediateConfig) =>
+  totalFlatSTRFromEquipment(config);
 
-const getTotalSTR = (config: IntermediateConfig) =>
+const totalSTR = (config: IntermediateConfig) =>
   finalizeTotal(
     config[Param.CHARACTER_BASE_STR],
-    getTotalPercentSTR(config),
-    getTotalFlatSTR(config),
+    totalPercentSTR(config),
+    totalFlatSTR(config),
   );
 
 // INT
 
-const getTotalPercentINTFromEquipment = (config: IntermediateConfig) =>
-  getFlattenedStats(config)
+const totalPercentINTFromEquipment = (config: IntermediateConfig) =>
+  flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_INT)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-const getTotalPercentINT = (config: IntermediateConfig) =>
-  getTotalPercentINTFromEquipment(config);
+const totalPercentINT = (config: IntermediateConfig) =>
+  totalPercentINTFromEquipment(config);
 
-const getTotalFlatINTFromEquipment = (config: IntermediateConfig) =>
-  getFlattenedStats(config)
+const totalFlatINTFromEquipment = (config: IntermediateConfig) =>
+  flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_INT)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-const getTotalFlatINT = (config: IntermediateConfig) =>
-  getTotalFlatINTFromEquipment(config);
+const totalFlatINT = (config: IntermediateConfig) =>
+  totalFlatINTFromEquipment(config);
 
-const getTotalINT = (config: IntermediateConfig) =>
+const totalINT = (config: IntermediateConfig) =>
   finalizeTotal(
     config[Param.CHARACTER_BASE_INT],
-    getTotalPercentINT(config),
-    getTotalFlatINT(config),
+    totalPercentINT(config),
+    totalFlatINT(config),
   );
 
 // VIT
 
-const getTotalPercentVITFromEquipment = (config: IntermediateConfig) =>
-  getFlattenedStats(config)
+const totalPercentVITFromEquipment = (config: IntermediateConfig) =>
+  flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_VIT)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-const getTotalPercentVIT = (config: IntermediateConfig) =>
-  getTotalPercentVITFromEquipment(config);
+const totalPercentVIT = (config: IntermediateConfig) =>
+  totalPercentVITFromEquipment(config);
 
-const getTotalFlatVITFromEquipment = (config: IntermediateConfig) =>
-  getFlattenedStats(config)
+const totalFlatVITFromEquipment = (config: IntermediateConfig) =>
+  flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_VIT)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-const getTotalFlatVIT = (config: IntermediateConfig) =>
-  getTotalFlatVITFromEquipment(config);
+const totalFlatVIT = (config: IntermediateConfig) =>
+  totalFlatVITFromEquipment(config);
 
-const getTotalVIT = (config: IntermediateConfig) =>
+const totalVIT = (config: IntermediateConfig) =>
   finalizeTotal(
     config[Param.CHARACTER_BASE_VIT],
-    getTotalPercentVIT(config),
-    getTotalFlatVIT(config),
+    totalPercentVIT(config),
+    totalFlatVIT(config),
   );
 
 // ---------- SKILLS AND PASSIVES --------------
@@ -1423,4 +1426,220 @@ const warCryTotalPercentATK = (config: IntermediateConfig) =>
     : warCryLevel(config) * 10
   : 0;
 
-// continue dual swords skills
+// dualswords skills
+
+const dualSwordControlLevel = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_DUALSWORDSKILLS_DUALSWORDCONTROL_LEVEL];
+
+const dualSwordControlTotalPercentCriticalRate = (
+  config: IntermediateConfig,
+) =>
+  isUsingDualSwords(config) ? 5 + dualSwordControlLevel(config) * 3 : 0;
+
+const dualSwordControlTotalPercentAccuracy = (
+  config: IntermediateConfig,
+) =>
+  isUsingDualSwords(config) ? 5 + dualSwordControlLevel(config) * 3 : 0;
+
+const dualSwordControlTotalFlatASPD = (config: IntermediateConfig) =>
+  isUsingDualSwords(config) ? 50 * dualSwordControlLevel(config) : 0;
+
+const dualSwordMasteryLevel = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_DUALSWORDSKILLS_DUALSWORDMASTERY_LEVEL];
+
+const dualSwordMasteryTotalPercentCriticalRate = (
+  config: IntermediateConfig,
+) =>
+  isUsingDualSwords(config) ? -55 + dualSwordMasteryLevel(config) * 3 : 0;
+
+const dualSwordMasteryTotalPercentAccuracy = (
+  config: IntermediateConfig,
+) =>
+  isUsingDualSwords(config) ? -55 + dualSwordMasteryLevel(config) * 3 : 0;
+
+const flashBlastLevel = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_DUALSWORDSKILLS_FLASHBLAST_LEVEL];
+
+const flashBlastIsActive = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_DUALSWORDSKILLS_FLASHBLAST_ISACTIVE];
+
+const flashBlastTotalPercentUnsheatheAttack = (
+  config: IntermediateConfig,
+) => (flashBlastIsActive(config) ? flashBlastLevel(config) : 0);
+
+const flashBlastTotalPercentMainWeaponATK = (
+  config: IntermediateConfig,
+) =>
+  flashBlastIsActive(config) ?
+    isUsingDualSwords(config) && flashBlastLevel(config) > 0 ?
+      25
+    : 0
+  : 0;
+
+const godspeedLevel = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_HALBERDSKILLS_GODSPEEDWIELD_LEVEL];
+
+const godspeedTotalFlatAGI = (config: IntermediateConfig) =>
+  godspeedLevel(config) + Math.max(godspeedLevel(config) - 5, 0);
+
+const godspeedTotalPercentUnsheatheAttack = (
+  config: IntermediateConfig,
+) =>
+  isUsingDualSwords(config) ?
+    godspeedLevel(config) + 15
+  : godspeedLevel(config) + 5;
+
+// guard skills
+
+const advancedEvasionLevel = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_GUARDSKILLS_ADVANCEDEVASION_LEVEL];
+
+const advancedEvasionTotalEvasionRecharge = (
+  config: IntermediateConfig,
+) =>
+  config[Param.CHARACTER_ARMOR_TYPE] === ArmorType.LIGHT ?
+    advancedEvasionLevel(config)
+  : 0;
+
+const advancedGuardLevel = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_GUARDSKILLS_ADVANCEDGUARD_LEVEL];
+
+const advancedGuardTotalGuardRecharge = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_ARMOR_TYPE] === ArmorType.HEAVY ?
+    advancedGuardLevel(config)
+  : 0;
+
+const advancedGuardTotalGuardPower = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_ARMOR_TYPE] === ArmorType.HEAVY ?
+    Math.floor((1 + advancedGuardLevel(config)) / 2)
+  : 0;
+
+const heavyArmorMasteryLevel = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_GUARDSKILLS_HEAVYARMORMASTERY_LEVEL];
+
+const heavyArmorMasteryTotalGuardRecharge = (
+  config: IntermediateConfig,
+) =>
+  config[Param.CHARACTER_ARMOR_TYPE] === ArmorType.HEAVY ?
+    heavyArmorMasteryLevel(config)
+  : 0;
+
+const lightArmorMasteryLevel = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_GUARDSKILLS_LIGHTARMORMASTERY_LEVEL];
+
+const lightArmorMasteryTotalEvasionRecharge = (
+  config: IntermediateConfig,
+) =>
+  config[Param.CHARACTER_ARMOR_TYPE] === ArmorType.LIGHT ?
+    lightArmorMasteryLevel(config)
+  : 0;
+
+const criticalSpearLevel = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_HALBERDSKILLS_CRITICALSPEAR_LEVEL];
+
+const criticalSpearTotalPercentCriticalRate = (
+  config: IntermediateConfig,
+) =>
+  isUsingMainHAL(config) ?
+    Math.floor(criticalSpearLevel(config) * 0.5)
+  : 0;
+
+const criticalSpearTotalFlatCriticalRate = (config: IntermediateConfig) =>
+  isUsingMainHAL(config) ?
+    Math.floor(criticalSpearLevel(config) * 0.5 + 0.5)
+  : 0;
+
+const godspeedWieldStacks = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_HALBERDSKILLS_GODSPEEDWIELD_STACKS];
+
+const godspeedWieldLevel = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_HALBERDSKILLS_GODSPEEDWIELD_LEVEL];
+
+const godspeedWieldIsActive = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_HALBERDSKILLS_GODSPEEDWIELD_ISACTIVE];
+
+const godspeedWieldTotalFlatASPD = (config: IntermediateConfig) =>
+  godspeedWieldIsActive(config) ?
+    isUsingMainHAL(config) ?
+      30 * godspeedWieldLevel(config) * godspeedWieldStacks(config) +
+      100 * godspeedWieldStacks(config)
+    : 30 * godspeedWieldLevel(config) * godspeedWieldStacks(config)
+  : 0;
+
+const godspeedWieldTotalMotionSpeed = (config: IntermediateConfig) =>
+  godspeedWieldIsActive(config) ?
+    godspeedWieldLevel(config) * godspeedWieldStacks(config)
+  : 0;
+
+const almightyWieldLevel = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_HALBERDSKILLS_ALMIGHTYWIELD_LEVEL];
+
+const godspeedWieldTotalPhysicalResistance = (
+  config: IntermediateConfig,
+) =>
+  godspeedWieldIsActive(config) ?
+    isUsingMainHAL(config) ?
+      -(
+        (100 - 3 * godspeedWieldLevel(config)) *
+          godspeedWieldStacks(config) +
+        45 * godspeedWieldStacks(config) +
+        Math.floor(almightyWieldLevel(config) * 0.5) *
+          godspeedWieldStacks(config)
+      )
+    : -(
+        (100 - 3 * godspeedWieldLevel(config)) *
+        godspeedWieldStacks(config)
+      )
+  : 0;
+
+const godspeedWieldTotalMagicResistance = (config: IntermediateConfig) =>
+  godspeedWieldIsActive(config) ?
+    isUsingMainHAL(config) ?
+      -(
+        (100 - 3 * godspeedWieldLevel(config)) *
+          godspeedWieldStacks(config) +
+        45 * godspeedWieldStacks(config) +
+        Math.floor(almightyWieldLevel(config) * 0.5) *
+          godspeedWieldStacks(config)
+      )
+    : -(
+        (100 - 3 * godspeedWieldLevel(config)) *
+        godspeedWieldStacks(config)
+      )
+  : 0;
+
+const godspeedWieldTotalFlatMaxMP = (config: IntermediateConfig) =>
+  godspeedWieldIsActive(config) ? -(100 * godspeedWieldStacks(config)) : 0;
+
+const godspeedWieldTotalPercentEvasionRecharge = (
+  config: IntermediateConfig,
+) =>
+  godspeedWieldIsActive(config) ?
+    godspeedWieldLevel(config) * godspeedWieldStacks(config)
+  : 0;
+
+const halberdMasteryLevel = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_HALBERDSKILLS_HALBERDMASTERY_LEVEL];
+
+const halberdMasteryTotalPercentATK = (config: IntermediateConfig) =>
+  isUsingMainHAL(config) ?
+    halberdMasteryLevel(config) >= 8 ? 3
+    : halberdMasteryLevel(config) >= 3 ? 2
+    : 1
+  : 0;
+
+const halberdMasteryTotalPercentWeaponATK = (
+  config: IntermediateConfig,
+) => (isUsingMainHAL(config) ? halberdMasteryLevel(config) * 3 : 0);
+
+const quickAuraLevel = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_HALBERDSKILLS_QUICKAURA_LEVEL];
+
+const quickAuraIsActive = (config: IntermediateConfig) =>
+  config[Param.CHARACTER_SKILLS_HALBERDSKILLS_QUICKAURA_ISACTIVE];
+
+const quickAuraTotalFlatASPD = (config: IntermediateConfig) =>
+  quickAuraIsActive(config) ? quickAuraLevel(config) * 50 : 0;
+
+const quickAuraTotalPercentASPD = (config: IntermediateConfig): number =>
+  quickAuraIsActive(config) ? Math.floor(quickAuraLevel(config) * 2.5) : 0;
