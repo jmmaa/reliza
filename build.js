@@ -1,34 +1,23 @@
-const esbuild = require("esbuild");
+const { build } = require("esbuild");
 
-esbuild
-  .build({
+Promise.all([
+  build({
     entryPoints: ["src/index.ts"],
     outfile: "lib/index.js",
     format: "cjs",
-    // minify: true,
-    // bundle: true,
     logLevel: "info",
-  })
-  .then(() => {
-    esbuild
-      .build({
-        entryPoints: ["src/index.ts"],
-        outfile: "lib/index.esm.js",
-        format: "esm",
-        // minify: true,
-        // bundle: true,
-        logLevel: "info",
-      })
-      .then(() => {
-        esbuild
-          .build({
-            entryPoints: ["src/index.ts"],
-            outfile: "lib/index.iife.js",
-            format: "iife",
-            // minify: true,
-            // bundle: true,
-            logLevel: "info",
-            globalName: "__reliza__",
-          });
-      });
-  });
+  }),
+  build({
+    entryPoints: ["src/index.ts"],
+    outfile: "lib/index.esm.js",
+    format: "esm",
+    logLevel: "info",
+  }),
+  build({
+    entryPoints: ["src/index.ts"],
+    outfile: "lib/index.iife.js",
+    format: "iife",
+    logLevel: "info",
+    globalName: "__reliza__",
+  }),
+]);
