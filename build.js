@@ -6,12 +6,18 @@ Promise.all([
     outfile: "lib/index.js",
     format: "cjs",
     logLevel: "info",
+    minify: true,
+    bundle: true,
+    logLevel: "silent"
   }),
   build({
     entryPoints: ["src/index.ts"],
     outfile: "lib/index.esm.js",
     format: "esm",
     logLevel: "info",
+    minify: true,
+    bundle: true,
+    logLevel: "silent"
   }),
   build({
     entryPoints: ["src/index.ts"],
@@ -19,5 +25,8 @@ Promise.all([
     format: "iife",
     logLevel: "info",
     globalName: "__reliza__",
+    minify: true,
+    bundle: true,
+    logLevel: "silent"
   }),
 ]);
