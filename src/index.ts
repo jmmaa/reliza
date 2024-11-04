@@ -1,3 +1,11 @@
+import { Add } from "ts-arithmetic";
+
+type RecursivePartial<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[] ? RecursivePartial<U>[]
+  : T[P] extends object | undefined ? RecursivePartial<T[P]>
+  : T[P];
+};
+
 enum MainWeaponTypeId {
   BARE_HAND,
   ONE_HANDED_SWORD,
@@ -623,7 +631,7 @@ enum ParamId {
   CHARACTER_REGISLETS_FOCUSRESONANCE_LEVEL,
   CHARACTER_REGISLETS_SPEEDRESONANCE_LEVEL,
   CHARACTER_REGISLETS_POWERRESONANCE_LEVEL,
-} // use THIS
+}
 
 interface IntermediateConfig {
   [ParamId.CHARACTER_LEVEL]: number;
@@ -1038,104 +1046,98 @@ interface IntermediateConfig {
 
 // ---------- UTILS --------------
 
-export const add = (a: number, b: number) => a + b;
-export const total = (base: number, percent: number, flat: number) =>
+const add = (a: number, b: number) => a + b;
+const total = (base: number, percent: number, flat: number) =>
   base * (1 + percent / 100) + flat;
 
-export const isUsingStatAccessibleSubWeapon = (
-  config: IntermediateConfig,
-) =>
+const isUsingStatAccessibleSubWeapon = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.ARROW ||
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.DAGGER ||
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] ===
     SubWeaponTypeId.NINJUTSU_SCROLL ||
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD;
 
-export const isUsingMainOHS = (config: IntermediateConfig) =>
+const isUsingMainOHS = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
   MainWeaponTypeId.ONE_HANDED_SWORD;
 
-export const isUsingSubOHS = (config: IntermediateConfig) =>
+const isUsingSubOHS = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] ===
   SubWeaponTypeId.ONE_HANDED_SWORD;
 
-export const isUsingMainTHS = (config: IntermediateConfig) =>
+const isUsingMainTHS = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
   MainWeaponTypeId.TWO_HANDED_SWORD;
 
-export const isUsingMainHAL = (config: IntermediateConfig) =>
+const isUsingMainHAL = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.HALBERD;
 
-export const isUsingDualSwords = (config: IntermediateConfig) =>
+const isUsingDualSwords = (config: IntermediateConfig) =>
   isUsingMainOHS(config) &&
   isUsingSubOHS(config) &&
   config[ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_DUALSWORDMASTERY_LEVEL] >
     0;
 
-export const isUsingMainBWG = (config: IntermediateConfig) =>
+const isUsingMainBWG = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.BOWGUN;
 
-export const isUsingMainKN = (config: IntermediateConfig) =>
+const isUsingMainKN = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.KNUCKLES;
 
-export const isUsingSubArrow = (config: IntermediateConfig) =>
+const isUsingSubArrow = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.ARROW;
 
-export const isNotUsingSubWeapon = (config: IntermediateConfig) =>
+const isNotUsingSubWeapon = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.NONE;
 
-export const flattenedStatsFromMainWeapon = (config: IntermediateConfig) =>
+const flattenedStatsFromMainWeapon = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_STATMAP](config);
 
-export const flattenedStatsFromMainWeaponCrystal1 = (
+const flattenedStatsFromMainWeaponCrystal1 = (
   config: IntermediateConfig,
 ) => config[ParamId.CHARACTER_MAINWEAPON_CRYSTAL1_STATMAP](config);
 
-export const flattenedStatsFromMainWeaponCrystal2 = (
+const flattenedStatsFromMainWeaponCrystal2 = (
   config: IntermediateConfig,
 ) => config[ParamId.CHARACTER_MAINWEAPON_CRYSTAL2_STATMAP](config);
 
-export const flattenedStatsFromSubWeapon = (config: IntermediateConfig) =>
+const flattenedStatsFromSubWeapon = (config: IntermediateConfig) =>
   isUsingStatAccessibleSubWeapon(config) ?
     config[ParamId.CHARACTER_SUBWEAPON_STATMAP](config)
   : [];
 
-export const flattenedStatsFromArmor = (config: IntermediateConfig) =>
+const flattenedStatsFromArmor = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_ARMOR_STATMAP](config);
 
-export const flattenedStatsFromArmorCrystal1 = (
-  config: IntermediateConfig,
-) => config[ParamId.CHARACTER_ARMOR_CRYSTAL1_STATMAP](config);
+const flattenedStatsFromArmorCrystal1 = (config: IntermediateConfig) =>
+  config[ParamId.CHARACTER_ARMOR_CRYSTAL1_STATMAP](config);
 
-export const flattenedStatsFromArmorCrystal2 = (
-  config: IntermediateConfig,
-) => config[ParamId.CHARACTER_ARMOR_CRYSTAL2_STATMAP](config);
+const flattenedStatsFromArmorCrystal2 = (config: IntermediateConfig) =>
+  config[ParamId.CHARACTER_ARMOR_CRYSTAL2_STATMAP](config);
 
-export const flattenedStatsFromAdditionalGear = (
-  config: IntermediateConfig,
-) => config[ParamId.CHARACTER_ADDITIONAL_GEAR_STATMAP](config);
+const flattenedStatsFromAdditionalGear = (config: IntermediateConfig) =>
+  config[ParamId.CHARACTER_ADDITIONAL_GEAR_STATMAP](config);
 
-export const flattenedStatsFromAdditionalGearCrystal1 = (
+const flattenedStatsFromAdditionalGearCrystal1 = (
   config: IntermediateConfig,
 ) => config[ParamId.CHARACTER_ADDITIONAL_GEAR_CRYSTAL1_STATMAP](config);
 
-export const flattenedStatsFromAdditionalGearCrystal2 = (
+const flattenedStatsFromAdditionalGearCrystal2 = (
   config: IntermediateConfig,
 ) => config[ParamId.CHARACTER_ADDITIONAL_GEAR_CRYSTAL2_STATMAP](config);
 
-export const flattenedStatsFromSpecialGear = (
-  config: IntermediateConfig,
-) => config[ParamId.CHARACTER_SPECIAL_GEAR_STATMAP](config);
+const flattenedStatsFromSpecialGear = (config: IntermediateConfig) =>
+  config[ParamId.CHARACTER_SPECIAL_GEAR_STATMAP](config);
 
-export const flattenedStatsFromSpecialGearCrystal1 = (
+const flattenedStatsFromSpecialGearCrystal1 = (
   config: IntermediateConfig,
 ) => config[ParamId.CHARACTER_SPECIAL_GEAR_CRYSTAL1_STATMAP](config);
 
-export const flattenedStatsFromSpecialGearCrystal2 = (
+const flattenedStatsFromSpecialGearCrystal2 = (
   config: IntermediateConfig,
 ) => config[ParamId.CHARACTER_SPECIAL_GEAR_CRYSTAL2_STATMAP](config);
 
-export const flattenedStats = (config: IntermediateConfig) =>
+const flattenedStats = (config: IntermediateConfig) =>
   ([] as Stat[]).concat(
     flattenedStatsFromMainWeapon(config),
     flattenedStatsFromMainWeaponCrystal1(config),
@@ -1157,25 +1159,25 @@ export const flattenedStats = (config: IntermediateConfig) =>
 // ---------- BASIC STATS --------------
 
 // AGI
-export const totalPercentAGIFromEquipment = (config: IntermediateConfig) =>
+const totalPercentAGIFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_AGI)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalPercentAGI = (config: IntermediateConfig) =>
+const totalPercentAGI = (config: IntermediateConfig) =>
   totalPercentAGIFromEquipment(config);
 
-export const totalFlatAGIFromEquipment = (config: IntermediateConfig) =>
+const totalFlatAGIFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_AGI)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatAGI = (config: IntermediateConfig) =>
+const totalFlatAGI = (config: IntermediateConfig) =>
   totalFlatAGIFromEquipment(config) + godspeedTotalFlatAGI(config);
 
-export const totalAGI = (config: IntermediateConfig) =>
+const totalAGI = (config: IntermediateConfig) =>
   total(
     config[ParamId.CHARACTER_BASE_AGI],
     totalPercentAGI(config),
@@ -1183,25 +1185,25 @@ export const totalAGI = (config: IntermediateConfig) =>
   );
 
 // DEX
-export const totalPercentDEXFromEquipment = (config: IntermediateConfig) =>
+const totalPercentDEXFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_DEX)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalPercentDEX = (config: IntermediateConfig) =>
+const totalPercentDEX = (config: IntermediateConfig) =>
   totalPercentDEXFromEquipment(config);
 
-export const totalFlatDEXFromEquipment = (config: IntermediateConfig) =>
+const totalFlatDEXFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_DEX)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatDEX = (config: IntermediateConfig) =>
+const totalFlatDEX = (config: IntermediateConfig) =>
   totalFlatDEXFromEquipment(config);
 
-export const totalDEX = (config: IntermediateConfig) =>
+const totalDEX = (config: IntermediateConfig) =>
   total(
     config[ParamId.CHARACTER_BASE_DEX],
     totalPercentDEX(config),
@@ -1210,25 +1212,25 @@ export const totalDEX = (config: IntermediateConfig) =>
 
 // STR
 
-export const totalPercentSTRFromEquipment = (config: IntermediateConfig) =>
+const totalPercentSTRFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_STR)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalPercentSTR = (config: IntermediateConfig) =>
+const totalPercentSTR = (config: IntermediateConfig) =>
   totalPercentSTRFromEquipment(config);
 
-export const totalFlatSTRFromEquipment = (config: IntermediateConfig) =>
+const totalFlatSTRFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_STR)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatSTR = (config: IntermediateConfig) =>
+const totalFlatSTR = (config: IntermediateConfig) =>
   totalFlatSTRFromEquipment(config);
 
-export const totalSTR = (config: IntermediateConfig) =>
+const totalSTR = (config: IntermediateConfig) =>
   total(
     config[ParamId.CHARACTER_BASE_STR],
     totalPercentSTR(config),
@@ -1237,25 +1239,25 @@ export const totalSTR = (config: IntermediateConfig) =>
 
 // INT
 
-export const totalPercentINTFromEquipment = (config: IntermediateConfig) =>
+const totalPercentINTFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_INT)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalPercentINT = (config: IntermediateConfig) =>
+const totalPercentINT = (config: IntermediateConfig) =>
   totalPercentINTFromEquipment(config);
 
-export const totalFlatINTFromEquipment = (config: IntermediateConfig) =>
+const totalFlatINTFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_INT)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatINT = (config: IntermediateConfig) =>
+const totalFlatINT = (config: IntermediateConfig) =>
   totalFlatINTFromEquipment(config);
 
-export const totalINT = (config: IntermediateConfig) =>
+const totalINT = (config: IntermediateConfig) =>
   total(
     config[ParamId.CHARACTER_BASE_INT],
     totalPercentINT(config),
@@ -1264,25 +1266,25 @@ export const totalINT = (config: IntermediateConfig) =>
 
 // VIT
 
-export const totalPercentVITFromEquipment = (config: IntermediateConfig) =>
+const totalPercentVITFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_VIT)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalPercentVIT = (config: IntermediateConfig) =>
+const totalPercentVIT = (config: IntermediateConfig) =>
   totalPercentVITFromEquipment(config);
 
-export const totalFlatVITFromEquipment = (config: IntermediateConfig) =>
+const totalFlatVITFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_VIT)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatVIT = (config: IntermediateConfig) =>
+const totalFlatVIT = (config: IntermediateConfig) =>
   totalFlatVITFromEquipment(config);
 
-export const totalVIT = (config: IntermediateConfig) =>
+const totalVIT = (config: IntermediateConfig) =>
   total(
     config[ParamId.CHARACTER_BASE_VIT],
     totalPercentVIT(config),
@@ -1292,52 +1294,46 @@ export const totalVIT = (config: IntermediateConfig) =>
 // ---------- DERIVED STATS --------------
 
 // accuracy
-export const totalBaseAccuracy = (config: IntermediateConfig) =>
+const totalBaseAccuracy = (config: IntermediateConfig) =>
   Math.floor(config[ParamId.CHARACTER_LEVEL] + totalDEX(config));
 
-export const totalPercentAccuracyFromEquipment = (
-  config: IntermediateConfig,
-) =>
+const totalPercentAccuracyFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_ACCURACY)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalPercentAccuracyFromSkills = (
-  config: IntermediateConfig,
-) =>
+const totalPercentAccuracyFromSkills = (config: IntermediateConfig) =>
   dualSwordMasteryTotalPercentAccuracy(config) +
   dualSwordControlTotalPercentAccuracy(config) +
   samuraiArcheryTotalPercentAccuracy(config) +
   twoHandedTotalPercentAccuracy(config);
 
-export const totalPercentAccuracy = (config: IntermediateConfig) =>
+const totalPercentAccuracy = (config: IntermediateConfig) =>
   totalPercentAccuracyFromEquipment(config) +
   totalFlatAccuracyFromSkills(config);
 
-export const totalFlatAccuracyFromEquipment = (
-  config: IntermediateConfig,
-) =>
+const totalFlatAccuracyFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_ACCURACY)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatAccuracyFromSkills = (config: IntermediateConfig) =>
+const totalFlatAccuracyFromSkills = (config: IntermediateConfig) =>
   bushidoTotalFlatAccuracy(config) + accuracyUPTotalFlatAccuracy(config);
 
-export const totalFlatAccuracy = (config: IntermediateConfig) =>
+const totalFlatAccuracy = (config: IntermediateConfig) =>
   totalFlatAccuracyFromEquipment(config) +
   totalFlatAccuracyFromSkills(config);
 
-export const totalAccuracy = (config: IntermediateConfig) =>
+const totalAccuracy = (config: IntermediateConfig) =>
   total(
     totalBaseAccuracy(config),
     totalPercentAccuracy(config),
     totalFlatAccuracy(config),
   );
 
-export const totalAnticipate = (config: IntermediateConfig) =>
+const totalAnticipate = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.ANTICIPATE)
     .map((stat) => stat[1])
@@ -1345,28 +1341,24 @@ export const totalAnticipate = (config: IntermediateConfig) =>
 
 // ailment resistance
 
-export const totalAilmentResistanceFromEquipment = (
-  config: IntermediateConfig,
-) =>
+const totalAilmentResistanceFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.AILMENT_RESISTANCE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalAilmentResistanceFromMTL = (
-  config: IntermediateConfig,
-) =>
+const totalAilmentResistanceFromMTL = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_PERSONAL_STAT_ID] === PersonalStatId.MTL ?
     Math.floor(config[ParamId.CHARACTER_PERSONAL_STAT_VALUE] / 3.4)
   : 0;
 
-export const totalAilmentResistance = (config: IntermediateConfig) =>
+const totalAilmentResistance = (config: IntermediateConfig) =>
   totalAilmentResistanceFromEquipment(config) +
   totalAilmentResistanceFromMTL(config);
 
 // ASPD
 
-export const totalDualWieldBaseASPD = (config: IntermediateConfig) =>
+const totalDualWieldBaseASPD = (config: IntermediateConfig) =>
   Math.floor(
     100 +
       config[ParamId.CHARACTER_LEVEL] +
@@ -1374,7 +1366,7 @@ export const totalDualWieldBaseASPD = (config: IntermediateConfig) =>
       (totalAGI(config) + totalSTR(config) - 1) / 5,
   );
 
-export const totalOneHandedSwordBaseASPD = (config: IntermediateConfig) =>
+const totalOneHandedSwordBaseASPD = (config: IntermediateConfig) =>
   Math.floor(
     100 +
       config[ParamId.CHARACTER_LEVEL] +
@@ -1382,7 +1374,7 @@ export const totalOneHandedSwordBaseASPD = (config: IntermediateConfig) =>
       (totalAGI(config) + totalSTR(config) - 1) / 5,
   );
 
-export const totalTwoHandedSwordBaseASPD = (config: IntermediateConfig) =>
+const totalTwoHandedSwordBaseASPD = (config: IntermediateConfig) =>
   Math.floor(
     50 +
       config[ParamId.CHARACTER_LEVEL] +
@@ -1390,7 +1382,7 @@ export const totalTwoHandedSwordBaseASPD = (config: IntermediateConfig) =>
       (totalAGI(config) + totalSTR(config) - 1) / 5,
   );
 
-export const totalBowBaseASPD = (config: IntermediateConfig) =>
+const totalBowBaseASPD = (config: IntermediateConfig) =>
   Math.floor(
     75 +
       config[ParamId.CHARACTER_LEVEL] +
@@ -1398,7 +1390,7 @@ export const totalBowBaseASPD = (config: IntermediateConfig) =>
       (totalAGI(config) + totalDEX(config) * 2 - 1) / 10,
   );
 
-export const totalBowgunBaseASPD = (config: IntermediateConfig) =>
+const totalBowgunBaseASPD = (config: IntermediateConfig) =>
   Math.floor(
     30 +
       config[ParamId.CHARACTER_LEVEL] +
@@ -1406,7 +1398,7 @@ export const totalBowgunBaseASPD = (config: IntermediateConfig) =>
       totalDEX(config) * 0.2,
   );
 
-export const totalStaffBaseASPD = (config: IntermediateConfig) =>
+const totalStaffBaseASPD = (config: IntermediateConfig) =>
   Math.floor(
     60 +
       config[ParamId.CHARACTER_LEVEL] +
@@ -1414,7 +1406,7 @@ export const totalStaffBaseASPD = (config: IntermediateConfig) =>
       (totalAGI(config) + totalINT(config) - 1) / 5,
   );
 
-export const totalMagicDeviceBaseASPD = (config: IntermediateConfig) =>
+const totalMagicDeviceBaseASPD = (config: IntermediateConfig) =>
   Math.floor(
     90 +
       config[ParamId.CHARACTER_LEVEL] +
@@ -1422,7 +1414,7 @@ export const totalMagicDeviceBaseASPD = (config: IntermediateConfig) =>
       (totalINT(config) - 1) / 5,
   );
 
-export const totalKnuckleBaseASPD = (config: IntermediateConfig) =>
+const totalKnuckleBaseASPD = (config: IntermediateConfig) =>
   Math.floor(
     120 +
       config[ParamId.CHARACTER_LEVEL] +
@@ -1431,7 +1423,7 @@ export const totalKnuckleBaseASPD = (config: IntermediateConfig) =>
       totalSTR(config) / 10,
   );
 
-export const totalHalberdBaseASPD = (config: IntermediateConfig) =>
+const totalHalberdBaseASPD = (config: IntermediateConfig) =>
   Math.floor(
     25 +
       config[ParamId.CHARACTER_LEVEL] +
@@ -1439,7 +1431,7 @@ export const totalHalberdBaseASPD = (config: IntermediateConfig) =>
       totalSTR(config) * 0.2,
   );
 
-export const totalKatanaBaseASPD = (config: IntermediateConfig) =>
+const totalKatanaBaseASPD = (config: IntermediateConfig) =>
   Math.floor(
     200 +
       config[ParamId.CHARACTER_LEVEL] +
@@ -1447,12 +1439,12 @@ export const totalKatanaBaseASPD = (config: IntermediateConfig) =>
       totalSTR(config) * 0.3,
   );
 
-export const totalBareHandBaseASPD = (config: IntermediateConfig) =>
+const totalBareHandBaseASPD = (config: IntermediateConfig) =>
   Math.floor(
     1000 + config[ParamId.CHARACTER_LEVEL] + totalAGI(config) * 9.6,
   );
 
-export const totalBaseASPD = (config: IntermediateConfig) =>
+const totalBaseASPD = (config: IntermediateConfig) =>
   isUsingDualSwords(config) ? totalDualWieldBaseASPD(config)
   : (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
@@ -1487,9 +1479,7 @@ export const totalBaseASPD = (config: IntermediateConfig) =>
     totalKatanaBaseASPD(config)
   : totalBareHandBaseASPD(config);
 
-export const totalPercentASPDFromEquipment = (
-  config: IntermediateConfig,
-) =>
+const totalPercentASPDFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_ASPD)
     .map((stat) => stat[1])
@@ -1497,22 +1487,22 @@ export const totalPercentASPDFromEquipment = (
   armorTypeIdPercentASPDModifier(config) +
   subWeaponShieldPercentASPDModifier(config);
 
-export const totalPercentASPDFromSkills = (config: IntermediateConfig) =>
+const totalPercentASPDFromSkills = (config: IntermediateConfig) =>
   quickSlashTotalPercentASPD(config) +
   berserkTotalPercentASPD(config) +
   quickAuraTotalPercentASPD(config);
 
-export const totalPercentASPD = (config: IntermediateConfig) =>
+const totalPercentASPD = (config: IntermediateConfig) =>
   totalPercentASPDFromEquipment(config) +
   totalPercentASPDFromSkills(config);
 
-export const totalFlatASPDFromEquipment = (config: IntermediateConfig) =>
+const totalFlatASPDFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_ASPD)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatASPDFromSkills = (config: IntermediateConfig) =>
+const totalFlatASPDFromSkills = (config: IntermediateConfig) =>
   quickSlashTotalFlatASPD(config) +
   berserkTotalFlatASPD(config) +
   martialDisciplineTotalFlatASPD(config) +
@@ -1520,10 +1510,10 @@ export const totalFlatASPDFromSkills = (config: IntermediateConfig) =>
   quickAuraTotalFlatASPD(config) +
   godspeedWieldTotalFlatASPD(config);
 
-export const totalFlatASPD = (config: IntermediateConfig) =>
+const totalFlatASPD = (config: IntermediateConfig) =>
   totalFlatASPDFromEquipment(config) + totalFlatASPDFromSkills(config);
 
-export const totalASPD = (config: IntermediateConfig) =>
+const totalASPD = (config: IntermediateConfig) =>
   total(
     totalBaseASPD(config),
     totalPercentASPD(config),
@@ -1532,7 +1522,7 @@ export const totalASPD = (config: IntermediateConfig) =>
 
 // ATK
 
-export const totalDualWieldBaseATK = (config: IntermediateConfig) =>
+const totalDualWieldBaseATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalSTR(config) +
   totalDEX(config) * 2 +
@@ -1540,43 +1530,43 @@ export const totalDualWieldBaseATK = (config: IntermediateConfig) =>
   totalMainWeaponATK(config);
 
 // A bit skeptical on this one, maybe this does not multiply STR/DEX by 2 if and only if STR/DEX  is equal to 1
-export const totalOneHandedSwordBaseATK = (config: IntermediateConfig) =>
+const totalOneHandedSwordBaseATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalSTR(config) * 2 +
   totalDEX(config) * 2 +
   totalMainWeaponATK(config);
 
-export const totalTwoHandedSwordBaseATK = (config: IntermediateConfig) =>
+const totalTwoHandedSwordBaseATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalSTR(config) * 3 +
   totalDEX(config) +
   totalMainWeaponATK(config);
 
-export const totalBowBaseATK = (config: IntermediateConfig) =>
+const totalBowBaseATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalDEX(config) * 3 +
   totalSTR(config) +
   totalMainWeaponATK(config);
 
-export const totalBowgunBaseATK = (config: IntermediateConfig) =>
+const totalBowgunBaseATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalDEX(config) * 4 +
   totalMainWeaponATK(config) +
   hunterBowgunTotalBaseATK(config);
 
-export const totalStaffBaseATK = (config: IntermediateConfig) =>
+const totalStaffBaseATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalSTR(config) * 3 +
   totalINT(config) +
   totalMainWeaponATK(config);
 
-export const totalMagicDeviceBaseATK = (config: IntermediateConfig) =>
+const totalMagicDeviceBaseATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalINT(config) * 2 +
   totalAGI(config) * 2 +
   totalMainWeaponATK(config);
 
-export const totalKnuckleBaseATK = (config: IntermediateConfig) =>
+const totalKnuckleBaseATK = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] +
       totalAGI(config) * 2 +
@@ -1584,7 +1574,7 @@ export const totalKnuckleBaseATK = (config: IntermediateConfig) =>
       totalMainWeaponATK(config),
   );
 
-export const totalHalberdBaseATK = (config: IntermediateConfig) =>
+const totalHalberdBaseATK = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] +
       totalSTR(config) * 2.5 +
@@ -1592,7 +1582,7 @@ export const totalHalberdBaseATK = (config: IntermediateConfig) =>
       totalMainWeaponATK(config),
   );
 
-export const totalKatanaBaseATK = (config: IntermediateConfig) =>
+const totalKatanaBaseATK = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] +
       totalSTR(config) * 1.5 +
@@ -1600,13 +1590,13 @@ export const totalKatanaBaseATK = (config: IntermediateConfig) =>
       totalMainWeaponATK(config),
   );
 
-export const totalBareHandBaseATK = (config: IntermediateConfig) =>
+const totalBareHandBaseATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalSTR(config) +
   1 +
   totalMainWeaponATK(config);
 
-export const totalBaseATK = (config: IntermediateConfig) =>
+const totalBaseATK = (config: IntermediateConfig) =>
   isUsingDualSwords(config) ? totalDualWieldBaseATK(config)
   : (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
@@ -1643,13 +1633,13 @@ export const totalBaseATK = (config: IntermediateConfig) =>
     totalBaseATKValueFromATKUP(config) +
     totalBaseATKValueFromATKDOWN(config);
 
-export const totalPercentATKFromEquipment = (config: IntermediateConfig) =>
+const totalPercentATKFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_ATK)
     .map((stat) => stat[1])
     .reduce(add, 0) + subWeaponMagicDevicePercentATKModifier(config);
 
-export const totalPercentATKFromSkills = (config: IntermediateConfig) =>
+const totalPercentATKFromSkills = (config: IntermediateConfig) =>
   swordMasteryTotalPercentATK(config) +
   shotMasteryTotalPercentATK(config) +
   martialMasteryTotalPercentATK(config) +
@@ -1657,26 +1647,26 @@ export const totalPercentATKFromSkills = (config: IntermediateConfig) =>
   bushidoTotalPercentATK(config) +
   warCryTotalPercentATK(config);
 
-export const totalPercentATK = (config: IntermediateConfig) =>
+const totalPercentATK = (config: IntermediateConfig) =>
   totalPercentATKFromEquipment(config) +
   totalPercentATKFromSkills(config) +
   castMasteryTotalPercentATK(config); // this one is a special case, so im not going to include it in skills func;
 
 // this fuhction is only dedicated for wizard atk calculation
 
-export const totalFlatATKFromEquipment = (config: IntermediateConfig) =>
+const totalFlatATKFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_ATK)
     .map((stat) => stat[1])
     .reduce(add, 0) + physicalAttackBoostTotalFlatATK(config);
 
-export const totalFlatATKFromSkills = (config: IntermediateConfig) =>
+const totalFlatATKFromSkills = (config: IntermediateConfig) =>
   attackUPTotalFlatATK(config) + intimidatingPowerTotalFlatATK(config);
 
-export const totalFlatATK = (config: IntermediateConfig) =>
+const totalFlatATK = (config: IntermediateConfig) =>
   totalFlatATKFromEquipment(config) + totalFlatATKFromSkills(config);
 
-export const totalATK = (config: IntermediateConfig) =>
+const totalATK = (config: IntermediateConfig) =>
   total(
     totalBaseATK(config),
     totalPercentATK(config),
@@ -1685,7 +1675,7 @@ export const totalATK = (config: IntermediateConfig) =>
 
 // cdmg
 
-export const totalBaseCriticalDamage = (config: IntermediateConfig) => {
+const totalBaseCriticalDamage = (config: IntermediateConfig) => {
   const agi = totalAGI(config);
   const str = totalSTR(config);
 
@@ -1694,7 +1684,7 @@ export const totalBaseCriticalDamage = (config: IntermediateConfig) => {
     : Math.floor(150 + str / 5);
 };
 
-export const totalPercentCriticalDamageFromEquipment = (
+const totalPercentCriticalDamageFromEquipment = (
   config: IntermediateConfig,
 ) =>
   flattenedStats(config)
@@ -1702,21 +1692,21 @@ export const totalPercentCriticalDamageFromEquipment = (
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalPercentCriticalDamageFromSkills = (
+const totalPercentCriticalDamageFromSkills = (
   config: IntermediateConfig,
 ) => criticalUPTotalPercentCriticalDamage(config);
 
-export const totalPercentCriticalDamage = (config: IntermediateConfig) =>
+const totalPercentCriticalDamage = (config: IntermediateConfig) =>
   totalPercentCriticalDamageFromEquipment(config) +
   totalPercentCriticalDamageFromSkills(config);
 
-export const totalFlatCriticalDamage = (config: IntermediateConfig) =>
+const totalFlatCriticalDamage = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_CRITICAL_DAMAGE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalCriticalDamage = (config: IntermediateConfig) => {
+const totalCriticalDamage = (config: IntermediateConfig) => {
   const val = total(
     totalBaseCriticalDamage(config),
     totalPercentCriticalDamage(config),
@@ -1726,16 +1716,15 @@ export const totalCriticalDamage = (config: IntermediateConfig) => {
   return val > 300 ? 300 + Math.floor((val - 300) / 2) : val; // soft cap
 };
 
-export const totalMagicCriticalDamageConversion = (
-  config: IntermediateConfig,
-) => 25 + spellBurstTotalMagicCriticalDamageConversion(config);
+const totalMagicCriticalDamageConversion = (config: IntermediateConfig) =>
+  25 + spellBurstTotalMagicCriticalDamageConversion(config);
 
 /** NOTE:
  * this is only for display purposes, magic critical damage is dynamic therefore
  * it is not advisable to add this function to the skill calculations due to
  * several factors that can increase the `mcdmg` conversion.
  */
-export const totalMagicCriticalDamage = (config: IntermediateConfig) =>
+const totalMagicCriticalDamage = (config: IntermediateConfig) =>
   Math.floor(
     100 +
       (totalCriticalDamage(config) - 100) *
@@ -1743,12 +1732,12 @@ export const totalMagicCriticalDamage = (config: IntermediateConfig) =>
   );
 
 // critrate
-export const totalBaseCriticalRate = (config: IntermediateConfig) =>
+const totalBaseCriticalRate = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_PERSONAL_STAT_ID] === PersonalStatId.CRT ?
     Math.floor(25 + config[ParamId.CHARACTER_PERSONAL_STAT_VALUE] / 3.4)
   : 0;
 
-export const totalPercentCriticalRateFromEquipment = (
+const totalPercentCriticalRateFromEquipment = (
   config: IntermediateConfig,
 ) =>
   flattenedStats(config)
@@ -1756,37 +1745,31 @@ export const totalPercentCriticalRateFromEquipment = (
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalPercentCriticalRateFromSkills = (
-  config: IntermediateConfig,
-) =>
+const totalPercentCriticalRateFromSkills = (config: IntermediateConfig) =>
   criticalSpearTotalPercentCriticalRate(config) +
   dualSwordMasteryTotalPercentCriticalRate(config) +
   dualSwordControlTotalPercentCriticalRate(config);
 
-export const totalPercentCriticalRate = (config: IntermediateConfig) =>
+const totalPercentCriticalRate = (config: IntermediateConfig) =>
   totalPercentCriticalRateFromEquipment(config) +
   totalPercentCriticalRateFromSkills(config);
 
-export const totalFlatCriticalRateFromEquipment = (
-  config: IntermediateConfig,
-) =>
+const totalFlatCriticalRateFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_CRITICAL_RATE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatCriticalRateFromSkills = (
-  config: IntermediateConfig,
-) =>
+const totalFlatCriticalRateFromSkills = (config: IntermediateConfig) =>
   criticalSpearTotalFlatCriticalRate(config) +
   twoHandedTotalFlatCriticalRate(config) +
   criticalUPTotalFlatCriticalRate(config);
 
-export const totalFlatCriticalRate = (config: IntermediateConfig) =>
+const totalFlatCriticalRate = (config: IntermediateConfig) =>
   totalFlatCriticalRateFromEquipment(config) +
   totalFlatCriticalRateFromSkills(config);
 
-export const totalCriticalRate = (config: IntermediateConfig) => {
+const totalCriticalRate = (config: IntermediateConfig) => {
   return total(
     totalBaseCriticalRate(config),
     totalPercentCriticalRate(config),
@@ -1799,18 +1782,17 @@ export const totalCriticalRate = (config: IntermediateConfig) => {
  * it is not advisable to add this function to the skill calculations due to
  * several factors that can increase the `mcdmg` conversion.
  */
-export const totalMagicCriticalRateConversion = (
-  config: IntermediateConfig,
-) => spellBurstTotalMagicCriticalRateConversion(config);
+const totalMagicCriticalRateConversion = (config: IntermediateConfig) =>
+  spellBurstTotalMagicCriticalRateConversion(config);
 
-export const totalMagicCriticalRate = (config: IntermediateConfig) =>
+const totalMagicCriticalRate = (config: IntermediateConfig) =>
   Math.floor(
     totalCriticalRate(config) *
       (totalMagicCriticalRateConversion(config) / 100),
   );
 
 // add edge cases?
-export const totalMagicCriticalRateAgainstWeakenedTarget = (
+const totalMagicCriticalRateAgainstWeakenedTarget = (
   config: IntermediateConfig,
 ) => {
   const total =
@@ -1821,46 +1803,44 @@ export const totalMagicCriticalRateAgainstWeakenedTarget = (
 };
 
 // CSPD
-export const totalBaseCSPD = (config: IntermediateConfig) =>
+const totalBaseCSPD = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] +
       1.16 * totalAGI(config) +
       2.94 * totalDEX(config),
   );
 
-export const totalPercentCSPDFromEquipment = (
-  config: IntermediateConfig,
-) =>
+const totalPercentCSPDFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_CSPD)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalPercentCSPDFromSkills = (config: IntermediateConfig) =>
+const totalPercentCSPDFromSkills = (config: IntermediateConfig) =>
   magicWarriorMasteryTotalPercentCSPD(config) +
   highCycleTotalPercentCSPD(config) +
   castMasteryTotalPercentCSPD(config);
 
-export const totalPercentCSPD = (config: IntermediateConfig) =>
+const totalPercentCSPD = (config: IntermediateConfig) =>
   totalPercentCSPDFromEquipment(config) +
   totalPercentCSPDFromSkills(config);
 
-export const totalFlatCSPDFromEquipment = (config: IntermediateConfig) =>
+const totalFlatCSPDFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_CSPD)
     .map((stat) => stat[1])
     .reduce(add, 0) + magicSpeedBoostTotalFlatCSPD(config);
 
-export const totalFlatCSPDFromSkills = (config: IntermediateConfig) =>
+const totalFlatCSPDFromSkills = (config: IntermediateConfig) =>
   magicWarriorMasteryTotalFlatCSPD(config) +
   highCycleTotalFlatCSPD(config) +
   castMasteryTotalFlatCSPD(config) +
   overlimitTotalFlatCSPD(config);
 
-export const totalFlatCSPD = (config: IntermediateConfig) =>
+const totalFlatCSPD = (config: IntermediateConfig) =>
   totalFlatCSPDFromEquipment(config) + totalFlatCSPDFromSkills(config);
 
-export const totalCSPD = (config: IntermediateConfig) =>
+const totalCSPD = (config: IntermediateConfig) =>
   total(
     totalBaseCSPD(config),
     totalPercentCSPD(config),
@@ -1868,33 +1848,33 @@ export const totalCSPD = (config: IntermediateConfig) =>
   );
 
 // DEF
-export const normalArmorBaseDEF = (config: IntermediateConfig) =>
+const normalArmorBaseDEF = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalVIT(config) +
   totalEquipmentDEF(config);
 
-export const lightArmorBaseDEF = (config: IntermediateConfig) =>
+const lightArmorBaseDEF = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] * 0.8 +
       totalVIT(config) * 0.25 +
       totalEquipmentDEF(config),
   );
 
-export const heavyArmorBaseDEF = (config: IntermediateConfig) =>
+const heavyArmorBaseDEF = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] * 1.2 +
       totalVIT(config) * 2 +
       totalEquipmentDEF(config),
   );
 
-export const noArmorBaseDEF = (config: IntermediateConfig) =>
+const noArmorBaseDEF = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] * 0.4 +
       totalVIT(config) * 0.1 +
       totalEquipmentDEF(config),
   );
 
-export const totalBaseDEF = (config: IntermediateConfig) =>
+const totalBaseDEF = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.LIGHT ?
     lightArmorBaseDEF(config)
   : config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.HEAVY ?
@@ -1903,33 +1883,33 @@ export const totalBaseDEF = (config: IntermediateConfig) =>
     normalArmorBaseDEF(config)
   : noArmorBaseDEF(config);
 
-export const totalPercentDEFFromEquipment = (config: IntermediateConfig) =>
+const totalPercentDEFFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_DEF)
     .map((stat) => stat[1])
     .reduce(add, 0) + subWeaponArrowPercentDEFModifier(config);
 
-export const totalPercentDEFFromSkills = (config: IntermediateConfig) =>
+const totalPercentDEFFromSkills = (config: IntermediateConfig) =>
   berserkTotalPercentDEF(config) + forceShieldTotalPercentDEF(config);
 
-export const totalPercentDEF = (config: IntermediateConfig) =>
+const totalPercentDEF = (config: IntermediateConfig) =>
   totalPercentDEFFromEquipment(config) + totalPercentDEFFromSkills(config);
 
-export const totalFlatDEFFromEquipment = (config: IntermediateConfig) =>
+const totalFlatDEFFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_DEF)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatDEFFromSkills = (config: IntermediateConfig) =>
+const totalFlatDEFFromSkills = (config: IntermediateConfig) =>
   forceShieldTotalFlatDEF(config) +
   defenseUPTotalFlatDEF(config) +
   defenseMasteryTotalFlatDEF(config);
 
-export const totalFlatDEF = (config: IntermediateConfig) =>
+const totalFlatDEF = (config: IntermediateConfig) =>
   totalFlatDEFFromEquipment(config) + totalFlatDEFFromSkills(config);
 
-export const totalDEF = (config: IntermediateConfig) =>
+const totalDEF = (config: IntermediateConfig) =>
   total(
     totalBaseDEF(config),
     totalPercentDEF(config),
@@ -1937,25 +1917,25 @@ export const totalDEF = (config: IntermediateConfig) =>
   );
 
 // Dodge
-export const normalArmorBaseDodge = (config: IntermediateConfig) =>
+const normalArmorBaseDodge = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] + totalAGI(config);
 
-export const lightArmorBaseDodge = (config: IntermediateConfig) =>
+const lightArmorBaseDodge = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] * 1.25 + totalAGI(config) * 1.75,
   ) + 30;
 
-export const heavyArmorBaseDodge = (config: IntermediateConfig) =>
+const heavyArmorBaseDodge = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] * 0.5 + totalAGI(config) * 0.75,
   ) - 15;
 
-export const noArmorBaseDodge = (config: IntermediateConfig) =>
+const noArmorBaseDodge = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] * 1.5 + totalAGI(config) * 2,
   ) + 75;
 
-export const totalBaseDodge = (config: IntermediateConfig) =>
+const totalBaseDodge = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.LIGHT ?
     lightArmorBaseDodge(config)
   : config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.HEAVY ?
@@ -1964,19 +1944,19 @@ export const totalBaseDodge = (config: IntermediateConfig) =>
     normalArmorBaseDodge(config)
   : noArmorBaseDodge(config);
 
-export const totalPercentDodge = (config: IntermediateConfig) =>
+const totalPercentDodge = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_DODGE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatDodge = (config: IntermediateConfig) =>
+const totalFlatDodge = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_DODGE)
     .map((stat) => stat[1])
     .reduce(add, 0) + dodgeUPTotalFlatDodge(config);
 
-export const totalDodge = (config: IntermediateConfig) =>
+const totalDodge = (config: IntermediateConfig) =>
   total(
     totalBaseDodge(config),
     totalPercentDodge(config),
@@ -1985,44 +1965,44 @@ export const totalDodge = (config: IntermediateConfig) =>
 
 // MATK
 
-export const totalDualWieldBaseMATK = (config: IntermediateConfig) =>
+const totalDualWieldBaseMATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalINT(config) * 3 +
   totalDEX(config);
 
-export const totalOneHandedSwordBaseMATK = (config: IntermediateConfig) =>
+const totalOneHandedSwordBaseMATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalINT(config) * 3 +
   totalDEX(config);
 
-export const totalTwoHandedSwordBaseMATK = (config: IntermediateConfig) =>
+const totalTwoHandedSwordBaseMATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalINT(config) * 3 +
   totalDEX(config);
 
-export const totalBowBaseMATK = (config: IntermediateConfig) =>
+const totalBowBaseMATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalINT(config) * 3 +
   totalDEX(config);
 
-export const totalBowgunBaseMATK = (config: IntermediateConfig) =>
+const totalBowgunBaseMATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalINT(config) * 3 +
   totalDEX(config);
 
-export const totalStaffBaseMATK = (config: IntermediateConfig) =>
+const totalStaffBaseMATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalINT(config) * 4 +
   totalDEX(config) +
   totalMainWeaponATK(config);
 
-export const totalMagicDeviceBaseMATK = (config: IntermediateConfig) =>
+const totalMagicDeviceBaseMATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalINT(config) * 4 +
   totalDEX(config) +
   totalMainWeaponATK(config);
 
-export const totalKnuckleBaseMATK = (config: IntermediateConfig) =>
+const totalKnuckleBaseMATK = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] +
       totalINT(config) * 4 +
@@ -2030,7 +2010,7 @@ export const totalKnuckleBaseMATK = (config: IntermediateConfig) =>
       totalMainWeaponATK(config) * 0.5,
   );
 
-export const totalHalberdBaseMATK = (config: IntermediateConfig) =>
+const totalHalberdBaseMATK = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] +
       totalINT(config) * 2 +
@@ -2038,20 +2018,20 @@ export const totalHalberdBaseMATK = (config: IntermediateConfig) =>
       totalAGI(config),
   );
 
-export const totalKatanaBaseMATK = (config: IntermediateConfig) =>
+const totalKatanaBaseMATK = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] +
       totalINT(config) * 1.5 +
       totalDEX(config),
   );
 
-export const totalBareHandBaseMATK = (config: IntermediateConfig) =>
+const totalBareHandBaseMATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalINT(config) * 3 +
   totalDEX(config) +
   1;
 
-export const totalBaseMATK = (config: IntermediateConfig) =>
+const totalBaseMATK = (config: IntermediateConfig) =>
   (isUsingDualSwords(config) ? totalDualWieldBaseMATK(config)
   : (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
@@ -2088,37 +2068,35 @@ export const totalBaseMATK = (config: IntermediateConfig) =>
   totalBaseMATKValueFromMATKUP(config) +
   totalBaseMATKValueFromMATKDOWN(config);
 
-export const totalPercentMATKFromEquipment = (
-  config: IntermediateConfig,
-) =>
+const totalPercentMATKFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_MATK)
     .map((stat) => stat[1])
     .reduce(add, 0) + subWeaponKnucklePercentMATKModifier(config);
 
-export const totalPercentMATKFromSkills = (config: IntermediateConfig) =>
+const totalPercentMATKFromSkills = (config: IntermediateConfig) =>
   magicMasteryTotalPercentMATK(config) + prayerTotalPercentMATK(config);
 
-export const totalPercentMATK = (config: IntermediateConfig) =>
+const totalPercentMATK = (config: IntermediateConfig) =>
   totalPercentMATKFromEquipment(config) +
   totalPercentMATKFromSkills(config);
 
-export const totalFlatMATKFromEquipment = (config: IntermediateConfig) =>
+const totalFlatMATKFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_MATK)
     .map((stat) => stat[1])
     .reduce(add, 0) + magicAttackBoostTotalFlatMATK(config);
 
-export const totalFlatMATKFromSkills = (config: IntermediateConfig) =>
+const totalFlatMATKFromSkills = (config: IntermediateConfig) =>
   magicUPTotalFlatMATK(config) +
   increasedEnergyTotalFlatMATK(config) +
   magicWarriorMasteryTotalFlatMATK(config) +
   conversionTotalFlatMATK(config);
 
-export const totalFlatMATK = (config: IntermediateConfig) =>
+const totalFlatMATK = (config: IntermediateConfig) =>
   totalFlatMATKFromEquipment(config) + totalFlatMATKFromSkills(config);
 
-export const totalMATK = (config: IntermediateConfig) =>
+const totalMATK = (config: IntermediateConfig) =>
   total(
     totalBaseMATK(config),
     totalPercentMATK(config),
@@ -2126,43 +2104,41 @@ export const totalMATK = (config: IntermediateConfig) =>
   );
 
 // MAX HP
-export const totalBaseMaxHP = (config: IntermediateConfig) =>
+const totalBaseMaxHP = (config: IntermediateConfig) =>
   93 +
   Math.floor(
     (totalVIT(config) + 22.4) * (config[ParamId.CHARACTER_LEVEL] / 3),
   ); // need to confirm this
 
-export const totalPercentMaxHPFromEquipment = (
-  config: IntermediateConfig,
-) =>
+const totalPercentMaxHPFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_MAX_HP)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalPercentMaxHPFromSkills = (config: IntermediateConfig) =>
+const totalPercentMaxHPFromSkills = (config: IntermediateConfig) =>
   HPBoostTotalPercentMaxHP(config);
 
-export const totalPercentMaxHP = (config: IntermediateConfig) =>
+const totalPercentMaxHP = (config: IntermediateConfig) =>
   totalPercentMaxHPFromEquipment(config) +
   totalPercentMaxHPFromSkills(config);
 
-export const totalFlatMaxHPFromEquipment = (config: IntermediateConfig) =>
+const totalFlatMaxHPFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_MAX_MP)
     .map((stat) => stat[1])
     .reduce(add, 0) + maxHPBoostTotalFlatMaxMP(config);
 
-export const totalFlatMaxHPFromSkills = (config: IntermediateConfig) =>
+const totalFlatMaxHPFromSkills = (config: IntermediateConfig) =>
   bushidoTotalFlatMaxHP(config) +
   HPBoostTotalFlatMaxHP(config) +
   forceShieldTotalFlatMaxHP(config) +
   magicalShieldTotalFlatMaxHP(config);
 
-export const totalFlatMaxHP = (config: IntermediateConfig) =>
+const totalFlatMaxHP = (config: IntermediateConfig) =>
   totalFlatMaxHPFromEquipment(config) + totalFlatMaxHPFromSkills(config);
 
-export const totalMaxHP = (config: IntermediateConfig) =>
+const totalMaxHP = (config: IntermediateConfig) =>
   total(
     totalBaseMaxHP(config),
     totalPercentMaxHP(config),
@@ -2171,7 +2147,7 @@ export const totalMaxHP = (config: IntermediateConfig) =>
 
 // MAX MP
 
-export const totalBaseMaxMP = (config: IntermediateConfig) =>
+const totalBaseMaxMP = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_PERSONAL_STAT_ID] === PersonalStatId.TEC ?
     config[ParamId.CHARACTER_PERSONAL_STAT_VALUE] > 0 ?
       Math.floor(
@@ -2185,25 +2161,25 @@ export const totalBaseMaxMP = (config: IntermediateConfig) =>
       )
   : 0;
 
-export const totalPercentMaxMP = (config: IntermediateConfig) =>
+const totalPercentMaxMP = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_MAX_MP)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatMaxMPFromEquipment = (config: IntermediateConfig) =>
+const totalFlatMaxMPFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_MAX_MP)
     .map((stat) => stat[1])
     .reduce(add, 0) + maxMPBoostTotalFlatMaxMP(config);
 
-export const totalFlatMaxMPFromSkills = (config: IntermediateConfig) =>
+const totalFlatMaxMPFromSkills = (config: IntermediateConfig) =>
   bushidoTotalFlatMaxMP(config) + MPBoostTotalFlatMaxMP(config);
 
-export const totalFlatMaxMP = (config: IntermediateConfig) =>
+const totalFlatMaxMP = (config: IntermediateConfig) =>
   totalFlatMaxMPFromEquipment(config) + totalFlatMaxMPFromSkills(config);
 
-export const totalMaxMP = (config: IntermediateConfig) =>
+const totalMaxMP = (config: IntermediateConfig) =>
   total(
     totalBaseMaxMP(config),
     totalPercentMaxMP(config),
@@ -2212,33 +2188,33 @@ export const totalMaxMP = (config: IntermediateConfig) =>
 
 // MDEF
 
-export const normalArmorBaseMDEF = (config: IntermediateConfig) =>
+const normalArmorBaseMDEF = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_LEVEL] +
   totalINT(config) +
   totalEquipmentDEF(config);
 
-export const lightArmorBaseMDEF = (config: IntermediateConfig) =>
+const lightArmorBaseMDEF = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] * 0.8 +
       totalINT(config) * 0.25 +
       totalEquipmentDEF(config),
   );
 
-export const heavyArmorBaseMDEF = (config: IntermediateConfig) =>
+const heavyArmorBaseMDEF = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] * 1.2 +
       totalINT(config) * 2 +
       totalEquipmentDEF(config),
   );
 
-export const noArmorBaseMDEF = (config: IntermediateConfig) =>
+const noArmorBaseMDEF = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] * 0.4 +
       totalINT(config) * 0.1 +
       totalEquipmentDEF(config),
   );
 
-export const totalBaseMDEF = (config: IntermediateConfig) =>
+const totalBaseMDEF = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.LIGHT ?
     lightArmorBaseMDEF(config)
   : config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.HEAVY ?
@@ -2247,36 +2223,34 @@ export const totalBaseMDEF = (config: IntermediateConfig) =>
     normalArmorBaseMDEF(config)
   : noArmorBaseMDEF(config);
 
-export const totalPercentMDEFFromEquipment = (
-  config: IntermediateConfig,
-) =>
+const totalPercentMDEFFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_MDEF)
     .map((stat) => stat[1])
     .reduce(add, 0) + subWeaponArrowPercentMDEFModifier(config);
 
-export const totalPercentMDEFFromSkills = (config: IntermediateConfig) =>
+const totalPercentMDEFFromSkills = (config: IntermediateConfig) =>
   berserkTotalPercentMDEF(config) + magicalShieldTotalPercentMDEF(config);
 
-export const totalPercentMDEF = (config: IntermediateConfig) =>
+const totalPercentMDEF = (config: IntermediateConfig) =>
   totalPercentMDEFFromEquipment(config) +
   totalPercentMDEFFromSkills(config);
 
-export const totalFlatMDEFFromEquipment = (config: IntermediateConfig) =>
+const totalFlatMDEFFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_MDEF)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatMDEFFromSkills = (config: IntermediateConfig) =>
+const totalFlatMDEFFromSkills = (config: IntermediateConfig) =>
   magicalShieldTotalFlatMDEF(config) +
   defenseUPTotalFlatMDEF(config) +
   defenseMasteryTotalFlatMDEF(config);
 
-export const totalFlatMDEF = (config: IntermediateConfig) =>
+const totalFlatMDEF = (config: IntermediateConfig) =>
   totalFlatMDEFFromEquipment(config) + totalFlatMDEFFromSkills(config);
 
-export const totalMDEF = (config: IntermediateConfig) =>
+const totalMDEF = (config: IntermediateConfig) =>
   total(
     totalBaseMDEF(config),
     totalPercentMDEF(config),
@@ -2284,14 +2258,12 @@ export const totalMDEF = (config: IntermediateConfig) =>
   );
 
 // modifiers
-export const armorTypeIdPercentASPDModifier = (
-  config: IntermediateConfig,
-) =>
+const armorTypeIdPercentASPDModifier = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.LIGHT ? 50
   : config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.HEAVY ? -50
   : 0;
 
-export const subWeaponMagicDevicePercentATKModifier = (
+const subWeaponMagicDevicePercentATKModifier = (
   config: IntermediateConfig,
 ) =>
   (
@@ -2301,100 +2273,88 @@ export const subWeaponMagicDevicePercentATKModifier = (
     -15 + magicWarriorMasteryTotalPercentATKPenaltyReduction(config)
   : 0;
 
-export const subWeaponShieldPercentASPDModifier = (
-  config: IntermediateConfig,
-) =>
+const subWeaponShieldPercentASPDModifier = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD ?
     -50 + shieldMasteryPercentASPDPenaltyReduction(config)
   : 0;
 
-export const subWeaponKnucklePercentMATKModifier = (
+const subWeaponKnucklePercentMATKModifier = (
   config: IntermediateConfig,
 ) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.KNUCKLES ?
     -15
   : 0;
 
-export const subWeaponArrowPercentMDEFModifier = (
-  config: IntermediateConfig,
-) =>
+const subWeaponArrowPercentMDEFModifier = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.ARROW ?
     -25
   : 0;
 
-export const subWeaponArrowPercentDEFModifier = (
-  config: IntermediateConfig,
-) =>
+const subWeaponArrowPercentDEFModifier = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.ARROW ?
     -25
   : 0;
 
 // stability
 
-export const totalDualWieldBaseStability = (config: IntermediateConfig) =>
+const totalDualWieldBaseStability = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_MAINWEAPON_STABILITY] +
       (totalSTR(config) + totalDEX(config) * 3) / 40,
   );
 
-export const totalOneHandedSwordBaseStability = (
-  config: IntermediateConfig,
-) =>
+const totalOneHandedSwordBaseStability = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_MAINWEAPON_STABILITY] +
       (totalSTR(config) + totalDEX(config) * 3) / 40,
   );
 
-export const totalTwoHandedSwordBaseStability = (
-  config: IntermediateConfig,
-) =>
+const totalTwoHandedSwordBaseStability = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_MAINWEAPON_STABILITY] + totalDEX(config) / 10,
   );
 
-export const totalBowBaseStability = (config: IntermediateConfig) =>
+const totalBowBaseStability = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_MAINWEAPON_STABILITY] +
       (totalSTR(config) + totalDEX(config)) / 20,
   );
 
-export const totalBowgunBaseStability = (config: IntermediateConfig) =>
+const totalBowgunBaseStability = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_MAINWEAPON_STABILITY] + totalSTR(config) / 20,
   );
 
-export const totalStaffBaseStability = (config: IntermediateConfig) =>
+const totalStaffBaseStability = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_MAINWEAPON_STABILITY] + totalSTR(config) / 20,
   );
 
-export const totalMagicDeviceBaseStability = (
-  config: IntermediateConfig,
-) =>
+const totalMagicDeviceBaseStability = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_MAINWEAPON_STABILITY] + totalDEX(config) / 10,
   );
 
-export const totalKnuckleBaseStability = (config: IntermediateConfig) =>
+const totalKnuckleBaseStability = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_MAINWEAPON_STABILITY] + totalDEX(config) / 40,
   );
 
-export const totalHalberdBaseStability = (config: IntermediateConfig) =>
+const totalHalberdBaseStability = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_MAINWEAPON_STABILITY] +
       (totalSTR(config) + totalDEX(config)) / 20,
   );
 
-export const totalKatanaBaseStability = (config: IntermediateConfig) =>
+const totalKatanaBaseStability = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_MAINWEAPON_STABILITY] +
       (totalSTR(config) * 3 + totalDEX(config)) / 40,
   );
-export const totalBareHandBaseStability = (config: IntermediateConfig) =>
+const totalBareHandBaseStability = (config: IntermediateConfig) =>
   Math.floor(1 + totalDEX(config) / 3);
 
-export const totalBaseStability = (config: IntermediateConfig) =>
+const totalBaseStability = (config: IntermediateConfig) =>
   isUsingDualSwords(config) ? totalDualWieldBaseStability(config)
   : (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
@@ -2432,7 +2392,7 @@ export const totalBaseStability = (config: IntermediateConfig) =>
 // --------------- Equipment stats ---------------
 
 // defensive
-export const totalEquipmentDEF = (config: IntermediateConfig) =>
+const totalEquipmentDEF = (config: IntermediateConfig) =>
   (config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD ?
     config[ParamId.CHARACTER_SUBWEAPON_DEF]
   : 0) +
@@ -2440,7 +2400,7 @@ export const totalEquipmentDEF = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_ADDITIONAL_GEAR_DEF] +
   config[ParamId.CHARACTER_SPECIAL_GEAR_DEF];
 
-export const totalRefinementReduction = (config: IntermediateConfig) =>
+const totalRefinementReduction = (config: IntermediateConfig) =>
   ((
     config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD ||
     (config[ParamId.CHARACTER_SUBWEAPON_TYPE] ===
@@ -2453,7 +2413,7 @@ export const totalRefinementReduction = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_ADDITIONAL_GEAR_REFINEMENT];
 
 // element
-export const mainWeaponElement = (config: IntermediateConfig) =>
+const mainWeaponElement = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_STATMAP](config)
     .filter(
       (stat) =>
@@ -2476,7 +2436,7 @@ export const mainWeaponElement = (config: IntermediateConfig) =>
     )
     .reduce((prev, curr) => (curr !== "neutral" ? curr : prev), "neutral");
 
-export const subWeaponElement = (config: IntermediateConfig) =>
+const subWeaponElement = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_STATMAP](config)
     .filter(
       (stat) =>
@@ -2501,50 +2461,50 @@ export const subWeaponElement = (config: IntermediateConfig) =>
 
 // equipment related stability
 
-export const totalStabilityFromEquipment = (config: IntermediateConfig) =>
+const totalStabilityFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.STABILITY)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalStabilityFromSkills = (config: IntermediateConfig) =>
+const totalStabilityFromSkills = (config: IntermediateConfig) =>
   berserkTotalStability(config) +
   samuraiArcheryTotalStability(config) +
   twoHandedTotalStability(config);
 
-export const totalStability = (config: IntermediateConfig) =>
+const totalStability = (config: IntermediateConfig) =>
   totalBaseStability(config) +
   totalStabilityFromEquipment(config) +
   totalStabilityFromSkills(config);
 
 /** graze effect lacking here */
-export const totalMinimumStability = (config: IntermediateConfig) =>
+const totalMinimumStability = (config: IntermediateConfig) =>
   totalStability(config);
 
 /** graze effect lacking here */
-export const totalMaximumStability = (config: IntermediateConfig) => 100;
+const totalMaximumStability = (config: IntermediateConfig) => 100;
 
-export const totalMagicStability = (config: IntermediateConfig) =>
+const totalMagicStability = (config: IntermediateConfig) =>
   Math.floor((100 + totalStability(config)) / 2);
 
-export const totalMinimumMagicStability = (config: IntermediateConfig) =>
+const totalMinimumMagicStability = (config: IntermediateConfig) =>
   totalMagicStability(config);
 
-export const totalMaximumMagicStability = (config: IntermediateConfig) =>
+const totalMaximumMagicStability = (config: IntermediateConfig) =>
   totalMagicStability(config) > 90 ?
     totalMagicStability(config) - 90 + 100
   : 100;
 
 // weapon atk
 
-export const totalMainWeaponRefinementBonusMainWeaponATK = (
+const totalMainWeaponRefinementBonusMainWeaponATK = (
   config: IntermediateConfig,
 ) =>
   Math.floor(
     config[ParamId.CHARACTER_MAINWEAPON_ATK] *
       (config[ParamId.CHARACTER_MAINWEAPON_REFINEMENT] ** 2 / 100),
   ) + config[ParamId.CHARACTER_MAINWEAPON_REFINEMENT];
-export const totalSubWeaponRefinementBonusSubWeaponATK = (
+const totalSubWeaponRefinementBonusSubWeaponATK = (
   config: IntermediateConfig,
 ) =>
   isUsingDualSwords(config) ?
@@ -2554,17 +2514,13 @@ export const totalSubWeaponRefinementBonusSubWeaponATK = (
     ) + config[ParamId.CHARACTER_SUBWEAPON_REFINEMENT]
   : 0;
 
-export const totalPercentWeaponATKFromEquipment = (
-  config: IntermediateConfig,
-) =>
+const totalPercentWeaponATKFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_WEAPON_ATK)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalPercentWeaponATKFromSkills = (
-  config: IntermediateConfig,
-) =>
+const totalPercentWeaponATKFromSkills = (config: IntermediateConfig) =>
   swordMasteryTotalPercentWeaponATK(config) +
   shotMasteryTotalPercentWeaponATK(config) +
   martialMasteryTotalPercentWeaponATK(config) +
@@ -2575,27 +2531,25 @@ export const totalPercentWeaponATKFromSkills = (
   braveAuraTotalPercentWeaponATK(config) +
   busterBladeTotalPercentWeaponATK(config);
 
-export const totalPercentWeaponATK = (config: IntermediateConfig) =>
+const totalPercentWeaponATK = (config: IntermediateConfig) =>
   totalPercentWeaponATKFromEquipment(config) +
   totalPercentWeaponATKFromSkills(config);
 
-export const totalFlatWeaponATKFromEquipment = (
-  config: IntermediateConfig,
-) =>
+const totalFlatWeaponATKFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_WEAPON_ATK)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatWeaponATKFromSkills = (config: IntermediateConfig) =>
+const totalFlatWeaponATKFromSkills = (config: IntermediateConfig) =>
   samuraiArcheryTotalFlatWeaponATK(config) +
   unarmedMasteryTotalFlatWeaponATK(config);
 
-export const totalFlatWeaponATK = (config: IntermediateConfig) =>
+const totalFlatWeaponATK = (config: IntermediateConfig) =>
   totalFlatWeaponATKFromEquipment(config) +
   totalFlatWeaponATKFromSkills(config);
 
-export const totalMainWeaponATK = (config: IntermediateConfig) =>
+const totalMainWeaponATK = (config: IntermediateConfig) =>
   total(
     config[ParamId.CHARACTER_MAINWEAPON_ATK],
     totalPercentWeaponATK(config) +
@@ -2604,7 +2558,7 @@ export const totalMainWeaponATK = (config: IntermediateConfig) =>
       totalMainWeaponRefinementBonusMainWeaponATK(config),
   );
 
-export const totalSubWeaponATK = (config: IntermediateConfig) =>
+const totalSubWeaponATK = (config: IntermediateConfig) =>
   isUsingDualSwords(config) ?
     total(
       config[ParamId.CHARACTER_SUBWEAPON_ATK],
@@ -2617,52 +2571,52 @@ export const totalSubWeaponATK = (config: IntermediateConfig) =>
 
 // damage to element/ dte
 
-export const totalMagicDamageToElementBasedFromINT = (
+const totalMagicDamageToElementBasedFromINT = (
   config: IntermediateConfig,
 ) => Math.floor(config[ParamId.CHARACTER_BASE_INT] / 10);
 
-export const totalDamageToDark = (config: IntermediateConfig) =>
+const totalDamageToDark = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.DAMAGE_TO_DARK)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalDamageToLight = (config: IntermediateConfig) =>
+const totalDamageToLight = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.DAMAGE_TO_LIGHT)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalDamageToFire = (config: IntermediateConfig) =>
+const totalDamageToFire = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.DAMAGE_TO_FIRE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalDamageToEarth = (config: IntermediateConfig) =>
+const totalDamageToEarth = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.DAMAGE_TO_EARTH)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalDamageToWind = (config: IntermediateConfig) =>
+const totalDamageToWind = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.DAMAGE_TO_WIND)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalDamageToWater = (config: IntermediateConfig) =>
+const totalDamageToWater = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.DAMAGE_TO_WATER)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
 // evasion
-export const totalBaseEvasionRecharge = (config: IntermediateConfig) => {
+const totalBaseEvasionRecharge = (config: IntermediateConfig) => {
   // TODO
 };
 
-export const totalPercentEvasionRecharge = (config: IntermediateConfig) =>
+const totalPercentEvasionRecharge = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.EVASION_RECHARGE)
     .map((stat) => stat[1])
@@ -2671,7 +2625,7 @@ export const totalPercentEvasionRecharge = (config: IntermediateConfig) =>
 // NOTE: Not sure for this calculations atm, so i might not be finishing this for now
 
 // guard
-export const totalBaseGuardPower = (config: IntermediateConfig) =>
+const totalBaseGuardPower = (config: IntermediateConfig) =>
   Math.min(
     [
       config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.HEAVY ?
@@ -2697,16 +2651,16 @@ export const totalBaseGuardPower = (config: IntermediateConfig) =>
     10000,
   );
 
-export const totalPercentGuardPower = (config: IntermediateConfig) =>
+const totalPercentGuardPower = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.GUARD_POWER)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalGuardPower = (config: IntermediateConfig) =>
+const totalGuardPower = (config: IntermediateConfig) =>
   totalBaseGuardPower(config) * (totalPercentGuardPower(config) / 100);
 
-export const totalBaseGuardRecharge = (config: IntermediateConfig) =>
+const totalBaseGuardRecharge = (config: IntermediateConfig) =>
   [
     config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.HEAVY ? 25 : 0,
     config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD ?
@@ -2727,52 +2681,52 @@ export const totalBaseGuardRecharge = (config: IntermediateConfig) =>
     hiddenTalentTotalBaseGuardRecharge(config),
   ].reduce(add, 0);
 
-export const totalPercentGuardRecharge = (config: IntermediateConfig) =>
+const totalPercentGuardRecharge = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.GUARD_RECHARGE)
     .map((stat) => stat[1])
     .reduce(add, 0) + heavyArmorMasteryTotalGuardRecharge(config);
 
-export const totalGuardRecharge = (config: IntermediateConfig) =>
+const totalGuardRecharge = (config: IntermediateConfig) =>
   Math.floor(
     (totalBaseGuardRecharge(config) * totalPercentGuardRecharge(config)) /
       100,
   );
 
-export const totalGuardBreak = (config: IntermediateConfig) =>
+const totalGuardBreak = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.GUARD_BREAK)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
 // pierce
-export const totalMagicPierce = (config: IntermediateConfig) =>
+const totalMagicPierce = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.MAGIC_PIERCE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalPhysicalPierce = (config: IntermediateConfig) =>
+const totalPhysicalPierce = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PHYSICAL_PIERCE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
 // range damage
-export const totalLongRangeDamage = (config: IntermediateConfig) =>
+const totalLongRangeDamage = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.LONG_RANGE_DAMAGE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalShortRangeDamage = (config: IntermediateConfig) =>
+const totalShortRangeDamage = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.SHORT_RANGE_DAMAGE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
 // resistance
-export const totalPhysicalResistanceFromEquipment = (
+const totalPhysicalResistanceFromEquipment = (
   config: IntermediateConfig,
 ) =>
   flattenedStats(config)
@@ -2780,67 +2734,61 @@ export const totalPhysicalResistanceFromEquipment = (
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalPhysicalResistanceFromSkills = (
-  config: IntermediateConfig,
-) =>
+const totalPhysicalResistanceFromSkills = (config: IntermediateConfig) =>
   forceShieldTotalPhysicalResistance(config) +
   godspeedWieldTotalPhysicalResistance(config) +
   siphonBarrierTotalPhysicalResistance(config);
 
-export const totalPhysicalResistance = (config: IntermediateConfig) =>
+const totalPhysicalResistance = (config: IntermediateConfig) =>
   totalPhysicalResistanceFromEquipment(config) +
   totalPhysicalResistanceFromSkills(config);
 
-export const totalMagicResistanceFromEquipment = (
-  config: IntermediateConfig,
-) =>
+const totalMagicResistanceFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.MAGIC_RESISTANCE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalMagicResistanceFromSkills = (
-  config: IntermediateConfig,
-) =>
+const totalMagicResistanceFromSkills = (config: IntermediateConfig) =>
   magicalShieldTotalMagicResistance(config) +
   godspeedWieldTotalMagicResistance(config) +
   siphonBarrierTotalMagicResistance(config);
 
-export const totalMagicResistance = (config: IntermediateConfig) =>
+const totalMagicResistance = (config: IntermediateConfig) =>
   totalMagicResistanceFromEquipment(config) +
   totalMagicResistanceFromSkills(config);
 
-export const totalLightResistance = (config: IntermediateConfig) =>
+const totalLightResistance = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.LIGHT_RESISTANCE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalDarkResistance = (config: IntermediateConfig) =>
+const totalDarkResistance = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.DARK_RESISTANCE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFireResistance = (config: IntermediateConfig) =>
+const totalFireResistance = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FIRE_RESISTANCE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalEarthResistance = (config: IntermediateConfig) =>
+const totalEarthResistance = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.EARTH_RESISTANCE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalWindResistance = (config: IntermediateConfig) =>
+const totalWindResistance = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.WIND_RESISTANCE)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalWaterResistance = (config: IntermediateConfig) =>
+const totalWaterResistance = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.WATER_RESISTANCE)
     .map((stat) => stat[1])
@@ -2849,30 +2797,30 @@ export const totalWaterResistance = (config: IntermediateConfig) =>
 // -------------SPECIAL STATS -------------
 
 // ampr
-export const totalBaseAMPR = (config: IntermediateConfig) =>
+const totalBaseAMPR = (config: IntermediateConfig) =>
   Math.floor(10 + totalMaxMP(config) / 100);
 
-export const totalPercentAMPR = (config: IntermediateConfig) =>
+const totalPercentAMPR = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_ATTACK_MP_RECOVERY)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatAMPRFromEquipment = (config: IntermediateConfig) =>
+const totalFlatAMPRFromEquipment = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_ATTACK_MP_RECOVERY)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalFlatAMPRFromSkills = (config: IntermediateConfig) =>
+const totalFlatAMPRFromSkills = (config: IntermediateConfig) =>
   aggravateTotalFlatAMPR(config) +
   etherFlareTotalFlatAMPR(config) +
   ultimaQiChargeTotalFlatAMPR(config);
 
-export const totalFlatAMPR = (config: IntermediateConfig) =>
+const totalFlatAMPR = (config: IntermediateConfig) =>
   totalFlatAMPRFromEquipment(config) + totalFlatAMPRFromSkills(config);
 
-export const totalAMPR = (config: IntermediateConfig) =>
+const totalAMPR = (config: IntermediateConfig) =>
   total(
     totalBaseAMPR(config),
     totalPercentAMPR(config),
@@ -2881,9 +2829,7 @@ export const totalAMPR = (config: IntermediateConfig) =>
 
 // ATK DOWN
 
-export const totalBaseATKValueFromATKDOWNAGI = (
-  config: IntermediateConfig,
-) =>
+const totalBaseATKValueFromATKDOWNAGI = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATK_DOWN_AGI)
@@ -2891,9 +2837,7 @@ export const totalBaseATKValueFromATKDOWNAGI = (
       .reduce(add, 0) / 100,
   ) * config[ParamId.CHARACTER_BASE_AGI];
 
-export const totalBaseATKValueFromATKDOWNDEX = (
-  config: IntermediateConfig,
-) =>
+const totalBaseATKValueFromATKDOWNDEX = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATK_DOWN_DEX)
@@ -2903,9 +2847,7 @@ export const totalBaseATKValueFromATKDOWNDEX = (
       100,
   ) * config[ParamId.CHARACTER_BASE_DEX];
 
-export const totalBaseATKValueFromATKDOWNINT = (
-  config: IntermediateConfig,
-) =>
+const totalBaseATKValueFromATKDOWNINT = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATK_DOWN_INT)
@@ -2915,9 +2857,7 @@ export const totalBaseATKValueFromATKDOWNINT = (
       100,
   ) * config[ParamId.CHARACTER_BASE_INT];
 
-export const totalBaseATKValueFromATKDOWNSTR = (
-  config: IntermediateConfig,
-) =>
+const totalBaseATKValueFromATKDOWNSTR = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATK_DOWN_STR)
@@ -2927,9 +2867,7 @@ export const totalBaseATKValueFromATKDOWNSTR = (
       100,
   ) * config[ParamId.CHARACTER_BASE_STR];
 
-export const totalBaseATKValueFromATKDOWNVIT = (
-  config: IntermediateConfig,
-) =>
+const totalBaseATKValueFromATKDOWNVIT = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATK_DOWN_VIT)
@@ -2939,7 +2877,7 @@ export const totalBaseATKValueFromATKDOWNVIT = (
       100,
   ) * config[ParamId.CHARACTER_BASE_VIT];
 
-export const totalBaseATKValueFromATKDOWN = (config: IntermediateConfig) =>
+const totalBaseATKValueFromATKDOWN = (config: IntermediateConfig) =>
   [
     totalBaseATKValueFromATKDOWNAGI(config),
     totalBaseATKValueFromATKDOWNDEX(config),
@@ -2950,9 +2888,7 @@ export const totalBaseATKValueFromATKDOWN = (config: IntermediateConfig) =>
 
 // ATK UP
 
-export const totalBaseATKValueFromATKUPAGI = (
-  config: IntermediateConfig,
-) =>
+const totalBaseATKValueFromATKUPAGI = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATK_UP_AGI)
@@ -2960,9 +2896,7 @@ export const totalBaseATKValueFromATKUPAGI = (
       .reduce(add, 0) / 100,
   ) * config[ParamId.CHARACTER_BASE_AGI];
 
-export const totalBaseATKValueFromATKUPDEX = (
-  config: IntermediateConfig,
-) =>
+const totalBaseATKValueFromATKUPDEX = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATK_UP_DEX)
@@ -2972,9 +2906,7 @@ export const totalBaseATKValueFromATKUPDEX = (
       100,
   ) * config[ParamId.CHARACTER_BASE_DEX];
 
-export const totalBaseATKValueFromATKUPINT = (
-  config: IntermediateConfig,
-) =>
+const totalBaseATKValueFromATKUPINT = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATK_UP_INT)
@@ -2984,9 +2916,7 @@ export const totalBaseATKValueFromATKUPINT = (
       100,
   ) * config[ParamId.CHARACTER_BASE_INT];
 
-export const totalBaseATKValueFromATKUPSTR = (
-  config: IntermediateConfig,
-) =>
+const totalBaseATKValueFromATKUPSTR = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATK_UP_STR)
@@ -2996,9 +2926,7 @@ export const totalBaseATKValueFromATKUPSTR = (
       100,
   ) * config[ParamId.CHARACTER_BASE_STR];
 
-export const totalBaseATKValueFromATKUPVIT = (
-  config: IntermediateConfig,
-) =>
+const totalBaseATKValueFromATKUPVIT = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.ATK_UP_VIT)
@@ -3008,7 +2936,7 @@ export const totalBaseATKValueFromATKUPVIT = (
       100,
   ) * config[ParamId.CHARACTER_BASE_VIT];
 
-export const totalBaseATKValueFromATKUP = (config: IntermediateConfig) =>
+const totalBaseATKValueFromATKUP = (config: IntermediateConfig) =>
   [
     totalBaseATKValueFromATKUPAGI(config),
     totalBaseATKValueFromATKUPDEX(config),
@@ -3018,9 +2946,7 @@ export const totalBaseATKValueFromATKUP = (config: IntermediateConfig) =>
   ].reduce(add);
 
 // MATK DOWN
-export const totalBaseMATKValueFromMATKDOWNAGI = (
-  config: IntermediateConfig,
-) =>
+const totalBaseMATKValueFromMATKDOWNAGI = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATK_DOWN_AGI)
@@ -3028,9 +2954,7 @@ export const totalBaseMATKValueFromMATKDOWNAGI = (
       .reduce(add, 0) / 100,
   ) * config[ParamId.CHARACTER_BASE_AGI];
 
-export const totalBaseMATKValueFromMATKDOWNDEX = (
-  config: IntermediateConfig,
-) =>
+const totalBaseMATKValueFromMATKDOWNDEX = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATK_DOWN_DEX)
@@ -3040,9 +2964,7 @@ export const totalBaseMATKValueFromMATKDOWNDEX = (
       100,
   ) * config[ParamId.CHARACTER_BASE_DEX];
 
-export const totalBaseMATKValueFromMATKDOWNINT = (
-  config: IntermediateConfig,
-) =>
+const totalBaseMATKValueFromMATKDOWNINT = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATK_DOWN_INT)
@@ -3052,9 +2974,7 @@ export const totalBaseMATKValueFromMATKDOWNINT = (
       100,
   ) * config[ParamId.CHARACTER_BASE_INT];
 
-export const totalBaseMATKValueFromMATKDOWNSTR = (
-  config: IntermediateConfig,
-) =>
+const totalBaseMATKValueFromMATKDOWNSTR = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATK_DOWN_STR)
@@ -3064,9 +2984,7 @@ export const totalBaseMATKValueFromMATKDOWNSTR = (
       100,
   ) * config[ParamId.CHARACTER_BASE_STR];
 
-export const totalBaseMATKValueFromMATKDOWNVIT = (
-  config: IntermediateConfig,
-) =>
+const totalBaseMATKValueFromMATKDOWNVIT = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATK_DOWN_VIT)
@@ -3076,9 +2994,7 @@ export const totalBaseMATKValueFromMATKDOWNVIT = (
       100,
   ) * config[ParamId.CHARACTER_BASE_VIT];
 
-export const totalBaseMATKValueFromMATKDOWN = (
-  config: IntermediateConfig,
-) =>
+const totalBaseMATKValueFromMATKDOWN = (config: IntermediateConfig) =>
   [
     totalBaseMATKValueFromMATKDOWNAGI(config),
     totalBaseMATKValueFromMATKDOWNDEX(config),
@@ -3089,9 +3005,7 @@ export const totalBaseMATKValueFromMATKDOWN = (
 
 // MATK UP
 
-export const totalBaseMATKValueFromMATKUPAGI = (
-  config: IntermediateConfig,
-) =>
+const totalBaseMATKValueFromMATKUPAGI = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATK_UP_AGI)
@@ -3099,9 +3013,7 @@ export const totalBaseMATKValueFromMATKUPAGI = (
       .reduce(add, 0) / 100,
   ) * config[ParamId.CHARACTER_BASE_AGI];
 
-export const totalBaseMATKValueFromMATKUPDEX = (
-  config: IntermediateConfig,
-) =>
+const totalBaseMATKValueFromMATKUPDEX = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATK_UP_DEX)
@@ -3111,9 +3023,7 @@ export const totalBaseMATKValueFromMATKUPDEX = (
       100,
   ) * config[ParamId.CHARACTER_BASE_DEX];
 
-export const totalBaseMATKValueFromMATKUPINT = (
-  config: IntermediateConfig,
-) =>
+const totalBaseMATKValueFromMATKUPINT = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATK_UP_INT)
@@ -3123,9 +3033,7 @@ export const totalBaseMATKValueFromMATKUPINT = (
       100,
   ) * config[ParamId.CHARACTER_BASE_INT];
 
-export const totalBaseMATKValueFromMATKUPSTR = (
-  config: IntermediateConfig,
-) =>
+const totalBaseMATKValueFromMATKUPSTR = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATK_UP_STR)
@@ -3135,9 +3043,7 @@ export const totalBaseMATKValueFromMATKUPSTR = (
       100,
   ) * config[ParamId.CHARACTER_BASE_STR];
 
-export const totalBaseMATKValueFromMATKUPVIT = (
-  config: IntermediateConfig,
-) =>
+const totalBaseMATKValueFromMATKUPVIT = (config: IntermediateConfig) =>
   Math.floor(
     flattenedStats(config)
       .filter((stat) => stat[0] === StatId.MATK_UP_VIT)
@@ -3147,7 +3053,7 @@ export const totalBaseMATKValueFromMATKUPVIT = (
       100,
   ) * config[ParamId.CHARACTER_BASE_VIT];
 
-export const totalBaseMATKValueFromMATKUP = (config: IntermediateConfig) =>
+const totalBaseMATKValueFromMATKUP = (config: IntermediateConfig) =>
   [
     totalBaseMATKValueFromMATKUPAGI(config),
     totalBaseMATKValueFromMATKUPDEX(config),
@@ -3158,7 +3064,7 @@ export const totalBaseMATKValueFromMATKUP = (config: IntermediateConfig) =>
 
 // CAST TIME REDUCTION
 
-export const totalCastTimeReduction = (config: IntermediateConfig) =>
+const totalCastTimeReduction = (config: IntermediateConfig) =>
   Math.floor(
     totalCSPD(config) > 1000 ?
       50 + ((totalCSPD(config) - 1000) / 90) * 0.5
@@ -3166,14 +3072,14 @@ export const totalCastTimeReduction = (config: IntermediateConfig) =>
   );
 
 // motion speed
-export const totalMotionSpeed = (config: IntermediateConfig) =>
+const totalMotionSpeed = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.MOTION_SPEED)
     .map((stat) => stat[1])
     .reduce(add, 0) + Math.floor((totalASPD(config) - 1000) / 180);
 
 // unsheathe attack
-export const totalPercentUnsheatheAttackFromEquipment = (
+const totalPercentUnsheatheAttackFromEquipment = (
   config: IntermediateConfig,
 ) =>
   flattenedStats(config)
@@ -3181,17 +3087,17 @@ export const totalPercentUnsheatheAttackFromEquipment = (
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const totalPercentUnsheatheAttackFromSkills = (
+const totalPercentUnsheatheAttackFromSkills = (
   config: IntermediateConfig,
 ) =>
   godspeedTotalPercentUnsheatheAttack(config) +
   flashBlastTotalPercentUnsheatheAttack(config);
 
-export const totalPercentUnsheatheAttack = (config: IntermediateConfig) =>
+const totalPercentUnsheatheAttack = (config: IntermediateConfig) =>
   totalPercentUnsheatheAttackFromEquipment(config) +
   totalPercentUnsheatheAttackFromSkills(config);
 
-export const totalFlatUnsheatheAttack = (config: IntermediateConfig) =>
+const totalFlatUnsheatheAttack = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.FLAT_UNSHEATHE_ATTACK)
     .map((stat) => stat[1])
@@ -3201,12 +3107,10 @@ export const totalFlatUnsheatheAttack = (config: IntermediateConfig) =>
 
 // barehand skills
 
-export const hiddenTalentLevel = (config: IntermediateConfig) =>
+const hiddenTalentLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_HIDDENTALENT_LEVEL];
 
-export const hiddenTalentTotalBaseGuardPower = (
-  config: IntermediateConfig,
-) =>
+const hiddenTalentTotalBaseGuardPower = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.BARE_HAND &&
@@ -3215,9 +3119,7 @@ export const hiddenTalentTotalBaseGuardPower = (
     hiddenTalentLevel(config) * 500
   : 0;
 
-export const hiddenTalentTotalBaseGuardRecharge = (
-  config: IntermediateConfig,
-) =>
+const hiddenTalentTotalBaseGuardRecharge = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.BARE_HAND &&
@@ -3226,9 +3128,7 @@ export const hiddenTalentTotalBaseGuardRecharge = (
     5 + 2 * hiddenTalentLevel(config)
   : 0;
 
-export const hiddenTalentTotalEvasionCount = (
-  config: IntermediateConfig,
-) =>
+const hiddenTalentTotalEvasionCount = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.BARE_HAND &&
@@ -3237,7 +3137,7 @@ export const hiddenTalentTotalEvasionCount = (
     Math.floor(2 + hiddenTalentLevel(config) * 0.4)
   : 0;
 
-export const hiddenTalentTotalBaseEvasionRecharge = (
+const hiddenTalentTotalBaseEvasionRecharge = (
   config: IntermediateConfig,
 ) =>
   (
@@ -3250,7 +3150,7 @@ export const hiddenTalentTotalBaseEvasionRecharge = (
     : 10
   : 0;
 
-export const hiddenTalentTotalCostQiReductionForNonBareHandSkills = (
+const hiddenTalentTotalCostQiReductionForNonBareHandSkills = (
   config: IntermediateConfig,
 ) =>
   (
@@ -3261,10 +3161,10 @@ export const hiddenTalentTotalCostQiReductionForNonBareHandSkills = (
     Math.floor(0.5 * hiddenTalentLevel(config))
   : 0;
 
-export const ultimaQiChargeLevel = (config: IntermediateConfig) =>
+const ultimaQiChargeLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_ULTIMAQICHARGE_LEVEL];
 
-export const ultimaQiChargeTotalFlatAMPR = (config: IntermediateConfig) =>
+const ultimaQiChargeTotalFlatAMPR = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.BARE_HAND &&
@@ -3273,7 +3173,7 @@ export const ultimaQiChargeTotalFlatAMPR = (config: IntermediateConfig) =>
     Math.floor(ultimaQiChargeLevel(config) * 0.5)
   : 0;
 
-export const ultimaQiChargeTotalCostQiReductionForNonBareHandSkills = (
+const ultimaQiChargeTotalCostQiReductionForNonBareHandSkills = (
   config: IntermediateConfig,
 ) =>
   (
@@ -3284,12 +3184,10 @@ export const ultimaQiChargeTotalCostQiReductionForNonBareHandSkills = (
     20 - ultimaQiChargeLevel(config)
   : 0;
 
-export const unarmedMasteryLevel = (config: IntermediateConfig) =>
+const unarmedMasteryLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_UNARMEDMASTERY_LEVEL];
 
-export const unarmedMasteryTotalFlatWeaponATK = (
-  config: IntermediateConfig,
-) =>
+const unarmedMasteryTotalFlatWeaponATK = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.BARE_HAND &&
@@ -3300,9 +3198,7 @@ export const unarmedMasteryTotalFlatWeaponATK = (
     )
   : 0;
 
-export const unarmedMasteryTotalQiChargeLimit = (
-  config: IntermediateConfig,
-) =>
+const unarmedMasteryTotalQiChargeLimit = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.BARE_HAND &&
@@ -3315,94 +3211,88 @@ export const unarmedMasteryTotalQiChargeLimit = (
 
 // blade skills
 
-export const berserkIsActive = (config: IntermediateConfig) =>
+const berserkIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BLADESKILLS_BERSERK_ISACTIVE];
-export const berserkLevel = (config: IntermediateConfig) =>
+const berserkLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BLADESKILLS_BERSERK_LEVEL];
 
-export const berserkTotalPercentASPD = (config: IntermediateConfig) =>
+const berserkTotalPercentASPD = (config: IntermediateConfig) =>
   berserkIsActive(config) ? berserkLevel(config) * 10 : 0;
 
-export const berserkTotalFlatASPD = (config: IntermediateConfig) =>
+const berserkTotalFlatASPD = (config: IntermediateConfig) =>
   berserkIsActive(config) ? berserkLevel(config) * 100 : 0;
 
-export const berserkTotalFlatCriticalRate = (
-  config: IntermediateConfig,
-) =>
+const berserkTotalFlatCriticalRate = (config: IntermediateConfig) =>
   berserkIsActive(config) ? Math.floor(berserkLevel(config) * 2.5) : 0;
 
-export const berserkTotalStability = (config: IntermediateConfig) =>
+const berserkTotalStability = (config: IntermediateConfig) =>
   berserkIsActive(config) ?
     isUsingMainOHS(config) || isUsingMainTHS(config) ?
       Math.floor(berserkLevel(config) * 2.5)
     : berserkLevel(config) * 5
   : 0;
 
-export const berserkTotalPercentDEF = (config: IntermediateConfig) =>
+const berserkTotalPercentDEF = (config: IntermediateConfig) =>
   berserkIsActive(config) ?
     isUsingMainOHS(config) && !isUsingDualSwords(config) ?
       Math.floor((100 - berserkLevel(config)) / 2)
     : 100 - berserkLevel(config)
   : 0;
 
-export const berserkTotalPercentMDEF = (config: IntermediateConfig) =>
+const berserkTotalPercentMDEF = (config: IntermediateConfig) =>
   berserkIsActive(config) ?
     isUsingMainOHS(config) && !isUsingDualSwords(config) ?
       Math.floor((100 - berserkLevel(config)) / 2)
     : 100 - berserkLevel(config)
   : 0;
 
-export const busterBladeLevel = (config: IntermediateConfig) =>
+const busterBladeLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BLADESKILLS_BUSTERBLADE_LEVEL];
 
-export const busterBladeIsActive = (config: IntermediateConfig) =>
+const busterBladeIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BLADESKILLS_BUSTERBLADE_ISACTIVE];
 
-export const busterBladeTotalPercentWeaponATK = (
-  config: IntermediateConfig,
-) =>
+const busterBladeTotalPercentWeaponATK = (config: IntermediateConfig) =>
   isUsingMainOHS(config) || isUsingMainTHS(config) ?
     busterBladeIsActive(config) ? busterBladeLevel(config)
     : 0
   : 0;
 
-export const quickSlashLevel = (config: IntermediateConfig) =>
+const quickSlashLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BLADESKILLS_QUICKSLASH_LEVEL];
 
-export const quickSlashTotalPercentASPD = (config: IntermediateConfig) =>
+const quickSlashTotalPercentASPD = (config: IntermediateConfig) =>
   isUsingMainOHS(config) || isUsingMainTHS(config) ?
     quickSlashLevel(config)
   : 0;
 
-export const quickSlashTotalFlatASPD = (config: IntermediateConfig) =>
+const quickSlashTotalFlatASPD = (config: IntermediateConfig) =>
   isUsingMainOHS(config) || isUsingMainTHS(config) ?
     quickSlashLevel(config) * 10
   : 0;
 
-export const swordMasteryLevel = (config: IntermediateConfig) =>
+const swordMasteryLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BLADESKILLS_SWORDMASTERY_LEVEL];
 
-export const swordMasteryTotalPercentATK = (config: IntermediateConfig) =>
+const swordMasteryTotalPercentATK = (config: IntermediateConfig) =>
   isUsingMainOHS(config) || isUsingMainTHS(config) ?
     swordMasteryLevel(config) >= 8 ? 3
     : swordMasteryLevel(config) >= 3 ? 2
     : 1
   : 0;
 
-export const swordMasteryTotalPercentWeaponATK = (
-  config: IntermediateConfig,
-) =>
+const swordMasteryTotalPercentWeaponATK = (config: IntermediateConfig) =>
   isUsingMainOHS(config) || isUsingMainTHS(config) ?
     swordMasteryLevel(config) * 3
   : 0;
 
-export const warCryLevel = (config: IntermediateConfig) =>
+const warCryLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BLADESKILLS_WARCRY_LEVEL];
 
-export const warCryIsActive = (config: IntermediateConfig) =>
+const warCryIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BLADESKILLS_WARCRY_ISACTIVE];
 
-export const warCryTotalPercentATK = (config: IntermediateConfig) =>
+const warCryTotalPercentATK = (config: IntermediateConfig) =>
   warCryIsActive(config) ?
     isUsingMainTHS(config) ? warCryLevel(config) * 10 + 5
     : warCryLevel(config) * 10
@@ -3410,47 +3300,46 @@ export const warCryTotalPercentATK = (config: IntermediateConfig) =>
 
 // dualswords skills
 
-export const dualSwordControlLevel = (config: IntermediateConfig) =>
+const dualSwordControlLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_DUALSWORDCONTROL_LEVEL];
 
-export const dualSwordControlTotalPercentCriticalRate = (
+const dualSwordControlTotalPercentCriticalRate = (
   config: IntermediateConfig,
 ) =>
   isUsingDualSwords(config) ? 5 + dualSwordControlLevel(config) * 3 : 0;
 
-export const dualSwordControlTotalPercentAccuracy = (
+const dualSwordControlTotalPercentAccuracy = (
   config: IntermediateConfig,
 ) =>
   isUsingDualSwords(config) ? 5 + dualSwordControlLevel(config) * 3 : 0;
 
-export const dualSwordControlTotalFlatASPD = (
-  config: IntermediateConfig,
-) => (isUsingDualSwords(config) ? 50 * dualSwordControlLevel(config) : 0);
+const dualSwordControlTotalFlatASPD = (config: IntermediateConfig) =>
+  isUsingDualSwords(config) ? 50 * dualSwordControlLevel(config) : 0;
 
-export const dualSwordMasteryLevel = (config: IntermediateConfig) =>
+const dualSwordMasteryLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_DUALSWORDMASTERY_LEVEL];
 
-export const dualSwordMasteryTotalPercentCriticalRate = (
+const dualSwordMasteryTotalPercentCriticalRate = (
   config: IntermediateConfig,
 ) =>
   isUsingDualSwords(config) ? -55 + dualSwordMasteryLevel(config) * 3 : 0;
 
-export const dualSwordMasteryTotalPercentAccuracy = (
+const dualSwordMasteryTotalPercentAccuracy = (
   config: IntermediateConfig,
 ) =>
   isUsingDualSwords(config) ? -55 + dualSwordMasteryLevel(config) * 3 : 0;
 
-export const flashBlastLevel = (config: IntermediateConfig) =>
+const flashBlastLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_FLASHBLAST_LEVEL];
 
-export const flashBlastIsActive = (config: IntermediateConfig) =>
+const flashBlastIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_FLASHBLAST_ISACTIVE];
 
-export const flashBlastTotalPercentUnsheatheAttack = (
+const flashBlastTotalPercentUnsheatheAttack = (
   config: IntermediateConfig,
 ) => (flashBlastIsActive(config) ? flashBlastLevel(config) : 0);
 
-export const flashBlastTotalPercentMainWeaponATK = (
+const flashBlastTotalPercentMainWeaponATK = (
   config: IntermediateConfig,
 ) =>
   flashBlastIsActive(config) ?
@@ -3459,13 +3348,13 @@ export const flashBlastTotalPercentMainWeaponATK = (
     : 0
   : 0;
 
-export const godspeedLevel = (config: IntermediateConfig) =>
+const godspeedLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_HALBERDSKILLS_GODSPEEDWIELD_LEVEL];
 
-export const godspeedTotalFlatAGI = (config: IntermediateConfig) =>
+const godspeedTotalFlatAGI = (config: IntermediateConfig) =>
   godspeedLevel(config) + Math.max(godspeedLevel(config) - 5, 0);
 
-export const godspeedTotalPercentUnsheatheAttack = (
+const godspeedTotalPercentUnsheatheAttack = (
   config: IntermediateConfig,
 ) =>
   isUsingDualSwords(config) ?
@@ -3474,80 +3363,74 @@ export const godspeedTotalPercentUnsheatheAttack = (
 
 // guard skills
 
-export const advancedEvasionLevel = (config: IntermediateConfig) =>
+const advancedEvasionLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_GUARDSKILLS_ADVANCEDEVASION_LEVEL];
 
-export const advancedEvasionTotalEvasionRecharge = (
+const advancedEvasionTotalEvasionRecharge = (
   config: IntermediateConfig,
 ) =>
   config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.LIGHT ?
     advancedEvasionLevel(config)
   : 0;
 
-export const advancedGuardLevel = (config: IntermediateConfig) =>
+const advancedGuardLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_GUARDSKILLS_ADVANCEDGUARD_LEVEL];
 
-export const advancedGuardTotalGuardRecharge = (
-  config: IntermediateConfig,
-) =>
+const advancedGuardTotalGuardRecharge = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.HEAVY ?
     advancedGuardLevel(config)
   : 0;
 
-export const advancedGuardTotalGuardPower = (
-  config: IntermediateConfig,
-) =>
+const advancedGuardTotalGuardPower = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.HEAVY ?
     Math.floor((1 + advancedGuardLevel(config)) / 2)
   : 0;
 
-export const heavyArmorMasteryLevel = (config: IntermediateConfig) =>
+const heavyArmorMasteryLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_GUARDSKILLS_HEAVYARMORMASTERY_LEVEL];
 
-export const heavyArmorMasteryTotalGuardRecharge = (
+const heavyArmorMasteryTotalGuardRecharge = (
   config: IntermediateConfig,
 ) =>
   config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.HEAVY ?
     heavyArmorMasteryLevel(config)
   : 0;
 
-export const lightArmorMasteryLevel = (config: IntermediateConfig) =>
+const lightArmorMasteryLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_GUARDSKILLS_LIGHTARMORMASTERY_LEVEL];
 
-export const lightArmorMasteryTotalEvasionRecharge = (
+const lightArmorMasteryTotalEvasionRecharge = (
   config: IntermediateConfig,
 ) =>
   config[ParamId.CHARACTER_ARMOR_TYPE] === ArmorTypeId.LIGHT ?
     lightArmorMasteryLevel(config)
   : 0;
 
-export const criticalSpearLevel = (config: IntermediateConfig) =>
+const criticalSpearLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_HALBERDSKILLS_CRITICALSPEAR_LEVEL];
 
-export const criticalSpearTotalPercentCriticalRate = (
+const criticalSpearTotalPercentCriticalRate = (
   config: IntermediateConfig,
 ) =>
   isUsingMainHAL(config) ?
     Math.floor(criticalSpearLevel(config) * 0.5)
   : 0;
 
-export const criticalSpearTotalFlatCriticalRate = (
-  config: IntermediateConfig,
-) =>
+const criticalSpearTotalFlatCriticalRate = (config: IntermediateConfig) =>
   isUsingMainHAL(config) ?
     Math.floor(criticalSpearLevel(config) * 0.5 + 0.5)
   : 0;
 
-export const godspeedWieldStacks = (config: IntermediateConfig) =>
+const godspeedWieldStacks = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_HALBERDSKILLS_GODSPEEDWIELD_STACKS];
 
-export const godspeedWieldLevel = (config: IntermediateConfig) =>
+const godspeedWieldLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_HALBERDSKILLS_GODSPEEDWIELD_LEVEL];
 
-export const godspeedWieldIsActive = (config: IntermediateConfig) =>
+const godspeedWieldIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_HALBERDSKILLS_GODSPEEDWIELD_ISACTIVE];
 
-export const godspeedWieldTotalFlatASPD = (config: IntermediateConfig) =>
+const godspeedWieldTotalFlatASPD = (config: IntermediateConfig) =>
   godspeedWieldIsActive(config) ?
     isUsingMainHAL(config) ?
       30 * godspeedWieldLevel(config) * godspeedWieldStacks(config) +
@@ -3555,17 +3438,15 @@ export const godspeedWieldTotalFlatASPD = (config: IntermediateConfig) =>
     : 30 * godspeedWieldLevel(config) * godspeedWieldStacks(config)
   : 0;
 
-export const godspeedWieldTotalMotionSpeed = (
-  config: IntermediateConfig,
-) =>
+const godspeedWieldTotalMotionSpeed = (config: IntermediateConfig) =>
   godspeedWieldIsActive(config) ?
     godspeedWieldLevel(config) * godspeedWieldStacks(config)
   : 0;
 
-export const almightyWieldLevel = (config: IntermediateConfig) =>
+const almightyWieldLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_HALBERDSKILLS_ALMIGHTYWIELD_LEVEL];
 
-export const godspeedWieldTotalPhysicalResistance = (
+const godspeedWieldTotalPhysicalResistance = (
   config: IntermediateConfig,
 ) =>
   godspeedWieldIsActive(config) ?
@@ -3583,9 +3464,7 @@ export const godspeedWieldTotalPhysicalResistance = (
       )
   : 0;
 
-export const godspeedWieldTotalMagicResistance = (
-  config: IntermediateConfig,
-) =>
+const godspeedWieldTotalMagicResistance = (config: IntermediateConfig) =>
   godspeedWieldIsActive(config) ?
     isUsingMainHAL(config) ?
       -(
@@ -3601,52 +3480,48 @@ export const godspeedWieldTotalMagicResistance = (
       )
   : 0;
 
-export const godspeedWieldTotalFlatMaxMP = (config: IntermediateConfig) =>
+const godspeedWieldTotalFlatMaxMP = (config: IntermediateConfig) =>
   godspeedWieldIsActive(config) ? -(100 * godspeedWieldStacks(config)) : 0;
 
-export const godspeedWieldTotalPercentEvasionRecharge = (
+const godspeedWieldTotalPercentEvasionRecharge = (
   config: IntermediateConfig,
 ) =>
   godspeedWieldIsActive(config) ?
     godspeedWieldLevel(config) * godspeedWieldStacks(config)
   : 0;
 
-export const halberdMasteryLevel = (config: IntermediateConfig) =>
+const halberdMasteryLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_HALBERDSKILLS_HALBERDMASTERY_LEVEL];
 
-export const halberdMasteryTotalPercentATK = (
-  config: IntermediateConfig,
-) =>
+const halberdMasteryTotalPercentATK = (config: IntermediateConfig) =>
   isUsingMainHAL(config) ?
     halberdMasteryLevel(config) >= 8 ? 3
     : halberdMasteryLevel(config) >= 3 ? 2
     : 1
   : 0;
 
-export const halberdMasteryTotalPercentWeaponATK = (
+const halberdMasteryTotalPercentWeaponATK = (
   config: IntermediateConfig,
 ) => (isUsingMainHAL(config) ? halberdMasteryLevel(config) * 3 : 0);
 
-export const quickAuraLevel = (config: IntermediateConfig) =>
+const quickAuraLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_HALBERDSKILLS_QUICKAURA_LEVEL];
 
-export const quickAuraIsActive = (config: IntermediateConfig) =>
+const quickAuraIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_HALBERDSKILLS_QUICKAURA_ISACTIVE];
 
-export const quickAuraTotalFlatASPD = (config: IntermediateConfig) =>
+const quickAuraTotalFlatASPD = (config: IntermediateConfig) =>
   quickAuraIsActive(config) ? quickAuraLevel(config) * 50 : 0;
 
-export const quickAuraTotalPercentASPD = (
-  config: IntermediateConfig,
-): number =>
+const quickAuraTotalPercentASPD = (config: IntermediateConfig): number =>
   quickAuraIsActive(config) ? Math.floor(quickAuraLevel(config) * 2.5) : 0;
 
 // hunter skills
 
-export const hunterBowgunLevel = (config: IntermediateConfig) =>
+const hunterBowgunLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_HUNTERSKILLS_HUNTERBOWGUN_LEVEL];
 
-export const hunterBowgunTotalBaseATK = (config: IntermediateConfig) =>
+const hunterBowgunTotalBaseATK = (config: IntermediateConfig) =>
   (
     isUsingMainBWG(config) &&
     !(isUsingSubArrow(config) || isNotUsingSubWeapon(config))
@@ -3656,10 +3531,10 @@ export const hunterBowgunTotalBaseATK = (config: IntermediateConfig) =>
   : 0;
 
 // magic blade skills
-export const conversionLevel = (config: IntermediateConfig) =>
+const conversionLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_CONVERSION_LEVEL];
 
-export const conversionTotalFlatMATK = (config: IntermediateConfig) =>
+const conversionTotalFlatMATK = (config: IntermediateConfig) =>
   (
     isUsingMainTHS(config) ||
     isUsingMainBWG(config) ||
@@ -3674,15 +3549,13 @@ export const conversionTotalFlatMATK = (config: IntermediateConfig) =>
     )
   : 0;
 
-export const dualBringerLevel = (config: IntermediateConfig) =>
+const dualBringerLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_DUALBRINGER_LEVEL];
-export const dualBringerIsActive = (config: IntermediateConfig) =>
+const dualBringerIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_DUALBRINGER_ISACTIVE];
 
 // refactor this
-export const totalNumberOfMagicBladeSkills = (
-  config: IntermediateConfig,
-) =>
+const totalNumberOfMagicBladeSkills = (config: IntermediateConfig) =>
   [
     (
       config[
@@ -3771,28 +3644,26 @@ export const totalNumberOfMagicBladeSkills = (
     : 0,
   ].reduce(add, 0);
 
-export const totalNegativePercentATK = (config: IntermediateConfig) =>
+const totalNegativePercentATK = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_ATK && stat[1] < 0)
     .map((stat) => stat[1])
     .reduce(add, 0);
 // + subWeaponMagicDevicePercentATKModifier(config);
 
-export const totalNegativePercentMATK = (config: IntermediateConfig) =>
+const totalNegativePercentMATK = (config: IntermediateConfig) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === StatId.PERCENT_MATK && stat[1] < 0)
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-export const dualBringerTotalSkillModifier = (
-  config: IntermediateConfig,
-) =>
+const dualBringerTotalSkillModifier = (config: IntermediateConfig) =>
   Math.min(
     100,
     dualBringerLevel(config) * totalNumberOfMagicBladeSkills(config),
   );
 
-export const dualBringerTotalATK = (config: IntermediateConfig) =>
+const dualBringerTotalATK = (config: IntermediateConfig) =>
   (
     dualBringerIsActive(config) &&
     config[ParamId.CHARACTER_SUBWEAPON_TYPE] ===
@@ -3810,7 +3681,7 @@ export const dualBringerTotalATK = (config: IntermediateConfig) =>
     )
   : 0;
 
-export const dualBringerTotalMATK = (config: IntermediateConfig) =>
+const dualBringerTotalMATK = (config: IntermediateConfig) =>
   (
     dualBringerIsActive(config) &&
     config[ParamId.CHARACTER_SUBWEAPON_TYPE] ===
@@ -3829,7 +3700,7 @@ export const dualBringerTotalMATK = (config: IntermediateConfig) =>
     )
   : 0;
 
-export const dualBringerTotalDuration = (config: IntermediateConfig) =>
+const dualBringerTotalDuration = (config: IntermediateConfig) =>
   (
     dualBringerIsActive(config) &&
     config[ParamId.CHARACTER_SUBWEAPON_TYPE] ===
@@ -3838,7 +3709,7 @@ export const dualBringerTotalDuration = (config: IntermediateConfig) =>
     Math.max(10, Math.floor(config[ParamId.CHARACTER_SUBWEAPON_ATK] / 10))
   : 0;
 
-export const dualBringerTotalMagicCriticalDamageConversion = (
+const dualBringerTotalMagicCriticalDamageConversion = (
   config: IntermediateConfig,
 ) =>
   (
@@ -3850,7 +3721,7 @@ export const dualBringerTotalMagicCriticalDamageConversion = (
     Math.floor(dualBringerLevel(config) * 2.5)
   : 0;
 
-export const dualBringerTotalMagicCriticalRateConversion = (
+const dualBringerTotalMagicCriticalRateConversion = (
   config: IntermediateConfig,
 ) =>
   (
@@ -3862,14 +3733,13 @@ export const dualBringerTotalMagicCriticalRateConversion = (
     Math.floor(dualBringerLevel(config) * 2.5)
   : 0;
 
-export const etherFlareLevel = (config: IntermediateConfig) =>
+const etherFlareLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_ETHERFLARE_LEVEL];
 
-export const etherFlareInflictedIgniteOnEnemy = (
-  config: IntermediateConfig,
-) => config[ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_ETHERFLARE_ISACTIVE];
+const etherFlareInflictedIgniteOnEnemy = (config: IntermediateConfig) =>
+  config[ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_ETHERFLARE_ISACTIVE];
 
-export const etherFlareTotalFlatAMPR = (config: IntermediateConfig) =>
+const etherFlareTotalFlatAMPR = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_SUBWEAPON_TYPE] ===
       SubWeaponTypeId.MAGIC_DEVICE &&
@@ -3880,12 +3750,10 @@ export const etherFlareTotalFlatAMPR = (config: IntermediateConfig) =>
     Math.floor(etherFlareLevel(config) / 5) * 5
   : 0;
 
-export const magicSkinLevel = (config: IntermediateConfig) =>
+const magicSkinLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_MAGICSKIN_LEVEL];
 
-export const magicSkinTotalRefinementReduction = (
-  config: IntermediateConfig,
-) =>
+const magicSkinTotalRefinementReduction = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_SUBWEAPON_TYPE] ===
       SubWeaponTypeId.MAGIC_DEVICE && magicSkinLevel(config) > 0
@@ -3893,12 +3761,12 @@ export const magicSkinTotalRefinementReduction = (
     config[ParamId.CHARACTER_SUBWEAPON_REFINEMENT]
   : 0;
 
-export const magicWarriorMasteryLevel = (config: IntermediateConfig) =>
+const magicWarriorMasteryLevel = (config: IntermediateConfig) =>
   config[
     ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_MAGICWARRIORMASTERY_LEVEL
   ];
 
-export const magicWarriorMasteryTotalPercentATKPenaltyReduction = (
+const magicWarriorMasteryTotalPercentATKPenaltyReduction = (
   config: IntermediateConfig,
 ) =>
   (
@@ -3908,9 +3776,7 @@ export const magicWarriorMasteryTotalPercentATKPenaltyReduction = (
     magicWarriorMasteryLevel(config) + (isUsingMainOHS(config) ? 5 : 0)
   : 0;
 
-export const magicWarriorMasteryTotalFlatMATK = (
-  config: IntermediateConfig,
-) =>
+const magicWarriorMasteryTotalFlatMATK = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_SUBWEAPON_TYPE] ===
     SubWeaponTypeId.MAGIC_DEVICE
@@ -3921,9 +3787,7 @@ export const magicWarriorMasteryTotalFlatMATK = (
     : 0)
   : 0;
 
-export const magicWarriorMasteryTotalFlatCSPD = (
-  config: IntermediateConfig,
-) =>
+const magicWarriorMasteryTotalFlatCSPD = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_SUBWEAPON_TYPE] ===
     SubWeaponTypeId.MAGIC_DEVICE
@@ -3931,7 +3795,7 @@ export const magicWarriorMasteryTotalFlatCSPD = (
     magicWarriorMasteryLevel(config) * 10
   : 0;
 
-export const magicWarriorMasteryTotalPercentCSPD = (
+const magicWarriorMasteryTotalPercentCSPD = (
   config: IntermediateConfig,
 ) =>
   (
@@ -3942,14 +3806,14 @@ export const magicWarriorMasteryTotalPercentCSPD = (
     Math.max(magicWarriorMasteryLevel(config) - 5, 0)
   : 0;
 
-export const resonanceLevel = (config: IntermediateConfig) =>
+const resonanceLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_RESONANCE_LEVEL];
-export const resonanceIsActive = (config: IntermediateConfig) =>
+const resonanceIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_RESONANCE_ISACTIVE];
-export const resonanceActiveSet = (config: IntermediateConfig) =>
+const resonanceActiveSet = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_RESONANCE_ACTIVESET];
 
-export const activeResonanceRegislet = (config: IntermediateConfig) =>
+const activeResonanceRegislet = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_REGISLETS_FOCUSRESONANCE_LEVEL] > 0 ?
     "focusResonance"
   : config[ParamId.CHARACTER_REGISLETS_SPEEDRESONANCE_LEVEL] > 0 ?
@@ -3958,7 +3822,7 @@ export const activeResonanceRegislet = (config: IntermediateConfig) =>
     "powerResonance"
   : "none";
 
-export const resonanceTotalFlatATK = (config: IntermediateConfig) =>
+const resonanceTotalFlatATK = (config: IntermediateConfig) =>
   activeResonanceRegislet(config) === "powerResonance" ?
     (
       resonanceIsActive(config) &&
@@ -3985,7 +3849,7 @@ export const resonanceTotalFlatATK = (config: IntermediateConfig) =>
     )
   : 0;
 
-export const resonanceTotalFlatMATK = (config: IntermediateConfig) =>
+const resonanceTotalFlatMATK = (config: IntermediateConfig) =>
   activeResonanceRegislet(config) === "powerResonance" ?
     (
       resonanceIsActive(config) &&
@@ -4012,7 +3876,7 @@ export const resonanceTotalFlatMATK = (config: IntermediateConfig) =>
     )
   : 0;
 
-export const resonanceTotalFlatASPD = (config: IntermediateConfig) =>
+const resonanceTotalFlatASPD = (config: IntermediateConfig) =>
   activeResonanceRegislet(config) === "speedResonance" ?
     (
       resonanceIsActive(config) &&
@@ -4039,7 +3903,7 @@ export const resonanceTotalFlatASPD = (config: IntermediateConfig) =>
     )
   : 0;
 
-export const resonanceTotalFlatCSPD = (config: IntermediateConfig) =>
+const resonanceTotalFlatCSPD = (config: IntermediateConfig) =>
   activeResonanceRegislet(config) === "speedResonance" ?
     (
       resonanceIsActive(config) &&
@@ -4066,7 +3930,7 @@ export const resonanceTotalFlatCSPD = (config: IntermediateConfig) =>
     )
   : 0;
 
-export const resonanceTotalFlatAccuracy = (config: IntermediateConfig) =>
+const resonanceTotalFlatAccuracy = (config: IntermediateConfig) =>
   activeResonanceRegislet(config) === "focusResonance" ?
     (
       resonanceIsActive(config) &&
@@ -4096,9 +3960,7 @@ export const resonanceTotalFlatAccuracy = (config: IntermediateConfig) =>
     )
   : 0;
 
-export const resonanceTotalFlatCriticalRate = (
-  config: IntermediateConfig,
-) =>
+const resonanceTotalFlatCriticalRate = (config: IntermediateConfig) =>
   activeResonanceRegislet(config) === "focusResonance" ?
     (
       resonanceIsActive(config) &&
@@ -4128,13 +3990,13 @@ export const resonanceTotalFlatCriticalRate = (
     )
   : 0;
 
-export const siphonBarrierLevel = (config: IntermediateConfig) =>
+const siphonBarrierLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_SIPHONBARRIER_LEVEL];
 
-export const siphonBarrierIsActive = (config: IntermediateConfig) =>
+const siphonBarrierIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_SIPHONBARRIER_ISACTIVE];
 
-export const siphonBarrierTotalPhysicalResistance = (
+const siphonBarrierTotalPhysicalResistance = (
   config: IntermediateConfig,
 ) =>
   (
@@ -4147,9 +4009,7 @@ export const siphonBarrierTotalPhysicalResistance = (
     siphonBarrierLevel(config) * 9
   : 0;
 
-export const siphonBarrierTotalMagicResistance = (
-  config: IntermediateConfig,
-) =>
+const siphonBarrierTotalMagicResistance = (config: IntermediateConfig) =>
   (
     (config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.MAGIC_DEVICE ||
@@ -4162,12 +4022,10 @@ export const siphonBarrierTotalMagicResistance = (
 
 // magic skills
 
-export const magicMasteryLevel = (config: IntermediateConfig) =>
+const magicMasteryLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICMASTERY_LEVEL];
 
-export const magicMasteryTotalPercentMATK = (
-  config: IntermediateConfig,
-) =>
+const magicMasteryTotalPercentMATK = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.STAFF ||
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
@@ -4178,9 +4036,7 @@ export const magicMasteryTotalPercentMATK = (
     : 1
   : 0;
 
-export const magicMasteryTotalPercentWeaponATK = (
-  config: IntermediateConfig,
-) =>
+const magicMasteryTotalPercentWeaponATK = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.STAFF ||
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
@@ -4189,21 +4045,19 @@ export const magicMasteryTotalPercentWeaponATK = (
     magicMasteryLevel(config) * 3
   : 0;
 
-export const qadalLevel = (config: IntermediateConfig) =>
+const qadalLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICSKILLS_QADAL_LEVEL];
 
-export const qadalIsActive = (config: IntermediateConfig) =>
+const qadalIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICSKILLS_QADAL_ISACTIVE];
 
-export const qadalCharge = (config: IntermediateConfig) =>
+const qadalCharge = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICSKILLS_QADAL_CHARGE];
 
-export const qadalTimeActive = (config: IntermediateConfig) =>
+const qadalTimeActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MAGICSKILLS_QADAL_TIMEACTIVE];
 
-export const qadalTotalLastDamageModifier = (
-  config: IntermediateConfig,
-) =>
+const qadalTotalLastDamageModifier = (config: IntermediateConfig) =>
   qadalIsActive(config) ?
     qadalCharge(config) > Math.floor(qadalTimeActive(config) / 3) ?
       Math.floor(qadalTimeActive(config) / 3)
@@ -4212,58 +4066,50 @@ export const qadalTotalLastDamageModifier = (
 
 // martial skills
 
-export const aggravateLevel = (config: IntermediateConfig) =>
+const aggravateLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MARTIALSKILLS_AGGRAVATE_LEVEL];
 
-export const aggravateTotalFlatAMPR = (config: IntermediateConfig) =>
+const aggravateTotalFlatAMPR = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.KNUCKLES ?
     Math.floor(aggravateLevel(config) * 0.5)
   : 0;
 
-export const aggravateTotalPercentAccuracy = (
-  config: IntermediateConfig,
-) =>
+const aggravateTotalPercentAccuracy = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.KNUCKLES ?
     aggravateLevel(config) * 2
   : 0;
 
-export const martialDisciplineLevel = (config: IntermediateConfig) =>
+const martialDisciplineLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MARTIALSKILLS_MARTIALDISCIPLINE_LEVEL];
 
-export const martialDisciplineTotalMartialSkillDamageBonus = (
+const martialDisciplineTotalMartialSkillDamageBonus = (
   config: IntermediateConfig,
 ) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.KNUCKLES ?
     martialDisciplineLevel(config)
   : 0;
 
-export const martialDisciplineTotalPercentASPD = (
-  config: IntermediateConfig,
-) =>
+const martialDisciplineTotalPercentASPD = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.KNUCKLES ?
     martialDisciplineLevel(config)
   : 0;
 
-export const martialDisciplineTotalFlatASPD = (
-  config: IntermediateConfig,
-) =>
+const martialDisciplineTotalFlatASPD = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.KNUCKLES ?
     martialDisciplineLevel(config)
   : 0;
 
-export const martialMasteryLevel = (config: IntermediateConfig) =>
+const martialMasteryLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MARTIALSKILLS_MARTIALMASTERY_LEVEL];
 
-export const martialMasteryTotalPercentATK = (
-  config: IntermediateConfig,
-) =>
+const martialMasteryTotalPercentATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.KNUCKLES ?
     martialMasteryLevel(config) >= 8 ? 3
     : martialMasteryLevel(config) >= 3 ? 2
     : 1
   : 0;
 
-export const martialMasteryTotalPercentWeaponATK = (
+const martialMasteryTotalPercentWeaponATK = (
   config: IntermediateConfig,
 ) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.KNUCKLES ?
@@ -4272,42 +4118,38 @@ export const martialMasteryTotalPercentWeaponATK = (
 
 // mononofu skills
 
-export const bushidoLevel = (config: IntermediateConfig) =>
+const bushidoLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_BUSHIDO_LEVEL];
 
-export const bushidoTotalPercentATK = (config: IntermediateConfig) =>
+const bushidoTotalPercentATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.KATANA ?
     bushidoLevel(config) >= 8 ? 3
     : bushidoLevel(config) >= 3 ? 2
     : 1
   : 0;
 
-export const bushidoTotalPercentWeaponATK = (
-  config: IntermediateConfig,
-) =>
+const bushidoTotalPercentWeaponATK = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.KATANA ?
     bushidoLevel(config) * 3
   : 0;
 
-export const bushidoTotalFlatMaxHP = (config: IntermediateConfig) =>
+const bushidoTotalFlatMaxHP = (config: IntermediateConfig) =>
   bushidoLevel(config) * 10;
 
-export const bushidoTotalFlatMaxMP = (config: IntermediateConfig) =>
+const bushidoTotalFlatMaxMP = (config: IntermediateConfig) =>
   bushidoLevel(config) * 10;
 
-export const bushidoTotalFlatAccuracy = (config: IntermediateConfig) =>
+const bushidoTotalFlatAccuracy = (config: IntermediateConfig) =>
   bushidoLevel(config);
 
-export const twoHandedLevel = (config: IntermediateConfig) =>
+const twoHandedLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_TWOHANDED_LEVEL];
 
 // TODO MOVE THIS TO THE NINJASKILLS SECTION
-// export const isNinjaSpiritMaxed = (config: IntermediateConfig) =>
+//  const isNinjaSpiritMaxed = (config: IntermediateConfig) =>
 //   config[ParamId.CHARACTER_SKILLS_NINJASKILLS_NINJASPIRIT_LEVEL] === 10;
 
-export const twoHandedTotalPercentWeaponATK = (
-  config: IntermediateConfig,
-) =>
+const twoHandedTotalPercentWeaponATK = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.KATANA ||
@@ -4328,9 +4170,7 @@ export const twoHandedTotalPercentWeaponATK = (
     twoHandedLevel(config)
   : 0;
 
-export const twoHandedTotalPercentAccuracy = (
-  config: IntermediateConfig,
-) =>
+const twoHandedTotalPercentAccuracy = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.KATANA ||
@@ -4351,9 +4191,7 @@ export const twoHandedTotalPercentAccuracy = (
     twoHandedLevel(config)
   : 0;
 
-export const twoHandedTotalFlatCriticalRate = (
-  config: IntermediateConfig,
-) =>
+const twoHandedTotalFlatCriticalRate = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.KATANA ||
@@ -4386,7 +4224,7 @@ export const twoHandedTotalFlatCriticalRate = (
     Math.floor(twoHandedLevel(config) * 0.5)
   : 0;
 
-export const twoHandedTotalStability = (config: IntermediateConfig) =>
+const twoHandedTotalStability = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.KATANA ||
@@ -4419,7 +4257,7 @@ export const twoHandedTotalStability = (config: IntermediateConfig) =>
     Math.floor(twoHandedLevel(config) * 0.5)
   : 0;
 
-export const twoHandedTotalATKOnCrit = (config: IntermediateConfig) =>
+const twoHandedTotalATKOnCrit = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.KATANA &&
@@ -4432,21 +4270,21 @@ export const twoHandedTotalATKOnCrit = (config: IntermediateConfig) =>
   : 0;
 
 // ninja skills
-export const ninjaSpiritLevel = (config: IntermediateConfig) =>
+const ninjaSpiritLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_NINJASKILLS_NINJASPIRIT_LEVEL];
 
-export const ninjaSpiritTotalFlatDodge = (config: IntermediateConfig) =>
+const ninjaSpiritTotalFlatDodge = (config: IntermediateConfig) =>
   ninjaSpiritLevel(config);
 
 // prayer skills
 
-export const prayerLevel = (config: IntermediateConfig) =>
+const prayerLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_PRIESTSKILLS_PRAYER_LEVEL];
 
-export const prayerIsActive = (config: IntermediateConfig) =>
+const prayerIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_PRIESTSKILLS_PRAYER_ISACTIVE];
 
-export const prayerTotalPercentMATK = (config: IntermediateConfig) =>
+const prayerTotalPercentMATK = (config: IntermediateConfig) =>
   prayerIsActive(config) ?
     (
       config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
@@ -4460,61 +4298,55 @@ export const prayerTotalPercentMATK = (config: IntermediateConfig) =>
 
 // Shield Skills
 
-export const forceShieldLevel = (config: IntermediateConfig) =>
+const forceShieldLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_SHIELDSKILLS_FORCESHIELD_LEVEL];
 
-export const forceShieldTotalFlatDEF = (config: IntermediateConfig) =>
+const forceShieldTotalFlatDEF = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD ?
     forceShieldLevel(config) * 2
   : 0;
 
-export const forceShieldTotalPercentDEF = (config: IntermediateConfig) =>
+const forceShieldTotalPercentDEF = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD ?
     forceShieldLevel(config)
   : 0;
 
-export const forceShieldTotalFlatMaxHP = (config: IntermediateConfig) =>
+const forceShieldTotalFlatMaxHP = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD ?
     forceShieldLevel(config) * 50
   : 0;
 
-export const forceShieldTotalPhysicalResistance = (
-  config: IntermediateConfig,
-) =>
+const forceShieldTotalPhysicalResistance = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD ?
     forceShieldLevel(config)
   : 0;
 
-export const magicalShieldLevel = (config: IntermediateConfig) =>
+const magicalShieldLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_SHIELDSKILLS_MAGICALSHIELD_LEVEL];
 
-export const magicalShieldTotalFlatMDEF = (config: IntermediateConfig) =>
+const magicalShieldTotalFlatMDEF = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD ?
     magicalShieldLevel(config) * 2
   : 0;
 
-export const magicalShieldTotalPercentMDEF = (
-  config: IntermediateConfig,
-) =>
+const magicalShieldTotalPercentMDEF = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD ?
     magicalShieldLevel(config)
   : 0;
 
-export const magicalShieldTotalFlatMaxHP = (config: IntermediateConfig) =>
+const magicalShieldTotalFlatMaxHP = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD ?
     magicalShieldLevel(config) * 50
   : 0;
-export const magicalShieldTotalMagicResistance = (
-  config: IntermediateConfig,
-) =>
+const magicalShieldTotalMagicResistance = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD ?
     magicalShieldLevel(config)
   : 0;
 
-export const shieldMasteryLevel = (config: IntermediateConfig) =>
+const shieldMasteryLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_SHIELDSKILLS_SHIELDMASTERY_LEVEL];
 
-export const shieldMasteryPercentASPDPenaltyReduction = (
+const shieldMasteryPercentASPDPenaltyReduction = (
   config: IntermediateConfig,
 ) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD ?
@@ -4523,22 +4355,19 @@ export const shieldMasteryPercentASPDPenaltyReduction = (
 
 // shot skills
 
-export const longRangeLevel = (config: IntermediateConfig) =>
+const longRangeLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_SHOTSKILLS_LONGRANGE_LEVEL];
 
-export const longRangeTotalSkillDamageModifier = (
-  config: IntermediateConfig,
-) => longRangeLevel(config);
+const longRangeTotalSkillDamageModifier = (config: IntermediateConfig) =>
+  longRangeLevel(config);
 
-export const samuraiArcheryLevel = (config: IntermediateConfig) =>
+const samuraiArcheryLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_SHOTSKILLS_SAMURAIARCHERY_LEVEL];
 
-export const samuraiArcheryStacks = (config: IntermediateConfig) =>
+const samuraiArcheryStacks = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_SHOTSKILLS_SAMURAIARCHERY_STACKS];
 
-export const samuraiArcheryTotalFlatWeaponATK = (
-  config: IntermediateConfig,
-) =>
+const samuraiArcheryTotalFlatWeaponATK = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.BOW &&
     config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.KATANA
@@ -4560,18 +4389,14 @@ export const samuraiArcheryTotalFlatWeaponATK = (
     )
   : 0;
 
-export const samuraiArcheryTotalStability = (
-  config: IntermediateConfig,
-) =>
+const samuraiArcheryTotalStability = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.BOW &&
     config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.KATANA
   ) ?
     Math.floor(config[ParamId.CHARACTER_SUBWEAPON_STABILITY] / 4)
   : 0;
-export const samuraiArcheryTotalPercentAccuracy = (
-  config: IntermediateConfig,
-) =>
+const samuraiArcheryTotalPercentAccuracy = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] === MainWeaponTypeId.BOW &&
     config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.KATANA
@@ -4579,10 +4404,10 @@ export const samuraiArcheryTotalPercentAccuracy = (
     samuraiArcheryLevel(config) * samuraiArcheryStacks(config)
   : 0;
 
-export const shotMasteryLevel = (config: IntermediateConfig) =>
+const shotMasteryLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_SHOTSKILLS_SHOTMASTERY_LEVEL];
 
-export const shotMasteryTotalPercentATK = (config: IntermediateConfig) =>
+const shotMasteryTotalPercentATK = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.BOWGUN ||
@@ -4593,9 +4418,7 @@ export const shotMasteryTotalPercentATK = (config: IntermediateConfig) =>
     : 1
   : 0;
 
-export const shotMasteryTotalPercentWeaponATK = (
-  config: IntermediateConfig,
-) =>
+const shotMasteryTotalPercentWeaponATK = (config: IntermediateConfig) =>
   (
     config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.BOWGUN ||
@@ -4605,49 +4428,47 @@ export const shotMasteryTotalPercentWeaponATK = (
   : 0;
 
 // support skills
-export const braveAuraLevel = (config: IntermediateConfig) =>
+const braveAuraLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_BRAVEAURA_LEVEL];
 
-export const braveAuraIsActive = (config: IntermediateConfig) =>
+const braveAuraIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_BRAVEAURA_ISACTIVE];
 
-export const braveAuraTotalPercentWeaponATK = (
-  config: IntermediateConfig,
-) => (braveAuraIsActive(config) ? 10 + braveAuraLevel(config) * 2 : 0);
+const braveAuraTotalPercentWeaponATK = (config: IntermediateConfig) =>
+  braveAuraIsActive(config) ? 10 + braveAuraLevel(config) * 2 : 0;
 
-export const braveAuraTotalLastDamageModifier = (
-  config: IntermediateConfig,
-) => (braveAuraIsActive(config) ? braveAuraLevel(config) * 2 : 0);
+const braveAuraTotalLastDamageModifier = (config: IntermediateConfig) =>
+  braveAuraIsActive(config) ? braveAuraLevel(config) * 2 : 0;
 
-export const highCycleIsActive = (config: IntermediateConfig) =>
+const highCycleIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_HIGHCYCLE_ISACTIVE];
 
-export const highCycleLevel = (config: IntermediateConfig) =>
+const highCycleLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_HIGHCYCLE_LEVEL];
 
-export const highCycleTotalFlatCSPD = (config: IntermediateConfig) =>
+const highCycleTotalFlatCSPD = (config: IntermediateConfig) =>
   highCycleIsActive(config) ? 50 + highCycleLevel(config) * 50 : 0;
 
-export const highCycleTotalPercentCSPD = (config: IntermediateConfig) =>
+const highCycleTotalPercentCSPD = (config: IntermediateConfig) =>
   highCycleIsActive(config) ? highCycleLevel(config) * 25 : 0;
 
-export const highCycleTotalPercentNMPR = (config: IntermediateConfig) =>
+const highCycleTotalPercentNMPR = (config: IntermediateConfig) =>
   highCycleIsActive(config) ?
     Math.floor(-50.5 - highCycleLevel(config) * 2.5)
   : 0;
 
-export const highCycleTotalPercentAMPR = (config: IntermediateConfig) =>
+const highCycleTotalPercentAMPR = (config: IntermediateConfig) =>
   highCycleIsActive(config) ?
     Math.floor(-90.5 - highCycleLevel(config) * 1.5)
   : 0;
 
-export const manaRechargeLevel = (config: IntermediateConfig) =>
+const manaRechargeLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_MANARECHARGE_LEVEL];
 
-export const manaRechargeIsActive = (config: IntermediateConfig) =>
+const manaRechargeIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_MANARECHARGE_ISACTIVE];
 
-export const manaRechargeTotalLastDamageModifier = (
+const manaRechargeTotalLastDamageModifier = (
   config: IntermediateConfig,
 ) =>
   manaRechargeIsActive(config) ?
@@ -4656,27 +4477,27 @@ export const manaRechargeTotalLastDamageModifier = (
 
 // survival skills
 
-export const HPBoostLevel = (config: IntermediateConfig) =>
+const HPBoostLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_REGISLETS_MAXHPBOOST_LEVEL];
 
-export const HPBoostTotalPercentMaxHP = (config: IntermediateConfig) =>
+const HPBoostTotalPercentMaxHP = (config: IntermediateConfig) =>
   HPBoostLevel(config) * 2;
 
-export const HPBoostTotalFlatMaxHP = (config: IntermediateConfig) =>
+const HPBoostTotalFlatMaxHP = (config: IntermediateConfig) =>
   HPBoostLevel(config) * 100;
 
-export const MPBoostLevel = (config: IntermediateConfig) =>
+const MPBoostLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_SURVIVALSKILLS_MPBOOST_LEVEL];
 
-export const MPBoostTotalFlatMaxMP = (config: IntermediateConfig) =>
+const MPBoostTotalFlatMaxMP = (config: IntermediateConfig) =>
   MPBoostLevel(config) * 30;
 
 // Wizard skills
 
-export const castMasteryLevel = (config: IntermediateConfig) =>
+const castMasteryLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_WIZARDSKILLS_CASTMASTERY_LEVEL];
 
-export const wizardSkillsLevels = (config: IntermediateConfig) => [
+const wizardSkillsLevels = (config: IntermediateConfig) => [
   config[ParamId.CHARACTER_SKILLS_WIZARDSKILLS_LIGHTNING_LEVEL],
   config[ParamId.CHARACTER_SKILLS_WIZARDSKILLS_FAMILIA_LEVEL],
   config[ParamId.CHARACTER_SKILLS_WIZARDSKILLS_BLIZZARD_LEVEL],
@@ -4691,15 +4512,15 @@ export const wizardSkillsLevels = (config: IntermediateConfig) => [
   config[ParamId.CHARACTER_SKILLS_WIZARDSKILLS_SORCERYGUIDE_LEVEL],
 ];
 
-export const totalWizardSkillsLearned = (config: IntermediateConfig) =>
+const totalWizardSkillsLearned = (config: IntermediateConfig) =>
   wizardSkillsLevels(config)
     .filter((level) => (level > 0 ? 1 : 0))
     .reduce(add, 0);
 
-export const totalWizardSkillsPoints = (config: IntermediateConfig) =>
+const totalWizardSkillsPoints = (config: IntermediateConfig) =>
   wizardSkillsLevels(config).reduce(add, 0);
 
-export const castMasteryTotalPercentCSPD = (config: IntermediateConfig) =>
+const castMasteryTotalPercentCSPD = (config: IntermediateConfig) =>
   (
     (config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.MAGIC_DEVICE ||
@@ -4712,7 +4533,7 @@ export const castMasteryTotalPercentCSPD = (config: IntermediateConfig) =>
       Math.floor(castMasteryLevel(config) / 2)
   : 0;
 
-export const castMasteryTotalFlatCSPD = (config: IntermediateConfig) =>
+const castMasteryTotalFlatCSPD = (config: IntermediateConfig) =>
   (
     (config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.MAGIC_DEVICE ||
@@ -4723,7 +4544,7 @@ export const castMasteryTotalFlatCSPD = (config: IntermediateConfig) =>
     castMasteryLevel(config) * totalWizardSkillsPoints(config)
   : 0;
 
-export const castMasteryTotalPercentATK = (config: IntermediateConfig) =>
+const castMasteryTotalPercentATK = (config: IntermediateConfig) =>
   (
     (config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
       MainWeaponTypeId.MAGIC_DEVICE ||
@@ -4734,32 +4555,32 @@ export const castMasteryTotalPercentATK = (config: IntermediateConfig) =>
     -Math.ceil(50 - 2.5 * castMasteryLevel(config))
   : 0;
 
-export const familiaIsActive = (config: IntermediateConfig) =>
+const familiaIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_WIZARDSKILLS_FAMILIA_ISACTIVE];
 
-export const familiaLevel = (config: IntermediateConfig) =>
+const familiaLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_WIZARDSKILLS_FAMILIA_LEVEL];
 
-export const familiaTotalFlatMATK = (config: IntermediateConfig) =>
+const familiaTotalFlatMATK = (config: IntermediateConfig) =>
   familiaIsActive(config) ?
     Math.floor(
       config[ParamId.CHARACTER_LEVEL] / (10 - familiaLevel(config) * 0.6),
     )
   : 0;
 
-export const familiaTotalFlatMaxMP = (config: IntermediateConfig) =>
+const familiaTotalFlatMaxMP = (config: IntermediateConfig) =>
   familiaIsActive(config) ? 100 + familiaLevel(config) * 10 : 0;
 
-export const familiaTotalAdditionalMagic = (config: IntermediateConfig) =>
+const familiaTotalAdditionalMagic = (config: IntermediateConfig) =>
   familiaIsActive(config) ? 5 * familiaLevel(config) : 0;
 
-export const overlimitLevel = (config: IntermediateConfig) =>
+const overlimitLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_WIZARDSKILLS_OVERLIMIT_LEVEL];
 
-export const overlimitIsActive = (config: IntermediateConfig) =>
+const overlimitIsActive = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_WIZARDSKILLS_OVERLIMIT_ISACTIVE];
 
-export const overlimitTotalElementDamageModifier = (
+const overlimitTotalElementDamageModifier = (
   config: IntermediateConfig,
 ) =>
   overlimitIsActive(config) ?
@@ -4767,28 +4588,26 @@ export const overlimitTotalElementDamageModifier = (
     sorceryGuideTotalElementDamageModifierBonusForOverlimit(config)
   : 0;
 
-export const overlimitTotalFlatCSPD = (config: IntermediateConfig) =>
+const overlimitTotalFlatCSPD = (config: IntermediateConfig) =>
   overlimitIsActive(config) ?
     -1000 + sorceryGuideTotalCSPDPenaltyReductionForOverlimit(config)
   : 0;
 
-export const sorceryGuideLevel = (config: IntermediateConfig) =>
+const sorceryGuideLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_WIZARDSKILLS_SORCERYGUIDE_LEVEL];
 
-export const sorceryGuideTotalCSPDPenaltyReductionForOverlimit = (
+const sorceryGuideTotalCSPDPenaltyReductionForOverlimit = (
   config: IntermediateConfig,
 ) => sorceryGuideLevel(config) * 50;
 
-export const sorceryGuideTotalElementDamageModifierBonusForOverlimit = (
+const sorceryGuideTotalElementDamageModifierBonusForOverlimit = (
   config: IntermediateConfig,
 ) => sorceryGuideLevel(config);
 
-export const totalPercentATKForWizardSkills = (
-  config: IntermediateConfig,
-) =>
+const totalPercentATKForWizardSkills = (config: IntermediateConfig) =>
   totalPercentATKFromEquipment(config) + totalPercentATKFromSkills(config);
 
-export const totalATKForWizardSkills = (config: IntermediateConfig) =>
+const totalATKForWizardSkills = (config: IntermediateConfig) =>
   Math.floor(
     total(
       totalBaseATK(config),
@@ -4797,131 +4616,638 @@ export const totalATKForWizardSkills = (config: IntermediateConfig) =>
     ) * 0.25,
   );
 
-export const totalMATKForWizardSkills = (config: IntermediateConfig) =>
+const totalMATKForWizardSkills = (config: IntermediateConfig) =>
   Math.floor(totalMATK(config) * 0.75);
 
-export const totalWizardATK = (config: IntermediateConfig) =>
+const totalWizardATK = (config: IntermediateConfig) =>
   totalATKForWizardSkills(config) + totalMATKForWizardSkills(config);
 
 // battle skills
-export const accuracyUPTotalFlatAccuracy = (config: IntermediateConfig) =>
+const accuracyUPTotalFlatAccuracy = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BATTLESKILLS_ACCURACYUP_LEVEL];
 
-export const attackUPLevel = (config: IntermediateConfig) =>
+const attackUPLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BATTLESKILLS_ATTACKUP_LEVEL];
 
-export const attackUPTotalFlatATK = (config: IntermediateConfig) =>
+const attackUPTotalFlatATK = (config: IntermediateConfig) =>
   Math.floor(
     (config[ParamId.CHARACTER_LEVEL] * (2.5 * attackUPLevel(config))) /
       100,
   );
 
-export const criticalUPLevel = (config: IntermediateConfig) =>
+const criticalUPLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BATTLESKILLS_CRITICALUP_LEVEL];
 
-export const criticalUPTotalFlatCriticalRate = (
+const criticalUPTotalFlatCriticalRate = (config: IntermediateConfig) =>
+  Math.floor(criticalUPLevel(config) / 2);
+
+const criticalUPTotalPercentCriticalDamage = (
   config: IntermediateConfig,
 ) => Math.floor(criticalUPLevel(config) / 2);
 
-export const criticalUPTotalPercentCriticalDamage = (
-  config: IntermediateConfig,
-) => Math.floor(criticalUPLevel(config) / 2);
-
-export const defenseMasteryLevel = (config: IntermediateConfig) =>
+const defenseMasteryLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BATTLESKILLS_DEFENSEMASTERY_LEVEL];
 
-export const defenseMasteryTotalFlatDEF = (config: IntermediateConfig) =>
+const defenseMasteryTotalFlatDEF = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] *
       ((2.5 * defenseMasteryLevel(config)) / 100),
   );
 
-export const defenseMasteryTotalFlatMDEF = (config: IntermediateConfig) =>
+const defenseMasteryTotalFlatMDEF = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] *
       ((2.5 * defenseMasteryLevel(config)) / 100),
   );
 
-export const defenseUPLevel = (config: IntermediateConfig) =>
+const defenseUPLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BATTLESKILLS_DEFENSEUP_LEVEL];
 
-export const defenseUPTotalFlatDEF = (config: IntermediateConfig) =>
+const defenseUPTotalFlatDEF = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] *
       ((2.5 * defenseUPLevel(config)) / 100),
   );
 
-export const defenseUPTotalFlatMDEF = (config: IntermediateConfig) =>
+const defenseUPTotalFlatMDEF = (config: IntermediateConfig) =>
   Math.floor(
     config[ParamId.CHARACTER_LEVEL] *
       ((2.5 * defenseUPLevel(config)) / 100),
   );
-export const dodgeUPTotalFlatDodge = (config: IntermediateConfig) =>
+const dodgeUPTotalFlatDodge = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BATTLESKILLS_DODGEUP_LEVEL];
-export const increasedEnergyLevel = (config: IntermediateConfig) =>
+const increasedEnergyLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BATTLESKILLS_INCREASEDENERGY_LEVEL];
 
-export const increasedEnergyTotalFlatMATK = (config: IntermediateConfig) =>
+const increasedEnergyTotalFlatMATK = (config: IntermediateConfig) =>
   (config[ParamId.CHARACTER_LEVEL] *
     (2.5 * increasedEnergyLevel(config))) /
   100;
-export const intimidatingPowerLevel = (config: IntermediateConfig) =>
+const intimidatingPowerLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BATTLESKILLS_INTIMIDATINGPOWER_LEVEL];
 
-export const intimidatingPowerTotalFlatATK = (
-  config: IntermediateConfig,
-) =>
+const intimidatingPowerTotalFlatATK = (config: IntermediateConfig) =>
   Math.floor(
     (config[ParamId.CHARACTER_LEVEL] *
       (2.5 * intimidatingPowerLevel(config))) /
       100,
   );
 
-export const magicUPLevel = (config: IntermediateConfig) =>
+const magicUPLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BATTLESKILLS_MAGICUP_LEVEL];
 
-export const magicUPTotalFlatMATK = (config: IntermediateConfig) =>
+const magicUPTotalFlatMATK = (config: IntermediateConfig) =>
   Math.floor(
     (config[ParamId.CHARACTER_LEVEL] * (2.5 * magicUPLevel(config))) / 100,
   );
-export const spellBurstLevel = (config: IntermediateConfig) =>
+const spellBurstLevel = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SKILLS_BATTLESKILLS_SPELLBURST_LEVEL];
 
-export const spellBurstTotalMagicCriticalDamageConversion = (
+const spellBurstTotalMagicCriticalDamageConversion = (
   config: IntermediateConfig,
 ) => spellBurstLevel(config) * 2.5;
 
-export const spellBurstTotalMagicCriticalRateConversion = (
+const spellBurstTotalMagicCriticalRateConversion = (
   config: IntermediateConfig,
 ) => spellBurstLevel(config) * 2.5;
 // regislets
 
-export const magicAttackBoostTotalFlatMATK = (
-  config: IntermediateConfig,
-) => config[ParamId.CHARACTER_REGISLETS_MAGICATTACKBOOST_LEVEL];
+const magicAttackBoostTotalFlatMATK = (config: IntermediateConfig) =>
+  config[ParamId.CHARACTER_REGISLETS_MAGICATTACKBOOST_LEVEL];
 
-export const physicalAttackBoostTotalFlatATK = (
-  config: IntermediateConfig,
-) => config[ParamId.CHARACTER_REGISLETS_PHYSICALATTACKBOOST_LEVEL];
+const physicalAttackBoostTotalFlatATK = (config: IntermediateConfig) =>
+  config[ParamId.CHARACTER_REGISLETS_PHYSICALATTACKBOOST_LEVEL];
 
-export const maxMPBoostTotalFlatMaxMP = (config: IntermediateConfig) =>
+const maxMPBoostTotalFlatMaxMP = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_REGISLETS_MAXMPBOOST_LEVEL];
 
-export const maxHPBoostTotalFlatMaxMP = (config: IntermediateConfig) =>
+const maxHPBoostTotalFlatMaxMP = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_REGISLETS_MAXHPBOOST_LEVEL] * 10;
 
-export const magicSpeedBoostTotalFlatCSPD = (config: IntermediateConfig) =>
+const magicSpeedBoostTotalFlatCSPD = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_REGISLETS_MAGICSPEEDBOOST_LEVEL];
 
-export const attackSpeedBoostTotalFlatCSPD = (
-  config: IntermediateConfig,
-) => config[ParamId.CHARACTER_REGISLETS_ATTACKSPEEDBOOST_LEVEL];
+const attackSpeedBoostTotalFlatCSPD = (config: IntermediateConfig) =>
+  config[ParamId.CHARACTER_REGISLETS_ATTACKSPEEDBOOST_LEVEL];
 
-export const focusResonanceTotalReduction = (config: IntermediateConfig) =>
+const focusResonanceTotalReduction = (config: IntermediateConfig) =>
   95 - 5 * config[ParamId.CHARACTER_REGISLETS_FOCUSRESONANCE_LEVEL];
 
-export const speedResonanceTotalReduction = (config: IntermediateConfig) =>
+const speedResonanceTotalReduction = (config: IntermediateConfig) =>
   95 - 5 * config[ParamId.CHARACTER_REGISLETS_SPEEDRESONANCE_LEVEL];
 
-export const powerResonanceTotalReduction = (config: IntermediateConfig) =>
+const powerResonanceTotalReduction = (config: IntermediateConfig) =>
   95 - 5 * config[ParamId.CHARACTER_REGISLETS_POWERRESONANCE_LEVEL];
+
+//  interface Config {
+
+//   // FIGURE OUT WHAT KIND OF BULLSHEIIETHETT YOU WANNA DO HERE
+// }
+
+// features and improvements
+// - library api
+// - eliminate string data in the calculator (use enums instead)
+
+type Enumerate<N extends number, Acc extends number[] = []> =
+  Acc["length"] extends N ? Acc[number]
+  : Enumerate<N, [...Acc, Acc["length"]]>;
+
+type NumRange<F extends number, T extends number> = Exclude<
+  Enumerate<T>,
+  Enumerate<F>
+>;
+
+//
+
+export type OneHandedSword = "one-handed-sword";
+
+export type TwoHandedSword = "two-handed-sword";
+
+export type Bow = "bow";
+
+export type Bowgun = "bowgun";
+
+export type Staff = "staff";
+
+export type MagicDevice = "magic-device";
+
+export type Halberd = "halberd";
+
+export type Katana = "katana";
+
+export type Knuckle = "knuckle";
+
+export type BareHand = "bare-hand";
+
+export type MainWeaponType =
+  | OneHandedSword
+  | TwoHandedSword
+  | Bow
+  | Bowgun
+  | Staff
+  | MagicDevice
+  | Halberd
+  | Katana
+  | Knuckle
+  | BareHand;
+
+export type NinjutsuScroll = "ninjutsu-scroll";
+
+export type Arrow = "arrow";
+
+export type Shield = "shield";
+
+export type Dagger = "dagger";
+
+export type None = "none";
+
+export type SubWeaponType =
+  | OneHandedSword
+  | Katana
+  | Knuckle
+  | MagicDevice
+  | NinjutsuScroll
+  | Arrow
+  | Shield
+  | Dagger
+  | None;
+
+export type Light = "light";
+
+export type Heavy = "heavy";
+
+export type Normal = "normal";
+
+export type ArmorType = Light | Heavy | Normal | None;
+
+interface Config {
+  properties: {
+    level: number;
+    STR: number;
+    INT: number;
+    DEX: number;
+    VIT: number;
+    AGI: number;
+    personalStat: "LUK" | "MTL" | "TEC" | "CRT";
+    personalStatValue: number;
+  };
+
+  equipments: {
+    mainweapon: {
+      type: MainWeaponType;
+      ATK: number;
+      refinement: NumRange<1, 16>;
+      stability: NumRange<0, 101>;
+
+      stats: StatMapBuilder; // change this later with type callable | xtal name
+      crystal1: StatMapBuilder;
+      crystal2: StatMapBuilder;
+    };
+
+    subweapon: {
+      type: SubWeaponType;
+
+      ATK: number;
+      DEF: number;
+      refinement: NumRange<1, 16>;
+      stability: NumRange<0, 101>;
+      stats: StatMapBuilder;
+      crystal1: StatMapBuilder;
+      crystal2: StatMapBuilder;
+      scrollCastTimeReduction: number;
+      scrollMPReduction: number;
+    };
+
+    armor: {
+      type: ArmorType;
+      refinement: NumRange<1, 16>;
+      stats: StatMapBuilder;
+      crystal1: StatMapBuilder;
+      crystal2: StatMapBuilder;
+    };
+
+    additionalGear: {
+      refinement: NumRange<1, 16>;
+      stats: StatMapBuilder;
+      crystal1: StatMapBuilder;
+      crystal2: StatMapBuilder;
+    };
+
+    specialGear: {
+      refinement: NumRange<1, 16>;
+      stats: StatMapBuilder;
+      crystal1: StatMapBuilder;
+      crystal2: StatMapBuilder;
+    };
+  };
+
+  skills: {
+    blade: {
+      hardhit: { level: number };
+      astute: { level: number };
+      triggerslash: { level: number; buffIsActive: boolean };
+
+      rampage: { level: number; buffIsActive: boolean };
+
+      meteorbreaker: { level: number };
+      shutout: { level: number };
+      lunarslash: { level: number };
+      sonicblade: { level: number };
+      spiralair: { level: number };
+      swordtempest: { level: number };
+      busterblade: { level: number; buffIsActive: boolean };
+
+      aurablade: { level: number };
+      swordmastery: { level: number };
+      quickslash: { level: number };
+      swordtechniques: { level: number };
+      warcry: { level: number; buffIsActive: boolean };
+
+      berserk: { level: number; buffIsActive: boolean };
+
+      gladiate: { level: number };
+      swiftattack: { level: number };
+    };
+  };
+
+  consumables: Stat[];
+  foodBuffs: Stat[];
+
+  character_skills_shotskills_powershot_level: number;
+  character_skills_shotskills_bullseye_level: number;
+  character_skills_shotskills_arrowrain_level: number;
+  character_skills_shotskills_snipe_level: number;
+  character_skills_shotskills_crossfire_level: number;
+  character_skills_shotskills_vanquisher_level: number;
+  character_skills_shotskills_twinstorm_level: number;
+  character_skills_shotskills_twinstorm_isactive: boolean;
+  character_skills_shotskills_twinstorm_oncooldown: boolean;
+  character_skills_shotskills_retrogradeshot_level: number;
+  character_skills_shotskills_moebashot_level: number;
+  character_skills_shotskills_paralysisshot_level: number;
+  character_skills_shotskills_smokedust_level: number;
+  character_skills_shotskills_armbreak_level: number;
+  character_skills_shotskills_parabolacannon_level: number;
+  character_skills_shotskills_shotmastery_level: number;
+  character_skills_shotskills_samuraiarchery_level: number;
+  character_skills_shotskills_samuraiarchery_isactive: boolean;
+  character_skills_shotskills_samuraiarchery_stacks: number;
+  character_skills_shotskills_sneakattack_level: number;
+  character_skills_shotskills_longrange_level: number;
+  character_skills_shotskills_quickdraw_level: number;
+  character_skills_shotskills_decoyshot_level: number;
+  character_skills_shotskills_fatalshot_level: number;
+  character_skills_magicskills_magicarrows_level: number;
+  character_skills_magicskills_magicjavelin_level: number;
+  character_skills_magicskills_magiclances_level: number;
+  character_skills_magicskills_magicimpact_level: number;
+  character_skills_magicskills_magicfinale_level: number;
+  character_skills_magicskills_chronosshift_level: number;
+  character_skills_magicskills_magicwall_level: number;
+  character_skills_magicskills_magicblast_level: number;
+  character_skills_magicskills_magicstorm_level: number;
+  character_skills_magicskills_magicburst_level: number;
+  character_skills_magicskills_magiccannon_level: number;
+  character_skills_magicskills_magiccrash_level: number;
+  character_skills_magicskills_magicmastery_level: number;
+  character_skills_magicskills_magicknife_level: number;
+  character_skills_magicskills_qadal_level: number;
+  character_skills_magicskills_qadal_charge: number;
+  character_skills_magicskills_qadal_isactive: boolean;
+  character_skills_magicskills_qadal_timeactive: number;
+  character_skills_magicskills_mpcharge_level: number;
+  character_skills_magicskills_chaincast_level: number;
+  character_skills_magicskills_chaincast_isactive: boolean;
+  character_skills_magicskills_chaincast_stacks: number;
+  character_skills_magicskills_powerwave_level: number;
+  character_skills_magicskills_maximizer_level: number;
+  character_skills_magicskills_rapidcharge_level: number;
+  character_skills_magicskills_rapidcharge_isactive: boolean;
+  character_skills_magicskills_rapidcharge_amountmprecoveredfrommaximizer: number;
+  character_skills_magicskills_enchantedbarriers_level: number;
+  character_skills_magicskills_magicguardianbeam_level: number;
+  character_skills_survivalskills_playdead_level: number;
+  character_skills_survivalskills_expgainup_level: number;
+  character_skills_survivalskills_droprateup_level: number;
+  character_skills_survivalskills_saferest_level: number;
+  character_skills_survivalskills_hpboost_level: number;
+  character_skills_survivalskills_fightershigh_level: number;
+  character_skills_survivalskills_shortrest_level: number;
+  character_skills_survivalskills_mpboost_level: number;
+  character_skills_survivalskills_soberanalysis_level: number;
+  character_skills_supportskills_firstaid_level: number;
+  character_skills_supportskills_miniheal_level: number;
+  character_skills_supportskills_recovery_level: number;
+  character_skills_supportskills_sanctuary_level: number;
+  character_skills_supportskills_heal_level: number;
+  character_skills_supportskills_liferecovery_level: number;
+  character_skills_supportskills_braveaura_level: number;
+  character_skills_supportskills_braveaura_isactive: boolean;
+  character_skills_supportskills_highcycle_level: number;
+  character_skills_supportskills_highcycle_isactive: boolean;
+  character_skills_supportskills_quickmotion_level: number;
+  character_skills_supportskills_quickmotion_isactive: boolean;
+  character_skills_supportskills_manarecharge_level: number;
+  character_skills_supportskills_manarecharge_isactive: boolean;
+  character_skills_supportskills_magicbarrier_level: number;
+  character_skills_supportskills_magicbarrier_isactive: boolean;
+  character_skills_supportskills_immunity_level: number;
+  character_skills_supportskills_immunity_isactive: boolean;
+  character_skills_supportskills_fastreaction_level: number;
+  character_skills_supportskills_fastreaction_isactive: boolean;
+  character_skills_battleskills_magicup_level: number;
+  character_skills_battleskills_concentrate_level: number;
+  character_skills_battleskills_attackup_level: number;
+  character_skills_battleskills_whack_level: number;
+  character_skills_battleskills_defenseup_level: number;
+  character_skills_battleskills_dodgeup_level: number;
+  character_skills_battleskills_desperateresist_level: number;
+  character_skills_battleskills_criticalup_level: number;
+  character_skills_battleskills_accuracyup_level: number;
+  character_skills_battleskills_increasedenergy_level: number;
+  character_skills_battleskills_intimidatingpower_level: number;
+  character_skills_battleskills_defensemastery_level: number;
+  character_skills_battleskills_spellburst_level: number;
+  character_skills_battleskills_secretchaseattack_level: number;
+  character_skills_battleskills_supergrip_level: number;
+  character_skills_mononofuskills_issen_level: number;
+  character_skills_mononofuskills_pulseblade_level: number;
+  character_skills_mononofuskills_triplethrust_level: number;
+  character_skills_mononofuskills_triplethrust_isactive: boolean;
+  character_skills_mononofuskills_hassohappa_level: number;
+  character_skills_mononofuskills_tenryuransei_level: number;
+  character_skills_mononofuskills_kasumisetsugetsuka_level: number;
+  character_skills_mononofuskills_garyoutensei_level: number;
+  character_skills_mononofuskills_shadowlessslash_level: number;
+  character_skills_mononofuskills_pommelstrike_level: number;
+  character_skills_mononofuskills_magadachi_level: number;
+  character_skills_mononofuskills_zanteisettetsu_level: number;
+  character_skills_mononofuskills_bushido_level: number;
+  character_skills_mononofuskills_shukuchi_level: number;
+  character_skills_mononofuskills_shukuchi_isactive: boolean;
+  character_skills_mononofuskills_nukiuchisennosen_level: number;
+  character_skills_mononofuskills_twohanded_level: number;
+  character_skills_mononofuskills_meikyoushisui_level: number;
+  character_skills_mononofuskills_meikyoushisui_isactive: boolean;
+  character_skills_mononofuskills_kairikiranshin_level: number;
+  character_skills_mononofuskills_kairikiranshin_isactive: boolean;
+  character_skills_mononofuskills_dauntless_level: number;
+  character_skills_mononofuskills_dauntless_isactive: boolean;
+  character_skills_mononofuskills_dauntless_stacks: number;
+  character_skills_mononofuskills_bouncingblade_level: number;
+  character_skills_mononofuskills_bouncingblade_isactive: boolean;
+  character_skills_dualswordskills_dualswordmastery_level: number;
+  character_skills_dualswordskills_twinslash_level: number;
+  character_skills_dualswordskills_spinningslash_level: number;
+  character_skills_dualswordskills_phantomslash_level: number;
+  character_skills_dualswordskills_aerialcut_level: number;
+  character_skills_dualswordskills_crossparry_level: number;
+  character_skills_dualswordskills_crossparry_isactive: boolean;
+  character_skills_dualswordskills_crossparryisparried: number;
+  character_skills_dualswordskills_chargingslash_level: number;
+  character_skills_dualswordskills_shadowstep_level: number;
+  character_skills_dualswordskills_shadowstep_isactive: boolean;
+  character_skills_dualswordskills_shiningcross_level: number;
+  character_skills_dualswordskills_lunarmisfortune_level: number;
+  character_skills_dualswordskills_twinbusterblade_level: number;
+  character_skills_dualswordskills_twinbusterblade_isactive: boolean;
+  character_skills_dualswordskills_reflex_level: number;
+  character_skills_dualswordskills_flashblast_level: number;
+  character_skills_dualswordskills_flashblast_isactive: boolean;
+  character_skills_dualswordskills_stormreaper_level: number;
+  character_skills_dualswordskills_dualswordcontrol_level: number;
+  character_skills_dualswordskills_godspeed_level: number;
+  character_skills_dualswordskills_saberaura_level: number;
+  character_skills_dualswordskills_crescentsaber_level: number;
+  character_skills_magicbladeskills_magicwarriormastery_level: number;
+  character_skills_magicbladeskills_conversion_level: number;
+  character_skills_magicbladeskills_conversion_isactive: boolean;
+  character_skills_magicbladeskills_resonance_level: number;
+  character_skills_magicbladeskills_resonance_isactive: boolean;
+  character_skills_magicbladeskills_resonance_activeset: ResonanceSetId;
+  character_skills_magicbladeskills_enchantedspell_level: number;
+  character_skills_magicbladeskills_dualbringer_level: number;
+  character_skills_magicbladeskills_dualbringer_isactive: boolean;
+  character_skills_magicbladeskills_etherflare_level: number;
+  character_skills_magicbladeskills_etherflare_isactive: boolean;
+  character_skills_magicbladeskills_elementslash_level: number;
+  character_skills_magicbladeskills_enchantsword_level: number;
+  character_skills_magicbladeskills_enchantedburst_level: number;
+  character_skills_magicbladeskills_unionsword_level: number;
+  character_skills_magicbladeskills_siphonbarrier_level: number;
+  character_skills_magicbladeskills_siphonbarrier_isactive: boolean;
+  character_skills_magicbladeskills_teleport_level: number;
+  character_skills_magicbladeskills_siphonrecall_level: number;
+  character_skills_magicbladeskills_floatdash_level: number;
+  character_skills_magicbladeskills_magicskin_level: number;
+  character_skills_shieldskills_shieldmastery_level: number;
+  character_skills_shieldskills_shieldbash_level: number;
+  character_skills_shieldskills_shieldcannon_level: number;
+  character_skills_shieldskills_guardstrike_level: number;
+  character_skills_shieldskills_forceshield_level: number;
+  character_skills_shieldskills_magicalshield_level: number;
+  character_skills_shieldskills_shielduppercut_level: number;
+  character_skills_shieldskills_dualshields_level: number;
+  character_skills_shieldskills_shieldrepair_level: number;
+  character_skills_shieldskills_belagerung_level: number;
+  character_skills_shieldskills_protection_level: number;
+  character_skills_shieldskills_protection_isactive: boolean;
+  character_skills_shieldskills_aegis_level: number;
+  character_skills_shieldskills_aegis_isactive: boolean;
+  character_skills_shieldskills_guardian_level: number;
+  character_skills_guardskills_heavyarmormastery_level: number;
+  character_skills_guardskills_advancedguard_level: number;
+  character_skills_guardskills_physicalguard_level: number;
+  character_skills_guardskills_lightarmormastery_level: number;
+  character_skills_guardskills_advancedevasion_level: number;
+  character_skills_guardskills_mirageevasion_level: number;
+  character_skills_halberdskills_flashstab_level: number;
+  character_skills_halberdskills_cannonspear_level: number;
+  character_skills_halberdskills_dragontail_level: number;
+  character_skills_halberdskills_diveimpact_level: number;
+  character_skills_halberdskills_dragontooth_level: number;
+  character_skills_halberdskills_draconiccharge_level: number;
+  character_skills_halberdskills_deadlyspear_level: number;
+  character_skills_halberdskills_punishray_level: number;
+  character_skills_halberdskills_strikestab_level: number;
+  character_skills_halberdskills_chronosdivine_level: number;
+  character_skills_halberdskills_infinitedimension_level: number;
+  character_skills_halberdskills_halberdmastery_level: number;
+  character_skills_halberdskills_criticalspear_level: number;
+  character_skills_halberdskills_tornadolance_level: number;
+  character_skills_halberdskills_quickaura_level: number;
+  character_skills_halberdskills_quickaura_isactive: boolean;
+  character_skills_halberdskills_warcryofstruggle_level: number;
+  character_skills_halberdskills_godspeedwield_level: number;
+  character_skills_halberdskills_godspeedwield_isactive: boolean;
+  character_skills_halberdskills_godspeedwield_stacks: number;
+  character_skills_halberdskills_almightywield_level: number;
+  character_skills_halberdskills_busterlance_level: number;
+  character_skills_martialskills_smash_level: number;
+  character_skills_martialskills_bash_level: number;
+  character_skills_martialskills_shellbreak_level: number;
+  character_skills_martialskills_heavysmash_level: number;
+  character_skills_martialskills_chariot_level: number;
+  character_skills_martialskills_abstractarms_level: number;
+  character_skills_martialskills_sonicwave_level: number;
+  character_skills_martialskills_earthbind_level: number;
+  character_skills_martialskills_triplekick_level: number;
+  character_skills_martialskills_rush_level: number;
+  character_skills_martialskills_rush_isactive: boolean;
+  character_skills_martialskills_asuraaura_level: number;
+  character_skills_martialskills_asuraaura_isactive: boolean;
+  character_skills_martialskills_flashblink_level: number;
+  character_skills_martialskills_martialmastery_level: number;
+  character_skills_martialskills_martialdiscipline_level: number;
+  character_skills_martialskills_chakra_level: number;
+  character_skills_martialskills_chakra_isactive: boolean;
+  character_skills_martialskills_energycontrol_level: number;
+  character_skills_martialskills_energycontrol_isactive: boolean;
+  character_skills_martialskills_aggravate_level: number;
+  character_skills_martialskills_strongchaseattack_level: number;
+  character_skills_martialskills_slide_level: number;
+  character_skills_barehandskills_unarmedmastery_level: number;
+  character_skills_barehandskills_qicharge_level: number;
+  character_skills_barehandskills_lionrage_level: number;
+  character_skills_barehandskills_ultimalionrage_level: number;
+  character_skills_barehandskills_ravingstorm_level: number;
+  character_skills_barehandskills_ultimaravingstorm_level: number;
+  character_skills_barehandskills_internalelixir_level: number;
+  character_skills_barehandskills_clashofenmity_level: number;
+  character_skills_barehandskills_miraclecomeback_level: number;
+  character_skills_barehandskills_ultimaqicharge_level: number;
+  character_skills_barehandskills_hiddentalent_level: number;
+  character_skills_barehandskills_earthshaker_level: number;
+  character_skills_barehandskills_earthshaker_isactive: boolean;
+  character_skills_hunterskills_kick_level: number;
+  character_skills_hunterskills_sunrisearrow_level: number;
+  character_skills_hunterskills_magicarrow_level: number;
+  character_skills_hunterskills_magicarrow_isactive: boolean;
+  character_skills_hunterskills_satellitearrow_level: number;
+  character_skills_hunterskills_sleeptrap_level: number;
+  character_skills_hunterskills_beartrap_level: number;
+  character_skills_hunterskills_landmine_level: number;
+  character_skills_hunterskills_darktrap_level: number;
+  character_skills_hunterskills_homingshot_level: number;
+  character_skills_hunterskills_detection_level: number;
+  character_skills_hunterskills_detection_isactive: boolean;
+  character_skills_hunterskills_cyclonearrow_level: number;
+  character_skills_hunterskills_verticalair_level: number;
+  character_skills_hunterskills_hunterbowgun_level: number;
+  character_skills_hunterskills_multiplehunt_level: number;
+  character_skills_hunterskills_tripleaceshots_isactive: boolean;
+  character_skills_hunterskills_wolfsniper_isactive: boolean;
+  character_skills_ninjaskills_ninjutsu_level: number;
+  character_skills_ninjaskills_ninjaspirit_level: number;
+  character_skills_ninjaskills_ninjutsudrilli_level: number;
+  character_skills_ninjaskills_ninjutsudrillii_level: number;
+  character_skills_wizardskills_familia_level: number;
+  character_skills_wizardskills_familia_isactive: boolean;
+  character_skills_wizardskills_lightning_level: number;
+  character_skills_wizardskills_blizzard_level: number;
+  character_skills_wizardskills_meteorstrike_level: number;
+  character_skills_wizardskills_imperialray_level: number;
+  character_skills_wizardskills_manacrystal_level: number;
+  character_skills_wizardskills_stonebarrier_level: number;
+  character_skills_wizardskills_advancedfamilia_level: number;
+  character_skills_wizardskills_advancedfamilia_isactive: boolean;
+  character_skills_wizardskills_castmastery_level: number;
+  character_skills_wizardskills_crystallaser_level: number;
+  character_skills_wizardskills_overlimit_level: number;
+  character_skills_wizardskills_overlimit_isactive: boolean;
+  character_skills_wizardskills_sorceryguide_level: number;
+  character_skills_priestskills_bless_level: number;
+  character_skills_priestskills_gloria_level: number;
+  character_skills_priestskills_enhancedbless_level: number;
+  character_skills_priestskills_royalheal_level: number;
+  character_skills_priestskills_holyfist_level: number;
+  character_skills_priestskills_holylight_level: number;
+  character_skills_priestskills_etherbarrier_level: number;
+  character_skills_priestskills_etherbarrier_isactive: boolean;
+  character_skills_priestskills_prayer_level: number;
+  character_skills_priestskills_prayer_isactive: boolean;
+  character_skills_priestskills_staffthrust_level: number;
+  character_skills_priestskills_exorcism_level: number;
+  character_skills_priestskills_holybook_level: number;
+  character_skills_priestskills_holybook_isactive: boolean;
+  character_skills_priestskills_nemesis_level: number;
+
+  character_consumables: Stat[]; // tatmap for now
+  character_foodbuffs: Stat[]; // tatmap for now
+
+  character_ailments_weaken_isactive: boolean;
+  character_ailments_flinch_isactive: boolean;
+  character_ailments_tumble_isactive: boolean;
+  character_ailments_stun_isactive: boolean;
+  character_ailments_knockback_isactive: boolean;
+  character_ailments_poison_isactive: boolean;
+  character_ailments_paralysis_isactive: boolean;
+  character_ailments_blindness_isactive: boolean;
+  character_ailments_ignition_isactive: boolean;
+  character_ailments_freeze_isactive: boolean;
+  character_ailments_armorbreak_isactive: boolean;
+  character_ailments_slow_isactive: boolean;
+  character_ailments_stop_isactive: boolean;
+  character_ailments_fear_isactive: boolean;
+  character_ailments_dizzy_isactive: boolean;
+  character_ailments_lethargy_isactive: boolean;
+  character_ailments_silence_isactive: boolean;
+  character_ailments_bleed_isactive: boolean;
+  character_ailments_fatigue_isactive: boolean;
+  character_ailments_dazzled_isactive: boolean;
+
+  character_regislets_zerostance_level: number;
+  character_regislets_maxhpboost_level: number;
+  character_regislets_maxmpboost_level: number;
+  character_regislets_magicattackboost_level: number;
+  character_regislets_physicalattackboost_level: number;
+  character_regislets_magicdefenseboost_level: number;
+  character_regislets_physicaldefenseboost_level: number;
+  character_regislets_attackspeedboost_level: number;
+  character_regislets_magicspeedboost_level: number;
+  character_regislets_dodgeboost_level: number;
+  character_regislets_accuracyboost_level: number;
+  character_regislets_focusresonance_level: number;
+  character_regislets_speedresonance_level: number;
+  character_regislets_powerresonance_level: number;
+}
