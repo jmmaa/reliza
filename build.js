@@ -8,7 +8,7 @@ Promise.all([
     logLevel: "info",
     minify: true,
     bundle: true,
-    logLevel: "silent"
+    logLevel: "silent",
   }),
   build({
     entryPoints: ["src/index.ts"],
@@ -17,7 +17,7 @@ Promise.all([
     logLevel: "info",
     minify: true,
     bundle: true,
-    logLevel: "silent"
+    logLevel: "silent",
   }),
   build({
     entryPoints: ["src/index.ts"],
@@ -27,6 +27,6 @@ Promise.all([
     globalName: "__reliza__",
     minify: true,
     bundle: true,
-    logLevel: "silent"
+    logLevel: "silent",
   }),
 ]);
