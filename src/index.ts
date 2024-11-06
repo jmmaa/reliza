@@ -1,8 +1,6 @@
-import { Add } from "ts-arithmetic";
-
-type RecursivePartial<T> = {
-  [P in keyof T]?: T[P] extends (infer U)[] ? RecursivePartial<U>[]
-  : T[P] extends object | undefined ? RecursivePartial<T[P]>
+type RPartial<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[] ? RPartial<U>[]
+  : T[P] extends object | undefined ? RPartial<T[P]>
   : T[P];
 };
 
@@ -4820,6 +4818,8 @@ export type Normal = "normal";
 
 export type ArmorType = Light | Heavy | Normal | None;
 
+export type PersonalStatName = "LUK" | "MTL" | "TEC" | "CRT" | "none";
+
 interface Config {
   properties: {
     level: number;
@@ -4828,7 +4828,7 @@ interface Config {
     DEX: number;
     VIT: number;
     AGI: number;
-    personalStat: "LUK" | "MTL" | "TEC" | "CRT";
+    personalStat: PersonalStatName;
     personalStatValue: number;
   };
 
@@ -4881,390 +4881,881 @@ interface Config {
     };
   };
 
-  skillTrees: {
-    bladeSkills: {
-      hardhit: { level: number };
-      astute: { level: number };
-      triggerslash: { level: number; isActive: boolean };
+  // skillTrees: {
+  //   bladeSkills: {
+  //     hardhit: { level: number };
+  //     astute: { level: number };
+  //     triggerslash: { level: number; isActive: boolean };
 
-      rampage: { level: number; isActive: boolean };
+  //     rampage: { level: number; isActive: boolean };
 
-      meteorbreaker: { level: number };
-      shutout: { level: number };
-      lunarslash: { level: number };
-      sonicblade: { level: number };
-      spiralair: { level: number };
-      swordtempest: { level: number };
-      busterblade: { level: number; isActive: boolean };
+  //     meteorbreaker: { level: number };
+  //     shutout: { level: number };
+  //     lunarslash: { level: number };
+  //     sonicblade: { level: number };
+  //     spiralair: { level: number };
+  //     swordtempest: { level: number };
+  //     busterblade: { level: number; isActive: boolean };
 
-      aurablade: { level: number };
-      swordmastery: { level: number };
-      quickslash: { level: number };
-      swordtechniques: { level: number };
-      warcry: { level: number; isActive: boolean };
+  //     aurablade: { level: number };
+  //     swordmastery: { level: number };
+  //     quickslash: { level: number };
+  //     swordtechniques: { level: number };
+  //     warcry: { level: number; isActive: boolean };
 
-      berserk: { level: number; isActive: boolean };
+  //     berserk: { level: number; isActive: boolean };
 
-      gladiate: { level: number };
-      swiftattack: { level: number };
-    };
+  //     gladiate: { level: number };
+  //     swiftattack: { level: number };
+  //   };
 
-    shotSkills: {
-      powershot: { level: number };
-      bullseye: { level: number };
-      arrowrain: { level: number };
-      snipe: { level: number };
-      crossfire: { level: number };
-      vanquisher: { level: number };
-      twinstorm: {
-        level: number;
-        isActive: boolean;
-        onCooldown: boolean;
-      };
+  //   shotSkills: {
+  //     powershot: { level: number };
+  //     bullseye: { level: number };
+  //     arrowrain: { level: number };
+  //     snipe: { level: number };
+  //     crossfire: { level: number };
+  //     vanquisher: { level: number };
+  //     twinstorm: {
+  //       level: number;
+  //       isActive: boolean;
+  //       onCooldown: boolean;
+  //     };
 
-      retrogradeshot: { level: number };
-      moebashot: { level: number };
-      paralysisshot: { level: number };
-      smokedust: { level: number };
-      armbreak: { level: number };
-      parabolacannon: { level: number };
-      shotmastery: { level: number };
-      samuraiarchery: { level: number; stacks: number };
-      sneakattack: { level: number };
-      longrange: { level: number };
-      quickdraw: { level: number };
-      decoyshot: { level: number };
-      fatalshot: { level: number };
-    };
+  //     retrogradeshot: { level: number };
+  //     moebashot: { level: number };
+  //     paralysisshot: { level: number };
+  //     smokedust: { level: number };
+  //     armbreak: { level: number };
+  //     parabolacannon: { level: number };
+  //     shotmastery: { level: number };
+  //     samuraiarchery: { level: number; stacks: number };
+  //     sneakattack: { level: number };
+  //     longrange: { level: number };
+  //     quickdraw: { level: number };
+  //     decoyshot: { level: number };
+  //     fatalshot: { level: number };
+  //   };
 
-    magicSkills: {
-      magicarrows: { level: number };
-      magicjavelin: { level: number };
-      magiclances: { level: number };
-      magicimpact: { level: number };
-      magicfinale: { level: number };
-      chronosshift: { level: number };
-      magicwall: { level: number };
-      magicblast: { level: number };
-      magicstorm: { level: number };
-      magicburst: { level: number };
-      magiccannon: { level: number };
-      magiccrash: { level: number };
-      magicmastery: { level: number };
-      magicknife: { level: number };
-      qadal: {
-        level: number;
-        burden: number;
-        combatTime: number;
-        isActive: boolean;
-      };
-      mpcharge: { level: number };
-      chaincast: { level: number; isActive: boolean; stacks: number };
-      powerwave: { level: number };
-      maximizer: { level: number };
-      rapidcharge: {
-        level: number;
-        isActive: boolean;
-        amountMPRecoveredFromMaximizer: number;
-      };
-      enchantedbarriers: { level: number };
-      magicguardianbeam: { level: number };
-    };
+  //   magicSkills: {
+  //     magicarrows: { level: number };
+  //     magicjavelin: { level: number };
+  //     magiclances: { level: number };
+  //     magicimpact: { level: number };
+  //     magicfinale: { level: number };
+  //     chronosshift: { level: number };
+  //     magicwall: { level: number };
+  //     magicblast: { level: number };
+  //     magicstorm: { level: number };
+  //     magicburst: { level: number };
+  //     magiccannon: { level: number };
+  //     magiccrash: { level: number };
+  //     magicmastery: { level: number };
+  //     magicknife: { level: number };
+  //     qadal: {
+  //       level: number;
+  //       burden: number;
+  //       combatTime: number;
+  //       isActive: boolean;
+  //     };
+  //     mpcharge: { level: number };
+  //     chaincast: { level: number; isActive: boolean; stacks: number };
+  //     powerwave: { level: number };
+  //     maximizer: { level: number };
+  //     rapidcharge: {
+  //       level: number;
+  //       isActive: boolean;
+  //       amountMPRecoveredFromMaximizer: number;
+  //     };
+  //     enchantedbarriers: { level: number };
+  //     magicguardianbeam: { level: number };
+  //   };
 
-    survivalSkills: {
-      playdead: { level: number };
-      expgainup: { level: number };
-      droprateup: { level: number };
-      saferest: { level: number };
-      hpboost: { level: number };
-      fightershigh: { level: number };
-      shortrest: { level: number };
-      mpboost: { level: number };
-      soberanalysis: { level: number };
-    };
+  //   survivalSkills: {
+  //     playdead: { level: number };
+  //     expgainup: { level: number };
+  //     droprateup: { level: number };
+  //     saferest: { level: number };
+  //     hpboost: { level: number };
+  //     fightershigh: { level: number };
+  //     shortrest: { level: number };
+  //     mpboost: { level: number };
+  //     soberanalysis: { level: number };
+  //   };
 
-    supportSkills: {
-      firstaid: { level: number };
-      miniheal: { level: number };
-      recovery: { level: number };
-      sanctuary: { level: number };
-      heal: { level: number };
-      liferecovery: { level: number };
-      braveaura: { level: number; isActive: boolean };
-      highcycle: { level: number; isActive: boolean };
-      quickmotion: { level: number; isActive: boolean };
-      manarecharge: { level: number; isActive: boolean };
-      magicbarrier: { level: number; isActive: boolean };
-      immunity: { level: number; isActive: boolean };
-      fastreaction: { level: number; isActive: boolean };
-    };
+  //   supportSkills: {
+  //     firstaid: { level: number };
+  //     miniheal: { level: number };
+  //     recovery: { level: number };
+  //     sanctuary: { level: number };
+  //     heal: { level: number };
+  //     liferecovery: { level: number };
+  //     braveaura: { level: number; isActive: boolean };
+  //     highcycle: { level: number; isActive: boolean };
+  //     quickmotion: { level: number; isActive: boolean };
+  //     manarecharge: { level: number; isActive: boolean };
+  //     magicbarrier: { level: number; isActive: boolean };
+  //     immunity: { level: number; isActive: boolean };
+  //     fastreaction: { level: number; isActive: boolean };
+  //   };
 
-    battleSkills: {
-      magicup: { level: number };
-      concentrate: { level: number };
-      attackup: { level: number };
-      whack: { level: number };
-      defenseup: { level: number };
-      dodgeup: { level: number };
-      desperateresist: { level: number };
-      criticalup: { level: number };
-      accuracyup: { level: number };
-      increasedenergy: { level: number };
-      intimidatingpower: { level: number };
-      defensemastery: { level: number };
-      spellburst: { level: number };
-      secretchaseattack: { level: number };
-      supergrip: { level: number };
-    };
+  //   battleSkills: {
+  //     magicup: { level: number };
+  //     concentrate: { level: number };
+  //     attackup: { level: number };
+  //     whack: { level: number };
+  //     defenseup: { level: number };
+  //     dodgeup: { level: number };
+  //     desperateresist: { level: number };
+  //     criticalup: { level: number };
+  //     accuracyup: { level: number };
+  //     increasedenergy: { level: number };
+  //     intimidatingpower: { level: number };
+  //     defensemastery: { level: number };
+  //     spellburst: { level: number };
+  //     secretchaseattack: { level: number };
+  //     supergrip: { level: number };
+  //   };
 
-    mononofuSkills: {
-      issen: { level: number };
-      pulseblade: { level: number };
-      triplethrust: { level: number; isActive: boolean };
+  //   mononofuSkills: {
+  //     issen: { level: number };
+  //     pulseblade: { level: number };
+  //     triplethrust: { level: number; isActive: boolean };
 
-      hassohappa: { level: number };
-      tenryuransei: { level: number };
-      kasumisetsugetsuka: { level: number };
-      garyoutensei: { level: number };
-      shadowlessslash: { level: number };
-      pommelstrike: { level: number };
-      magadachi: { level: number };
-      zanteisettetsu: { level: number };
-      bushido: { level: number };
-      shukuchi: { level: number; isActive: boolean };
+  //     hassohappa: { level: number };
+  //     tenryuransei: { level: number };
+  //     kasumisetsugetsuka: { level: number };
+  //     garyoutensei: { level: number };
+  //     shadowlessslash: { level: number };
+  //     pommelstrike: { level: number };
+  //     magadachi: { level: number };
+  //     zanteisettetsu: { level: number };
+  //     bushido: { level: number };
+  //     shukuchi: { level: number; isActive: boolean };
 
-      nukiuchisennosen: { level: number };
-      twohanded: { level: number };
-      meikyoushisui: { level: number; isActive: boolean };
-      kairikiranshin: { level: number; isActive: boolean };
+  //     nukiuchisennosen: { level: number };
+  //     twohanded: { level: number };
+  //     meikyoushisui: { level: number; isActive: boolean };
+  //     kairikiranshin: { level: number; isActive: boolean };
 
-      dauntless: { level: number; stacks: number };
-      dauntless_stacks: number;
-      bouncingblade: { level: number; isActive: boolean };
-    };
+  //     dauntless: { level: number; stacks: number };
+  //     dauntless_stacks: number;
+  //     bouncingblade: { level: number; isActive: boolean };
+  //   };
 
-    dualSwordSkills: {
-      dualswordmastery: { level: number };
-      twinslash: { level: number };
-      spinningslash: { level: number };
-      phantomslash: { level: number };
-      aerialcut: { level: number };
-      crossparry: { level: number; isActive: boolean };
+  //   dualSwordSkills: {
+  //     dualswordmastery: { level: number };
+  //     twinslash: { level: number };
+  //     spinningslash: { level: number };
+  //     phantomslash: { level: number };
+  //     aerialcut: { level: number };
+  //     crossparry: { level: number; isActive: boolean };
 
-      crossparryisparried: number;
-      chargingslash: { level: number };
-      shadowstep: { level: number; isActive: boolean };
+  //     crossparryisparried: number;
+  //     chargingslash: { level: number };
+  //     shadowstep: { level: number; isActive: boolean };
 
-      shiningcross: { level: number };
-      lunarmisfortune: { level: number };
-      twinbusterblade: { level: number; isActive: boolean };
+  //     shiningcross: { level: number };
+  //     lunarmisfortune: { level: number };
+  //     twinbusterblade: { level: number; isActive: boolean };
 
-      reflex: { level: number };
-      flashblast: { level: number; isActive: boolean };
+  //     reflex: { level: number };
+  //     flashblast: { level: number; isActive: boolean };
 
-      stormreaper: { level: number };
-      dualswordcontrol: { level: number };
-      godspeed: { level: number };
-      saberaura: { level: number };
-      crescentsaber: { level: number };
-    };
+  //     stormreaper: { level: number };
+  //     dualswordcontrol: { level: number };
+  //     godspeed: { level: number };
+  //     saberaura: { level: number };
+  //     crescentsaber: { level: number };
+  //   };
 
-    magicBladeSkills: {
-      magicwarriormastery: { level: number };
-      conversion: { level: number; isActive: boolean };
+  //   magicBladeSkills: {
+  //     magicwarriormastery: { level: number };
+  //     conversion: { level: number; isActive: boolean };
 
-      resonance: { level: number; isActive: boolean };
+  //     resonance: { level: number; isActive: boolean };
 
-      resonance_activeset: ResonanceSetId;
-      enchantedspell: { level: number };
-      dualbringer: { level: number; isActive: boolean };
+  //     resonance_activeset: ResonanceSetId;
+  //     enchantedspell: { level: number };
+  //     dualbringer: { level: number; isActive: boolean };
 
-      etherflare: { level: number; isActive: boolean };
+  //     etherflare: { level: number; isActive: boolean };
 
-      elementslash: { level: number };
-      enchantsword: { level: number };
-      enchantedburst: { level: number };
-      unionsword: { level: number };
-      siphonbarrier: { level: number; isActive: boolean };
+  //     elementslash: { level: number };
+  //     enchantsword: { level: number };
+  //     enchantedburst: { level: number };
+  //     unionsword: { level: number };
+  //     siphonbarrier: { level: number; isActive: boolean };
 
-      teleport: { level: number };
-      siphonrecall: { level: number };
-      floatdash: { level: number };
-      magicskin: { level: number };
-    };
-  };
+  //     teleport: { level: number };
+  //     siphonrecall: { level: number };
+  //     floatdash: { level: number };
+  //     magicskin: { level: number };
+  //   };
 
-  consumables: Stat[];
-  foodBuffs: Stat[];
+  //   shieldSkills: {
+  //     shieldmastery: { level: number };
+  //     shieldbash: { level: number };
+  //     shieldcannon: { level: number };
+  //     guardstrike: { level: number };
+  //     forceshield: { level: number };
+  //     magicalshield: { level: number };
+  //     shielduppercut: { level: number };
+  //     dualshields: { level: number };
+  //     shieldrepair: { level: number };
+  //     belagerung: { level: number };
+  //     protection: { level: number; isActive: boolean };
+  //     aegis: { level: number; isActive: boolean };
+  //     guardian: { level: number };
+  //   };
 
-  character_skills_shieldskills_shieldmastery_level: number;
-  character_skills_shieldskills_shieldbash_level: number;
-  character_skills_shieldskills_shieldcannon_level: number;
-  character_skills_shieldskills_guardstrike_level: number;
-  character_skills_shieldskills_forceshield_level: number;
-  character_skills_shieldskills_magicalshield_level: number;
-  character_skills_shieldskills_shielduppercut_level: number;
-  character_skills_shieldskills_dualshields_level: number;
-  character_skills_shieldskills_shieldrepair_level: number;
-  character_skills_shieldskills_belagerung_level: number;
-  character_skills_shieldskills_protection_level: number;
-  character_skills_shieldskills_protection_isactive: boolean;
-  character_skills_shieldskills_aegis_level: number;
-  character_skills_shieldskills_aegis_isactive: boolean;
-  character_skills_shieldskills_guardian_level: number;
-  character_skills_guardskills_heavyarmormastery_level: number;
-  character_skills_guardskills_advancedguard_level: number;
-  character_skills_guardskills_physicalguard_level: number;
-  character_skills_guardskills_lightarmormastery_level: number;
-  character_skills_guardskills_advancedevasion_level: number;
-  character_skills_guardskills_mirageevasion_level: number;
-  character_skills_halberdskills_flashstab_level: number;
-  character_skills_halberdskills_cannonspear_level: number;
-  character_skills_halberdskills_dragontail_level: number;
-  character_skills_halberdskills_diveimpact_level: number;
-  character_skills_halberdskills_dragontooth_level: number;
-  character_skills_halberdskills_draconiccharge_level: number;
-  character_skills_halberdskills_deadlyspear_level: number;
-  character_skills_halberdskills_punishray_level: number;
-  character_skills_halberdskills_strikestab_level: number;
-  character_skills_halberdskills_chronosdivine_level: number;
-  character_skills_halberdskills_infinitedimension_level: number;
-  character_skills_halberdskills_halberdmastery_level: number;
-  character_skills_halberdskills_criticalspear_level: number;
-  character_skills_halberdskills_tornadolance_level: number;
-  character_skills_halberdskills_quickaura_level: number;
-  character_skills_halberdskills_quickaura_isactive: boolean;
-  character_skills_halberdskills_warcryofstruggle_level: number;
-  character_skills_halberdskills_godspeedwield_level: number;
-  character_skills_halberdskills_godspeedwield_isactive: boolean;
-  character_skills_halberdskills_godspeedwield_stacks: number;
-  character_skills_halberdskills_almightywield_level: number;
-  character_skills_halberdskills_busterlance_level: number;
-  character_skills_martialskills_smash_level: number;
-  character_skills_martialskills_bash_level: number;
-  character_skills_martialskills_shellbreak_level: number;
-  character_skills_martialskills_heavysmash_level: number;
-  character_skills_martialskills_chariot_level: number;
-  character_skills_martialskills_abstractarms_level: number;
-  character_skills_martialskills_sonicwave_level: number;
-  character_skills_martialskills_earthbind_level: number;
-  character_skills_martialskills_triplekick_level: number;
-  character_skills_martialskills_rush_level: number;
-  character_skills_martialskills_rush_isactive: boolean;
-  character_skills_martialskills_asuraaura_level: number;
-  character_skills_martialskills_asuraaura_isactive: boolean;
-  character_skills_martialskills_flashblink_level: number;
-  character_skills_martialskills_martialmastery_level: number;
-  character_skills_martialskills_martialdiscipline_level: number;
-  character_skills_martialskills_chakra_level: number;
-  character_skills_martialskills_chakra_isactive: boolean;
-  character_skills_martialskills_energycontrol_level: number;
-  character_skills_martialskills_energycontrol_isactive: boolean;
-  character_skills_martialskills_aggravate_level: number;
-  character_skills_martialskills_strongchaseattack_level: number;
-  character_skills_martialskills_slide_level: number;
-  character_skills_barehandskills_unarmedmastery_level: number;
-  character_skills_barehandskills_qicharge_level: number;
-  character_skills_barehandskills_lionrage_level: number;
-  character_skills_barehandskills_ultimalionrage_level: number;
-  character_skills_barehandskills_ravingstorm_level: number;
-  character_skills_barehandskills_ultimaravingstorm_level: number;
-  character_skills_barehandskills_internalelixir_level: number;
-  character_skills_barehandskills_clashofenmity_level: number;
-  character_skills_barehandskills_miraclecomeback_level: number;
-  character_skills_barehandskills_ultimaqicharge_level: number;
-  character_skills_barehandskills_hiddentalent_level: number;
-  character_skills_barehandskills_earthshaker_level: number;
-  character_skills_barehandskills_earthshaker_isactive: boolean;
-  character_skills_hunterskills_kick_level: number;
-  character_skills_hunterskills_sunrisearrow_level: number;
-  character_skills_hunterskills_magicarrow_level: number;
-  character_skills_hunterskills_magicarrow_isactive: boolean;
-  character_skills_hunterskills_satellitearrow_level: number;
-  character_skills_hunterskills_sleeptrap_level: number;
-  character_skills_hunterskills_beartrap_level: number;
-  character_skills_hunterskills_landmine_level: number;
-  character_skills_hunterskills_darktrap_level: number;
-  character_skills_hunterskills_homingshot_level: number;
-  character_skills_hunterskills_detection_level: number;
-  character_skills_hunterskills_detection_isactive: boolean;
-  character_skills_hunterskills_cyclonearrow_level: number;
-  character_skills_hunterskills_verticalair_level: number;
-  character_skills_hunterskills_hunterbowgun_level: number;
-  character_skills_hunterskills_multiplehunt_level: number;
-  character_skills_hunterskills_tripleaceshots_isactive: boolean;
-  character_skills_hunterskills_wolfsniper_isactive: boolean;
-  character_skills_ninjaskills_ninjutsu_level: number;
-  character_skills_ninjaskills_ninjaspirit_level: number;
-  character_skills_ninjaskills_ninjutsudrilli_level: number;
-  character_skills_ninjaskills_ninjutsudrillii_level: number;
-  character_skills_wizardskills_familia_level: number;
-  character_skills_wizardskills_familia_isactive: boolean;
-  character_skills_wizardskills_lightning_level: number;
-  character_skills_wizardskills_blizzard_level: number;
-  character_skills_wizardskills_meteorstrike_level: number;
-  character_skills_wizardskills_imperialray_level: number;
-  character_skills_wizardskills_manacrystal_level: number;
-  character_skills_wizardskills_stonebarrier_level: number;
-  character_skills_wizardskills_advancedfamilia_level: number;
-  character_skills_wizardskills_advancedfamilia_isactive: boolean;
-  character_skills_wizardskills_castmastery_level: number;
-  character_skills_wizardskills_crystallaser_level: number;
-  character_skills_wizardskills_overlimit_level: number;
-  character_skills_wizardskills_overlimit_isactive: boolean;
-  character_skills_wizardskills_sorceryguide_level: number;
-  character_skills_priestskills_bless_level: number;
-  character_skills_priestskills_gloria_level: number;
-  character_skills_priestskills_enhancedbless_level: number;
-  character_skills_priestskills_royalheal_level: number;
-  character_skills_priestskills_holyfist_level: number;
-  character_skills_priestskills_holylight_level: number;
-  character_skills_priestskills_etherbarrier_level: number;
-  character_skills_priestskills_etherbarrier_isactive: boolean;
-  character_skills_priestskills_prayer_level: number;
-  character_skills_priestskills_prayer_isactive: boolean;
-  character_skills_priestskills_staffthrust_level: number;
-  character_skills_priestskills_exorcism_level: number;
-  character_skills_priestskills_holybook_level: number;
-  character_skills_priestskills_holybook_isactive: boolean;
-  character_skills_priestskills_nemesis_level: number;
+  //   guardSkills: {
+  //     heavyarmormastery: { level: number };
+  //     advancedguard: { level: number };
+  //     physicalguard: { level: number };
+  //     lightarmormastery: { level: number };
+  //     advancedevasion: { level: number };
+  //     mirageevasion: { level: number };
+  //   };
 
-  character_consumables: Stat[]; // tatmap for now
-  character_foodbuffs: Stat[]; // tatmap for now
+  //   halberdSkills: {
+  //     flashstab: { level: number };
+  //     cannonspear: { level: number };
+  //     dragontail: { level: number };
+  //     diveimpact: { level: number };
+  //     dragontooth: { level: number };
+  //     draconiccharge: { level: number };
+  //     deadlyspear: { level: number };
+  //     punishray: { level: number };
+  //     strikestab: { level: number };
+  //     chronosdivine: { level: number };
+  //     infinitedimension: { level: number };
+  //     halberdmastery: { level: number };
+  //     criticalspear: { level: number };
+  //     tornadolance: { level: number };
+  //     quickaura: { level: number; isActive: boolean };
+  //     warcryofstruggle: { level: number };
+  //     godspeedwield: { level: number; isActive: boolean; stacks: number };
+  //     almightywield: { level: number };
+  //     busterlance: { level: number };
+  //   };
 
-  character_ailments_weaken_isactive: boolean;
-  character_ailments_flinch_isactive: boolean;
-  character_ailments_tumble_isactive: boolean;
-  character_ailments_stun_isactive: boolean;
-  character_ailments_knockback_isactive: boolean;
-  character_ailments_poison_isactive: boolean;
-  character_ailments_paralysis_isactive: boolean;
-  character_ailments_blindness_isactive: boolean;
-  character_ailments_ignition_isactive: boolean;
-  character_ailments_freeze_isactive: boolean;
-  character_ailments_armorbreak_isactive: boolean;
-  character_ailments_slow_isactive: boolean;
-  character_ailments_stop_isactive: boolean;
-  character_ailments_fear_isactive: boolean;
-  character_ailments_dizzy_isactive: boolean;
-  character_ailments_lethargy_isactive: boolean;
-  character_ailments_silence_isactive: boolean;
-  character_ailments_bleed_isactive: boolean;
-  character_ailments_fatigue_isactive: boolean;
-  character_ailments_dazzled_isactive: boolean;
+  //   martialSkills: {
+  //     smash: { level: number };
+  //     bash: { level: number };
+  //     shellbreak: { level: number };
+  //     heavysmash: { level: number };
+  //     chariot: { level: number };
+  //     abstractarms: { level: number };
+  //     sonicwave: { level: number };
+  //     earthbind: { level: number };
+  //     triplekick: { level: number };
+  //     rush: { level: number; isActive: boolean };
+  //     asuraaura: { level: number; isActive: boolean };
+  //     flashblink: { level: number };
+  //     martialmastery: { level: number };
+  //     martialdiscipline: { level: number };
+  //     chakra: { level: number; isActive: boolean };
+  //     energycontrol: { level: number; isActive: boolean };
+  //     aggravate: { level: number };
+  //     strongchaseattack: { level: number };
+  //     slide: { level: number };
+  //   };
 
-  character_regislets_zerostance_level: number;
-  character_regislets_maxhpboost_level: number;
-  character_regislets_maxmpboost_level: number;
-  character_regislets_magicattackboost_level: number;
-  character_regislets_physicalattackboost_level: number;
-  character_regislets_magicdefenseboost_level: number;
-  character_regislets_physicaldefenseboost_level: number;
-  character_regislets_attackspeedboost_level: number;
-  character_regislets_magicspeedboost_level: number;
-  character_regislets_dodgeboost_level: number;
-  character_regislets_accuracyboost_level: number;
-  character_regislets_focusresonance_level: number;
-  character_regislets_speedresonance_level: number;
-  character_regislets_powerresonance_level: number;
+  //   bareHandSkills: {
+  //     unarmedmastery: { level: number };
+  //     qicharge: { level: number };
+  //     lionrage: { level: number };
+  //     ultimalionrage: { level: number };
+  //     ravingstorm: { level: number };
+  //     ultimaravingstorm: { level: number };
+  //     internalelixir: { level: number };
+  //     clashofenmity: { level: number };
+  //     miraclecomeback: { level: number };
+  //     ultimaqicharge: { level: number };
+  //     hiddentalent: { level: number };
+  //     earthshaker: { level: number; isActive: boolean };
+  //   };
+
+  //   hunterSkills: {
+  //     kick: { level: number };
+  //     sunrisearrow: { level: number };
+  //     magicarrow: { level: number; isActive: boolean };
+  //     satellitearrow: { level: number };
+  //     sleeptrap: { level: number };
+  //     beartrap: { level: number };
+  //     landmine: { level: number };
+  //     darktrap: { level: number };
+  //     homingshot: { level: number };
+  //     detection: { level: number; isActive: boolean };
+
+  //     cyclonearrow: { level: number };
+  //     verticalair: { level: number };
+  //     hunterbowgun: { level: number };
+  //     multiplehunt: { level: number; isActive: boolean }; // should be able to know which buff is active using subweapon info
+  //   };
+
+  //   ninjaSkills: {
+  //     ninjutsu: { level: number };
+  //     ninjaspirit: { level: number };
+  //     ninjutsudrilli: { level: number };
+  //     ninjutsudrillii: { level: number };
+  //   };
+
+  //   wizardSkills: {
+  //     familia: { level: number };
+  //     familia_isactive: boolean;
+  //     lightning: { level: number };
+  //     blizzard: { level: number };
+  //     meteorstrike: { level: number };
+  //     imperialray: { level: number };
+  //     manacrystal: { level: number };
+  //     stonebarrier: { level: number };
+  //     advancedfamilia: { level: number; isActive: boolean };
+  //     castmastery: { level: number };
+  //     crystallaser: { level: number };
+  //     overlimit: { level: number; isActive: boolean };
+  //     sorceryguide: { level: number };
+  //   };
+
+  //   priestSkills: {
+  //     bless: { level: number };
+  //     gloria: { level: number };
+  //     enhancedbless: { level: number };
+  //     royalheal: { level: number };
+  //     holyfist: { level: number };
+  //     holylight: { level: number };
+  //     etherbarrier: { level: number; isActive: boolean };
+
+  //     prayer: { level: number };
+  //     prayer_isactive: boolean;
+  //     staffthrust: { level: number };
+  //     exorcism: { level: number };
+  //     holybook: { level: number; isActive: boolean };
+
+  //     nemesis: { level: number };
+  //   };
+  // };
+
+  // consumables: Stat[];
+  // foodBuffs: Stat[];
+
+  // ailments: {
+  //   weaken: boolean;
+  //   flinch: boolean;
+  //   tumble: boolean;
+  //   stun: boolean;
+  //   knockback: boolean;
+  //   poison: boolean;
+  //   paralysis: boolean;
+  //   blindness: boolean;
+  //   ignition: boolean;
+  //   freeze: boolean;
+  //   armorbreak: boolean;
+  //   slow: boolean;
+  //   stop: boolean;
+  //   fear: boolean;
+  //   dizzy: boolean;
+  //   lethargy: boolean;
+  //   silence: boolean;
+  //   bleed: boolean;
+  //   fatigue: boolean;
+  //   dazzled: boolean;
+  // };
+
+  // regislets: {
+  //   zerostance_level: number;
+  //   maxhpboost_level: number;
+  //   maxmpboost_level: number;
+  //   magicattackboost_level: number;
+  //   physicalattackboost_level: number;
+  //   magicdefenseboost_level: number;
+  //   physicaldefenseboost_level: number;
+  //   attackspeedboost_level: number;
+  //   magicspeedboost_level: number;
+  //   dodgeboost_level: number;
+  //   accuracyboost_level: number;
+  //   focusresonance_level: number;
+  //   speedresonance_level: number;
+  //   powerresonance_level: number;
+  // };
 }
+
+const getPersonalStatIdFromPersonalStatName = (name: PersonalStatName) =>
+  name === "CRT" ? PersonalStatId.CRT
+  : name === "LUK" ? PersonalStatId.LUK
+  : name === "MTL" ? PersonalStatId.MTL
+  : name === "TEC" ? PersonalStatId.TEC
+  : PersonalStatId.NONE;
+
+const getMainWeaponTypeIdFromMainWeaponType = (
+  mainWeapon: MainWeaponType,
+) =>
+  mainWeapon === "two-handed-sword" ? MainWeaponTypeId.TWO_HANDED_SWORD
+  : mainWeapon === "bow" ? MainWeaponTypeId.BOW
+  : mainWeapon === "bowgun" ? MainWeaponTypeId.BOWGUN
+  : mainWeapon === "halberd" ? MainWeaponTypeId.HALBERD
+  : mainWeapon === "katana" ? MainWeaponTypeId.KATANA
+  : mainWeapon === "knuckle" ? MainWeaponTypeId.KNUCKLES
+  : mainWeapon === "magic-device" ? MainWeaponTypeId.MAGIC_DEVICE
+  : mainWeapon === "one-handed-sword" ? MainWeaponTypeId.ONE_HANDED_SWORD
+  : mainWeapon === "staff" ? MainWeaponTypeId.STAFF
+  : MainWeaponTypeId.BARE_HAND;
+
+const getSubWeaponTypeIdFromSubWeaponType = (subWeapon: SubWeaponType) =>
+  subWeapon === "arrow" ? SubWeaponTypeId.ARROW
+  : subWeapon === "dagger" ? SubWeaponTypeId.DAGGER
+  : subWeapon === "katana" ? SubWeaponTypeId.KATANA
+  : subWeapon === "knuckle" ? SubWeaponTypeId.KNUCKLES
+  : subWeapon === "magic-device" ? SubWeaponTypeId.MAGIC_DEVICE
+  : subWeapon === "ninjutsu-scroll" ? SubWeaponTypeId.NINJUTSU_SCROLL
+  : subWeapon === "one-handed-sword" ? SubWeaponTypeId.ONE_HANDED_SWORD
+  : subWeapon === "shield" ? SubWeaponTypeId.SHIELD
+  : SubWeaponTypeId.NONE;
+
+export const createIntermediateConfig = (
+  config: RPartial<Config>,
+): RPartial<IntermediateConfig> => ({
+  [ParamId.CHARACTER_LEVEL]: config.properties?.level || 1,
+
+  [ParamId.CHARACTER_BASE_STR]: config.properties?.STR || 1,
+  [ParamId.CHARACTER_BASE_INT]: config.properties?.INT || 1,
+  [ParamId.CHARACTER_BASE_DEX]: config.properties?.DEX || 1,
+  [ParamId.CHARACTER_BASE_VIT]: config.properties?.VIT || 1,
+  [ParamId.CHARACTER_BASE_AGI]: config.properties?.AGI || 1,
+  [ParamId.CHARACTER_PERSONAL_STAT_ID]:
+    getPersonalStatIdFromPersonalStatName(
+      config.properties?.personalStat || "none",
+    ),
+  [ParamId.CHARACTER_PERSONAL_STAT_VALUE]:
+    config.properties?.personalStatValue || 0,
+
+  [ParamId.CHARACTER_MAINWEAPON_TYPE]:
+    getMainWeaponTypeIdFromMainWeaponType(
+      config.equipments?.mainweapon?.type || "bare-hand",
+    ),
+  [ParamId.CHARACTER_MAINWEAPON_ATK]:
+    config.equipments?.mainweapon?.ATK || 0,
+  [ParamId.CHARACTER_MAINWEAPON_REFINEMENT]:
+    config.equipments?.mainweapon?.refinement || 0,
+  [ParamId.CHARACTER_MAINWEAPON_STABILITY]:
+    config.equipments?.mainweapon?.stability || 0,
+  [ParamId.CHARACTER_MAINWEAPON_STATMAP]:
+    (config.equipments?.mainweapon?.stats as StatMapBuilder | undefined) ||
+    ((_: IntermediateConfig) => []),
+  [ParamId.CHARACTER_MAINWEAPON_CRYSTAL1_STATMAP]:
+    (config.equipments?.mainweapon?.crystal1 as
+      | StatMapBuilder
+      | undefined) || ((_: IntermediateConfig) => []),
+  [ParamId.CHARACTER_MAINWEAPON_CRYSTAL2_STATMAP]:
+    (config.equipments?.mainweapon?.crystal2 as
+      | StatMapBuilder
+      | undefined) || ((_: IntermediateConfig) => []),
+
+  [ParamId.CHARACTER_SUBWEAPON_TYPE]: getSubWeaponTypeIdFromSubWeaponType(
+    config.equipments?.subweapon?.type || "none",
+  ),
+  [ParamId.CHARACTER_SUBWEAPON_ATK]:
+    config.equipments?.subweapon?.ATK || 0,
+  [ParamId.CHARACTER_SUBWEAPON_DEF]:
+    config.equipments?.subweapon?.DEF || 0,
+  [ParamId.CHARACTER_SUBWEAPON_REFINEMENT]:
+    config.equipments?.subweapon?.refinement || 0,
+  [ParamId.CHARACTER_SUBWEAPON_STABILITY]:
+    config.equipments?.subweapon?.stability || 0,
+  [ParamId.CHARACTER_SUBWEAPON_STATMAP]:
+    (config.equipments?.subweapon?.stats as StatMapBuilder | undefined) ||
+    ((_: IntermediateConfig) => []),
+  [ParamId.CHARACTER_SUBWEAPON_CRYSTAL1_STATMAP]:
+    (config.equipments?.subweapon?.stats as StatMapBuilder | undefined) ||
+    ((_: IntermediateConfig) => []),
+  [ParamId.CHARACTER_SUBWEAPON_CRYSTAL2_STATMAP]:
+    (config.equipments?.subweapon?.stats as StatMapBuilder | undefined) ||
+    ((_: IntermediateConfig) => []),
+  [ParamId.CHARACTER_SUBWEAPON_SCROLL_CAST_TIME_REDUCTION]:
+    config.equipments?.subweapon?.scrollCastTimeReduction || 0,
+  [ParamId.CHARACTER_SUBWEAPON_SCROLL_MP_REDUCTION]:
+    config.equipments?.subweapon?.scrollMPReduction || 0,
+
+  // continue here
+
+  // [ParamId.CHARACTER_ARMOR_DEF]: number,
+  // [ParamId.CHARACTER_ARMOR_REFINEMENT]: number,
+  // [ParamId.CHARACTER_ARMOR_TYPE]: ArmorTypeId,
+  // [ParamId.CHARACTER_ARMOR_STATMAP]: StatMapBuilder,
+  // [ParamId.CHARACTER_ARMOR_CRYSTAL1_STATMAP]: StatMapBuilder,
+  // [ParamId.CHARACTER_ARMOR_CRYSTAL2_STATMAP]: StatMapBuilder,
+
+  // [ParamId.CHARACTER_ADDITIONAL_GEAR_DEF]: number,
+  // [ParamId.CHARACTER_ADDITIONAL_GEAR_REFINEMENT]: number,
+  // [ParamId.CHARACTER_ADDITIONAL_GEAR_STATMAP]: StatMapBuilder,
+  // [ParamId.CHARACTER_ADDITIONAL_GEAR_CRYSTAL1_STATMAP]: StatMapBuilder,
+  // [ParamId.CHARACTER_ADDITIONAL_GEAR_CRYSTAL2_STATMAP]: StatMapBuilder,
+
+  // [ParamId.CHARACTER_SPECIAL_GEAR_DEF]: number,
+  // [ParamId.CHARACTER_SPECIAL_GEAR_STATMAP]: StatMapBuilder,
+  // [ParamId.CHARACTER_SPECIAL_GEAR_CRYSTAL1_STATMAP]: StatMapBuilder,
+  // [ParamId.CHARACTER_SPECIAL_GEAR_CRYSTAL2_STATMAP]: StatMapBuilder,
+
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_HARDHIT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_ASTUTE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_TRIGGERSLASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_TRIGGERSLASH_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_RAMPAGE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_RAMPAGE_ISACTIVE]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_METEORBREAKER_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_SHUTOUT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_LUNARSLASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_SONICBLADE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_SPIRALAIR_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_SWORDTEMPEST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_BUSTERBLADE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_BUSTERBLADE_ISACTIVE]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_AURABLADE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_SWORDMASTERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_QUICKSLASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_SWORDTECHNIQUES_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_WARCRY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_WARCRY_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_BERSERK_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_BERSERK_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_GLADIATE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BLADESKILLS_SWIFTATTACK_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_POWERSHOT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_BULLSEYE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_ARROWRAIN_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_SNIPE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_CROSSFIRE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_VANQUISHER_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_TWINSTORM_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_TWINSTORM_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_TWINSTORM_ONCOOLDOWN]: boolean,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_RETROGRADESHOT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_MOEBASHOT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_PARALYSISSHOT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_SMOKEDUST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_ARMBREAK_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_PARABOLACANNON_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_SHOTMASTERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_SAMURAIARCHERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_SAMURAIARCHERY_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_SAMURAIARCHERY_STACKS]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_SNEAKATTACK_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_LONGRANGE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_QUICKDRAW_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_DECOYSHOT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHOTSKILLS_FATALSHOT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICARROWS_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICJAVELIN_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICLANCES_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICIMPACT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICFINALE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_CHRONOSSHIFT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICWALL_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICBLAST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICSTORM_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICBURST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICCANNON_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICCRASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICMASTERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICKNIFE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_QADAL_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_QADAL_CHARGE]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_QADAL_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_QADAL_TIMEACTIVE]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MPCHARGE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_CHAINCAST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_CHAINCAST_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_CHAINCAST_STACKS]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_POWERWAVE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAXIMIZER_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_RAPIDCHARGE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_RAPIDCHARGE_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_RAPIDCHARGE_AMOUNTMPRECOVEREDFROMMAXIMIZER]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_ENCHANTEDBARRIERS_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICSKILLS_MAGICGUARDIANBEAM_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SURVIVALSKILLS_PLAYDEAD_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SURVIVALSKILLS_EXPGAINUP_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SURVIVALSKILLS_DROPRATEUP_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SURVIVALSKILLS_SAFEREST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SURVIVALSKILLS_HPBOOST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SURVIVALSKILLS_FIGHTERSHIGH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SURVIVALSKILLS_SHORTREST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SURVIVALSKILLS_MPBOOST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SURVIVALSKILLS_SOBERANALYSIS_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_FIRSTAID_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_MINIHEAL_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_RECOVERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_SANCTUARY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_HEAL_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_LIFERECOVERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_BRAVEAURA_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_BRAVEAURA_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_HIGHCYCLE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_HIGHCYCLE_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_QUICKMOTION_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_QUICKMOTION_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_MANARECHARGE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_MANARECHARGE_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_MAGICBARRIER_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_MAGICBARRIER_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_IMMUNITY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_IMMUNITY_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_FASTREACTION_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SUPPORTSKILLS_FASTREACTION_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_MAGICUP_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_CONCENTRATE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_ATTACKUP_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_WHACK_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_DEFENSEUP_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_DODGEUP_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_DESPERATERESIST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_CRITICALUP_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_ACCURACYUP_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_INCREASEDENERGY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_INTIMIDATINGPOWER_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_DEFENSEMASTERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_SPELLBURST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_SECRETCHASEATTACK_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BATTLESKILLS_SUPERGRIP_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_ISSEN_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_PULSEBLADE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_TRIPLETHRUST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_TRIPLETHRUST_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_HASSOHAPPA_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_TENRYURANSEI_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_KASUMISETSUGETSUKA_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_GARYOUTENSEI_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_SHADOWLESSSLASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_POMMELSTRIKE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_MAGADACHI_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_ZANTEISETTETSU_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_BUSHIDO_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_SHUKUCHI_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_SHUKUCHI_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_NUKIUCHISENNOSEN_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_TWOHANDED_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_MEIKYOUSHISUI_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_MEIKYOUSHISUI_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_KAIRIKIRANSHIN_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_KAIRIKIRANSHIN_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_DAUNTLESS_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_DAUNTLESS_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_DAUNTLESS_STACKS]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_BOUNCINGBLADE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MONONOFUSKILLS_BOUNCINGBLADE_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_DUALSWORDMASTERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_TWINSLASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_SPINNINGSLASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_PHANTOMSLASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_AERIALCUT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_CROSSPARRY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_CROSSPARRY_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_CROSSPARRYISPARRIED]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_CHARGINGSLASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_SHADOWSTEP_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_SHADOWSTEP_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_SHININGCROSS_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_LUNARMISFORTUNE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_TWINBUSTERBLADE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_TWINBUSTERBLADE_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_REFLEX_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_FLASHBLAST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_FLASHBLAST_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_STORMREAPER_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_DUALSWORDCONTROL_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_GODSPEED_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_SABERAURA_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_DUALSWORDSKILLS_CRESCENTSABER_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_MAGICWARRIORMASTERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_CONVERSION_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_CONVERSION_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_RESONANCE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_RESONANCE_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_RESONANCE_ACTIVESET]: ResonanceSetId,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_ENCHANTEDSPELL_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_DUALBRINGER_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_DUALBRINGER_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_ETHERFLARE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_ETHERFLARE_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_ELEMENTSLASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_ENCHANTSWORD_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_ENCHANTEDBURST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_UNIONSWORD_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_SIPHONBARRIER_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_SIPHONBARRIER_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_TELEPORT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_SIPHONRECALL_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_FLOATDASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MAGICBLADESKILLS_MAGICSKIN_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_SHIELDMASTERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_SHIELDBASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_SHIELDCANNON_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_GUARDSTRIKE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_FORCESHIELD_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_MAGICALSHIELD_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_SHIELDUPPERCUT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_DUALSHIELDS_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_SHIELDREPAIR_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_BELAGERUNG_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_PROTECTION_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_PROTECTION_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_AEGIS_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_AEGIS_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_SHIELDSKILLS_GUARDIAN_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_GUARDSKILLS_HEAVYARMORMASTERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_GUARDSKILLS_ADVANCEDGUARD_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_GUARDSKILLS_PHYSICALGUARD_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_GUARDSKILLS_LIGHTARMORMASTERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_GUARDSKILLS_ADVANCEDEVASION_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_GUARDSKILLS_MIRAGEEVASION_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_FLASHSTAB_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_CANNONSPEAR_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_DRAGONTAIL_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_DIVEIMPACT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_DRAGONTOOTH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_DRACONICCHARGE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_DEADLYSPEAR_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_PUNISHRAY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_STRIKESTAB_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_CHRONOSDIVINE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_INFINITEDIMENSION_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_HALBERDMASTERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_CRITICALSPEAR_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_TORNADOLANCE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_QUICKAURA_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_QUICKAURA_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_WARCRYOFSTRUGGLE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_GODSPEEDWIELD_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_GODSPEEDWIELD_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_GODSPEEDWIELD_STACKS]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_ALMIGHTYWIELD_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HALBERDSKILLS_BUSTERLANCE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_SMASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_BASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_SHELLBREAK_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_HEAVYSMASH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_CHARIOT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_ABSTRACTARMS_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_SONICWAVE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_EARTHBIND_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_TRIPLEKICK_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_RUSH_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_RUSH_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_ASURAAURA_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_ASURAAURA_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_FLASHBLINK_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_MARTIALMASTERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_MARTIALDISCIPLINE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_CHAKRA_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_CHAKRA_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_ENERGYCONTROL_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_ENERGYCONTROL_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_AGGRAVATE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_STRONGCHASEATTACK_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_MARTIALSKILLS_SLIDE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_UNARMEDMASTERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_QICHARGE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_LIONRAGE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_ULTIMALIONRAGE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_RAVINGSTORM_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_ULTIMARAVINGSTORM_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_INTERNALELIXIR_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_CLASHOFENMITY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_MIRACLECOMEBACK_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_ULTIMAQICHARGE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_HIDDENTALENT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_EARTHSHAKER_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_BAREHANDSKILLS_EARTHSHAKER_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_KICK_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_SUNRISEARROW_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_MAGICARROW_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_MAGICARROW_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_SATELLITEARROW_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_SLEEPTRAP_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_BEARTRAP_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_LANDMINE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_DARKTRAP_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_HOMINGSHOT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_DETECTION_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_DETECTION_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_CYCLONEARROW_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_VERTICALAIR_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_HUNTERBOWGUN_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_MULTIPLEHUNT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_TRIPLEACESHOTS_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_HUNTERSKILLS_WOLFSNIPER_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_NINJASKILLS_NINJUTSU_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_NINJASKILLS_NINJASPIRIT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_NINJASKILLS_NINJUTSUDRILLI_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_NINJASKILLS_NINJUTSUDRILLII_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_FAMILIA_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_FAMILIA_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_LIGHTNING_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_BLIZZARD_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_METEORSTRIKE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_IMPERIALRAY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_MANACRYSTAL_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_STONEBARRIER_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_ADVANCEDFAMILIA_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_ADVANCEDFAMILIA_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_CASTMASTERY_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_CRYSTALLASER_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_OVERLIMIT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_OVERLIMIT_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_WIZARDSKILLS_SORCERYGUIDE_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_BLESS_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_GLORIA_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_ENHANCEDBLESS_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_ROYALHEAL_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_HOLYFIST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_HOLYLIGHT_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_ETHERBARRIER_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_ETHERBARRIER_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_PRAYER_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_PRAYER_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_STAFFTHRUST_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_EXORCISM_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_HOLYBOOK_LEVEL]: number,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_HOLYBOOK_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_SKILLS_PRIESTSKILLS_NEMESIS_LEVEL]: number,
+
+  // [ParamId.CHARACTER_CONSUMABLES]: Stat[], // statmap for now
+  // [ParamId.CHARACTER_FOODBUFFS]: Stat[], // statmap for now
+
+  // [ParamId.CHARACTER_AILMENTS_WEAKEN_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_FLINCH_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_TUMBLE_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_STUN_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_KNOCKBACK_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_POISON_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_PARALYSIS_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_BLINDNESS_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_IGNITION_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_FREEZE_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_ARMORBREAK_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_SLOW_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_STOP_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_FEAR_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_DIZZY_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_LETHARGY_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_SILENCE_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_BLEED_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_FATIGUE_ISACTIVE]: boolean,
+  // [ParamId.CHARACTER_AILMENTS_DAZZLED_ISACTIVE]: boolean,
+
+  // [ParamId.CHARACTER_REGISLETS_ZEROSTANCE_LEVEL]: number,
+  // [ParamId.CHARACTER_REGISLETS_MAXHPBOOST_LEVEL]: number,
+  // [ParamId.CHARACTER_REGISLETS_MAXMPBOOST_LEVEL]: number,
+  // [ParamId.CHARACTER_REGISLETS_MAGICATTACKBOOST_LEVEL]: number,
+  // [ParamId.CHARACTER_REGISLETS_PHYSICALATTACKBOOST_LEVEL]: number,
+  // [ParamId.CHARACTER_REGISLETS_MAGICDEFENSEBOOST_LEVEL]: number,
+  // [ParamId.CHARACTER_REGISLETS_PHYSICALDEFENSEBOOST_LEVEL]: number,
+  // [ParamId.CHARACTER_REGISLETS_ATTACKSPEEDBOOST_LEVEL]: number,
+  // [ParamId.CHARACTER_REGISLETS_MAGICSPEEDBOOST_LEVEL]: number,
+  // [ParamId.CHARACTER_REGISLETS_DODGEBOOST_LEVEL]: number,
+  // [ParamId.CHARACTER_REGISLETS_ACCURACYBOOST_LEVEL]: number,
+  // [ParamId.CHARACTER_REGISLETS_FOCUSRESONANCE_LEVEL]: number,
+  // [ParamId.CHARACTER_REGISLETS_SPEEDRESONANCE_LEVEL]: number,
+  // [ParamId.CHARACTER_REGISLETS_POWERRESONANCE_LEVEL]: number,
+});
