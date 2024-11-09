@@ -29,4 +29,4 @@ Promise.all([
     bundle: true,
     logLevel: "silent",
   }),
-]);
+])
