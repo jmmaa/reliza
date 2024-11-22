@@ -1,13 +1,13 @@
 import {
+  type IntermediateConfig,
+  type Stat,
+  StatId,
+  PersonalStatId,
+  ResonanceSetId,
   MainWeaponTypeId,
   SubWeaponTypeId,
   ArmorTypeId,
-  ResonanceSetId,
-  PersonalStatId,
   ParamId,
-  StatId,
-  type Stat,
-  type IntermediateConfig,
 } from "./data";
 
 export const add = (a: number, b: number) => a + b;
@@ -17,11 +17,10 @@ export const total = (base: number, percent: number, flat: number) =>
 export const isUsingStatAccessibleSubWeapon = (
   config: IntermediateConfig,
 ) =>
-  config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.ARROW ||
-  config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.DAGGER ||
-  config[ParamId.CHARACTER_SUBWEAPON_TYPE] ===
-    SubWeaponTypeId.NINJUTSU_SCROLL ||
-  config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD;
+  isUsingSubArrow(config) ||
+  isUsingSubDagger(config) ||
+  isUsingSubScroll(config) ||
+  isUsingSubShield(config);
 
 export const isUsingMainOHS = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_MAINWEAPON_TYPE] ===
@@ -53,59 +52,69 @@ export const isUsingMainKN = (config: IntermediateConfig) =>
 export const isUsingSubArrow = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.ARROW;
 
+export const isUsingSubDagger = (config: IntermediateConfig) =>
+  config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.DAGGER;
+
+export const isUsingSubShield = (config: IntermediateConfig) =>
+  config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.SHIELD;
+
+export const isUsingSubScroll = (config: IntermediateConfig) =>
+  config[ParamId.CHARACTER_SUBWEAPON_TYPE] ===
+  SubWeaponTypeId.NINJUTSU_SCROLL;
+
 export const isNotUsingSubWeapon = (config: IntermediateConfig) =>
   config[ParamId.CHARACTER_SUBWEAPON_TYPE] === SubWeaponTypeId.NONE;
 
 export const flattenedStatsFromMainWeapon = (config: IntermediateConfig) =>
-  config[ParamId.CHARACTER_MAINWEAPON_STATMAP](config);
+  config[ParamId.CHARACTER_MAINWEAPON_STATMAP];
 
 export const flattenedStatsFromMainWeaponCrystal1 = (
   config: IntermediateConfig,
-) => config[ParamId.CHARACTER_MAINWEAPON_CRYSTAL1_STATMAP](config);
+) => config[ParamId.CHARACTER_MAINWEAPON_CRYSTAL1_STATMAP];
 
 export const flattenedStatsFromMainWeaponCrystal2 = (
   config: IntermediateConfig,
-) => config[ParamId.CHARACTER_MAINWEAPON_CRYSTAL2_STATMAP](config);
+) => config[ParamId.CHARACTER_MAINWEAPON_CRYSTAL2_STATMAP];
 
 export const flattenedStatsFromSubWeapon = (config: IntermediateConfig) =>
   isUsingStatAccessibleSubWeapon(config) ?
-    config[ParamId.CHARACTER_SUBWEAPON_STATMAP](config)
+    config[ParamId.CHARACTER_SUBWEAPON_STATMAP]
   : [];
 
 export const flattenedStatsFromArmor = (config: IntermediateConfig) =>
-  config[ParamId.CHARACTER_ARMOR_STATMAP](config);
+  config[ParamId.CHARACTER_ARMOR_STATMAP];
 
 export const flattenedStatsFromArmorCrystal1 = (
   config: IntermediateConfig,
-) => config[ParamId.CHARACTER_ARMOR_CRYSTAL1_STATMAP](config);
+) => config[ParamId.CHARACTER_ARMOR_CRYSTAL1_STATMAP];
 
 export const flattenedStatsFromArmorCrystal2 = (
   config: IntermediateConfig,
-) => config[ParamId.CHARACTER_ARMOR_CRYSTAL2_STATMAP](config);
+) => config[ParamId.CHARACTER_ARMOR_CRYSTAL2_STATMAP];
 
 export const flattenedStatsFromAdditionalGear = (
   config: IntermediateConfig,
-) => config[ParamId.CHARACTER_ADDITIONAL_GEAR_STATMAP](config);
+) => config[ParamId.CHARACTER_ADDITIONAL_GEAR_STATMAP];
 
 export const flattenedStatsFromAdditionalGearCrystal1 = (
   config: IntermediateConfig,
-) => config[ParamId.CHARACTER_ADDITIONAL_GEAR_CRYSTAL1_STATMAP](config);
+) => config[ParamId.CHARACTER_ADDITIONAL_GEAR_CRYSTAL1_STATMAP];
 
 export const flattenedStatsFromAdditionalGearCrystal2 = (
   config: IntermediateConfig,
-) => config[ParamId.CHARACTER_ADDITIONAL_GEAR_CRYSTAL2_STATMAP](config);
+) => config[ParamId.CHARACTER_ADDITIONAL_GEAR_CRYSTAL2_STATMAP];
 
 export const flattenedStatsFromSpecialGear = (
   config: IntermediateConfig,
-) => config[ParamId.CHARACTER_SPECIAL_GEAR_STATMAP](config);
+) => config[ParamId.CHARACTER_SPECIAL_GEAR_STATMAP];
 
 export const flattenedStatsFromSpecialGearCrystal1 = (
   config: IntermediateConfig,
-) => config[ParamId.CHARACTER_SPECIAL_GEAR_CRYSTAL1_STATMAP](config);
+) => config[ParamId.CHARACTER_SPECIAL_GEAR_CRYSTAL1_STATMAP];
 
 export const flattenedStatsFromSpecialGearCrystal2 = (
   config: IntermediateConfig,
-) => config[ParamId.CHARACTER_SPECIAL_GEAR_CRYSTAL2_STATMAP](config);
+) => config[ParamId.CHARACTER_SPECIAL_GEAR_CRYSTAL2_STATMAP];
 
 export const flattenedStats = (config: IntermediateConfig) =>
   ([] as Stat[]).concat(
@@ -1422,7 +1431,7 @@ export const totalRefinementReduction = (config: IntermediateConfig) =>
 
 // element
 export const mainWeaponElement = (config: IntermediateConfig) =>
-  config[ParamId.CHARACTER_MAINWEAPON_STATMAP](config)
+  config[ParamId.CHARACTER_MAINWEAPON_STATMAP]
     .filter(
       (stat) =>
         (stat[0] === StatId.EARTH_ELEMENT ||
@@ -1445,7 +1454,7 @@ export const mainWeaponElement = (config: IntermediateConfig) =>
     .reduce((prev, curr) => (curr !== "neutral" ? curr : prev), "neutral");
 
 export const subWeaponElement = (config: IntermediateConfig) =>
-  config[ParamId.CHARACTER_SUBWEAPON_STATMAP](config)
+  config[ParamId.CHARACTER_SUBWEAPON_STATMAP]
     .filter(
       (stat) =>
         (stat[0] === StatId.EARTH_ELEMENT ||
@@ -2945,7 +2954,7 @@ export const resonanceTotalFlatATK = (config: IntermediateConfig) =>
     resonanceIsActive(config) &&
     config[ParamId.CHARACTER_SUBWEAPON_TYPE] ===
       SubWeaponTypeId.MAGIC_DEVICE &&
-    resonanceActiveSet(config) === ResonanceSetId.MATK_AND_ATK
+    resonanceActiveSet(config) === ResonanceSetId.ATK_AND_MATK
   ) ?
     Math.floor(
       resonanceLevel(config) * 2 +
@@ -2972,7 +2981,7 @@ export const resonanceTotalFlatMATK = (config: IntermediateConfig) =>
     resonanceIsActive(config) &&
     config[ParamId.CHARACTER_SUBWEAPON_TYPE] ===
       SubWeaponTypeId.MAGIC_DEVICE &&
-    resonanceActiveSet(config) === ResonanceSetId.MATK_AND_ATK
+    resonanceActiveSet(config) === ResonanceSetId.ATK_AND_MATK
   ) ?
     Math.floor(
       resonanceLevel(config) * 2 +
@@ -3893,37 +3902,3 @@ export const speedResonanceTotalReduction = (config: IntermediateConfig) =>
 
 export const powerResonanceTotalReduction = (config: IntermediateConfig) =>
   95 - 5 * config[ParamId.CHARACTER_REGISLETS_POWERRESONANCE_LEVEL];
-
-// // AGGREGATION
-
-// export type Ok<T> = {
-//   value: T;
-//   isOk: () => true;
-//   isErr: () => false;
-//   unwrap: () => T;
-//   map: <R>(f: (_: T) => R) => Ok<R>;
-// };
-// export type Err<E> = {
-//   value: E;
-//   isOk: () => false;
-//   isErr: () => true;
-//   unwrap: () => E;
-//   map: <R>(f: (_: E) => R) => Err<R>;
-// };
-
-// export type Result<T, E> = Ok<T> | Err<E>;
-
-// export const Ok = <T>(_: T): Ok<T> => ({
-//   value: _,
-//   isOk: () => true,
-//   isErr: () => false,
-//   unwrap: () => _,
-//   map: <R>(f: (_: T) => R) => Ok(f(_)),
-// });
-// export const Err = <E>(_: E): Err<E> => ({
-//   value: _,
-//   isOk: () => false,
-//   isErr: () => true,
-//   unwrap: () => _,
-//   map: <R>(f: (_: E) => R) => Err(f(_)),
-// });
