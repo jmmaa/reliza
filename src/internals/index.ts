@@ -3119,22 +3119,24 @@ export const MPBoostTotalFlatMaxMP = (config: Config) =>
 
 // Wizard skills
 
+export const wizardSkills = (config: Config) => config.skillTrees.wizardSkills
+
 export const castMasteryLevel = (config: Config) =>
   config.skillTrees.wizardSkills.castmastery.level;
 
 export const wizardSkillsLevels = (config: Config) => [
-  config.skillTrees.wizardSkills.castmastery.level,
-  config.skillTrees.wizardSkills.advancedfamilia.level,
-  config.skillTrees.wizardSkills.blizzard.level,
-  config.skillTrees.wizardSkills.crystallaser.level,
-  config.skillTrees.wizardSkills.familia.level,
-  config.skillTrees.wizardSkills.imperialray.level,
-  config.skillTrees.wizardSkills.lightning.level,
-  config.skillTrees.wizardSkills.manacrystal.level,
-  config.skillTrees.wizardSkills.meteorstrike.level,
-  config.skillTrees.wizardSkills.overlimit.level,
-  config.skillTrees.wizardSkills.sorceryguide.level,
-  config.skillTrees.wizardSkills.stonebarrier.level,
+  wizardSkills(config).castmastery.level,
+  wizardSkills(config).advancedfamilia.level,
+  wizardSkills(config).blizzard.level,
+  wizardSkills(config).crystallaser.level,
+  wizardSkills(config).familia.level,
+  wizardSkills(config).imperialray.level,
+  wizardSkills(config).lightning.level,
+  wizardSkills(config).manacrystal.level,
+  wizardSkills(config).meteorstrike.level,
+  wizardSkills(config).overlimit.level,
+  wizardSkills(config).sorceryguide.level,
+  wizardSkills(config).stonebarrier.level,
 ];
 
 export const totalWizardSkillsLearned = (config: Config) =>

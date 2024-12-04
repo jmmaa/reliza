@@ -145,7 +145,7 @@ export type StatName =
   | "ADDITIONAL_MELEE"
   | "ADDITIONAL_MAGIC";
 
-export type StatMapBuilder = <C extends Config>(_: C) => Stat[];
+export type StatMapBuilder = (_: Config) => Stat[];
 
 export interface Properties {
   level: number;
@@ -172,7 +172,6 @@ export interface Equipments {
 
   subweapon: {
     type: SubWeaponTypeName;
-
     ATK: number;
     DEF: number;
     refinement: number;

@@ -38,6 +38,36 @@ import {
   totalMATK,
   totalPhysicalPierce,
   totalMagicPierce,
+  totalBaseDEF,
+  totalPercentDEF,
+  totalFlatDEF,
+  totalDEF,
+  totalBaseMDEF,
+  totalPercentMDEF,
+  totalFlatMDEF,
+  totalMDEF,
+  totalBaseDodge,
+  totalPercentDodge,
+  totalFlatDodge,
+  totalDodge,
+  totalBaseCriticalRate,
+  totalPercentCriticalRate,
+  totalFlatCriticalRate,
+  totalCriticalRate,
+  totalMagicCriticalRate,
+  totalBaseCriticalDamage,
+  totalPercentCriticalDamage,
+  totalFlatCriticalDamage,
+  totalCriticalDamage,
+  totalMagicCriticalDamage,
+  totalBaseMaxHP,
+  totalPercentMaxHP,
+  totalFlatMaxHP,
+  totalMaxHP,
+  totalBaseMaxMP,
+  totalPercentMaxMP,
+  totalFlatMaxMP,
+  totalMaxMP,
 } from "./internals";
 import { Config, Stat, StatMapBuilder } from "./internals/data";
 import { mergician } from "mergician";
@@ -613,15 +643,57 @@ export const calculateAll = (config: Config) => ({
   totalFlatMATK: totalFlatMATK(config),
   totalMATK: totalMATK(config),
 
+  // DEF
+  totalBaseDEF: totalBaseDEF(config),
+  totalPercentDEF: totalPercentDEF(config),
+  totalFlatDEF: totalFlatDEF(config),
+  totalDEF: totalDEF(config),
+
+  // MDEF
+  totalBaseMDEF: totalBaseMDEF(config),
+  totalPercentMDEF: totalPercentMDEF(config),
+  totalFlatMDEF: totalFlatMDEF(config),
+  totalMDEF: totalMDEF(config),
+
+  // Dodge
+  totalBaseDodge: totalBaseDodge(config),
+  totalPercentDodge: totalPercentDodge(config),
+  totalFlatDodge: totalFlatDodge(config),
+  totalDodge: totalDodge(config),
+
+  // Critical Rate
+  totalBaseCriticalRate: totalBaseCriticalRate(config),
+  totalPercentCriticalRate: totalPercentCriticalRate(config),
+  totalFlatCriticalRate: totalFlatCriticalRate(config),
+  totalCriticalRate: totalCriticalRate(config),
+  totalMagicCriticalRate: totalMagicCriticalRate(config),
+
+  // Critical Damage
+  totalBaseCriticalDamage: totalBaseCriticalDamage(config),
+  totalPercentCriticalDamage: totalPercentCriticalDamage(config),
+  totalFlatCriticalDamage: totalFlatCriticalDamage(config),
+  totalCriticalDamage: totalCriticalDamage(config),
+  totalMagicCriticalDamage: totalMagicCriticalDamage(config),
+
+  // Max HP
+  totalBaseMaxHP: totalBaseMaxHP(config),
+  totalPercentMaxHP: totalPercentMaxHP(config),
+  totalFlatMaxHP: totalFlatMaxHP(config),
+  totalMaxHP: totalMaxHP(config),
+
+  // Max MP
+  totalBaseMaxMP: totalBaseMaxMP(config),
+  totalPercentMaxMP: totalPercentMaxMP(config),
+  totalFlatMaxMP: totalFlatMaxMP(config),
+  totalMaxMP: totalMaxMP(config),
+
   // Pierce
   totalPhysicalPierce: totalPhysicalPierce(config),
   totalMagicPierce: totalMagicPierce(config),
 });
 
-export const defineConfigurations = (
-  config: UserDefinedConfig,
-): UserDefinedConfig & Config =>
-  mergician(defaultConfig, config) as UserDefinedConfig & Config;
+const merge = <L extends object, R extends object>(a: L, b: R): L & R =>
+  mergician(a, b) as L & R;
 
 export const calculate = (config: UserDefinedConfig) =>
-  calculateAll(defineConfigurations(config));
+  calculateAll(merge(defaultConfig, config));
