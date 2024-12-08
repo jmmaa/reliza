@@ -1,6 +1,7 @@
 import { Config, Stat } from "./data";
 
 export const add = (a: number, b: number) => a + b;
+
 export const total = (base: number, percent: number, flat: number) =>
   Math.floor(base * (1 + percent / 100) + flat);
 
@@ -635,7 +636,7 @@ export const totalCriticalDamage = (config: Config) => {
 };
 
 export const totalMagicCriticalDamageConversion = (config: Config) =>
-  25 + spellBurstTotalMagicCriticalDamageConversion(config);
+  50 + spellBurstTotalMagicCriticalDamageConversion(config);
 
 /** NOTE:
  * this is only for display purposes, magic critical damage is dynamic therefore
@@ -645,15 +646,17 @@ export const totalMagicCriticalDamageConversion = (config: Config) =>
 export const totalMagicCriticalDamage = (config: Config) =>
   Math.floor(
     100 +
-      (totalCriticalDamage(config) - 100) *
-        (totalMagicCriticalDamageConversion(config) / 100),
+      ((totalCriticalDamage(config) - 100) *
+        totalMagicCriticalDamageConversion(config)) /
+        100,
   );
 
 // critrate
 export const totalBaseCriticalRate = (config: Config) =>
-  config.properties.personalStatName === "CRT" ?
-    Math.floor(25 + config.properties.personalStatValue / 3.4)
-  : 0;
+  25 +
+  (config.properties.personalStatName === "CRT" ?
+    Math.floor(config.properties.personalStatValue / 3.4)
+  : 0);
 
 export const totalPercentCriticalRateFromEquipment = (config: Config) =>
   flattenedStats(config)
@@ -685,13 +688,12 @@ export const totalFlatCriticalRate = (config: Config) =>
   totalFlatCriticalRateFromEquipment(config) +
   totalFlatCriticalRateFromSkills(config);
 
-export const totalCriticalRate = (config: Config) => {
-  return total(
+export const totalCriticalRate = (config: Config) =>
+  total(
     totalBaseCriticalRate(config),
     totalPercentCriticalRate(config),
     totalFlatCriticalRate(config),
   );
-};
 
 /** NOTE:
  * this is only for display purposes, magic critical damage is dynamic therefore
@@ -735,8 +737,7 @@ export const totalPercentCSPDFromSkills = (config: Config) =>
 
 export const totalPercentCSPD = (config: Config) =>
   totalPercentCSPDFromEquipment(config) +
-  totalPercentCSPDFromSkills(config) +
-  castMasteryTotalPercentCSPD(config);
+  totalPercentCSPDFromSkills(config);
 
 export const totalFlatCSPDFromEquipment = (config: Config) =>
   flattenedStats(config)
@@ -997,7 +998,7 @@ export const totalPercentMaxHP = (config: Config) =>
 
 export const totalFlatMaxHPFromEquipment = (config: Config) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_MAX_MP")
+    .filter((stat) => stat[0] === "FLAT_MAX_HP")
     .map((stat) => stat[1])
     .reduce(add, 0) + maxHPBoostTotalFlatMaxMP(config);
 
@@ -3119,7 +3120,8 @@ export const MPBoostTotalFlatMaxMP = (config: Config) =>
 
 // Wizard skills
 
-export const wizardSkills = (config: Config) => config.skillTrees.wizardSkills
+export const wizardSkills = (config: Config) =>
+  config.skillTrees.wizardSkills;
 
 export const castMasteryLevel = (config: Config) =>
   config.skillTrees.wizardSkills.castmastery.level;
@@ -3140,9 +3142,7 @@ export const wizardSkillsLevels = (config: Config) => [
 ];
 
 export const totalWizardSkillsLearned = (config: Config) =>
-  wizardSkillsLevels(config)
-    .filter((level) => (level > 0 ? 1 : 0))
-    .reduce(add, 0);
+  wizardSkillsLevels(config).filter((level) => level > 0).length;
 
 export const totalWizardSkillsPoints = (config: Config) =>
   wizardSkillsLevels(config).reduce(add, 0);

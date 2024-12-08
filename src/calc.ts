@@ -79,6 +79,7 @@ type RecursePartial<T> = {
 };
 
 export type UserDefinedConfig = RecursePartial<Config>;
+export type Status = ReturnType<typeof calculate>;
 
 const defaultConfig: Config = {
   properties: {
