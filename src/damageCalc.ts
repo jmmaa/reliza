@@ -1,10 +1,10 @@
-import { Status } from "./calc";
-import {
-  totalCriticalDamage,
-  totalMagicPierce,
-  totalMATK,
-} from "./internals";
-import { Config } from "./internals/data";
+// import { Status } from "./calc";
+// import {
+//   totalCriticalDamage,
+//   totalMagicPierce,
+//   totalMATK,
+// } from "./internals";
+// import { Config } from "./internals/data";
 
 export type Target = {
   magicalResistance: number;
@@ -105,96 +105,88 @@ export const calculateGenericDamage = (d: DamageInstance) => {
   dmg *= d.ultimaLionRageDamageMultiplier / 100;
   dmg = Math.floor(dmg);
 
-  return Math.floor(dmg);
+  return dmg;
 };
 
-const sampleMBURST = calculateGenericDamage({
-  defense: 3210,
-  resistance: 7,
-  sourceLevel: 290,
-  targetLevel: 218,
-  pierce: 100,
-  base: 8729,
-  criticalDamageMultiplier: 246,
-  stabilityDamageMultiplier: 110,
-  constant: 500,
-  innateDamageMultiplier: 2600,
-  skillRelatedDamageMultiplier: 110,
-  lastDamageMultiplier: 120,
-  lethargyDamageMultiplier: 100,
-  guardDamageMultiplier: 100,
-  prorationDamageMultiplier: 250,
-  distanceRelatedDamageMultiplier: 121,
-  comboRelatedDamageMultiplier: 150,
-  elementRelatedDamageMultiplier: 260,
-  ultimaLionRageDamageMultiplier: 100,
-  dropRateGemRelatedDamageMultiplier: 100,
-  flatUnsheatheAttack: 0,
-  percentUnsheatheAttack: 100,
-});
+// const sampleMBURST = calculateGenericDamage({
+//   defense: 3210,
+//   resistance: 7,
+//   sourceLevel: 290,
+//   targetLevel: 218,
+//   pierce: 100,
+//   base: 8729,
+//   criticalDamageMultiplier: 246,
+//   stabilityDamageMultiplier: 110,
+//   constant: 500,
+//   innateDamageMultiplier: 2600,
+//   skillRelatedDamageMultiplier: 110,
+//   lastDamageMultiplier: 120,
+//   lethargyDamageMultiplier: 100,
+//   guardDamageMultiplier: 100,
+//   prorationDamageMultiplier: 250,
+//   distanceRelatedDamageMultiplier: 121,
+//   comboRelatedDamageMultiplier: 150,
+//   elementRelatedDamageMultiplier: 260,
+//   ultimaLionRageDamageMultiplier: 100,
+//   dropRateGemRelatedDamageMultiplier: 100,
+//   flatUnsheatheAttack: 0,
+//   percentUnsheatheAttack: 100,
+// });
 
-console.log(sampleMBURST);
+// export type DamageConfig = {
+//   isUnsheatheAttack: boolean;
+//   isGrazed: boolean;
+//   isGuarded: boolean;
+//   isLethargic: boolean;
 
-export type DamageConfig = {
-  isUnsheatheAttack: boolean;
-  isGrazed: boolean;
-  isGuarded: boolean;
+// };
 
-  // constantCalcFunc: (config: Config, target: Target) => number;
-  // innateDamageMultiplierCalcFunc: (
-  //   config: Config,
-  //   target: Target,
-  // ) => number;
-  // elementalDamageMultiplierCalcFunc: (
-  //   config: Config,
-  //   target: Target,
-  // ) => number;
-  // baseCalcFunc: (config: Config, target: Target) => number;
-};
+// export type DamageCalcFunc = (
+//   target: Target,
+//   dmgConfig: DamageConfig,
+// ) => number;
 
-export type DamageCalcFunc = (
-  target: Target,
-  dmgConfig: DamageConfig,
-) => number;
+// export const calculateMagicBurstDamage =
+//   (config: Config) =>
+//   (
+//     target: Target, // dmgConfig: DamageConfig
+//     dmgConfig: DamageConfig,
+//   ) =>
+//     calculateGenericDamage({
+//       defense: target.MDEF,
+//       resistance: target.magicalResistance,
 
-export const calculateMagicBurstDamage =
-  (config: Config) =>
-  (
-    target: Target, // dmgConfig: DamageConfig
-  ) =>
-    calculateGenericDamage({
-      defense: target.MDEF,
-      resistance: target.magicalResistance,
+//       sourceLevel: config.properties.level,
+//       targetLevel: target.level,
+//       pierce: totalMagicPierce(config),
+//       base: totalMATK(config),
+//       criticalDamageMultiplier: totalCriticalDamage(config),
+//       stabilityDamageMultiplier: 110,
+//       constant: 200 + 30 * config.skillTrees.magicSkills.magicburst.level,
+//       innateDamageMultiplier:
+//         (
+//           1500 +
+//             config.skillTrees.magicSkills.magicburst.level * 60 +
+//             config.equipments.mainweapon.type ===
+//           "STAFF"
+//         ) ?
+//           config.properties.INT / 100
+//         : config.equipments.mainweapon.type === "MAGIC_DEVICE" ?
+//           config.properties.INT / 200
+//         : 0,
 
-      sourceLevel: config.properties.level,
-      targetLevel: target.level,
-      pierce: totalMagicPierce(config),
-      base: totalMATK(config),
-      criticalDamageMultiplier: totalCriticalDamage(config),
-      stabilityDamageMultiplier: 110,
-      constant: 200 + 30 * config.skillTrees.magicSkills.magicburst.level,
-      innateDamageMultiplier:
-        (
-          1500 +
-            config.skillTrees.magicSkills.magicburst.level * 60 +
-            config.equipments.mainweapon.type ===
-          "STAFF"
-        ) ?
-          config.properties.INT / 100
-        : config.equipments.mainweapon.type === "MAGIC_DEVICE" ?
-          config.properties.INT / 200
-        : 0,
+//       skillRelatedDamageMultiplier: 110,
+//       lastDamageMultiplier: 120,
+//       lethargyDamageMultiplier: dmgConfig.isLethargic ? 70 : 100,
+//       guardDamageMultiplier: dmgConfig.isGuarded ? 25 : 100,
+//       prorationDamageMultiplier: target.currentProrationMultiplier,
+//       distanceRelatedDamageMultiplier: 121,
+//       comboRelatedDamageMultiplier: 150,
+//       elementRelatedDamageMultiplier: 260,
+//       ultimaLionRageDamageMultiplier: 100,
+//       dropRateGemRelatedDamageMultiplier: 100,
+//       flatUnsheatheAttack: 0,
+//       percentUnsheatheAttack: 100,
+//     });
 
-      skillRelatedDamageMultiplier: 110,
-      lastDamageMultiplier: 120,
-      lethargyDamageMultiplier: 100,
-      guardDamageMultiplier: 100,
-      prorationDamageMultiplier: target.currentProrationMultiplier,
-      distanceRelatedDamageMultiplier: 121,
-      comboRelatedDamageMultiplier: 150,
-      elementRelatedDamageMultiplier: 260,
-      ultimaLionRageDamageMultiplier: 100,
-      dropRateGemRelatedDamageMultiplier: 100,
-      flatUnsheatheAttack: 0,
-      percentUnsheatheAttack: 100,
-    });
+// finish the xtals and the calc, make a generic damage calc

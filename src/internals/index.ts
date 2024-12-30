@@ -1,4 +1,5 @@
-import { Config, Stat } from "./data";
+import { type Config, type Stat } from "./data";
+import { isUsingMainKTN, isUsingMainMD, isUsingMainSTF } from "./utils";
 
 export const add = (a: number, b: number) => a + b;
 
@@ -403,18 +404,12 @@ export const totalBaseASPD = (config: Config) =>
   : isUsingMainOHS(config) ? totalOneHandedSwordBaseASPD(config)
   : isUsingMainTHS(config) ? totalTwoHandedSwordBaseASPD(config)
   : isUsingMainBOW(config) ? totalBowBaseASPD(config)
-  : config.equipments.mainweapon.type === "BOWGUN" ?
-    totalBowgunBaseASPD(config)
-  : config.equipments.mainweapon.type === "STAFF" ?
-    totalStaffBaseASPD(config)
-  : config.equipments.mainweapon.type === "MAGIC_DEVICE" ?
-    totalMagicDeviceBaseASPD(config)
-  : config.equipments.mainweapon.type === "KNUCKLES" ?
-    totalKnuckleBaseASPD(config)
-  : config.equipments.mainweapon.type === "HALBERD" ?
-    totalHalberdBaseASPD(config)
-  : config.equipments.mainweapon.type === "KATANA" ?
-    totalKatanaBaseASPD(config)
+  : isUsingMainBWG(config) ? totalBowgunBaseASPD(config)
+  : isUsingMainSTF(config) ? totalStaffBaseASPD(config)
+  : isUsingMainMD(config) ? totalMagicDeviceBaseASPD(config)
+  : isUsingMainKN(config) ? totalKnuckleBaseASPD(config)
+  : isUsingMainHAL(config) ? totalHalberdBaseASPD(config)
+  : isUsingMainKTN(config) ? totalKatanaBaseASPD(config)
   : totalBareHandBaseASPD(config);
 
 export const totalPercentASPDFromEquipment = (config: Config) =>
@@ -539,18 +534,12 @@ export const totalBaseATK = (config: Config) =>
   : isUsingMainOHS(config) ? totalOneHandedSwordBaseATK(config)
   : isUsingMainTHS(config) ? totalTwoHandedSwordBaseATK(config)
   : isUsingMainBOW(config) ? totalBowBaseATK(config)
-  : config.equipments.mainweapon.type === "BOWGUN" ?
-    totalBowgunBaseATK(config)
-  : config.equipments.mainweapon.type === "STAFF" ?
-    totalStaffBaseATK(config)
-  : config.equipments.mainweapon.type === "MAGIC_DEVICE" ?
-    totalMagicDeviceBaseATK(config)
-  : config.equipments.mainweapon.type === "KNUCKLES" ?
-    totalKnuckleBaseATK(config)
-  : config.equipments.mainweapon.type === "HALBERD" ?
-    totalHalberdBaseATK(config)
-  : config.equipments.mainweapon.type === "KATANA" ?
-    totalKatanaBaseATK(config)
+  : isUsingMainBWG(config) ? totalBowgunBaseATK(config)
+  : isUsingMainSTF(config) ? totalStaffBaseATK(config)
+  : isUsingMainMD(config) ? totalMagicDeviceBaseATK(config)
+  : isUsingMainKN(config) ? totalKnuckleBaseATK(config)
+  : isUsingMainHAL(config) ? totalHalberdBaseATK(config)
+  : isUsingMainKTN(config) ? totalKatanaBaseATK(config)
   : totalBareHandBaseATK(config) +
     totalBaseATKValueFromATKUP(config) +
     totalBaseATKValueFromATKDOWN(config);
@@ -929,16 +918,11 @@ export const totalBaseMATK = (config: Config) =>
   : isUsingMainTHS(config) ? totalTwoHandedSwordBaseMATK(config)
   : isUsingMainBOW(config) ? totalBowBaseMATK(config)
   : isUsingMainBOW(config) ? totalBowgunBaseMATK(config)
-  : config.equipments.mainweapon.type === "STAFF" ?
-    totalStaffBaseMATK(config)
-  : config.equipments.mainweapon.type === "MAGIC_DEVICE" ?
-    totalMagicDeviceBaseMATK(config)
-  : config.equipments.mainweapon.type === "KNUCKLES" ?
-    totalKnuckleBaseMATK(config)
-  : config.equipments.mainweapon.type === "HALBERD" ?
-    totalHalberdBaseMATK(config)
-  : config.equipments.mainweapon.type === "KATANA" ?
-    totalKatanaBaseMATK(config)
+  : isUsingMainSTF(config) ? totalStaffBaseMATK(config)
+  : isUsingMainMD(config) ? totalMagicDeviceBaseMATK(config)
+  : isUsingMainKN(config) ? totalKnuckleBaseMATK(config)
+  : isUsingMainHAL(config) ? totalHalberdBaseMATK(config)
+  : isUsingMainKTN(config) ? totalKatanaBaseMATK(config)
   : totalBareHandBaseMATK(config)) +
   totalBaseMATKValueFromMATKUP(config) +
   totalBaseMATKValueFromMATKDOWN(config);
@@ -1000,7 +984,7 @@ export const totalFlatMaxHPFromEquipment = (config: Config) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === "FLAT_MAX_HP")
     .map((stat) => stat[1])
-    .reduce(add, 0) + maxHPBoostTotalFlatMaxMP(config);
+    .reduce(add, 0) + maxHPBoostTotalFlatMaxHP(config);
 
 export const totalFlatMaxHPFromSkills = (config: Config) =>
   bushidoTotalFlatMaxHP(config) +
@@ -1215,18 +1199,12 @@ export const totalBaseStability = (config: Config) =>
   : isUsingMainOHS(config) ? totalOneHandedSwordBaseStability(config)
   : isUsingMainTHS(config) ? totalTwoHandedSwordBaseStability(config)
   : isUsingMainBOW(config) ? totalBowBaseStability(config)
-  : config.equipments.mainweapon.type === "BOWGUN" ?
-    totalBowgunBaseStability(config)
-  : config.equipments.mainweapon.type === "STAFF" ?
-    totalStaffBaseStability(config)
-  : config.equipments.mainweapon.type === "MAGIC_DEVICE" ?
-    totalMagicDeviceBaseStability(config)
-  : config.equipments.mainweapon.type === "KNUCKLES" ?
-    totalKnuckleBaseStability(config)
-  : config.equipments.mainweapon.type === "HALBERD" ?
-    totalHalberdBaseStability(config)
-  : config.equipments.mainweapon.type === "KATANA" ?
-    totalKatanaBaseStability(config)
+  : isUsingMainBWG(config) ? totalBowgunBaseStability(config)
+  : isUsingMainSTF(config) ? totalStaffBaseStability(config)
+  : isUsingMainMD(config) ? totalMagicDeviceBaseStability(config)
+  : isUsingMainKN(config) ? totalKnuckleBaseStability(config)
+  : isUsingMainHAL(config) ? totalHalberdBaseStability(config)
+  : isUsingMainKTN(config) ? totalKatanaBaseStability(config)
   : totalBareHandBaseStability(config);
 
 // --------------- Equipment stats ---------------
@@ -1471,7 +1449,7 @@ export const totalBaseGuardPower = (config: Config) =>
       config.equipments.armor.type === "HEAVY_ARMOR" ? 5000 : 0,
       config.equipments.subweapon.type === "SHIELD" ? 7500 : 0,
       config.equipments.mainweapon.type === "TWO_HANDED_SWORD" ? 5000 : 0,
-      config.equipments.mainweapon.type === "HALBERD" ? 2500 : 0,
+      isUsingMainHAL(config) ? 2500 : 0,
       hiddenTalentTotalBaseGuardPower(config),
     ].reduce(add, 0),
     10000,
@@ -1491,7 +1469,7 @@ export const totalBaseGuardRecharge = (config: Config) =>
     config.equipments.armor.type === "HEAVY_ARMOR" ? 25 : 0,
     config.equipments.subweapon.type === "SHIELD" ? 75 : 0,
     config.equipments.mainweapon.type === "TWO_HANDED_SWORD" ? 50 : 0,
-    config.equipments.mainweapon.type === "HALBERD" ? 25 : 0,
+    isUsingMainHAL(config) ? 25 : 0,
     hiddenTalentTotalBaseGuardRecharge(config),
   ].reduce(add, 0);
 
@@ -2672,7 +2650,7 @@ export const siphonBarrierIsActive = (config: Config) =>
 
 export const siphonBarrierTotalPhysicalResistance = (config: Config) =>
   (
-    (config.equipments.mainweapon.type === "MAGIC_DEVICE" ||
+    (isUsingMainMD(config) ||
       config.equipments.subweapon.type === "MAGIC_DEVICE") &&
     siphonBarrierIsActive(config)
   ) ?
@@ -2681,7 +2659,7 @@ export const siphonBarrierTotalPhysicalResistance = (config: Config) =>
 
 export const siphonBarrierTotalMagicResistance = (config: Config) =>
   (
-    (config.equipments.mainweapon.type === "MAGIC_DEVICE" ||
+    (isUsingMainMD(config) ||
       config.equipments.subweapon.type === "MAGIC_DEVICE") &&
     siphonBarrierIsActive(config)
   ) ?
@@ -2694,20 +2672,14 @@ export const magicMasteryLevel = (config: Config) =>
   config.skillTrees.magicSkills.magicmastery.level;
 
 export const magicMasteryTotalPercentMATK = (config: Config) =>
-  (
-    config.equipments.mainweapon.type === "STAFF" ||
-    config.equipments.mainweapon.type === "MAGIC_DEVICE"
-  ) ?
+  isUsingMainSTF(config) || isUsingMainMD(config) ?
     magicMasteryLevel(config) >= 8 ? 3
     : magicMasteryLevel(config) >= 3 ? 2
     : 1
   : 0;
 
 export const magicMasteryTotalPercentWeaponATK = (config: Config) =>
-  (
-    config.equipments.mainweapon.type === "STAFF" ||
-    config.equipments.mainweapon.type === "MAGIC_DEVICE"
-  ) ?
+  isUsingMainSTF(config) || isUsingMainMD(config) ?
     magicMasteryLevel(config) * 3
   : 0;
 
@@ -2736,49 +2708,36 @@ export const aggravateLevel = (config: Config) =>
   config.skillTrees.martialSkills.aggravate.level;
 
 export const aggravateTotalFlatAMPR = (config: Config) =>
-  config.equipments.mainweapon.type === "KNUCKLES" ?
-    Math.floor(aggravateLevel(config) * 0.5)
-  : 0;
+  isUsingMainKN(config) ? Math.floor(aggravateLevel(config) * 0.5) : 0;
 
 export const aggravateTotalPercentAccuracy = (config: Config) =>
-  config.equipments.mainweapon.type === "KNUCKLES" ?
-    aggravateLevel(config) * 2
-  : 0;
+  isUsingMainKN(config) ? aggravateLevel(config) * 2 : 0;
 
 export const martialDisciplineLevel = (config: Config) =>
   config.skillTrees.martialSkills.martialdiscipline.level;
 
 export const martialDisciplineTotalMartialSkillDamageBonus = (
   config: Config,
-) =>
-  config.equipments.mainweapon.type === "KNUCKLES" ?
-    martialDisciplineLevel(config)
-  : 0;
+) => (isUsingMainKN(config) ? martialDisciplineLevel(config) : 0);
 
 export const martialDisciplineTotalPercentASPD = (config: Config) =>
-  config.equipments.mainweapon.type === "KNUCKLES" ?
-    martialDisciplineLevel(config)
-  : 0;
+  isUsingMainKN(config) ? martialDisciplineLevel(config) : 0;
 
 export const martialDisciplineTotalFlatASPD = (config: Config) =>
-  config.equipments.mainweapon.type === "KNUCKLES" ?
-    martialDisciplineLevel(config)
-  : 0;
+  isUsingMainKN(config) ? martialDisciplineLevel(config) : 0;
 
 export const martialMasteryLevel = (config: Config) =>
   config.skillTrees.martialSkills.martialmastery.level;
 
 export const martialMasteryTotalPercentATK = (config: Config) =>
-  config.equipments.mainweapon.type === "KNUCKLES" ?
+  isUsingMainKN(config) ?
     martialMasteryLevel(config) >= 8 ? 3
     : martialMasteryLevel(config) >= 3 ? 2
     : 1
   : 0;
 
 export const martialMasteryTotalPercentWeaponATK = (config: Config) =>
-  config.equipments.mainweapon.type === "KNUCKLES" ?
-    martialMasteryLevel(config) * 3
-  : 0;
+  isUsingMainKN(config) ? martialMasteryLevel(config) * 3 : 0;
 
 // mononofu skills
 
@@ -2786,16 +2745,14 @@ export const bushidoLevel = (config: Config) =>
   config.skillTrees.mononofuSkills.bushido.level;
 
 export const bushidoTotalPercentATK = (config: Config) =>
-  config.equipments.mainweapon.type === "KATANA" ?
+  isUsingMainKTN(config) ?
     bushidoLevel(config) >= 8 ? 3
     : bushidoLevel(config) >= 3 ? 2
     : 1
   : 0;
 
 export const bushidoTotalPercentWeaponATK = (config: Config) =>
-  config.equipments.mainweapon.type === "KATANA" ?
-    bushidoLevel(config) * 3
-  : 0;
+  isUsingMainKTN(config) ? bushidoLevel(config) * 3 : 0;
 
 export const bushidoTotalFlatMaxHP = (config: Config) =>
   bushidoLevel(config) * 10;
@@ -2817,7 +2774,7 @@ export const twoHandedTotalPercentWeaponATK = (config: Config) =>
   (
     config.equipments.mainweapon.type === "KATANA" ||
     isUsingMainOHS(config) ||
-    config.equipments.mainweapon.type === "MAGIC_DEVICE"
+    isUsingMainMD(config)
   ) ?
     (
       (config.equipments.subweapon.type === "NINJUTSU_SCROLL" &&
@@ -2833,7 +2790,7 @@ export const twoHandedTotalPercentAccuracy = (config: Config) =>
   (
     config.equipments.mainweapon.type === "KATANA" ||
     isUsingMainOHS(config) ||
-    config.equipments.mainweapon.type === "MAGIC_DEVICE"
+    isUsingMainMD(config)
   ) ?
     (
       (config.equipments.subweapon.type === "NINJUTSU_SCROLL" &&
@@ -2849,19 +2806,15 @@ export const twoHandedTotalFlatCriticalRate = (config: Config) =>
   (
     config.equipments.mainweapon.type === "KATANA" ||
     isUsingMainOHS(config) ||
-    config.equipments.mainweapon.type === "MAGIC_DEVICE"
+    isUsingMainMD(config)
   ) ?
     (
       (config.equipments.subweapon.type === "NINJUTSU_SCROLL" &&
         ninjaSpiritLevel(config) === 10) ||
       config.equipments.subweapon.type === "NONE"
     ) ?
-      config.equipments.mainweapon.type === "KATANA" ?
-        twoHandedLevel(config)
-      : (
-        isUsingMainOHS(config) ||
-        config.equipments.mainweapon.type === "MAGIC_DEVICE"
-      ) ?
+      isUsingMainKTN(config) ? twoHandedLevel(config)
+      : isUsingMainOHS(config) || isUsingMainMD(config) ?
         Math.floor(twoHandedLevel(config) * 0.5)
       : 0
     : 0
@@ -2873,19 +2826,15 @@ export const twoHandedTotalStability = (config: Config) =>
   (
     config.equipments.mainweapon.type === "KATANA" ||
     isUsingMainOHS(config) ||
-    config.equipments.mainweapon.type === "MAGIC_DEVICE"
+    isUsingMainMD(config)
   ) ?
     (
       (config.equipments.subweapon.type === "NINJUTSU_SCROLL" &&
         ninjaSpiritLevel(config) === 10) ||
       config.equipments.subweapon.type === "NONE"
     ) ?
-      config.equipments.mainweapon.type === "KATANA" ?
-        twoHandedLevel(config)
-      : (
-        isUsingMainOHS(config) ||
-        config.equipments.mainweapon.type === "MAGIC_DEVICE"
-      ) ?
+      isUsingMainKTN(config) ? twoHandedLevel(config)
+      : isUsingMainOHS(config) || isUsingMainMD(config) ?
         Math.floor(twoHandedLevel(config) * 0.5)
       : 0
     : 0
@@ -2895,7 +2844,7 @@ export const twoHandedTotalStability = (config: Config) =>
 
 export const twoHandedTotalATKOnCrit = (config: Config) =>
   (
-    config.equipments.mainweapon.type === "KATANA" &&
+    isUsingMainKTN(config) &&
     (config.equipments.subweapon.type === "NONE" ||
       (config.equipments.subweapon.type === "NINJUTSU_SCROLL" &&
         ninjaSpiritLevel(config) === 10))
@@ -2921,7 +2870,7 @@ export const prayerIsActive = (config: Config) =>
 export const prayerTotalPercentMATK = (config: Config) =>
   prayerIsActive(config) ?
     (
-      config.equipments.mainweapon.type === "MAGIC_DEVICE" ||
+      isUsingMainMD(config) ||
       config.equipments.subweapon.type === "MAGIC_DEVICE"
     ) ?
       prayerLevel(config) + 5
@@ -3038,20 +2987,14 @@ export const shotMasteryLevel = (config: Config) =>
   config.skillTrees.shotSkills.shotmastery.level;
 
 export const shotMasteryTotalPercentATK = (config: Config) =>
-  (
-    config.equipments.mainweapon.type === "BOWGUN" ||
-    config.equipments.mainweapon.type === "BOW"
-  ) ?
+  isUsingMainBWG(config) || config.equipments.mainweapon.type === "BOW" ?
     shotMasteryLevel(config) >= 8 ? 3
     : shotMasteryLevel(config) >= 3 ? 2
     : 1
   : 0;
 
 export const shotMasteryTotalPercentWeaponATK = (config: Config) =>
-  (
-    config.equipments.mainweapon.type === "BOWGUN" ||
-    config.equipments.mainweapon.type === "BOW"
-  ) ?
+  isUsingMainBWG(config) || config.equipments.mainweapon.type === "BOW" ?
     shotMasteryLevel(config) * 3
   : 0;
 
@@ -3149,8 +3092,7 @@ export const totalWizardSkillsPoints = (config: Config) =>
 
 export const castMasteryTotalPercentCSPD = (config: Config) =>
   (
-    (config.equipments.mainweapon.type === "MAGIC_DEVICE" ||
-      config.equipments.mainweapon.type === "STAFF") &&
+    (isUsingMainMD(config) || isUsingMainSTF(config)) &&
     castMasteryLevel(config) > 0
   ) ?
     Math.floor(castMasteryLevel(config) * 1.5) +
@@ -3160,8 +3102,7 @@ export const castMasteryTotalPercentCSPD = (config: Config) =>
 
 export const castMasteryTotalFlatCSPD = (config: Config) =>
   (
-    (config.equipments.mainweapon.type === "MAGIC_DEVICE" ||
-      config.equipments.mainweapon.type === "STAFF") &&
+    (isUsingMainMD(config) || isUsingMainSTF(config)) &&
     castMasteryLevel(config) > 0
   ) ?
     castMasteryLevel(config) * totalWizardSkillsPoints(config)
@@ -3169,8 +3110,7 @@ export const castMasteryTotalFlatCSPD = (config: Config) =>
 
 export const castMasteryTotalPercentATK = (config: Config) =>
   (
-    (config.equipments.mainweapon.type === "MAGIC_DEVICE" ||
-      config.equipments.mainweapon.type === "STAFF") &&
+    (isUsingMainMD(config) || isUsingMainSTF(config)) &&
     castMasteryLevel(config) > 0
   ) ?
     -Math.ceil(50 - 2.5 * castMasteryLevel(config))
@@ -3329,7 +3269,7 @@ export const physicalAttackBoostTotalFlatATK = (config: Config) =>
 export const maxMPBoostTotalFlatMaxMP = (config: Config) =>
   config.regislets.maxmpboost;
 
-export const maxHPBoostTotalFlatMaxMP = (config: Config) =>
+export const maxHPBoostTotalFlatMaxHP = (config: Config) =>
   config.regislets.maxhpboost * 10;
 
 export const magicSpeedBoostTotalFlatCSPD = (config: Config) =>
