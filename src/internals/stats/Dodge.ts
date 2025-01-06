@@ -44,3 +44,10 @@ export const totalDodge = (config: Config) =>
     totalPercentDodge(config),
     totalFlatDodge(config),
   );
+
+export const calculateDodge = (config: Config) => ({
+  totalBaseDodge: totalBaseDodge(config),
+  totalPercentDodge: totalPercentDodge(config),
+  totalFlatDodge: totalFlatDodge(config),
+  totalDodge: totalDodge(config),
+});

@@ -76,3 +76,10 @@ export const totalDEF = (config: Config) =>
     totalPercentDEF(config),
     totalFlatDEF(config),
   );
+
+export const calculateDEF = (config: Config) => ({
+  totalBaseDEF: totalBaseDEF(config),
+  totalPercentDEF: totalPercentDEF(config),
+  totalFlatDEF: totalFlatDEF(config),
+  totalDEF: totalDEF(config),
+});

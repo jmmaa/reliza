@@ -20,3 +20,8 @@ export const totalRefinementReduction = (config: Config) =>
   : 0) +
   config.equipments.armor.refinement +
   config.equipments.additionalGear.refinement;
+
+export const calculateDefensive = (config: Config) => ({
+  totalEquipmentDEF: totalEquipmentDEF(config),
+  totalRefinementReduction: totalRefinementReduction(config),
+});

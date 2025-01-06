@@ -47,3 +47,8 @@ export const subWeaponElement = (config: Config) =>
       : "neutral",
     )
     .reduce((prev, curr) => (curr !== "neutral" ? curr : prev), "neutral");
+
+export const calculateElement = (config: Config) => ({
+  mainWeaponElement: mainWeaponElement(config),
+  subWeaponElement: subWeaponElement(config),
+});

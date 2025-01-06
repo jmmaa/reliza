@@ -80,3 +80,10 @@ export const totalMDEF = (config: Config) =>
     totalPercentMDEF(config),
     totalFlatMDEF(config),
   );
+
+export const calculateMDEF = (config: Config) => ({
+  totalBaseMDEF: totalBaseMDEF(config),
+  totalPercentMDEF: totalPercentMDEF(config),
+  totalFlatMDEF: totalFlatMDEF(config),
+  totalMDEF: totalMDEF(config),
+});

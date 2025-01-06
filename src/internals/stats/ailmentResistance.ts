@@ -1,5 +1,5 @@
 import { type Config } from "../data";
-import { flattenedStats, add } from "../utils";
+import { add, flattenedStats } from "../utils";
 
 export const totalAilmentResistanceFromEquipment = (config: Config) =>
   flattenedStats(config)
@@ -16,7 +16,7 @@ export const totalAilmentResistance = (config: Config) =>
   totalAilmentResistanceFromEquipment(config) +
   totalAilmentResistanceFromMTL(config);
 
-export const calcuateAilmentResistance = (config: Config) => ({
+export const calculateAilmentResistance = (config: Config) => ({
   totalAilmentResistanceFromEquipment:
     totalAilmentResistanceFromEquipment(config),
   totalAilmentResistanceFromMTL: totalAilmentResistanceFromMTL(config),

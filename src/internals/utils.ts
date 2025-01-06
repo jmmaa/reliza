@@ -48,6 +48,12 @@ export const isUsingMainBWG = (config: Config) =>
 export const isUsingMainKN = (config: Config) =>
   config.equipments.mainweapon.type === "KNUCKLES";
 
+export const isUsingSubMD = (config: Config) =>
+  config.equipments.subweapon.type === "MAGIC_DEVICE";
+
+export const isUsingSubKN = (config: Config) =>
+  config.equipments.subweapon.type === "KNUCKLES";
+
 export const isUsingSubArrow = (config: Config) =>
   config.equipments.subweapon.type === "ARROW";
 

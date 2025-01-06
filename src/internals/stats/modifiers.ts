@@ -1,5 +1,7 @@
-import { magicWarriorMasteryTotalPercentATKPenaltyReduction } from "..";
-import { shieldMasteryPercentASPDPenaltyReduction } from "..";
+import {
+  magicWarriorMasteryTotalPercentATKPenaltyReduction,
+  shieldMasteryPercentASPDPenaltyReduction,
+} from "..";
 import { type Config } from "../data";
 
 export const armorTypePercentASPDModifier = (config: Config) =>
@@ -25,3 +27,17 @@ export const subWeaponArrowPercentMDEFModifier = (config: Config) =>
 
 export const subWeaponArrowPercentDEFModifier = (config: Config) =>
   config.equipments.subweapon.type === "ARROW" ? -25 : 0;
+
+export const calculateModifiers = (config: Config) => ({
+  armorTypePercentASPDModifier: armorTypePercentASPDModifier(config),
+  subWeaponMagicDevicePercentATKModifier:
+    subWeaponMagicDevicePercentATKModifier(config),
+  subWeaponKnucklePercentMATKModifier:
+    subWeaponKnucklePercentMATKModifier(config),
+  subWeaponArrowPercentDEFModifier:
+    subWeaponArrowPercentDEFModifier(config),
+  subWeaponArrowPercentMDEFModifier:
+    subWeaponArrowPercentMDEFModifier(config),
+  subWeaponShieldPercentASPDModifier:
+    subWeaponShieldPercentASPDModifier(config),
+});
