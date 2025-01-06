@@ -22,6 +22,7 @@ export * from "./guardBreak";
 export * from "./guardPower";
 export * from "./guardRecharge";
 export * from "./INT";
+export * from "./MATK";
 export * from "./maxHP";
 export * from "./maxMP";
 export * from "./MDEF";

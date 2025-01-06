@@ -11,6 +11,7 @@ const calculations = calculate({
       type: "STAFF",
       ATK: 584,
       refinement: 15,
+      stability: 60,
       stats: (config) => [
         ["FIRE_ELEMENT", 1],
         ["PERCENT_MATK", 10],
