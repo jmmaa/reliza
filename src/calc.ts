@@ -1,77 +1,45 @@
-// import {
-//   totalAGI,
-//   totalFlatAGI,
-//   totalPercentAGI,
-//   totalDEX,
-//   totalFlatDEX,
-//   totalPercentDEX,
-//   totalVIT,
-//   totalFlatVIT,
-//   totalPercentVIT,
-//   totalSTR,
-//   totalFlatSTR,
-//   totalPercentSTR,
-//   totalINT,
-//   totalFlatINT,
-//   totalPercentINT,
-//   totalASPD,
-//   totalFlatASPD,
-//   totalPercentASPD,
-//   totalBaseASPD,
-//   totalMotionSpeed,
-//   totalCSPD,
-//   totalFlatCSPD,
-//   totalPercentCSPD,
-//   totalBaseCSPD,
-//   totalCastTimeReduction,
-//   totalAilmentResistance,
-//   totalAccuracy,
-//   totalFlatAccuracy,
-//   totalBaseAccuracy,
-//   totalBaseATK,
-//   totalPercentATK,
-//   totalFlatATK,
-//   totalATK,
-//   totalBaseMATK,
-//   totalPercentMATK,
-//   totalFlatMATK,
-//   totalMATK,
-//   totalPhysicalPierce,
-//   totalMagicPierce,
-//   totalBaseDEF,
-//   totalPercentDEF,
-//   totalFlatDEF,
-//   totalDEF,
-//   totalBaseMDEF,
-//   totalPercentMDEF,
-//   totalFlatMDEF,
-//   totalMDEF,
-//   totalBaseDodge,
-//   totalPercentDodge,
-//   totalFlatDodge,
-//   totalDodge,
-//   totalBaseCriticalRate,
-//   totalPercentCriticalRate,
-//   totalFlatCriticalRate,
-//   totalCriticalRate,
-//   totalMagicCriticalRate,
-//   totalBaseCriticalDamage,
-//   totalPercentCriticalDamage,
-//   totalFlatCriticalDamage,
-//   totalCriticalDamage,
-//   totalMagicCriticalDamage,
-//   totalBaseMaxHP,
-//   totalPercentMaxHP,
-//   totalFlatMaxHP,
-//   totalMaxHP,
-//   totalBaseMaxMP,
-//   totalPercentMaxMP,
-//   totalFlatMaxMP,
-//   totalMaxMP,
-// } from "./internals";
-import { Config, Stat, StatMapBuilder } from "./internals/data";
-import { calculateAGI, calculateDEX } from "./internals/stats";
+import {
+  calculateAccuracy,
+  calculateAGI,
+  calculateAilmentResistance,
+  calculateAMPR,
+  calculateAnticipate,
+  calculateASPD,
+  calculateATK,
+  calculateCastTimeReduction,
+  calculateCriticalDamage,
+  calculateCriticalRate,
+  calculateCSPD,
+  calculateDamageToElement,
+  calculateDEF,
+  calculateDefensive,
+  calculateDerivativeATK,
+  calculateDerivativeMATK,
+  calculateDEX,
+  calculateDodge,
+  calculateElement,
+  calculateEvasionRelated,
+  calculateGuardBreak,
+  calculateGuardPower,
+  calculateGuardRecharge,
+  calculateINT,
+  calculateMaxHP,
+  calculateMaxMP,
+  calculateMDEF,
+  calculateModifiers,
+  calculateMotionSpeed,
+  calculatePierce,
+  calculateRangeDamage,
+  calculateResistance,
+  calculateStability,
+  calculateSTR,
+  calculateUnsheatheAttack,
+  calculateVIT,
+  calculateWeaponATK,
+} from "./internals/stats";
+
 import { mergician } from "mergician";
+import { Config, Stat, StatMapBuilder } from "./internals/data";
 
 type RecursePartial<T> = {
   [K in keyof T]?: T[K] extends Stat[] ? T[K]
@@ -581,120 +549,43 @@ const defaultConfig: Config = {
 };
 
 export const calculateAll = (config: Config) => ({
+  ...calculateAccuracy(config),
   ...calculateAGI(config),
+  ...calculateAilmentResistance(config),
+  ...calculateAMPR(config),
+  ...calculateAnticipate(config),
+  ...calculateASPD(config),
+  ...calculateATK(config),
+  ...calculateCastTimeReduction(config),
+  ...calculateCriticalDamage(config),
+  ...calculateCriticalRate(config),
+  ...calculateCSPD(config),
+  ...calculateDamageToElement(config),
+  ...calculateDEF(config),
+  ...calculateDefensive(config),
+  ...calculateDerivativeATK(config),
+  ...calculateDerivativeMATK(config),
   ...calculateDEX(config),
-
-  // AGI
-  // totalBaseAGI: config.properties.AGI,
-  // totalPercentAGI: totalPercentAGI(config),
-  // totalFlatAGI: totalFlatAGI(config),
-  // totalAGI: totalAGI(config),
-
-  // DEX
-  totalBaseDEX: config.properties.DEX,
-  totalPercentDEX: totalPercentDEX(config),
-  totalFlatDEX: totalFlatDEX(config),
-  totalDEX: totalDEX(config),
-
-  // STR
-  totalBaseSTR: config.properties.STR,
-  totalPercentSTR: totalPercentSTR(config),
-  totalFlatSTR: totalFlatSTR(config),
-  totalSTR: totalSTR(config),
-
-  // INT
-  totalBaseINT: config.properties.INT,
-  totalPercentINT: totalPercentINT(config),
-  totalFlatINT: totalFlatINT(config),
-  totalINT: totalINT(config),
-
-  // VIT
-  totalBaseVIT: config.properties.VIT,
-  totalPercentVIT: totalPercentVIT(config),
-  totalFlatVIT: totalFlatVIT(config),
-  totalVIT: totalVIT(config),
-
-  // Accuracy
-  totalBaseAccuracy: totalBaseAccuracy(config),
-  totalFlatAccuracy: totalFlatAccuracy(config),
-  totalAccuracy: totalAccuracy(config),
-
-  // Ailment Resistance
-  totalAilmentResistance: totalAilmentResistance(config),
-
-  // ASPD
-  totalBaseASPD: totalBaseASPD(config),
-  totalPercentASPD: totalPercentASPD(config),
-  totalFlatASPD: totalFlatASPD(config),
-  totalASPD: totalASPD(config),
-  totalMotionSpeed: totalMotionSpeed(config),
-
-  // CSPD
-  totalBaseCSPD: totalBaseCSPD(config),
-  totalPercentCSPD: totalPercentCSPD(config),
-  totalFlatCSPD: totalFlatCSPD(config),
-  totalCSPD: totalCSPD(config),
-  totalCastTimeReduction: totalCastTimeReduction(config),
-
-  // ATK
-  totalBaseATK: totalBaseATK(config),
-  totalPercentATK: totalPercentATK(config),
-  totalFlatATK: totalFlatATK(config),
-  totalATK: totalATK(config),
-
-  // MATK
-  totalBaseMATK: totalBaseMATK(config),
-  totalPercentMATK: totalPercentMATK(config),
-  totalFlatMATK: totalFlatMATK(config),
-  totalMATK: totalMATK(config),
-
-  // DEF
-  totalBaseDEF: totalBaseDEF(config),
-  totalPercentDEF: totalPercentDEF(config),
-  totalFlatDEF: totalFlatDEF(config),
-  totalDEF: totalDEF(config),
-
-  // MDEF
-  totalBaseMDEF: totalBaseMDEF(config),
-  totalPercentMDEF: totalPercentMDEF(config),
-  totalFlatMDEF: totalFlatMDEF(config),
-  totalMDEF: totalMDEF(config),
-
-  // Dodge
-  totalBaseDodge: totalBaseDodge(config),
-  totalPercentDodge: totalPercentDodge(config),
-  totalFlatDodge: totalFlatDodge(config),
-  totalDodge: totalDodge(config),
-
-  // Critical Rate
-  totalBaseCriticalRate: totalBaseCriticalRate(config),
-  totalPercentCriticalRate: totalPercentCriticalRate(config),
-  totalFlatCriticalRate: totalFlatCriticalRate(config),
-  totalCriticalRate: totalCriticalRate(config),
-  totalMagicCriticalRate: totalMagicCriticalRate(config),
-
-  // Critical Damage
-  totalBaseCriticalDamage: totalBaseCriticalDamage(config),
-  totalPercentCriticalDamage: totalPercentCriticalDamage(config),
-  totalFlatCriticalDamage: totalFlatCriticalDamage(config),
-  totalCriticalDamage: totalCriticalDamage(config),
-  totalMagicCriticalDamage: totalMagicCriticalDamage(config),
-
-  // Max HP
-  totalBaseMaxHP: totalBaseMaxHP(config),
-  totalPercentMaxHP: totalPercentMaxHP(config),
-  totalFlatMaxHP: totalFlatMaxHP(config),
-  totalMaxHP: totalMaxHP(config),
-
-  // Max MP
-  totalBaseMaxMP: totalBaseMaxMP(config),
-  totalPercentMaxMP: totalPercentMaxMP(config),
-  totalFlatMaxMP: totalFlatMaxMP(config),
-  totalMaxMP: totalMaxMP(config),
-
-  // Pierce
-  totalPhysicalPierce: totalPhysicalPierce(config),
-  totalMagicPierce: totalMagicPierce(config),
+  ...calculateDodge(config),
+  ...calculateElement(config),
+  ...calculateEvasionRelated(config),
+  ...calculateGuardBreak(config),
+  ...calculateGuardPower(config),
+  ...calculateGuardRecharge(config),
+  ...calculateINT(config),
+  ...calculateMaxHP(config),
+  ...calculateMaxMP(config),
+  ...calculateMDEF(config),
+  ...calculateModifiers(config),
+  ...calculateMotionSpeed(config),
+  ...calculatePierce(config),
+  ...calculateRangeDamage(config),
+  ...calculateResistance(config),
+  ...calculateStability(config),
+  ...calculateSTR(config),
+  ...calculateUnsheatheAttack(config),
+  ...calculateVIT(config),
+  ...calculateWeaponATK(config),
 });
 
 const merge = <L extends object, R extends object>(a: L, b: R): L & R =>

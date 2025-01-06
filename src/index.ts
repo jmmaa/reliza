@@ -1,6 +1,5 @@
 export { calculate } from "./calc";
 
-// GOALS
+// TODO
 
-// - XTAL MAPPER FUNCTION
-// - GEAR MAPPER FUNCTION
+// - group stats into "<stat name>Related.ts"
