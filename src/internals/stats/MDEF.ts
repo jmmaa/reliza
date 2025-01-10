@@ -2,7 +2,7 @@ import { type Config } from "../data";
 import { add, flattenedStats, total } from "../utils";
 
 import { totalINT } from "./INT";
-import { totalEquipmentDEF } from "./defensive";
+import { totalEquipmentDEF } from "./defensiveRelated";
 import { subWeaponArrowPercentMDEFModifier } from "./modifiers";
 
 import { berserkTotalPercentMDEF } from "..";

@@ -60,16 +60,4 @@ export const calculateAccuracy = (config: Config) => ({
   totalPercentAccuracy: totalPercentAccuracy(config),
   totalFlatAccuracy: totalFlatAccuracy(config),
   totalAccuracy: totalAccuracy(config),
-
-  totalAnticipate: totalAnticipate(config),
-});
-
-export const totalAnticipate = (config: Config) =>
-  flattenedStats(config)
-    .filter((stat) => stat[0] === "ANTICIPATE")
-    .map((stat) => stat[1])
-    .reduce(add, 0);
-
-export const calculateAnticipate = (config: Config) => ({
-  totalAnticipate: totalAnticipate(config),
 });

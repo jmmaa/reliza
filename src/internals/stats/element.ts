@@ -38,12 +38,12 @@ export const subWeaponElement = (config: Config) =>
         stat[1] > 0,
     )
     .map((stat) =>
-      stat[0] === "EARTH_ELEMENT" ? "earth"
-      : stat[0] === "FIRE_ELEMENT" ? "fire"
-      : stat[0] === "WIND_ELEMENT" ? "wind"
-      : stat[0] === "WATER_ELEMENT" ? "water"
-      : stat[0] === "DARK_ELEMENT" ? "dark"
-      : stat[0] === "LIGHT_ELEMENT" ? "light"
+      stat[0] === "EARTH_ELEMENT" ? "EARTH_ELEMENT"
+      : stat[0] === "FIRE_ELEMENT" ? "FIRE_ELEMENT"
+      : stat[0] === "WIND_ELEMENT" ? "WIND_ELEMENT"
+      : stat[0] === "WATER_ELEMENT" ? "WATER_ELEMENT"
+      : stat[0] === "DARK_ELEMENT" ? "DARK_ELEMENT"
+      : stat[0] === "LIGHT_ELEMENT" ? "LIGHT_ELEMENT"
       : "neutral",
     )
     .reduce((prev, curr) => (curr !== "neutral" ? curr : prev), "neutral");
