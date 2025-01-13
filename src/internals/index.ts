@@ -3055,11 +3055,29 @@ export const HPBoostTotalPercentMaxHP = (config: Config) =>
 export const HPBoostTotalFlatMaxHP = (config: Config) =>
   HPBoostLevel(config) * 100;
 
+export const safeRestLevel = (config: Config) =>
+  config.skillTrees.survivalSkills.saferest.level;
+
+export const safeRestTotalPercentSkillNHPR = (config: Config) =>
+  safeRestLevel(config) * 10;
+
+export const safeRestTotalFlatSkillNHPR = (config: Config) =>
+  safeRestLevel(config) * 10;
+
 export const MPBoostLevel = (config: Config) =>
   config.skillTrees.survivalSkills.mpboost.level;
 
 export const MPBoostTotalFlatMaxMP = (config: Config) =>
   MPBoostLevel(config) * 30;
+
+export const shortRestLevel = (config: Config) =>
+  config.skillTrees.survivalSkills.shortrest.level;
+
+export const shortRestTotalFlatSkillNMPR = (config: Config) =>
+  shortRestLevel(config);
+
+export const shortRestTotalPercentSkillNMPR = (config: Config) =>
+  shortRestLevel(config) * 5;
 
 // Wizard skills
 

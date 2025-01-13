@@ -1,5 +1,9 @@
+import {
+  safeRestTotalFlatSkillNHPR,
+  safeRestTotalPercentSkillNHPR,
+} from "..";
 import { type Config } from "../data";
-import { add, flattenedStats } from "../utils";
+import { add, flattenedStats, total } from "../utils";
 import { totalMaxHP } from "./maxHP";
 
 export const totalBaseNHPR = (config: Config) =>
@@ -20,13 +24,27 @@ export const totalFlatNHPRFromEquipment = (config: Config) =>
     .map((stat) => stat[1])
     .reduce(add, 0);
 
-// export const totalNHPR = (config: Config) =>
+export const totalPercentNHPRFromSkills = (config: Config) =>
+  safeRestTotalPercentSkillNHPR(config);
+
+export const totalFlatNHPRFromSkills = (config: Config) =>
+  safeRestTotalFlatSkillNHPR(config);
+
+export const totalNHPR = (config: Config) =>
+  total(
+    totalBaseNHPR(config),
+    totalFlatNHPRFromSkills(config),
+    totalFlatNHPRFromSkills(config),
+  );
 
 export const calculateNHPR = (config: Config) => ({
   totalBaseNHPR: totalBaseNHPR(config),
   totalPercentNHPRFromEquipment: totalPercentNHPRFromEquipment(config),
+  totalPercentNHPRFromSkills: totalPercentNHPRFromSkills(config),
   totalFlatNHPRFromEquipment: totalFlatNHPRFromEquipment(config),
+  totalFlatNHPRFromSkills: totalFlatNHPRFromSkills(config),
+  totalNHPR: totalNHPR(config),
 });
 
 // TODO:
-// - add skill NHPR and total NHPR
+// - add state where the character is out from combat
