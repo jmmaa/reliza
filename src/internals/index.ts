@@ -1991,6 +1991,7 @@ export const unarmedMasteryTotalQiChargeLimit = (config: Config) =>
 
 export const berserkIsActive = (config: Config) =>
   config.skillTrees.bladeSkills.berserk.isActive;
+
 export const berserkLevel = (config: Config) =>
   config.skillTrees.bladeSkills.berserk.level;
 
@@ -3245,6 +3246,7 @@ export const defenseUPTotalFlatMDEF = (config: Config) =>
   );
 export const dodgeUPTotalFlatDodge = (config: Config) =>
   config.skillTrees.battleSkills.dodgeup.level;
+
 export const increasedEnergyLevel = (config: Config) =>
   config.skillTrees.battleSkills.increasedenergy.level;
 

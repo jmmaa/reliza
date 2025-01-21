@@ -134,3 +134,6 @@ export const flattenedStats = (config: Config) =>
     config.consumables,
     config.foodBuffs,
   );
+
+export const bladeSkills = (config: Config) =>
+  config.skillTrees.bladeSkills;
