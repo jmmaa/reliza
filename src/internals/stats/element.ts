@@ -20,9 +20,12 @@ export const mainWeaponElement = (config: Config) =>
       : stat[0] === "WATER_ELEMENT" ? "WATER_ELEMENT"
       : stat[0] === "DARK_ELEMENT" ? "DARK_ELEMENT"
       : stat[0] === "LIGHT_ELEMENT" ? "LIGHT_ELEMENT"
-      : "NEUTRAL",
+      : "NEUTRAL_ELEMENT",
     )
-    .reduce((prev, curr) => (curr !== "NEUTRAL" ? curr : prev), "NEUTRAL");
+    .reduce(
+      (prev, curr) => (curr !== "NEUTRAL_ELEMENT" ? curr : prev),
+      "NEUTRAL_ELEMENT",
+    );
 
 export const subWeaponElement = (config: Config) =>
   config.equipments.subweapon
@@ -44,9 +47,12 @@ export const subWeaponElement = (config: Config) =>
       : stat[0] === "WATER_ELEMENT" ? "WATER_ELEMENT"
       : stat[0] === "DARK_ELEMENT" ? "DARK_ELEMENT"
       : stat[0] === "LIGHT_ELEMENT" ? "LIGHT_ELEMENT"
-      : "neutral",
+      : "NEUTRAL_ELEMENT",
     )
-    .reduce((prev, curr) => (curr !== "neutral" ? curr : prev), "neutral");
+    .reduce(
+      (prev, curr) => (curr !== "NEUTRAL_ELEMENT" ? curr : prev),
+      "NEUTRAL_ELEMENT",
+    );
 
 export const calculateElement = (config: Config) => ({
   mainWeaponElement: mainWeaponElement(config),

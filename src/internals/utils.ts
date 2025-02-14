@@ -137,3 +137,13 @@ export const flattenedStats = (config: Config) =>
 
 export const bladeSkills = (config: Config) =>
   config.skillTrees.bladeSkills;
+
+// conditioning
+
+export const If = <C>(
+  condition: C,
+): {
+  then: <T>(v: T) => { else: (v: T) => T };
+} => ({
+  then: (a) => ({ else: (b) => (condition ? a : b) }),
+});

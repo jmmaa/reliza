@@ -129,6 +129,7 @@ export type StatName =
   | "WATER_ELEMENT"
   | "FIRE_ELEMENT"
   | "WIND_ELEMENT"
+  | "NEUTRAL_ELEMENT"
   | "GUARD_POWER"
   | "GUARD_RECHARGE"
   | "GUARD_BREAK"
