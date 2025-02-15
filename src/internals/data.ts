@@ -210,25 +210,25 @@ export interface Equipments {
 }
 
 export interface BladeSkills {
-  hardhit: { level: number };
-  astute: { level: number };
-  triggerslash: { level: number; isActive: boolean };
+  hardHit: { level: number };
+  astute: { level: number; isActive: boolean };
+  triggerSlash: { level: number; isActive: boolean };
   rampage: { level: number; isActive: boolean };
-  meteorbreaker: { level: number };
-  shutout: { level: number };
-  lunarslash: { level: number };
-  sonicblade: { level: number };
-  spiralair: { level: number };
-  swordtempest: { level: number };
-  busterblade: { level: number; isActive: boolean };
-  aurablade: { level: number };
-  swordmastery: { level: number };
-  quickslash: { level: number };
-  swordtechniques: { level: number };
-  warcry: { level: number; isActive: boolean };
+  meteorBreaker: { level: number };
+  shutOut: { level: number };
+  lunarSlash: { level: number };
+  sonicBlade: { level: number };
+  spiralAir: { level: number };
+  swordTempest: { level: number };
+  busterBlade: { level: number; isActive: boolean };
+  auraBlade: { level: number };
+  swordMastery: { level: number };
+  quickSlash: { level: number };
+  swordTechniques: { level: number };
+  warCry: { level: number; isActive: boolean };
   berserk: { level: number; isActive: boolean };
   gladiate: { level: number };
-  swiftattack: { level: number };
+  swiftAttack: { level: number };
 }
 
 export interface ShotSkills {
@@ -598,6 +598,8 @@ export interface Regislets {
   focusresonance: number;
   speedresonance: number;
   powerresonance: number;
+
+  remedialRampage: number;
 }
 
 export interface Config {

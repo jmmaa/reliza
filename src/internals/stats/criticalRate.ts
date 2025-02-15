@@ -13,6 +13,10 @@ import {
 import { criticalUPTotalFlatCriticalRate } from "..";
 
 import { spellBurstTotalMagicCriticalRateConversion } from "..";
+import {
+  astuteBuffIsActive,
+  astuteFlatCriticalRateBuffAmount,
+} from "../bladeSkills/astute";
 
 import { Config } from "../data";
 import { add, flattenedStats, total } from "../utils";
@@ -32,7 +36,10 @@ export const totalPercentCriticalRateFromEquipment = (config: Config) =>
 export const totalPercentCriticalRateFromSkills = (config: Config) =>
   criticalSpearTotalPercentCriticalRate(config) +
   dualSwordMasteryTotalPercentCriticalRate(config) +
-  dualSwordControlTotalPercentCriticalRate(config);
+  dualSwordControlTotalPercentCriticalRate(config) +
+  (astuteBuffIsActive(config) ?
+    astuteFlatCriticalRateBuffAmount(config)
+  : 0);
 
 export const totalPercentCriticalRate = (config: Config) =>
   totalPercentCriticalRateFromEquipment(config) +

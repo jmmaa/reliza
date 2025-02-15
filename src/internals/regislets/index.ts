@@ -45,3 +45,9 @@ export const speedResonanceTotalReduction = (config: Config) =>
 
 export const powerResonanceTotalReduction = (config: Config) =>
   95 - 5 * config.regislets.powerresonance;
+
+// remedial rampage
+export const remedialRampageLevel = (config: Config) =>
+  config.regislets.remedialRampage;
+export const remedialRampageHPHeal = (config: Config) =>
+  remedialRampageLevel(config) * 50;

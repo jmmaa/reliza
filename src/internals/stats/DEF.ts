@@ -10,6 +10,7 @@ import { berserkTotalPercentDEF } from "..";
 import { forceShieldTotalFlatDEF, forceShieldTotalPercentDEF } from "..";
 
 import { defenseMasteryTotalFlatDEF, defenseUPTotalFlatDEF } from "..";
+import { rampageBuffIsActive } from "../bladeSkills/rampage";
 
 export const normalArmorBaseDEF = (config: Config) =>
   config.properties.level + totalVIT(config) + totalEquipmentDEF(config);
@@ -78,8 +79,9 @@ export const totalDEF = (config: Config) =>
   );
 
 export const calculateDEF = (config: Config) => ({
-  totalBaseDEF: totalBaseDEF(config),
-  totalPercentDEF: totalPercentDEF(config),
-  totalFlatDEF: totalFlatDEF(config),
-  totalDEF: totalDEF(config),
+  totalBaseDEF: rampageBuffIsActive(config) ? totalBaseDEF(config) : 0,
+  totalPercentDEF:
+    rampageBuffIsActive(config) ? totalPercentDEF(config) : 0,
+  totalFlatDEF: rampageBuffIsActive(config) ? totalFlatDEF(config) : 0,
+  totalDEF: rampageBuffIsActive(config) ? totalDEF(config) : 0,
 });

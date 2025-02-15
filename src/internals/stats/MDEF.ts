@@ -13,6 +13,7 @@ import {
 } from "..";
 
 import { defenseMasteryTotalFlatMDEF, defenseUPTotalFlatMDEF } from "..";
+import { rampageBuffIsActive } from "../bladeSkills/rampage";
 
 export const normalArmorBaseMDEF = (config: Config) =>
   config.properties.level + totalINT(config) + totalEquipmentDEF(config);
@@ -82,8 +83,9 @@ export const totalMDEF = (config: Config) =>
   );
 
 export const calculateMDEF = (config: Config) => ({
-  totalBaseMDEF: totalBaseMDEF(config),
-  totalPercentMDEF: totalPercentMDEF(config),
-  totalFlatMDEF: totalFlatMDEF(config),
-  totalMDEF: totalMDEF(config),
+  totalBaseMDEF: rampageBuffIsActive(config) ? totalBaseMDEF(config) : 0,
+  totalPercentMDEF:
+    rampageBuffIsActive(config) ? totalPercentMDEF(config) : 0,
+  totalFlatMDEF: rampageBuffIsActive(config) ? totalFlatMDEF(config) : 0,
+  totalMDEF: rampageBuffIsActive(config) ? totalMDEF(config) : 0,
 });

@@ -120,13 +120,14 @@ const defaultConfig: Config = {
 
   skillTrees: {
     bladeSkills: {
-      hardhit: {
+      hardHit: {
         level: 0,
       },
       astute: {
         level: 0,
+        isActive: false,
       },
-      triggerslash: {
+      triggerSlash: {
         level: 0,
         isActive: false,
       },
@@ -136,42 +137,42 @@ const defaultConfig: Config = {
         isActive: false,
       },
 
-      meteorbreaker: {
+      meteorBreaker: {
         level: 0,
       },
-      shutout: {
+      shutOut: {
         level: 0,
       },
-      lunarslash: {
+      lunarSlash: {
         level: 0,
       },
-      sonicblade: {
+      sonicBlade: {
         level: 0,
       },
-      spiralair: {
+      spiralAir: {
         level: 0,
       },
-      swordtempest: {
+      swordTempest: {
         level: 0,
       },
-      busterblade: {
+      busterBlade: {
         level: 0,
         isActive: false,
       },
 
-      aurablade: {
+      auraBlade: {
         level: 0,
       },
-      swordmastery: {
+      swordMastery: {
         level: 0,
       },
-      quickslash: {
+      quickSlash: {
         level: 0,
       },
-      swordtechniques: {
+      swordTechniques: {
         level: 0,
       },
-      warcry: {
+      warCry: {
         level: 0,
         isActive: false,
       },
@@ -184,7 +185,7 @@ const defaultConfig: Config = {
       gladiate: {
         level: 0,
       },
-      swiftattack: {
+      swiftAttack: {
         level: 0,
       },
     },
@@ -546,6 +547,8 @@ const defaultConfig: Config = {
     focusresonance: 0,
     speedresonance: 0,
     powerresonance: 0,
+
+    remedialRampage: 0,
   },
 };
 

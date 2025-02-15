@@ -1,14 +1,16 @@
 import { type Config } from "../data";
-import { mainWeaponElement } from "../stats";
 import { bladeSkills, isUsingMainOHS, isUsingMainTHS } from "../utils";
 
 export const triggerSlash = (config: Config) =>
-  bladeSkills(config).triggerslash;
+  bladeSkills(config).triggerSlash;
 
 export const triggerSlashLevel = (config: Config) =>
   triggerSlash(config).level;
 
-export const triggerSlashAMPRBuffAmount = (config: Config) =>
+export const triggerSlashBuffIsActive = (config: Config) =>
+  triggerSlash(config).isActive;
+
+export const triggerSlashFlatAMPRBuffAmount = (config: Config) =>
   isUsingMainOHS(config) || isUsingMainTHS(config) ?
     triggerSlashLevel(config) * 2
   : 0;
@@ -33,12 +35,13 @@ export const triggerSlashMPCost = (config: Config) =>
 
 export const triggerSlashElement = (config: Config) =>
   isUsingMainOHS(config) || isUsingMainTHS(config) ?
-    mainWeaponElement(config)
+    "FIRE_ELEMENT"
   : "NEUTRAL_ELEMENT";
 
 export const calculateTriggerSlash = (config: Config) => ({
   triggerSlashLevel: triggerSlashLevel(config),
-  triggerSlashAMPRBuffAmount: triggerSlashAMPRBuffAmount(config),
+  triggerSlashBuffIsActive: triggerSlashBuffIsActive(config),
+  triggerSlashAMPRBuffAmount: triggerSlashFlatAMPRBuffAmount(config),
   triggerSlashElement: triggerSlashElement(config),
   triggerSlashMPCost: triggerSlashMPCost(config),
   triggerSlashSkillConstant: triggerSlashSkillConstant(config),

@@ -8,6 +8,14 @@ import { aggravateTotalFlatAMPR } from "..";
 import { etherFlareTotalFlatAMPR } from "..";
 
 import { ultimaQiChargeTotalFlatAMPR } from "..";
+import {
+  rampageBuffIsActive,
+  rampageFlatAMPRBuffAmount,
+} from "../bladeSkills/rampage";
+import {
+  triggerSlashBuffIsActive,
+  triggerSlashFlatAMPRBuffAmount,
+} from "../bladeSkills/triggerSlash";
 
 export const totalBaseAMPR = (config: Config) =>
   Math.floor(10 + totalMaxMP(config) / 100);
@@ -26,8 +34,12 @@ export const totalFlatAMPRFromEquipment = (config: Config) =>
 
 export const totalFlatAMPRFromSkills = (config: Config) =>
   aggravateTotalFlatAMPR(config) +
-  etherFlareTotalFlatAMPR(config) +
-  ultimaQiChargeTotalFlatAMPR(config);
+  etherFlareTotalFlatAMPR(config) + // edit this , shud be same to rampage skill pattern of code
+  ultimaQiChargeTotalFlatAMPR(config) +
+  (triggerSlashBuffIsActive(config) ?
+    triggerSlashFlatAMPRBuffAmount(config)
+  : 0) +
+  (rampageBuffIsActive(config) ? rampageFlatAMPRBuffAmount(config) : 0);
 
 export const totalFlatAMPR = (config: Config) =>
   totalFlatAMPRFromEquipment(config) + totalFlatAMPRFromSkills(config);

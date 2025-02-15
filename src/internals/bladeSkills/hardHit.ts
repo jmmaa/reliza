@@ -7,8 +7,9 @@ import {
   isUsingMainTHS,
 } from "../utils";
 
-export const hardHitLevel = (config: Config) =>
-  bladeSkills(config).hardhit.level;
+export const hardHit = (config: Config) => bladeSkills(config).hardHit;
+
+export const hardHitLevel = (config: Config) => hardHit(config).level;
 
 export const hardHitMPCost = (config: Config) =>
   isUsingMainOHS(config) || isUsingMainTHS(config) ? 100 : 0;

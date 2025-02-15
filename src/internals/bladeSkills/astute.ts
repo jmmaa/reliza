@@ -2,14 +2,20 @@ import { type Config } from "../data";
 import { mainWeaponElement } from "../stats";
 import { bladeSkills, isUsingMainOHS, isUsingMainTHS } from "../utils";
 
-export const astuteLevel = (config: Config) =>
-  bladeSkills(config).astute.level;
+export const astute = (config: Config) => bladeSkills(config).astute;
+
+export const astuteLevel = (config: Config) => astute(config).level;
 
 export const astuteMPCost = (config: Config) =>
   isUsingMainOHS(config) || isUsingMainTHS(config) ?
     isUsingMainOHS(config) ? 100
     : 200
   : 0;
+
+export const astuteBuffIsActive = (config: Config) =>
+  isUsingMainOHS(config) || isUsingMainTHS(config) ?
+    astute(config).isActive
+  : false;
 
 export const astuteSkillMultiplier = (config: Config) =>
   isUsingMainOHS(config) || isUsingMainTHS(config) ?
@@ -29,13 +35,13 @@ export const astuteMotionSpeed = (config: Config) =>
     5 * astuteLevel(config)
   : 0;
 
-export const astuteCriticalRateBuffAmount = (config: Config) =>
+export const astuteFlatCriticalRateBuffAmount = (config: Config) =>
   isUsingMainOHS(config) || isUsingMainTHS(config) ?
     isUsingMainTHS(config) ? 50
     : 25
   : 0;
 
-export const astuteCriticalRateBuffDuration = (config: Config) =>
+export const astuteFlatCriticalRateBuffDuration = (config: Config) =>
   isUsingMainOHS(config) || isUsingMainTHS(config) ?
     astuteLevel(config) >= 1 && astuteLevel(config) <= 5 ?
       5
@@ -50,9 +56,12 @@ export const astuteElement = (config: Config) =>
 
 export const calculateAstute = (config: Config) => ({
   astuteLevel: astuteLevel(config),
+  astuteBuffIsActive: astuteBuffIsActive(config),
   astuteMPCost: astuteMPCost(config),
-  astuteCriticalRateBuffAmount: astuteCriticalRateBuffAmount(config),
-  astuteCriticalRateBuffDuration: astuteCriticalRateBuffDuration(config),
+  astuteFlatCriticalRateBuffAmount:
+    astuteFlatCriticalRateBuffAmount(config),
+  astuteFlatCriticalRateBuffDuration:
+    astuteFlatCriticalRateBuffDuration(config),
   astuteHitCount: astuteHitCount(config),
   astuteMotionSpeed: astuteMotionSpeed(config),
   astuteSkillConstant: astuteSkillConstant(config),
