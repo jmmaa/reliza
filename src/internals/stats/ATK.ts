@@ -1,38 +1,41 @@
-import { hunterBowgunTotalBaseATK } from "..";
-import { intimidatingPowerTotalFlatATK, attackUPTotalFlatATK } from "..";
-import { physicalAttackBoostTotalFlatATK } from "..";
-import { warCryTotalPercentATK, swordMasteryTotalPercentATK } from "..";
-import { halberdMasteryTotalPercentATK } from "..";
-import { martialMasteryTotalPercentATK } from "..";
-import { shotMasteryTotalPercentATK } from "..";
-import { castMasteryTotalPercentATK } from "..";
-import { bushidoTotalPercentATK } from "..";
+import {
+  attackUPTotalFlatATK,
+  bushidoTotalPercentATK,
+  castMasteryTotalPercentATK,
+  halberdMasteryTotalPercentATK,
+  hunterBowgunTotalBaseATK,
+  intimidatingPowerTotalFlatATK,
+  martialMasteryTotalPercentATK,
+  physicalAttackBoostTotalFlatATK,
+  shotMasteryTotalPercentATK,
+  swordMasteryTotalPercentATK,
+  warCryTotalPercentATK,
+} from "..";
 import { type Config } from "../data";
 import {
-  flattenedStats,
   add,
-  total,
-  characterLevel,
-  isUsingMainBOW,
+  flattenedStats,
   isUsingDualSwords,
-  isUsingMainOHS,
-  isUsingMainTHS,
-  isUsingMainHAL,
-  isUsingMainSTF,
+  isUsingMainBOW,
   isUsingMainBWG,
+  isUsingMainHAL,
   isUsingMainKN,
-  isUsingMainMD,
   isUsingMainKTN,
+  isUsingMainMD,
+  isUsingMainOHS,
+  isUsingMainSTF,
+  isUsingMainTHS,
+  total,
 } from "../utils";
 import { totalAGI } from "./AGI";
 import { totalDEX } from "./DEX";
 import { totalINT } from "./INT";
 import { totalSTR } from "./STR";
 import {
-  totalBaseATKValueFromATKUP,
   totalBaseATKValueFromATKDOWN,
+  totalBaseATKValueFromATKUP,
 } from "./derivativeATK";
-import { subWeaponMagicDevicePercentATKModifier } from "./modifiers";
+import { subWeaponMagicDevicePercentATKModifier } from "./equipmenModifiers";
 import { totalMainWeaponATK } from "./weaponATK";
 
 export const totalDualWieldBaseATK = (config: Config) =>

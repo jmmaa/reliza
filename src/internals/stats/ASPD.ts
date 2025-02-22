@@ -1,36 +1,32 @@
 import {
-  quickSlashTotalPercentASPD,
-  quickSlashTotalFlatASPD,
+  attackSpeedBoostTotalFlatASPD,
   berserkTotalFlatASPD,
   berserkTotalPercentASPD,
-} from "..";
-import {
+  dualSwordControlTotalFlatASPD,
+  godspeedWieldTotalFlatASPD,
   martialDisciplineTotalFlatASPD,
   martialDisciplineTotalPercentASPD,
-} from "..";
-import { dualSwordControlTotalFlatASPD } from "..";
-import {
   quickAuraTotalFlatASPD,
   quickAuraTotalPercentASPD,
-  godspeedWieldTotalFlatASPD,
+  quickSlashTotalFlatASPD,
+  quickSlashTotalPercentASPD,
 } from "..";
-import { attackSpeedBoostTotalFlatASPD } from "..";
 import { type Config } from "../data";
 import {
-  flattenedStats,
   add,
-  total,
   characterLevel,
-  isUsingMainBOW,
+  flattenedStats,
   isUsingDualSwords,
-  isUsingMainOHS,
-  isUsingMainTHS,
-  isUsingMainHAL,
-  isUsingMainSTF,
+  isUsingMainBOW,
   isUsingMainBWG,
+  isUsingMainHAL,
   isUsingMainKN,
-  isUsingMainMD,
   isUsingMainKTN,
+  isUsingMainMD,
+  isUsingMainOHS,
+  isUsingMainSTF,
+  isUsingMainTHS,
+  total,
 } from "../utils";
 import { totalAGI } from "./AGI";
 import { totalDEX } from "./DEX";
@@ -39,7 +35,7 @@ import { totalSTR } from "./STR";
 import {
   armorTypePercentASPDModifier,
   subWeaponShieldPercentASPDModifier,
-} from "./modifiers";
+} from "./equipmenModifiers";
 
 export const totalDualWieldBaseASPD = (config: Config) =>
   Math.floor(

@@ -209,355 +209,70 @@ export interface Equipments {
   };
 }
 
-export interface BladeSkills {
-  hardHit: { level: number };
-  astute: { level: number; isActive: boolean };
-  triggerSlash: { level: number; isActive: boolean };
-  rampage: { level: number; isActive: boolean };
-  meteorBreaker: { level: number };
-  shutOut: { level: number };
-  lunarSlash: { level: number };
-  sonicBlade: { level: number };
-  spiralAir: { level: number };
-  swordTempest: { level: number };
-  busterBlade: { level: number; isActive: boolean };
-  auraBlade: { level: number };
-  swordMastery: { level: number };
-  quickSlash: { level: number };
-  swordTechniques: { level: number };
-  warCry: { level: number; isActive: boolean };
-  berserk: { level: number; isActive: boolean };
-  gladiate: { level: number };
-  swiftAttack: { level: number };
-}
-
-export interface ShotSkills {
-  powershot: { level: number };
-  bullseye: { level: number };
-  arrowrain: { level: number };
-  snipe: { level: number };
-  crossfire: { level: number };
-  vanquisher: { level: number };
-  twinstorm: {
-    level: number;
-    isActive: boolean;
-    onCooldown: boolean;
+export interface StatModifiers {
+  bladeSkills: {
+    astute: { level: number; buffIsActive: boolean };
+    berserk: { level: number; buffIsActive: boolean };
   };
 
-  retrogradeshot: { level: number };
-  moebashot: { level: number };
-  paralysisshot: { level: number };
-  smokedust: { level: number };
-  armbreak: { level: number };
-  parabolacannon: { level: number };
-  shotmastery: { level: number };
-  samuraiarchery: { level: number; stacks: number };
-  sneakattack: { level: number };
-  longrange: { level: number };
-  quickdraw: { level: number };
-  decoyshot: { level: number };
-  fatalshot: { level: number };
-}
-
-export interface MagicSkills {
-  magicarrows: { level: number };
-  magicjavelin: { level: number };
-  magiclances: { level: number };
-  magicimpact: { level: number };
-  magicfinale: { level: number };
-  chronosshift: { level: number };
-  magicwall: { level: number };
-  magicblast: { level: number };
-  magicstorm: { level: number };
-  magicburst: { level: number };
-  magiccannon: { level: number };
-  magiccrash: { level: number };
-  magicmastery: { level: number };
-  magicknife: { level: number };
-  qadal: {
-    level: number;
-    burden: number;
-    combatTime: number;
-    isActive: boolean;
+  battleSkills: {
+    criticalUP: { level: number };
+    spellBurst: { level: 0 };
   };
-  mpcharge: { level: number };
-  chaincast: { level: number; isActive: boolean; stacks: number };
-  powerwave: { level: number };
-  maximizer: { level: number };
-  rapidcharge: {
-    level: number;
-    isActive: boolean;
-    amountMPRecoveredFromMaximizer: number;
+
+  mononofuSkills: {
+    twoHanded: { level: number };
   };
-  enchantedbarriers: { level: number };
-  magicguardianbeam: { level: number };
-}
 
-export interface SurvivalSkills {
-  playdead: { level: number };
-  expgainup: { level: number };
-  droprateup: { level: number };
-  saferest: { level: number };
-  hpboost: { level: number };
-  fightershigh: { level: number };
-  shortrest: { level: number };
-  mpboost: { level: number };
-  soberanalysis: { level: number };
-}
+  ninjaSkills: {
+    ninjaSpirit: { level: number };
+  };
 
-export interface SupportSkills {
-  firstaid: { level: number };
-  miniheal: { level: number };
-  recovery: { level: number };
-  sanctuary: { level: number };
-  heal: { level: number };
-  liferecovery: { level: number };
-  braveaura: { level: number; isActive: boolean };
-  highcycle: { level: number; isActive: boolean };
-  quickmotion: { level: number; isActive: boolean };
-  manarecharge: { level: number; isActive: boolean };
-  magicbarrier: { level: number; isActive: boolean };
-  immunity: { level: number; isActive: boolean };
-  fastreaction: { level: number; isActive: boolean };
-}
+  halberdSkills: {
+    criticalSpear: { level: number };
+  };
 
-export interface BattleSkills {
-  magicup: { level: number };
-  concentrate: { level: number };
-  attackup: { level: number };
-  whack: { level: number };
-  defenseup: { level: number };
-  dodgeup: { level: number };
-  desperateresist: { level: number };
-  criticalup: { level: number };
-  accuracyup: { level: number };
-  increasedenergy: { level: number };
-  intimidatingpower: { level: number };
-  defensemastery: { level: number };
-  spellburst: { level: number };
-  secretchaseattack: { level: number };
-  supergrip: { level: number };
-}
+  dualSwordSkills: {
+    dualSwordMastery: { level: number };
+    dualSwordControl: { level: number };
+  };
 
-export interface MononofuSkills {
-  issen: { level: number };
-  pulseblade: { level: number };
-  triplethrust: { level: number; isActive: boolean };
-  hassohappa: { level: number };
-  tenryuransei: { level: number };
-  kasumisetsugetsuka: { level: number };
-  garyoutensei: { level: number };
-  shadowlessslash: { level: number };
-  pommelstrike: { level: number };
-  magadachi: { level: number };
-  zanteisettetsu: { level: number };
-  bushido: { level: number };
-  shukuchi: { level: number; isActive: boolean };
-  nukiuchisennosen: { level: number };
-  twohanded: { level: number };
-  meikyoushisui: { level: number; isActive: boolean };
-  kairikiranshin: { level: number; isActive: boolean };
-  dauntless: { level: number; stacks: number };
-  dauntless_stacks: number;
-  bouncingblade: { level: number; isActive: boolean };
-}
+  magicBladeSkills: {
+    magicWarriorMastery: { level: number };
 
-export interface DualSwordSkills {
-  dualswordmastery: { level: number };
-  twinslash: { level: number };
-  spinningslash: { level: number };
-  phantomslash: { level: number };
-  aerialcut: { level: number };
-  crossparry: { level: number; isActive: boolean; isParried: boolean };
-  chargingslash: { level: number };
-  shadowstep: { level: number; isActive: boolean };
-  shiningcross: { level: number };
-  lunarmisfortune: { level: number };
-  twinbusterblade: { level: number; isActive: boolean };
-  reflex: { level: number };
-  flashblast: { level: number; isActive: boolean };
-  stormreaper: { level: number };
-  dualswordcontrol: { level: number };
-  godspeed: { level: number };
-  saberaura: { level: number };
-  crescentsaber: { level: number };
-}
+    conversion: { level: number; buffIsActive: boolean };
 
-export interface MagicBladeSkills {
-  magicwarriormastery: { level: number };
-  conversion: { level: number; isActive: boolean };
-  resonance: { level: number; isActive: boolean; set: ResonanceSetName };
-  enchantedspell: { level: number };
-  dualbringer: { level: number; isActive: boolean };
-  etherflare: { level: number; isActive: boolean };
-  elementslash: { level: number };
-  enchantsword: { level: number };
-  enchantedburst: { level: number };
-  unionsword: { level: number };
-  siphonbarrier: { level: number; isActive: boolean };
-  teleport: { level: number };
-  siphonrecall: { level: number };
-  floatdash: { level: number };
-  magicskin: { level: number };
-}
+    dualBringer: {
+      level: number;
+      buffIsActive: boolean;
+      numberOfMagicBladeSkillsLearned: number;
 
-export interface ShieldSkills {
-  shieldmastery: { level: number };
-  shieldbash: { level: number };
-  shieldcannon: { level: number };
-  guardstrike: { level: number };
-  forceshield: { level: number };
-  magicalshield: { level: number };
-  shielduppercut: { level: number };
-  dualshields: { level: number };
-  shieldrepair: { level: number };
-  belagerung: { level: number };
-  protection: { level: number; isActive: boolean };
-  aegis: { level: number; isActive: boolean };
-  guardian: { level: number };
-}
+      buffIsApplicable: boolean; // means that dual bringer buff is used in the stat calculation
+    };
 
-export interface GuardSkills {
-  heavyarmormastery: { level: number };
-  advancedguard: { level: number };
-  physicalguard: { level: number };
-  lightarmormastery: { level: number };
-  advancedevasion: { level: number };
-  mirageevasion: { level: number };
-}
-
-export interface HalberdSkills {
-  flashstab: { level: number };
-  cannonspear: { level: number };
-  dragontail: { level: number };
-  diveimpact: { level: number };
-  dragontooth: { level: number };
-  draconiccharge: { level: number };
-  deadlyspear: { level: number };
-  punishray: { level: number };
-  strikestab: { level: number };
-  chronosdivine: { level: number };
-  infinitedimension: { level: number };
-  halberdmastery: { level: number };
-  criticalspear: { level: number };
-  tornadolance: { level: number };
-  quickaura: { level: number; isActive: boolean };
-  warcryofstruggle: { level: number };
-  godspeedwield: { level: number; isActive: boolean; stacks: number };
-  almightywield: { level: number };
-  busterlance: { level: number };
-}
-
-export interface MartialSkills {
-  smash: { level: number };
-  bash: { level: number };
-  shellbreak: { level: number };
-  heavysmash: { level: number };
-  chariot: { level: number };
-  abstractarms: { level: number };
-  sonicwave: { level: number };
-  earthbind: { level: number };
-  triplekick: { level: number };
-  rush: { level: number; isActive: boolean };
-  asuraaura: { level: number; isActive: boolean };
-  flashblink: { level: number };
-  martialmastery: { level: number };
-  martialdiscipline: { level: number };
-  chakra: { level: number; isActive: boolean };
-  energycontrol: { level: number; isActive: boolean };
-  aggravate: { level: number };
-  strongchaseattack: { level: number };
-  slide: { level: number };
-}
-
-export interface BareHandSkills {
-  unarmedmastery: { level: number };
-  qicharge: { level: number };
-  lionrage: { level: number };
-  ultimalionrage: { level: number };
-  ravingstorm: { level: number };
-  ultimaravingstorm: { level: number };
-  internalelixir: { level: number };
-  clashofenmity: { level: number };
-  miraclecomeback: { level: number };
-  ultimaqicharge: { level: number };
-  hiddentalent: { level: number };
-  earthshaker: { level: number; isActive: boolean };
-}
-
-export interface HunterSkills {
-  kick: { level: number };
-  sunrisearrow: { level: number };
-  magicarrow: { level: number; isActive: boolean };
-  satellitearrow: { level: number };
-  sleeptrap: { level: number };
-  beartrap: { level: number };
-  landmine: { level: number };
-  darktrap: { level: number };
-  homingshot: { level: number };
-  detection: { level: number; isActive: boolean };
-  cyclonearrow: { level: number };
-  verticalair: { level: number };
-  hunterbowgun: { level: number };
-  multiplehunt: { level: number; isActive: boolean }; // should be able to know which buff is active using subweapon info
-}
-
-export interface NinjaSkills {
-  ninjutsu: { level: number };
-  ninjaspirit: { level: number };
-  ninjutsudrilli: { level: number };
-  ninjutsudrillii: { level: number };
-}
-
-export interface WizardSkills {
-  familia: { level: number; isActive: boolean };
-  lightning: { level: number };
-  blizzard: { level: number };
-  meteorstrike: { level: number };
-  imperialray: { level: number };
-  manacrystal: { level: number };
-  stonebarrier: { level: number };
-  advancedfamilia: { level: number; isActive: boolean };
-  castmastery: { level: number };
-  crystallaser: { level: number };
-  overlimit: { level: number; isActive: boolean };
-  sorceryguide: { level: number };
-}
-
-export interface PriestSkills {
-  bless: { level: number };
-  gloria: { level: number };
-  enhancedbless: { level: number };
-  royalheal: { level: number };
-  holyfist: { level: number };
-  holylight: { level: number };
-  etherbarrier: { level: number; isActive: boolean };
-  prayer: { level: number; isActive: boolean };
-  staffthrust: { level: number };
-  exorcism: { level: number };
-  holybook: { level: number; isActive: boolean };
-  nemesis: { level: number };
-}
-
-export interface SkillTrees {
-  bladeSkills: BladeSkills;
-  shotSkills: ShotSkills;
-  magicSkills: MagicSkills;
-  survivalSkills: SurvivalSkills;
-  supportSkills: SupportSkills;
-  battleSkills: BattleSkills;
-  mononofuSkills: MononofuSkills;
-  dualSwordSkills: DualSwordSkills;
-  magicBladeSkills: MagicBladeSkills;
-  shieldSkills: ShieldSkills;
-  guardSkills: GuardSkills;
-  halberdSkills: HalberdSkills;
-  martialSkills: MartialSkills;
-  bareHandSkills: BareHandSkills;
-  hunterSkills: HunterSkills;
-  ninjaSkills: NinjaSkills;
-  wizardSkills: WizardSkills;
-  priestSkills: PriestSkills;
+    resonance: {
+      level: number;
+      buffIsActive: boolean;
+      set: "A" | "B" | "C";
+    };
+  };
+  // shotSkills: ShotSkills;
+  // magicSkills: MagicSkills;
+  // survivalSkills: SurvivalSkills;
+  // supportSkills: SupportSkills;
+  // battleSkills: BattleSkills;
+  // mononofuSkills: MononofuSkills;
+  // dualSwordSkills: DualSwordSkills;
+  // magicBladeSkills: MagicBladeSkills;
+  // shieldSkills: ShieldSkills;
+  // guardSkills: GuardSkills;
+  // halberdSkills: HalberdSkills;
+  // martialSkills: MartialSkills;
+  // bareHandSkills: BareHandSkills;
+  // hunterSkills: HunterSkills;
+  // ninjaSkills: NinjaSkills;
+  // wizardSkills: WizardSkills;
+  // priestSkills: PriestSkills;
 }
 
 export interface Ailments {
@@ -605,7 +320,7 @@ export interface Regislets {
 export interface Config {
   properties: Properties;
   equipments: Equipments;
-  skillTrees: SkillTrees;
+  statModifiers: StatModifiers;
   consumables: Stat[];
   foodBuffs: Stat[];
   ailments: Ailments;

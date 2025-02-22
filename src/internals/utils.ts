@@ -40,7 +40,7 @@ export const isUsingMainKTN = (config: Config) =>
 export const isUsingDualSwords = (config: Config) =>
   isUsingMainOHS(config) &&
   isUsingSubOHS(config) &&
-  config.skillTrees.dualSwordSkills.dualswordmastery.level > 0;
+  dualSwordSkills(config).dualSwordMastery.level > 0;
 
 export const isUsingMainBWG = (config: Config) =>
   config.equipments.mainweapon.type === "BOWGUN";
@@ -136,4 +136,22 @@ export const flattenedStats = (config: Config) =>
   );
 
 export const bladeSkills = (config: Config) =>
-  config.skillTrees.bladeSkills;
+  config.statModifiers.bladeSkills;
+
+export const battleSkills = (config: Config) =>
+  config.statModifiers.battleSkills;
+
+export const ninjaSkills = (config: Config) =>
+  config.statModifiers.ninjaSkills;
+
+export const mononofuSkills = (config: Config) =>
+  config.statModifiers.mononofuSkills;
+
+export const halberdSkills = (config: Config) =>
+  config.statModifiers.halberdSkills;
+
+export const dualSwordSkills = (config: Config) =>
+  config.statModifiers.dualSwordSkills;
+
+export const magicBladeSkills = (config: Config) =>
+  config.statModifiers.magicBladeSkills;

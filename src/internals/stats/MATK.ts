@@ -14,7 +14,7 @@ import {
   total,
 } from "../utils";
 
-import { subWeaponKnucklePercentMATKModifier } from "./modifiers";
+import { subWeaponKnucklePercentMATKModifier } from "./equipmenModifiers";
 
 import {
   totalBaseMATKValueFromMATKDOWN,

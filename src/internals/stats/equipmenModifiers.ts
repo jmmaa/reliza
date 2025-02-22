@@ -28,7 +28,7 @@ export const subWeaponArrowPercentMDEFModifier = (config: Config) =>
 export const subWeaponArrowPercentDEFModifier = (config: Config) =>
   config.equipments.subweapon.type === "ARROW" ? -25 : 0;
 
-export const calculateModifiers = (config: Config) => ({
+export const calculateEquipmentModifiers = (config: Config) => ({
   armorTypePercentASPDModifier: armorTypePercentASPDModifier(config),
   subWeaponMagicDevicePercentATKModifier:
     subWeaponMagicDevicePercentATKModifier(config),

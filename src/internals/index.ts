@@ -2087,6 +2087,11 @@ export const dualSwordControlTotalPercentCriticalRate = (
 ) =>
   isUsingDualSwords(config) ? 5 + dualSwordControlLevel(config) * 3 : 0;
 
+export const dualSwordMasteryTotalPercentCriticalRate = (
+  config: Config,
+) =>
+  isUsingDualSwords(config) ? -55 + dualSwordMasteryLevel(config) * 3 : 0;
+
 export const dualSwordControlTotalPercentAccuracy = (config: Config) =>
   isUsingDualSwords(config) ? 5 + dualSwordControlLevel(config) * 3 : 0;
 
@@ -2095,11 +2100,6 @@ export const dualSwordControlTotalFlatASPD = (config: Config) =>
 
 export const dualSwordMasteryLevel = (config: Config) =>
   config.skillTrees.dualSwordSkills.dualswordmastery.level;
-
-export const dualSwordMasteryTotalPercentCriticalRate = (
-  config: Config,
-) =>
-  isUsingDualSwords(config) ? -55 + dualSwordMasteryLevel(config) * 3 : 0;
 
 export const dualSwordMasteryTotalPercentAccuracy = (config: Config) =>
   isUsingDualSwords(config) ? -55 + dualSwordMasteryLevel(config) * 3 : 0;

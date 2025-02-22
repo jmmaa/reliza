@@ -18,6 +18,7 @@ import {
   calculateDEX,
   calculateDodge,
   calculateElement,
+  calculateEquipmentModifiers,
   calculateEvasionRelated,
   calculateGuardRelated,
   calculateINT,
@@ -25,7 +26,6 @@ import {
   calculateMaxHP,
   calculateMaxMP,
   calculateMDEF,
-  calculateModifiers,
   calculateMotionSpeed,
   calculateNHPR,
   calculateNMPR,
@@ -118,392 +118,56 @@ const defaultConfig: Config = {
     },
   },
 
-  skillTrees: {
+  statModifiers: {
     bladeSkills: {
-      hardHit: {
-        level: 0,
-      },
       astute: {
+        buffIsActive: false,
         level: 0,
-        isActive: false,
-      },
-      triggerSlash: {
-        level: 0,
-        isActive: false,
       },
 
-      rampage: {
-        level: 0,
-        isActive: false,
-      },
-
-      meteorBreaker: {
-        level: 0,
-      },
-      shutOut: {
-        level: 0,
-      },
-      lunarSlash: {
-        level: 0,
-      },
-      sonicBlade: {
-        level: 0,
-      },
-      spiralAir: {
-        level: 0,
-      },
-      swordTempest: {
-        level: 0,
-      },
-      busterBlade: {
-        level: 0,
-        isActive: false,
-      },
-
-      auraBlade: {
-        level: 0,
-      },
-      swordMastery: {
-        level: 0,
-      },
-      quickSlash: {
-        level: 0,
-      },
-      swordTechniques: {
-        level: 0,
-      },
-      warCry: {
-        level: 0,
-        isActive: false,
-      },
-
-      berserk: {
-        level: 0,
-        isActive: false,
-      },
-
-      gladiate: {
-        level: 0,
-      },
-      swiftAttack: {
-        level: 0,
-      },
-    },
-
-    shotSkills: {
-      powershot: { level: 0 },
-      bullseye: { level: 0 },
-      arrowrain: { level: 0 },
-      snipe: { level: 0 },
-      crossfire: { level: 0 },
-      vanquisher: { level: 0 },
-      twinstorm: {
-        level: 0,
-        isActive: false,
-        onCooldown: false,
-      },
-
-      retrogradeshot: { level: 0 },
-      moebashot: { level: 0 },
-      paralysisshot: { level: 0 },
-      smokedust: { level: 0 },
-      armbreak: { level: 0 },
-      parabolacannon: { level: 0 },
-      shotmastery: { level: 0 },
-      samuraiarchery: { level: 0, stacks: 0 },
-      sneakattack: { level: 0 },
-      longrange: { level: 0 },
-      quickdraw: { level: 0 },
-      decoyshot: { level: 0 },
-      fatalshot: { level: 0 },
-    },
-
-    magicSkills: {
-      magicarrows: { level: 0 },
-      magicjavelin: { level: 0 },
-      magiclances: { level: 0 },
-      magicimpact: { level: 0 },
-      magicfinale: { level: 0 },
-      chronosshift: { level: 0 },
-      magicwall: { level: 0 },
-      magicblast: { level: 0 },
-      magicstorm: { level: 0 },
-      magicburst: { level: 0 },
-      magiccannon: { level: 0 },
-      magiccrash: { level: 0 },
-      magicmastery: { level: 0 },
-      magicknife: { level: 0 },
-      qadal: {
-        level: 0,
-        burden: 0,
-        combatTime: 0,
-        isActive: false,
-      },
-      mpcharge: { level: 0 },
-      chaincast: { level: 0, isActive: false, stacks: 0 },
-      powerwave: { level: 0 },
-      maximizer: { level: 0 },
-      rapidcharge: {
-        level: 0,
-        isActive: false,
-        amountMPRecoveredFromMaximizer: 0,
-      },
-      enchantedbarriers: { level: 0 },
-      magicguardianbeam: { level: 0 },
-    },
-
-    survivalSkills: {
-      playdead: { level: 0 },
-      expgainup: { level: 0 },
-      droprateup: { level: 0 },
-      saferest: { level: 0 },
-      hpboost: { level: 0 },
-      fightershigh: { level: 0 },
-      shortrest: { level: 0 },
-      mpboost: { level: 0 },
-      soberanalysis: { level: 0 },
-    },
-
-    supportSkills: {
-      firstaid: { level: 0 },
-      miniheal: { level: 0 },
-      recovery: { level: 0 },
-      sanctuary: { level: 0 },
-      heal: { level: 0 },
-      liferecovery: { level: 0 },
-      braveaura: { level: 0, isActive: false },
-      highcycle: { level: 0, isActive: false },
-      quickmotion: { level: 0, isActive: false },
-      manarecharge: { level: 0, isActive: false },
-      magicbarrier: { level: 0, isActive: false },
-      immunity: { level: 0, isActive: false },
-      fastreaction: { level: 0, isActive: false },
+      berserk: { level: 0, buffIsActive: false },
     },
 
     battleSkills: {
-      magicup: { level: 0 },
-      concentrate: { level: 0 },
-      attackup: { level: 0 },
-      whack: { level: 0 },
-      defenseup: { level: 0 },
-      dodgeup: { level: 0 },
-      desperateresist: { level: 0 },
-      criticalup: { level: 0 },
-      accuracyup: { level: 0 },
-      increasedenergy: { level: 0 },
-      intimidatingpower: { level: 0 },
-      defensemastery: { level: 0 },
-      spellburst: { level: 0 },
-      secretchaseattack: { level: 0 },
-      supergrip: { level: 0 },
+      criticalUP: { level: 0 },
+      spellBurst: { level: 0 },
     },
 
     mononofuSkills: {
-      issen: { level: 0 },
-      pulseblade: { level: 0 },
-      triplethrust: { level: 0, isActive: false },
-
-      hassohappa: { level: 0 },
-      tenryuransei: { level: 0 },
-      kasumisetsugetsuka: { level: 0 },
-      garyoutensei: { level: 0 },
-      shadowlessslash: { level: 0 },
-      pommelstrike: { level: 0 },
-      magadachi: { level: 0 },
-      zanteisettetsu: { level: 0 },
-      bushido: { level: 0 },
-      shukuchi: { level: 0, isActive: false },
-
-      nukiuchisennosen: { level: 0 },
-      twohanded: { level: 0 },
-      meikyoushisui: { level: 0, isActive: false },
-      kairikiranshin: { level: 0, isActive: false },
-
-      dauntless: { level: 0, stacks: 0 },
-      dauntless_stacks: 0,
-      bouncingblade: { level: 0, isActive: false },
-    },
-
-    dualSwordSkills: {
-      dualswordmastery: { level: 0 },
-      twinslash: { level: 0 },
-      spinningslash: { level: 0 },
-      phantomslash: { level: 0 },
-      aerialcut: { level: 0 },
-      crossparry: { level: 0, isActive: false, isParried: false },
-      chargingslash: { level: 0 },
-      shadowstep: { level: 0, isActive: false },
-
-      shiningcross: { level: 0 },
-      lunarmisfortune: { level: 0 },
-      twinbusterblade: { level: 0, isActive: false },
-
-      reflex: { level: 0 },
-      flashblast: { level: 0, isActive: false },
-
-      stormreaper: { level: 0 },
-      dualswordcontrol: { level: 0 },
-      godspeed: { level: 0 },
-      saberaura: { level: 0 },
-      crescentsaber: { level: 0 },
-    },
-
-    magicBladeSkills: {
-      magicwarriormastery: { level: 0 },
-      conversion: { level: 0, isActive: false },
-      resonance: { level: 0, isActive: false, set: "ATK_MATK" },
-      enchantedspell: { level: 0 },
-      dualbringer: { level: 0, isActive: false },
-      etherflare: { level: 0, isActive: false },
-      elementslash: { level: 0 },
-      enchantsword: { level: 0 },
-      enchantedburst: { level: 0 },
-      unionsword: { level: 0 },
-      siphonbarrier: { level: 0, isActive: false },
-      teleport: { level: 0 },
-      siphonrecall: { level: 0 },
-      floatdash: { level: 0 },
-      magicskin: { level: 0 },
-    },
-
-    shieldSkills: {
-      shieldmastery: { level: 0 },
-      shieldbash: { level: 0 },
-      shieldcannon: { level: 0 },
-      guardstrike: { level: 0 },
-      forceshield: { level: 0 },
-      magicalshield: { level: 0 },
-      shielduppercut: { level: 0 },
-      dualshields: { level: 0 },
-      shieldrepair: { level: 0 },
-      belagerung: { level: 0 },
-      protection: { level: 0, isActive: false },
-      aegis: { level: 0, isActive: false },
-      guardian: { level: 0 },
-    },
-
-    guardSkills: {
-      heavyarmormastery: { level: 0 },
-      advancedguard: { level: 0 },
-      physicalguard: { level: 0 },
-      lightarmormastery: { level: 0 },
-      advancedevasion: { level: 0 },
-      mirageevasion: { level: 0 },
-    },
-
-    halberdSkills: {
-      flashstab: { level: 0 },
-      cannonspear: { level: 0 },
-      dragontail: { level: 0 },
-      diveimpact: { level: 0 },
-      dragontooth: { level: 0 },
-      draconiccharge: { level: 0 },
-      deadlyspear: { level: 0 },
-      punishray: { level: 0 },
-      strikestab: { level: 0 },
-      chronosdivine: { level: 0 },
-      infinitedimension: { level: 0 },
-      halberdmastery: { level: 0 },
-      criticalspear: { level: 0 },
-      tornadolance: { level: 0 },
-      quickaura: { level: 0, isActive: false },
-      warcryofstruggle: { level: 0 },
-      godspeedwield: { level: 0, isActive: false, stacks: 0 },
-      almightywield: { level: 0 },
-      busterlance: { level: 0 },
-    },
-
-    martialSkills: {
-      smash: { level: 0 },
-      bash: { level: 0 },
-      shellbreak: { level: 0 },
-      heavysmash: { level: 0 },
-      chariot: { level: 0 },
-      abstractarms: { level: 0 },
-      sonicwave: { level: 0 },
-      earthbind: { level: 0 },
-      triplekick: { level: 0 },
-      rush: { level: 0, isActive: false },
-      asuraaura: { level: 0, isActive: false },
-      flashblink: { level: 0 },
-      martialmastery: { level: 0 },
-      martialdiscipline: { level: 0 },
-      chakra: { level: 0, isActive: false },
-      energycontrol: { level: 0, isActive: false },
-      aggravate: { level: 0 },
-      strongchaseattack: { level: 0 },
-      slide: { level: 0 },
-    },
-
-    bareHandSkills: {
-      unarmedmastery: { level: 0 },
-      qicharge: { level: 0 },
-      lionrage: { level: 0 },
-      ultimalionrage: { level: 0 },
-      ravingstorm: { level: 0 },
-      ultimaravingstorm: { level: 0 },
-      internalelixir: { level: 0 },
-      clashofenmity: { level: 0 },
-      miraclecomeback: { level: 0 },
-      ultimaqicharge: { level: 0 },
-      hiddentalent: { level: 0 },
-      earthshaker: { level: 0, isActive: false },
-    },
-
-    hunterSkills: {
-      kick: { level: 0 },
-      sunrisearrow: { level: 0 },
-      magicarrow: { level: 0, isActive: false },
-      satellitearrow: { level: 0 },
-      sleeptrap: { level: 0 },
-      beartrap: { level: 0 },
-      landmine: { level: 0 },
-      darktrap: { level: 0 },
-      homingshot: { level: 0 },
-      detection: { level: 0, isActive: false },
-
-      cyclonearrow: { level: 0 },
-      verticalair: { level: 0 },
-      hunterbowgun: { level: 0 },
-      multiplehunt: { level: 0, isActive: false },
+      twoHanded: { level: 0 },
     },
 
     ninjaSkills: {
-      ninjutsu: { level: 0 },
-      ninjaspirit: { level: 0 },
-      ninjutsudrilli: { level: 0 },
-      ninjutsudrillii: { level: 0 },
+      ninjaSpirit: { level: 0 },
     },
 
-    wizardSkills: {
-      familia: { level: 0, isActive: false },
-
-      lightning: { level: 0 },
-      blizzard: { level: 0 },
-      meteorstrike: { level: 0 },
-      imperialray: { level: 0 },
-      manacrystal: { level: 0 },
-      stonebarrier: { level: 0 },
-      advancedfamilia: { level: 0, isActive: false },
-      castmastery: { level: 0 },
-      crystallaser: { level: 0 },
-      overlimit: { level: 0, isActive: false },
-      sorceryguide: { level: 0 },
+    halberdSkills: {
+      criticalSpear: { level: 0 },
     },
 
-    priestSkills: {
-      bless: { level: 0 },
-      gloria: { level: 0 },
-      enhancedbless: { level: 0 },
-      royalheal: { level: 0 },
-      holyfist: { level: 0 },
-      holylight: { level: 0 },
-      etherbarrier: { level: 0, isActive: false },
-      prayer: { level: 0, isActive: false },
-      staffthrust: { level: 0 },
-      exorcism: { level: 0 },
-      holybook: { level: 0, isActive: false },
-      nemesis: { level: 0 },
+    dualSwordSkills: {
+      dualSwordControl: { level: 0 },
+      dualSwordMastery: { level: 0 },
+    },
+
+    magicBladeSkills: {
+      magicWarriorMastery: { level: 0 },
+
+      conversion: { level: 0, buffIsActive: false },
+
+      dualBringer: {
+        level: 0,
+        buffIsActive: false,
+        numberOfMagicBladeSkillsLearned: 0,
+
+        buffIsApplicable: false, // means that dual bringer buff is used in the stat calculation
+      },
+
+      resonance: {
+        level: 0,
+        buffIsActive: false,
+        set: "A",
+      },
     },
   },
 
@@ -579,7 +243,7 @@ export const calculateAll = (config: Config) => ({
   ...calculateMaxHP(config),
   ...calculateMaxMP(config),
   ...calculateMDEF(config),
-  ...calculateModifiers(config),
+  ...calculateEquipmentModifiers(config),
   ...calculateMotionSpeed(config),
   ...calculateNHPR(config),
   ...calculateNMPR(config),
