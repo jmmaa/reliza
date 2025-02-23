@@ -35,7 +35,7 @@ import { totalSTR } from "./STR";
 import {
   armorTypePercentASPDModifier,
   subWeaponShieldPercentASPDModifier,
-} from "./equipmenModifiers";
+} from "./equipmentModifiers";
 
 export const totalDualWieldBaseASPD = (config: Config) =>
   Math.floor(

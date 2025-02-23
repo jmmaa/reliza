@@ -3,7 +3,7 @@ import { add, flattenedStats, total } from "../utils";
 
 import { totalVIT } from "./VIT";
 import { totalEquipmentDEF } from "./defensiveRelated";
-import { subWeaponArrowPercentDEFModifier } from "./equipmenModifiers";
+import { subWeaponArrowPercentDEFModifier } from "./equipmentModifiers";
 
 import { berserkTotalPercentDEF } from "..";
 

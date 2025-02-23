@@ -1,6 +1,9 @@
 import { type Config } from "../data";
-
-import { magicSkinLevel } from "..";
+import {
+  isUsingSubMD,
+  isUsingSubShield,
+  magicBladeSkills,
+} from "../utils";
 
 export const totalEquipmentDEF = (config: Config) =>
   (config.equipments.subweapon.type === "SHIELD" ?
@@ -12,9 +15,8 @@ export const totalEquipmentDEF = (config: Config) =>
 
 export const totalRefinementReduction = (config: Config) =>
   ((
-    config.equipments.subweapon.type === "SHIELD" ||
-    (config.equipments.subweapon.type === "MAGIC_DEVICE" && // magic skin
-      magicSkinLevel(config) > 0)
+    isUsingSubShield(config) ||
+    (isUsingSubMD(config) && magicBladeSkills(config).magicSkin.level > 0)
   ) ?
     config.equipments.subweapon.refinement
   : 0) +

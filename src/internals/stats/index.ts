@@ -17,7 +17,7 @@ export * from "./derivativeMATK";
 export * from "./DEX";
 export * from "./Dodge";
 export * from "./element";
-export * from "./equipmenModifiers";
+export * from "./equipmentModifiers";
 export * from "./evasionRelated";
 export * from "./guardRelated";
 export * from "./INT";

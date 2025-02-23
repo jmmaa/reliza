@@ -212,16 +212,20 @@ export interface Equipments {
 export interface StatModifiers {
   bladeSkills: {
     astute: { level: number; buffIsActive: boolean };
+    triggerSlash: { level: number; buffIsActive: boolean };
     berserk: { level: number; buffIsActive: boolean };
+    rampage: { level: number; buffIsActive: boolean };
   };
 
   battleSkills: {
     criticalUP: { level: number };
-    spellBurst: { level: 0 };
+    spellBurst: { level: number };
+    accuracyUP: { level: number };
   };
 
   mononofuSkills: {
     twoHanded: { level: number };
+    bushido: { level: number };
   };
 
   ninjaSkills: {
@@ -235,6 +239,19 @@ export interface StatModifiers {
   dualSwordSkills: {
     dualSwordMastery: { level: number };
     dualSwordControl: { level: number };
+    crossParry: {
+      level: number;
+      buffIsActive: boolean;
+      inAction: boolean;
+    };
+    shadowStep: { level: number; buffIsActive: boolean };
+
+    saberAura: { level: number; stacks: number };
+    crescentSaber: { level: number }; // TODO HOW TO REPRESENT THIS
+    saberAuraAndCrescentSaberInteraction: {
+      buffUsed: "SABER_AURA" | "CRESCENT_SABER";
+      buffIsActive: boolean;
+    };
   };
 
   magicBladeSkills: {
@@ -250,12 +267,29 @@ export interface StatModifiers {
       buffIsApplicable: boolean; // means that dual bringer buff is used in the stat calculation
     };
 
+    magicSkin: { level: number };
+
     resonance: {
       level: number;
       buffIsActive: boolean;
       set: "A" | "B" | "C";
     };
+
+    etherFlare: { level: number; isTargetInflictedWithIgnite: boolean };
   };
+
+  shotSkills: {
+    samuraiArchery: { level: number; stacks: number };
+  };
+
+  martialSkills: {
+    aggravate: { level: number };
+  };
+
+  bareHandSkills: {
+    ultimaQiCharge: { level: number };
+  };
+
   // shotSkills: ShotSkills;
   // magicSkills: MagicSkills;
   // survivalSkills: SurvivalSkills;

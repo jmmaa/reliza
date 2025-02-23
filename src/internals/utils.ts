@@ -37,6 +37,9 @@ export const isUsingMainMD = (config: Config) =>
 export const isUsingMainKTN = (config: Config) =>
   config.equipments.mainweapon.type === "KATANA";
 
+export const isUsingBareHand = (config: Config) =>
+  config.equipments.mainweapon.type === "BARE_HAND";
+
 export const isUsingDualSwords = (config: Config) =>
   isUsingMainOHS(config) &&
   isUsingSubOHS(config) &&
@@ -74,6 +77,9 @@ export const isUsingHeavyArmor = (config: Config) =>
 
 export const isUsingLightArmor = (config: Config) =>
   config.equipments.armor.type === "LIGHT_ARMOR";
+
+export const isUsingSubKTN = (config: Config) =>
+  config.equipments.subweapon.type === "KATANA";
 
 export const flattenedStatsFromMainWeapon = (config: Config) =>
   config.equipments.mainweapon.stats(config);
@@ -155,3 +161,11 @@ export const dualSwordSkills = (config: Config) =>
 
 export const magicBladeSkills = (config: Config) =>
   config.statModifiers.magicBladeSkills;
+
+export const shotSkills = (config: Config) =>
+  config.statModifiers.shotSkills;
+
+export const martialSkills = (config: Config) =>
+  config.statModifiers.martialSkills;
+export const bareHandSkills = (config: Config) =>
+  config.statModifiers.bareHandSkills;

@@ -118,10 +118,12 @@ export const totalFlatCriticalRateFromEquipment = (config: Config) =>
     .reduce(add, 0);
 
 export const totalFlatCriticalRateFromSkills = (config: Config) =>
+  resonanceFlatCritRateBuff(config) +
+  berserkFlatCritRateBuff(config) +
+  astuteFlatCritRateBuff(config) +
   criticalSpearFlatCritRatePassive(config) +
   twoHandedFlatCritRatePassive(config) +
-  criticalUPFlatCritRatePassive(config) +
-  astuteFlatCritRateBuff(config);
+  criticalUPFlatCritRatePassive(config);
 
 export const totalFlatCriticalRate = (config: Config) =>
   totalFlatCriticalRateFromEquipment(config) +
@@ -167,3 +169,7 @@ export const calculateCriticalRate = (config: Config) => ({
   totalFlatCriticalRate: totalFlatCriticalRate(config),
   totalMagicCriticalRate: totalMagicCriticalRate(config),
 });
+
+// TODO
+// - shadowstep critrate buff
+// - crescent saber crit rate buff

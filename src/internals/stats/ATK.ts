@@ -35,7 +35,7 @@ import {
   totalBaseATKValueFromATKDOWN,
   totalBaseATKValueFromATKUP,
 } from "./derivativeATK";
-import { subWeaponMagicDevicePercentATKModifier } from "./equipmenModifiers";
+import { subWeaponMagicDevicePercentATKModifier } from "./equipmentModifiers";
 import { totalMainWeaponATK } from "./weaponATK";
 
 export const totalDualWieldBaseATK = (config: Config) =>
