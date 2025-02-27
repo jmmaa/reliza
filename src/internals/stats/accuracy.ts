@@ -62,6 +62,19 @@ export const bushidoFlatHITPassive = (config: Config) =>
 export const accuracyUPFlatHITPassive = (config: Config) =>
   battleSkills(config).accuracyUP.level;
 
+export const saberAuraFlatHITBuff = (config: Config) =>
+  (
+    dualSwordSkills(config).saberAuraAndCrescentSaberInteraction
+      .buffIsActive &&
+    dualSwordSkills(config).saberAuraAndCrescentSaberInteraction
+      .buffUsed === "SABER_AURA" &&
+    isUsingDualSwords(config)
+  ) ?
+    5 *
+    dualSwordSkills(config).saberAura.level *
+    dualSwordSkills(config).saberAura.stacks
+  : 0;
+
 export const totalBaseAccuracy = (config: Config) =>
   Math.floor(config.properties.level + totalDEX(config));
 
@@ -88,7 +101,9 @@ export const totalFlatAccuracyFromEquipment = (config: Config) =>
     .reduce(add, 0);
 
 export const totalFlatAccuracyFromSkills = (config: Config) =>
-  bushidoFlatHITPassive(config) + accuracyUPFlatHITPassive(config);
+  bushidoFlatHITPassive(config) +
+  accuracyUPFlatHITPassive(config) +
+  saberAuraFlatHITBuff(config);
 
 export const totalFlatAccuracy = (config: Config) =>
   totalFlatAccuracyFromEquipment(config) +
@@ -107,6 +122,3 @@ export const calculateAccuracy = (config: Config) => ({
   totalFlatAccuracy: totalFlatAccuracy(config),
   totalAccuracy: totalAccuracy(config),
 });
-
-// TODO
-// - saber aura accuracy buff
