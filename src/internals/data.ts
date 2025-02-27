@@ -226,6 +226,8 @@ export interface StatModifiers {
   mononofuSkills: {
     twoHanded: { level: number };
     bushido: { level: number };
+
+    shukuchi: { level: number; buffIsActive: boolean };
   };
 
   ninjaSkills: {
@@ -252,6 +254,8 @@ export interface StatModifiers {
       buffUsed: "SABER_AURA" | "CRESCENT_SABER";
       buffIsActive: boolean;
     };
+
+    godspeed: { level: number };
   };
 
   magicBladeSkills: {
@@ -284,6 +288,7 @@ export interface StatModifiers {
 
   martialSkills: {
     aggravate: { level: number };
+    chakra: { level: number; buffIsActive: boolean };
   };
 
   bareHandSkills: {
