@@ -1,7 +1,9 @@
 import { Config } from "../data";
 import {
   add,
+  bladeSkills,
   flattenedStats,
+  isNotUsingSubWeapon,
   isUsingDualSwords,
   isUsingMainBOW,
   isUsingMainBWG,
@@ -12,16 +14,46 @@ import {
   isUsingMainOHS,
   isUsingMainSTF,
   isUsingMainTHS,
+  isUsingSubKTN,
+  isUsingSubScroll,
+  mononofuSkills,
+  ninjaSkills,
 } from "../utils";
 
 import { totalDEX } from "./DEX";
 import { totalSTR } from "./STR";
 
-import { berserkTotalStability } from "..";
+export const samuraiArcheryStabilityPassive = (config: Config) =>
+  isUsingMainBOW(config) && isUsingSubKTN(config) ?
+    Math.floor(config.equipments.subweapon.stability / 4)
+  : 0;
 
-import { samuraiArcheryTotalStability } from "..";
+export const twoHandedStabilityPassive = (config: Config) =>
+  (
+    isUsingMainKTN(config) ||
+    isUsingMainOHS(config) ||
+    isUsingMainMD(config)
+  ) ?
+    (
+      (isUsingSubScroll(config) &&
+        ninjaSkills(config).ninjaSpirit.level === 10) ||
+      isNotUsingSubWeapon(config)
+    ) ?
+      isUsingMainKTN(config) ? mononofuSkills(config).twoHanded.level
+      : isUsingMainOHS(config) || isUsingMainMD(config) ?
+        Math.floor(mononofuSkills(config).twoHanded.level * 0.5)
+      : 0
+    : 0
+  : isNotUsingSubWeapon(config) ?
+    Math.floor(mononofuSkills(config).twoHanded.level * 0.5)
+  : 0;
 
-import { twoHandedTotalStability } from "..";
+export const berserkStabilityReduction = (config: Config) =>
+  bladeSkills(config).berserk.buffIsActive ?
+    isUsingMainOHS(config) || isUsingMainTHS(config) ?
+      -Math.floor(bladeSkills(config).berserk.level * 2.5)
+    : -(bladeSkills(config).berserk.level * 5)
+  : 0;
 
 export const totalDualWieldBaseStability = (config: Config) =>
   Math.floor(
@@ -100,9 +132,9 @@ export const totalStabilityFromEquipment = (config: Config) =>
     .reduce(add, 0);
 
 export const totalStabilityFromSkills = (config: Config) =>
-  berserkTotalStability(config) +
-  samuraiArcheryTotalStability(config) +
-  twoHandedTotalStability(config);
+  berserkStabilityReduction(config) +
+  samuraiArcheryStabilityPassive(config) +
+  twoHandedStabilityPassive(config);
 
 export const totalStability = (config: Config) =>
   totalBaseStability(config) +

@@ -1,13 +1,14 @@
 import { Config } from "../data";
-import { add, flattenedStats, total } from "../utils";
+import { add, battleSkills, flattenedStats, total } from "../utils";
 
 import { totalAGI } from "./AGI";
 import { totalSTR } from "./STR";
 
-import {
-  criticalUPTotalPercentCriticalDamage,
-  spellBurstTotalMagicCriticalDamageConversion,
-} from "..";
+export const criticalUPPercentCDMGPassive = (config: Config) =>
+  Math.floor(battleSkills(config).criticalUP.level / 2);
+
+export const spellBurstMCDMGConversion = (config: Config) =>
+  battleSkills(config).spellBurst.level * 2.5;
 
 export const totalBaseCriticalDamage = (config: Config) => {
   const agi = totalAGI(config);
@@ -25,7 +26,7 @@ export const totalPercentCriticalDamageFromEquipment = (config: Config) =>
     .reduce(add, 0);
 
 export const totalPercentCriticalDamageFromSkills = (config: Config) =>
-  criticalUPTotalPercentCriticalDamage(config);
+  criticalUPPercentCDMGPassive(config);
 
 export const totalPercentCriticalDamage = (config: Config) =>
   totalPercentCriticalDamageFromEquipment(config) +
@@ -48,7 +49,7 @@ export const totalCriticalDamage = (config: Config) => {
 };
 
 export const totalMagicCriticalDamageConversion = (config: Config) =>
-  50 + spellBurstTotalMagicCriticalDamageConversion(config);
+  50 + spellBurstMCDMGConversion(config);
 
 /** NOTE:
  * this is only for display purposes, magic critical damage is dynamic therefore

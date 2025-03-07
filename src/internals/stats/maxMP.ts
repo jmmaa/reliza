@@ -1,13 +1,23 @@
 import { type Config } from "../data";
-import { add, flattenedStats, total } from "../utils";
+import {
+  add,
+  flattenedStats,
+  mononofuSkills,
+  regislets,
+  survivalSkills,
+  total,
+} from "../utils";
 
 import { totalINT } from "./INT";
 
-import { bushidoTotalFlatMaxMP } from "..";
+export const bushidoFlatMaxMPPassive = (config: Config) =>
+  mononofuSkills(config).bushido.level * 10;
 
-import { maxMPBoostTotalFlatMaxMP } from "..";
+export const regisletMaxMPBoostFlatMaxMP = (config: Config) =>
+  regislets(config).maxMPBoost.level;
 
-import { MPBoostTotalFlatMaxMP } from "..";
+export const MPBoostFlatMaxMPPassive = (config: Config) =>
+  survivalSkills(config).MPBoost.level * 30;
 
 export const totalBaseMaxMP = (config: Config) =>
   config.properties.personalStatName === "TEC" ?
@@ -31,10 +41,10 @@ export const totalFlatMaxMPFromEquipment = (config: Config) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === "FLAT_MAX_MP")
     .map((stat) => stat[1])
-    .reduce(add, 0) + maxMPBoostTotalFlatMaxMP(config);
+    .reduce(add, 0) + regisletMaxMPBoostFlatMaxMP(config);
 
 export const totalFlatMaxMPFromSkills = (config: Config) =>
-  bushidoTotalFlatMaxMP(config) + MPBoostTotalFlatMaxMP(config);
+  bushidoFlatMaxMPPassive(config) + MPBoostFlatMaxMPPassive(config);
 
 export const totalFlatMaxMP = (config: Config) =>
   totalFlatMaxMPFromEquipment(config) + totalFlatMaxMPFromSkills(config);

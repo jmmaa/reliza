@@ -1,14 +1,98 @@
-import { calculate } from "../src";
+import { calculate, type StatMapBuilder } from "../src";
 
+const fullBlossomCharmstone: StatMapBuilder = (config) => [
+  ["FLAT_CSPD", 750],
+  ["FLAT_ASPD", 750],
+  ["FLAT_MAX_MP", 200],
+  ["AILMENT_RESISTANCE", -8],
+];
+
+const starWizard: StatMapBuilder = (config) => [
+  ["PERCENT_MATK", 9],
+  ["PERCENT_CSPD", 9],
+  ["ANTICIPATE", 9],
+  config.equipments.mainweapon.type === "MAIN_STF" ?
+    ["AGGRO", -9]
+  : ["AGGRO", 0],
+  config.equipments.subweapon.type === "SUB_SHIELD" ?
+    ["AGGRO", 9]
+  : ["AGGRO", 0],
+];
+
+const screamShadow: StatMapBuilder = (config) => [
+  ["FLAT_MAX_MP", 300],
+  ["PERCENT_DEF", -40],
+  ["FLAT_CSPD", 1000],
+  ["PERCENT_CRITICAL_RATE", 20],
+];
+
+const cookieWings: StatMapBuilder = (config) => [
+  (
+    config.equipments.subweapon.type === "SUB_MD" ||
+    config.equipments.mainweapon.type === "MAIN_MD"
+  ) ?
+    ["MAGIC_PIERCE", 25]
+  : ["MAGIC_PIERCE", 0],
+
+  ["PERCENT_DEX", 5],
+  ["LONG_RANGE_DAMAGE", 10],
+];
+
+const jibrilIII: StatMapBuilder = (config) => [
+  ["LONG_RANGE_DAMAGE", 11],
+  ["SHORT_RANGE_DAMAGE", 9],
+  ["FLAT_CRITICAL_RATE", 16],
+  ["FLAT_NATURAL_MP_REGEN", 6],
+  ["PERCENT_NATURAL_MP_REGEN", 12],
+  ["FLAT_MAX_MP", 100],
+  ["ANTICIPATE", 3],
+];
+
+const mieli: StatMapBuilder = (config) => [
+  ["FLAT_CSPD", 400],
+  ["FLAT_ASPD", 400],
+  ["PERCENT_CRITICAL_RATE", 20],
+  ["PERCENT_MAX_HP", -20],
+  ["MAGIC_PIERCE", 10],
+];
+
+const bangrudom: StatMapBuilder = (config) => [
+  ["PERCENT_MAX_HP", -20],
+  ["PERCENT_ATK", 10],
+  ["PERCENT_MATK", 10],
+  ["PERCENT_ASPD", 10],
+  ["PERCENT_CSPD", 10],
+
+  config.equipments.subweapon.type === "SUB_SHIELD" ?
+    ["PERCENT_DEX", 5]
+  : ["PERCENT_DEX", 0],
+  config.equipments.armor.type === "LIGHT_ARMOR" ?
+    ["MAGIC_PIERCE", 5]
+  : ["MAGIC_PIERCE", 0],
+];
+
+const gegner: StatMapBuilder = (config) => [
+  ["PERCENT_INT", 6],
+  ["PERCENT_MATK", 10],
+  ["PERCENT_CSPD", 40],
+  ["PERCENT_ATTACK_MP_RECOVERY", 10],
+];
+
+const torexesa: StatMapBuilder = (config) => [
+  ["PERCENT_MATK", 10],
+  ["PERCENT_ATK", 10],
+  ["FLAT_MAX_MP", -200],
+  ["FLAT_ATTACK_MP_RECOVERY", 4],
+];
 const calculations = calculate({
   properties: {
-    INT: 500,
-    STR: 247,
-    level: 290,
+    INT: 510,
+    STR: 252,
+    level: 295,
   },
   equipments: {
     mainweapon: {
-      type: "STAFF",
+      type: "MAIN_STF",
       ATK: 584,
       refinement: 15,
       stability: 60,
@@ -34,39 +118,15 @@ const calculations = calculate({
     },
 
     subweapon: {
-      type: "MAGIC_DEVICE",
+      type: "SUB_MD",
       stats: (config) => [["FIRE_ELEMENT", 1]],
     },
     additionalGear: {
       DEF: 0,
-      stats: (config) => [
-        (
-          config.equipments.subweapon.type === "MAGIC_DEVICE" ||
-          config.equipments.mainweapon.type === "MAGIC_DEVICE"
-        ) ?
-          ["MAGIC_PIERCE", 25]
-        : ["MAGIC_PIERCE", 0],
-
-        ["PERCENT_DEX", 5],
-        ["LONG_RANGE_DAMAGE", 10],
-      ],
       refinement: 15,
-      crystal1: (config) => [
-        ["LONG_RANGE_DAMAGE", 11],
-        ["SHORT_RANGE_DAMAGE", 9],
-        ["FLAT_CRITICAL_RATE", 16],
-        ["FLAT_NATURAL_MP_REGEN", 6],
-        ["PERCENT_NATURAL_MP_REGEN", 12],
-        ["FLAT_MAX_MP", 100],
-        ["ANTICIPATE", 3],
-      ],
-      crystal2: (config) => [
-        ["FLAT_CSPD", 400],
-        ["FLAT_ASPD", 400],
-        ["PERCENT_CRITICAL_RATE", 20],
-        ["PERCENT_MAX_HP", -20],
-        ["MAGIC_PIERCE", 10],
-      ],
+      stats: cookieWings,
+      crystal1: jibrilIII,
+      crystal2: mieli,
     },
 
     armor: {
@@ -82,95 +142,51 @@ const calculations = calculate({
         ["FLAT_ACCURACY", -22],
         ["PERCENT_ACCURACY", -6],
       ],
-      crystal1: (config) => [
-        ["PERCENT_MAX_HP", -20],
-        ["PERCENT_ATK", 10],
-        ["PERCENT_MATK", 10],
-        ["PERCENT_ASPD", 10],
-        ["PERCENT_CSPD", 10],
-
-        config.equipments.subweapon.type === "SHIELD" ?
-          ["PERCENT_DEX", 5]
-        : ["PERCENT_DEX", 0],
-        config.equipments.armor.type === "LIGHT_ARMOR" ?
-          ["MAGIC_PIERCE", 5]
-        : ["MAGIC_PIERCE", 0],
-      ],
-
-      crystal2: (config) => [
-        ["PERCENT_INT", 6],
-        ["PERCENT_MATK", 10],
-        ["PERCENT_CSPD", 40],
-        ["PERCENT_ATTACK_MP_RECOVERY", 10],
-      ],
+      crystal1: bangrudom,
+      crystal2: gegner,
     },
 
     specialGear: {
       DEF: 0,
 
-      stats: (config) => [
-        ["FLAT_CSPD", 750],
-        ["FLAT_ASPD", 750],
-        ["FLAT_MAX_MP", 200],
-        ["AILMENT_RESISTANCE", -8],
-      ],
-
-      crystal1: (config) => [
-        ["PERCENT_MATK", 9],
-        ["PERCENT_CSPD", 9],
-        ["ANTICIPATE", 9],
-        config.equipments.mainweapon.type === "STAFF" ?
-          ["AGGRO", -9]
-        : ["AGGRO", 0],
-        config.equipments.subweapon.type === "SHIELD" ?
-          ["AGGRO", 9]
-        : ["AGGRO", 0],
-      ],
-      crystal2: (config) => [
-        ["FLAT_MAX_MP", 300],
-        ["PERCENT_DEF", -40],
-        ["FLAT_CSPD", 1000],
-        ["PERCENT_CRITICAL_RATE", 20],
-      ],
+      stats: fullBlossomCharmstone,
+      crystal1: torexesa,
+      crystal2: screamShadow,
     },
   },
 
-  skillTrees: {
+  statModifiers: {
     magicBladeSkills: {
-      magicwarriormastery: { level: 10 },
+      magicWarriorMastery: { level: 10 },
     },
 
-    magicSkills: {
-      magicburst: { level: 10 },
-      magicmastery: { level: 10 },
-    },
+    // magicSkills: {
+    //   magicburst: { level: 10 },
+    //   magicmastery: { level: 10 },
+    // },
     battleSkills: {
-      magicup: { level: 10 },
-      increasedenergy: { level: 10 },
-      criticalup: { level: 10 },
-      spellburst: { level: 10 },
+      // magicup: { level: 10 },
+      // increasedenergy: { level: 10 },
+      // criticalup: { level: 10 },
+      spellBurst: { level: 10 },
     },
 
     wizardSkills: {
-      familia: { level: 10 },
-      advancedfamilia: { level: 10 },
-      blizzard: { level: 10 },
-      lightning: { level: 10 },
-      meteorstrike: { level: 10 },
-      imperialray: { level: 10 },
-      crystallaser: { level: 10 },
-      manacrystal: { level: 10 },
-      overlimit: { level: 10, isActive: true },
-      sorceryguide: { level: 10 },
-      castmastery: { level: 10 },
-      stonebarrier: { level: 10 },
+      castMastery: {
+        level: 10,
+        numberOfskillPointsSpentOnWizardSkills: 150,
+        numberOfWizardSkillsLearned: 15,
+      },
+
+      overlimit: { level: 10, buffIsActive: true },
+      sorceryGuide: { level: 10 },
     },
-  },
-  regislets: {
-    maxmpboost: 100,
-    focusresonance: 9,
-    magicspeedboost: 100,
-    attackspeedboost: 100,
+
+    regislets: {
+      magicAttackBoost: { level: 30 },
+      magicSpeedBoost: { level: 100 },
+      attackSpeedBoost: { level: 100 },
+    },
   },
 
   consumables: [
@@ -180,9 +196,6 @@ const calculations = calculate({
     ["PERCENT_WEAPON_ATK", 30],
     ["FLAT_CRITICAL_DAMAGE", 12],
     ["FLAT_CSPD", 800],
-    ["FLAT_ASPD", 1000],
-    ["FLAT_CSPD", 300], // from new wiz skills
-    ["PERCENT_CSPD", 15], // from new wiz skills
     ["MAGIC_PIERCE", 23], // from ava
     ["MOTION_SPEED", 25], // from ebarrier
   ],
@@ -196,9 +209,4 @@ const calculations = calculate({
   ],
 });
 
-console.log(calculations);
-
-/* BUGS
-
-
-*/
+console.log(calculations.totalCSPD);

@@ -1,5 +1,6 @@
 export { calculate } from "./calc";
-
-// TODO
-
-// - group stats into "<stat name>Related.ts"
+export {
+  type Config,
+  type Stat,
+  type StatMapBuilder,
+} from "./internals/data";

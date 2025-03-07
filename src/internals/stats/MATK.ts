@@ -1,9 +1,11 @@
 import { type Config } from "../data";
 import {
   add,
+  battleSkills,
   flattenedStats,
   isUsingDualSwords,
   isUsingMainBOW,
+  isUsingMainBWG,
   isUsingMainHAL,
   isUsingMainKN,
   isUsingMainKTN,
@@ -11,6 +13,11 @@ import {
   isUsingMainOHS,
   isUsingMainSTF,
   isUsingMainTHS,
+  isUsingSubMD,
+  magicBladeSkills,
+  magicSkills,
+  priestSkills,
+  regislets,
   total,
 } from "../utils";
 
@@ -27,18 +34,56 @@ import { totalINT } from "./INT";
 
 import { totalMainWeaponATK } from "./weaponATK";
 
-import { increasedEnergyTotalFlatMATK, magicUPTotalFlatMATK } from "..";
+export const magicUPFlatMATKPassive = (config: Config) =>
+  Math.floor(
+    (config.properties.level *
+      (2.5 * battleSkills(config).magicUP.level)) /
+      100,
+  );
+export const increasedEnergyFlatMATKPassive = (config: Config) =>
+  (config.properties.level *
+    (2.5 * battleSkills(config).increasedEnergy.level)) /
+  100;
 
-import { magicMasteryTotalPercentMATK } from "..";
+export const magicMasteryPercentMATKPassive = (config: Config) =>
+  isUsingMainSTF(config) || isUsingMainMD(config) ?
+    magicSkills(config).magicMastery.level >= 8 ? 3
+    : magicSkills(config).magicMastery.level >= 3 ? 2
+    : 1
+  : 0;
 
-import { prayerTotalPercentMATK } from "..";
+export const prayerPercentMATKBuff = (config: Config) =>
+  priestSkills(config).prayer.buffIsActive ?
+    isUsingMainMD(config) || isUsingSubMD(config) ?
+      priestSkills(config).prayer.level + 5
+    : priestSkills(config).prayer.level
+  : 0;
 
-import {
-  conversionTotalFlatMATK,
-  magicWarriorMasteryTotalFlatMATK,
-} from "..";
+export const magicWarriorMasteryFlatMATKPassive = (config: Config) =>
+  isUsingSubMD(config) ?
+    magicBladeSkills(config).magicWarriorMastery.level * 2 +
+    (magicBladeSkills(config).magicWarriorMastery.level - 5 > 0 ?
+      magicBladeSkills(config).magicWarriorMastery.level - 5
+    : 0)
+  : 0;
 
-import { magicAttackBoostTotalFlatMATK } from "..";
+export const conversionFlatMATKPassive = (config: Config) =>
+  (
+    isUsingMainTHS(config) ||
+    isUsingMainBWG(config) ||
+    isUsingMainKN(config) ||
+    isUsingMainOHS(config)
+  ) ?
+    Math.floor(
+      (magicBladeSkills(config).conversion.level ** 2 / 100) *
+        (isUsingMainKN(config) ?
+          totalMainWeaponATK(config) * 0.5
+        : totalMainWeaponATK(config)),
+    )
+  : 0;
+
+export const regisletMagicAttackBoostFlatMATK = (config: Config) =>
+  regislets(config).magicAttackBoost.level;
 
 export const totalDualWieldBaseMATK = (config: Config) =>
   config.properties.level + totalINT(config) * 3 + totalDEX(config);
@@ -113,7 +158,7 @@ export const totalPercentMATKFromEquipment = (config: Config) =>
     .reduce(add, 0) + subWeaponKnucklePercentMATKModifier(config);
 
 export const totalPercentMATKFromSkills = (config: Config) =>
-  magicMasteryTotalPercentMATK(config) + prayerTotalPercentMATK(config);
+  magicMasteryPercentMATKPassive(config) + prayerPercentMATKBuff(config);
 
 export const totalPercentMATK = (config: Config) =>
   totalPercentMATKFromEquipment(config) +
@@ -123,13 +168,13 @@ export const totalFlatMATKFromEquipment = (config: Config) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === "FLAT_MATK")
     .map((stat) => stat[1])
-    .reduce(add, 0) + magicAttackBoostTotalFlatMATK(config);
+    .reduce(add, 0) + regisletMagicAttackBoostFlatMATK(config);
 
 export const totalFlatMATKFromSkills = (config: Config) =>
-  magicUPTotalFlatMATK(config) +
-  increasedEnergyTotalFlatMATK(config) +
-  magicWarriorMasteryTotalFlatMATK(config) +
-  conversionTotalFlatMATK(config);
+  magicUPFlatMATKPassive(config) +
+  increasedEnergyFlatMATKPassive(config) +
+  magicWarriorMasteryFlatMATKPassive(config) +
+  conversionFlatMATKPassive(config);
 
 export const totalFlatMATK = (config: Config) =>
   totalFlatMATKFromEquipment(config) + totalFlatMATKFromSkills(config);

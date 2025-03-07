@@ -6,9 +6,7 @@ import {
 } from "../utils";
 
 export const totalEquipmentDEF = (config: Config) =>
-  (config.equipments.subweapon.type === "SHIELD" ?
-    config.equipments.subweapon.DEF
-  : 0) +
+  (isUsingSubShield(config) ? config.equipments.subweapon.DEF : 0) +
   config.equipments.armor.DEF +
   config.equipments.additionalGear.DEF +
   config.equipments.specialGear.DEF;

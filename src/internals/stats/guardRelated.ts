@@ -1,5 +1,12 @@
 import { type Config } from "../data";
-import { add, flattenedStats } from "../utils";
+import {
+  add,
+  bareHandSkills,
+  flattenedStats,
+  guardSkills,
+  isNotUsingSubWeapon,
+  isUsingBareHand,
+} from "../utils";
 
 import {
   isUsingHeavyArmor,
@@ -8,14 +15,13 @@ import {
   isUsingSubShield,
 } from "../utils";
 
-import {
-  hiddenTalentTotalBaseGuardPower,
-  hiddenTalentTotalBaseGuardRecharge,
-} from "..";
-
-import { heavyArmorMasteryTotalGuardRecharge } from "..";
-
 // guard power
+
+export const hiddenTalentBaseGuardPower = (config: Config) =>
+  isUsingBareHand(config) && isNotUsingSubWeapon(config) ?
+    bareHandSkills(config).hiddenTalent.level * 500
+  : 0;
+
 export const totalBaseGuardPower = (config: Config) =>
   Math.min(
     [
@@ -23,7 +29,7 @@ export const totalBaseGuardPower = (config: Config) =>
       isUsingSubShield(config) ? 7500 : 0,
       isUsingMainTHS(config) ? 5000 : 0,
       isUsingMainHAL(config) ? 2500 : 0,
-      hiddenTalentTotalBaseGuardPower(config),
+      hiddenTalentBaseGuardPower(config),
     ].reduce(add, 0),
     10000,
   );
@@ -45,20 +51,30 @@ export const calculateGuardPower = (config: Config) => ({
 
 // guard recharge
 
+export const heavyArmorMasteryGuardRecharge = (config: Config) =>
+  isUsingHeavyArmor(config) ?
+    guardSkills(config).heavyArmorMastery.level
+  : 0;
+
+export const hiddenTalentBaseGuardRecharge = (config: Config) =>
+  isUsingBareHand(config) && isNotUsingSubWeapon(config) ?
+    5 + 2 * bareHandSkills(config).hiddenTalent.level
+  : 0;
+
 export const totalBaseGuardRecharge = (config: Config) =>
   [
     isUsingHeavyArmor(config) ? 25 : 0,
     isUsingSubShield(config) ? 75 : 0,
     isUsingMainTHS(config) ? 50 : 0,
     isUsingMainHAL(config) ? 25 : 0,
-    hiddenTalentTotalBaseGuardRecharge(config),
+    hiddenTalentBaseGuardRecharge(config),
   ].reduce(add, 0);
 
 export const totalPercentGuardRecharge = (config: Config) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === "GUARD_RECHARGE")
     .map((stat) => stat[1])
-    .reduce(add, 0) + heavyArmorMasteryTotalGuardRecharge(config);
+    .reduce(add, 0) + heavyArmorMasteryGuardRecharge(config);
 
 export const totalGuardRecharge = (config: Config) =>
   Math.floor(

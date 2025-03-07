@@ -1,10 +1,12 @@
-import {
-  shortRestTotalFlatSkillNMPR,
-  shortRestTotalPercentSkillNMPR,
-} from "..";
 import { type Config } from "../data";
-import { add, flattenedStats, total } from "../utils";
+import { add, flattenedStats, survivalSkills, total } from "../utils";
 import { totalMaxMP } from "./maxMP";
+
+export const shortRestFlatSkillNMPRPassive = (config: Config) =>
+  survivalSkills(config).shortRest.level;
+
+export const shortRestPercentSkillNMPRPassive = (config: Config) =>
+  survivalSkills(config).shortRest.level * 5;
 
 export const totalBaseNMPR = (config: Config) =>
   Math.floor(totalMaxMP(config) / 100) *
@@ -31,10 +33,10 @@ export const totalNMPR = (config: Config) =>
   );
 
 export const totalFlatNMPRFromSkills = (config: Config) =>
-  shortRestTotalFlatSkillNMPR(config);
+  shortRestFlatSkillNMPRPassive(config);
 
 export const totalPercentNMPRFromSkills = (config: Config) =>
-  shortRestTotalPercentSkillNMPR(config);
+  shortRestPercentSkillNMPRPassive(config);
 
 export const calculateNMPR = (config: Config) => ({
   totalBaseNMPR: totalBaseNMPR(config),

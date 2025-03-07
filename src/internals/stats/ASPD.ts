@@ -1,21 +1,11 @@
-import {
-  attackSpeedBoostTotalFlatASPD,
-  berserkTotalFlatASPD,
-  berserkTotalPercentASPD,
-  dualSwordControlTotalFlatASPD,
-  godspeedWieldTotalFlatASPD,
-  martialDisciplineTotalFlatASPD,
-  martialDisciplineTotalPercentASPD,
-  quickAuraTotalFlatASPD,
-  quickAuraTotalPercentASPD,
-  quickSlashTotalFlatASPD,
-  quickSlashTotalPercentASPD,
-} from "..";
 import { type Config } from "../data";
 import {
   add,
+  bladeSkills,
   characterLevel,
+  dualSwordSkills,
   flattenedStats,
+  halberdSkills,
   isUsingDualSwords,
   isUsingMainBOW,
   isUsingMainBWG,
@@ -26,6 +16,8 @@ import {
   isUsingMainOHS,
   isUsingMainSTF,
   isUsingMainTHS,
+  martialSkills,
+  regislets,
   total,
 } from "../utils";
 import { totalAGI } from "./AGI";
@@ -36,6 +28,65 @@ import {
   armorTypePercentASPDModifier,
   subWeaponShieldPercentASPDModifier,
 } from "./equipmentModifiers";
+
+export const quickSlashPercentASPDPassive = (config: Config) =>
+  isUsingMainOHS(config) || isUsingMainTHS(config) ?
+    bladeSkills(config).quickSlash.level
+  : 0;
+
+export const quickSlashFlatASPDPassive = (config: Config) =>
+  isUsingMainOHS(config) || isUsingMainTHS(config) ?
+    bladeSkills(config).quickSlash.level * 10
+  : 0;
+
+export const martialDisciplinePercentASPDPassive = (config: Config) =>
+  isUsingMainKN(config) ?
+    martialSkills(config).martialDiscipline.level
+  : 0;
+
+export const martialDisciplineFlatASPDPassive = (config: Config) =>
+  isUsingMainKN(config) ?
+    martialSkills(config).martialDiscipline.level * 10
+  : 0;
+
+export const quickAuraFlatASPDBuff = (config: Config) =>
+  halberdSkills(config).quickAura.buffIsActive ?
+    halberdSkills(config).quickAura.level * 50
+  : 0;
+export const quickAuraPercentASPDBuff = (config: Config) =>
+  halberdSkills(config).quickAura.buffIsActive ?
+    Math.floor(halberdSkills(config).quickAura.level * 2.5)
+  : 0;
+
+export const godspeedWieldFlatASPDBuff = (config: Config) =>
+  halberdSkills(config).godspeedWield.buffIsActive ?
+    isUsingMainHAL(config) ?
+      30 *
+        halberdSkills(config).godspeedWield.level *
+        halberdSkills(config).godspeedWield.stacks +
+      100 * halberdSkills(config).godspeedWield.stacks
+    : 30 *
+      halberdSkills(config).godspeedWield.level *
+      halberdSkills(config).godspeedWield.stacks
+  : 0;
+
+export const dualSwordControlFlatASPDPassive = (config: Config) =>
+  isUsingDualSwords(config) ?
+    50 * dualSwordSkills(config).dualSwordControl.level
+  : 0;
+
+export const regisletAttackSpeedBoostFlatASPD = (config: Config) =>
+  regislets(config).attackSpeedBoost.level;
+
+export const berserkPercentASPDBuff = (config: Config) =>
+  bladeSkills(config).berserk.buffIsActive ?
+    bladeSkills(config).berserk.level * 10
+  : 0;
+
+export const berserkFlatASPDBuff = (config: Config) =>
+  bladeSkills(config).berserk.buffIsActive ?
+    bladeSkills(config).berserk.level * 100
+  : 0;
 
 export const totalDualWieldBaseASPD = (config: Config) =>
   Math.floor(
@@ -143,10 +194,10 @@ export const totalPercentASPDFromEquipment = (config: Config) =>
   subWeaponShieldPercentASPDModifier(config);
 
 export const totalPercentASPDFromSkills = (config: Config) =>
-  quickSlashTotalPercentASPD(config) +
-  berserkTotalPercentASPD(config) +
-  quickAuraTotalPercentASPD(config) +
-  martialDisciplineTotalPercentASPD(config);
+  quickSlashPercentASPDPassive(config) +
+  berserkPercentASPDBuff(config) +
+  quickAuraPercentASPDBuff(config) +
+  martialDisciplinePercentASPDPassive(config);
 
 export const totalPercentASPD = (config: Config) =>
   totalPercentASPDFromEquipment(config) +
@@ -156,15 +207,15 @@ export const totalFlatASPDFromEquipment = (config: Config) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === "FLAT_ASPD")
     .map((stat) => stat[1])
-    .reduce(add, 0) + attackSpeedBoostTotalFlatASPD(config);
+    .reduce(add, 0) + regisletAttackSpeedBoostFlatASPD(config);
 
 export const totalFlatASPDFromSkills = (config: Config) =>
-  quickSlashTotalFlatASPD(config) +
-  berserkTotalFlatASPD(config) +
-  martialDisciplineTotalFlatASPD(config) +
-  dualSwordControlTotalFlatASPD(config) +
-  quickAuraTotalFlatASPD(config) +
-  godspeedWieldTotalFlatASPD(config);
+  quickAuraFlatASPDBuff(config) +
+  berserkFlatASPDBuff(config) +
+  martialDisciplineFlatASPDPassive(config) +
+  dualSwordControlFlatASPDPassive(config) +
+  quickAuraFlatASPDBuff(config) +
+  godspeedWieldFlatASPDBuff(config);
 
 export const totalFlatASPD = (config: Config) =>
   totalFlatASPDFromEquipment(config) + totalFlatASPDFromSkills(config);

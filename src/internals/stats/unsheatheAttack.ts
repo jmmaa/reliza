@@ -1,9 +1,20 @@
 import { type Config } from "../data";
-import { add, flattenedStats } from "../utils";
+import {
+  add,
+  dualSwordSkills,
+  flattenedStats,
+  isUsingDualSwords,
+} from "../utils";
 
-import { godspeedTotalPercentUnsheatheAttack } from "..";
+export const flashblastPercentUnsheathePassive = (config: Config) =>
+  dualSwordSkills(config).flashblast.buffIsActive ?
+    dualSwordSkills(config).flashblast.level
+  : 0;
 
-import { flashBlastTotalPercentUnsheatheAttack } from "..";
+export const godspeedPercentUnsheathePassive = (config: Config) =>
+  isUsingDualSwords(config) ?
+    dualSwordSkills(config).godspeed.level + 15
+  : dualSwordSkills(config).godspeed.level + 5;
 
 export const totalPercentUnsheatheAttackFromEquipment = (config: Config) =>
   flattenedStats(config)
@@ -12,8 +23,8 @@ export const totalPercentUnsheatheAttackFromEquipment = (config: Config) =>
     .reduce(add, 0);
 
 export const totalPercentUnsheatheAttackFromSkills = (config: Config) =>
-  godspeedTotalPercentUnsheatheAttack(config) +
-  flashBlastTotalPercentUnsheatheAttack(config);
+  godspeedPercentUnsheathePassive(config) +
+  flashblastPercentUnsheathePassive(config);
 
 export const totalPercentUnsheatheAttack = (config: Config) =>
   totalPercentUnsheatheAttackFromEquipment(config) +

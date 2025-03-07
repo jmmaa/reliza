@@ -2,18 +2,21 @@ import { type Config } from "../data";
 import {
   add,
   flattenedStats,
+  halberdSkills,
+  isUsingDualSwords,
   isUsingLightArmor,
+  isUsingMainKN,
   isUsingMainMD,
   isUsingSubDagger,
   isUsingSubKN,
   isUsingSubMD,
 } from "../utils";
 
-import {
-  godspeedWieldTotalPercentEvasionRecharge,
-  isUsingDualSwords,
-  isUsingMainKN,
-} from "..";
+export const godspeedWieldPercentEvasionRechargeBuff = (config: Config) =>
+  halberdSkills(config).godspeedWield.buffIsActive ?
+    halberdSkills(config).godspeedWield.level *
+    halberdSkills(config).godspeedWield.stacks
+  : 0;
 
 export const totalAutoEvasionUsable = (config: Config) => {
   let total = 0;
@@ -68,7 +71,7 @@ export const totalPercentEvasionRecharge = (config: Config) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === "EVASION_RECHARGE")
     .map((stat) => stat[1])
-    .reduce(add, 0) + godspeedWieldTotalPercentEvasionRecharge(config);
+    .reduce(add, 0) + godspeedWieldPercentEvasionRechargeBuff(config);
 
 // NOTE: Not sure for this calculations atm, so i might not be finishing this for now
 

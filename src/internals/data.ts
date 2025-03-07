@@ -1,27 +1,27 @@
 export type Stat = [StatName, number];
 
 export type MainWeaponTypeName =
-  | "ONE_HANDED_SWORD"
-  | "TWO_HANDED_SWORD"
-  | "BOW"
-  | "BOWGUN"
-  | "STAFF"
-  | "MAGIC_DEVICE"
-  | "HALBERD"
-  | "KATANA"
-  | "KNUCKLES"
-  | "BARE_HAND";
+  | "MAIN_OHS"
+  | "MAIN_THS"
+  | "MAIN_BOW"
+  | "MAIN_BWG"
+  | "MAIN_STF"
+  | "MAIN_MD"
+  | "MAIN_HAL"
+  | "MAIN_KTN"
+  | "MAIN_KN"
+  | "MAIN_BH";
 
 export type SubWeaponTypeName =
-  | "ONE_HANDED_SWORD"
-  | "KATANA"
-  | "KNUCKLES"
-  | "MAGIC_DEVICE"
-  | "NINJUTSU_SCROLL"
-  | "ARROW"
-  | "SHIELD"
-  | "DAGGER"
-  | "NONE";
+  | "SUB_OHS"
+  | "SUB_KTN"
+  | "SUB_KN"
+  | "SUB_MD"
+  | "SUB_SCROLL"
+  | "SUB_ARROW"
+  | "SUB_SHIELD"
+  | "SUB_DAGGER"
+  | "SUB_NONE";
 
 export type ArmorTypeName =
   | "LIGHT_ARMOR"
@@ -211,16 +211,28 @@ export interface Equipments {
 
 export interface StatModifiers {
   bladeSkills: {
+    swordMastery: { level: number };
+    quickSlash: { level: number };
     astute: { level: number; buffIsActive: boolean };
     triggerSlash: { level: number; buffIsActive: boolean };
     berserk: { level: number; buffIsActive: boolean };
     rampage: { level: number; buffIsActive: boolean };
+    warCry: { level: number; buffIsActive: boolean };
+    busterBlade: { level: number; buffIsActive: boolean };
   };
 
   battleSkills: {
+    attackUP: { level: number };
     criticalUP: { level: number };
     spellBurst: { level: number };
     accuracyUP: { level: number };
+    intimidatingPower: { level: number };
+    defenseMastery: { level: number };
+    defenseUP: { level: number };
+    dodgeUP: { level: number };
+
+    magicUP: { level: number };
+    increasedEnergy: { level: number };
   };
 
   mononofuSkills: {
@@ -236,6 +248,33 @@ export interface StatModifiers {
 
   halberdSkills: {
     criticalSpear: { level: number };
+    halberdMastery: { level: number };
+
+    godspeedWield: {
+      level: number;
+      buffIsActive: boolean;
+      stacks: number;
+    };
+
+    almightyWield: { level: number };
+
+    quickAura: { level: number; buffIsActive: boolean };
+  };
+
+  wizardSkills: {
+    castMastery: {
+      level: number;
+      numberOfskillPointsSpentOnWizardSkills: number;
+      numberOfWizardSkillsLearned: number;
+    };
+
+    overlimit: { level: number; buffIsActive: boolean };
+
+    sorceryGuide: { level: number };
+  };
+
+  hunterSkills: {
+    hunterBowgun: { level: number };
   };
 
   dualSwordSkills: {
@@ -256,12 +295,23 @@ export interface StatModifiers {
     };
 
     godspeed: { level: number };
+    flashblast: { level: number; buffIsActive: boolean };
+  };
+
+  survivalSkills: {
+    safeRest: { level: number };
+    shortRest: { level: number };
+    HPBoost: { level: number };
+    MPBoost: { level: number };
   };
 
   magicBladeSkills: {
     magicWarriorMastery: { level: number };
 
-    conversion: { level: number; buffIsActive: boolean };
+    conversion: {
+      level: number;
+      buffIsActive: boolean; // this flag doesnt do anything for now
+    };
 
     dualBringer: {
       level: number;
@@ -280,19 +330,60 @@ export interface StatModifiers {
     };
 
     etherFlare: { level: number; isTargetInflictedWithIgnite: boolean };
+
+    siphonBarrier: { level: number; buffIsActive: boolean };
+  };
+
+  priestSkills: {
+    prayer: { level: number; buffIsActive: boolean };
+  };
+
+  magicSkills: {
+    magicMastery: { level: number; buffIsActive: boolean };
   };
 
   shotSkills: {
     samuraiArchery: { level: number; stacks: number };
+    shotMastery: { level: number };
   };
 
   martialSkills: {
+    martialMastery: { level: number };
+    martialDiscipline: { level: number };
     aggravate: { level: number };
     chakra: { level: number; buffIsActive: boolean };
   };
 
   bareHandSkills: {
+    unarmedMastery: { level: number };
     ultimaQiCharge: { level: number };
+    hiddenTalent: { level: number };
+  };
+
+  guardSkills: {
+    heavyArmorMastery: { level: number };
+  };
+
+  shieldSkills: {
+    shieldMastery: { level: number };
+    forceShield: { level: number };
+    magicalShield: { level: number };
+  };
+
+  supportSkills: {
+    braveAura: { level: number; buffIsActive: boolean };
+    highCycle: { level: number; buffIsActive: boolean };
+  };
+
+  regislets: {
+    physicalAttackBoost: { level: number };
+    magicAttackBoost: { level: number };
+
+    attackSpeedBoost: { level: number };
+    magicSpeedBoost: { level: number };
+
+    maxHPBoost: { level: number };
+    maxMPBoost: { level: number };
   };
 
   // shotSkills: ShotSkills;

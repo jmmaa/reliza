@@ -1,18 +1,38 @@
 import { type Config } from "../data";
-import { add, flattenedStats, total } from "../utils";
-
-import { bushidoTotalFlatMaxHP } from "..";
-
-import { HPBoostTotalFlatMaxHP, HPBoostTotalPercentMaxHP } from "..";
-
 import {
-  forceShieldTotalFlatMaxHP,
-  magicalShieldTotalFlatMaxHP,
-} from "..";
-
-import { maxHPBoostTotalFlatMaxHP } from "..";
+  add,
+  flattenedStats,
+  isUsingSubShield,
+  mononofuSkills,
+  regislets,
+  shieldSkills,
+  survivalSkills,
+  total,
+} from "../utils";
 
 import { totalVIT } from "./VIT";
+
+export const bushidoFlatMaxHPPassive = (config: Config) =>
+  mononofuSkills(config).bushido.level * 10;
+
+export const HPBoostFlatMaxHPPassive = (config: Config) =>
+  survivalSkills(config).HPBoost.level * 100;
+
+export const HPBoostPercentMaxHPPassive = (config: Config) =>
+  survivalSkills(config).HPBoost.level * 2;
+
+export const forceShieldFlatMaxHPPassive = (config: Config) =>
+  isUsingSubShield(config) ?
+    shieldSkills(config).forceShield.level * 50
+  : 0;
+
+export const magicalShieldFlatMaxHPPassive = (config: Config) =>
+  isUsingSubShield(config) ?
+    shieldSkills(config).magicalShield.level * 50
+  : 0;
+
+export const regisletMaxHPBoostFlatMaxHP = (config: Config) =>
+  regislets(config).maxHPBoost.level * 10;
 
 export const totalBaseMaxHP = (config: Config) =>
   93 +
@@ -25,7 +45,7 @@ export const totalPercentMaxHPFromEquipment = (config: Config) =>
     .reduce(add, 0);
 
 export const totalPercentMaxHPFromSkills = (config: Config) =>
-  HPBoostTotalPercentMaxHP(config);
+  HPBoostPercentMaxHPPassive(config);
 
 export const totalPercentMaxHP = (config: Config) =>
   totalPercentMaxHPFromEquipment(config) +
@@ -35,13 +55,13 @@ export const totalFlatMaxHPFromEquipment = (config: Config) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === "FLAT_MAX_HP")
     .map((stat) => stat[1])
-    .reduce(add, 0) + maxHPBoostTotalFlatMaxHP(config);
+    .reduce(add, 0) + regisletMaxHPBoostFlatMaxHP(config);
 
 export const totalFlatMaxHPFromSkills = (config: Config) =>
-  bushidoTotalFlatMaxHP(config) +
-  HPBoostTotalFlatMaxHP(config) +
-  forceShieldTotalFlatMaxHP(config) +
-  magicalShieldTotalFlatMaxHP(config);
+  bushidoFlatMaxHPPassive(config) +
+  HPBoostFlatMaxHPPassive(config) +
+  forceShieldFlatMaxHPPassive(config) +
+  magicalShieldFlatMaxHPPassive(config);
 
 export const totalFlatMaxHP = (config: Config) =>
   totalFlatMaxHPFromEquipment(config) + totalFlatMaxHPFromSkills(config);

@@ -1,10 +1,12 @@
-import {
-  safeRestTotalFlatSkillNHPR,
-  safeRestTotalPercentSkillNHPR,
-} from "..";
 import { type Config } from "../data";
-import { add, flattenedStats, total } from "../utils";
+import { add, flattenedStats, survivalSkills, total } from "../utils";
 import { totalMaxHP } from "./maxHP";
+
+export const safeRestFlatSkillNHPRPassive = (config: Config) =>
+  survivalSkills(config).safeRest.level * 10;
+
+export const safeRestPercentSkillNHPRPassive = (config: Config) =>
+  survivalSkills(config).safeRest.level * 10;
 
 export const totalBaseNHPR = (config: Config) =>
   Math.floor(totalMaxHP(config) / 25) *
@@ -25,10 +27,10 @@ export const totalFlatNHPRFromEquipment = (config: Config) =>
     .reduce(add, 0);
 
 export const totalPercentNHPRFromSkills = (config: Config) =>
-  safeRestTotalPercentSkillNHPR(config);
+  safeRestPercentSkillNHPRPassive(config);
 
 export const totalFlatNHPRFromSkills = (config: Config) =>
-  safeRestTotalFlatSkillNHPR(config);
+  safeRestFlatSkillNHPRPassive(config);
 
 export const totalNHPR = (config: Config) =>
   total(

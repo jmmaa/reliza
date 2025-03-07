@@ -1,23 +1,125 @@
-import {
-  swordMasteryTotalPercentWeaponATK,
-  busterBladeTotalPercentWeaponATK,
-} from "..";
-import { martialMasteryTotalPercentWeaponATK } from "..";
-import {
-  shotMasteryTotalPercentWeaponATK,
-  samuraiArcheryTotalFlatWeaponATK,
-} from "..";
-import { magicMasteryTotalPercentWeaponATK } from "..";
-import {
-  bushidoTotalPercentWeaponATK,
-  twoHandedTotalPercentWeaponATK,
-} from "..";
-import { unarmedMasteryTotalFlatWeaponATK } from "..";
-import { flashBlastTotalPercentMainWeaponATK } from "..";
-import { halberdMasteryTotalPercentWeaponATK } from "..";
-import { braveAuraTotalPercentWeaponATK } from "..";
 import { type Config } from "../data";
-import { isUsingDualSwords, flattenedStats, add, total } from "../utils";
+import {
+  add,
+  bareHandSkills,
+  bladeSkills,
+  dualSwordSkills,
+  flattenedStats,
+  halberdSkills,
+  isNotUsingSubWeapon,
+  isUsingBareHand,
+  isUsingDualSwords,
+  isUsingMainBOW,
+  isUsingMainBWG,
+  isUsingMainHAL,
+  isUsingMainKN,
+  isUsingMainKTN,
+  isUsingMainMD,
+  isUsingMainOHS,
+  isUsingMainSTF,
+  isUsingMainTHS,
+  isUsingSubKTN,
+  isUsingSubScroll,
+  magicSkills,
+  martialSkills,
+  mononofuSkills,
+  ninjaSkills,
+  shotSkills,
+  supportSkills,
+  total,
+} from "../utils";
+
+export const unarmedMasteryFlatWeaponATKPassive = (config: Config) =>
+  isUsingBareHand(config) && isNotUsingSubWeapon(config) ?
+    Math.floor(
+      (config.properties.level *
+        bareHandSkills(config).unarmedMastery.level) /
+        10,
+    )
+  : 0;
+
+export const twoHandedTotalPercentWeaponATKPassive = (config: Config) =>
+  (
+    isUsingMainKTN(config) ||
+    isUsingMainOHS(config) ||
+    isUsingMainMD(config)
+  ) ?
+    (
+      (isUsingSubScroll(config) &&
+        ninjaSkills(config).ninjaSpirit.level === 10) ||
+      isNotUsingSubWeapon(config)
+    ) ?
+      mononofuSkills(config).twoHanded.level
+    : 0
+  : isNotUsingSubWeapon(config) ? mononofuSkills(config).twoHanded.level
+  : 0;
+
+export const shotMasteryPercentWeaponATKPassive = (config: Config) =>
+  isUsingMainBWG(config) || isUsingMainBOW(config) ?
+    shotSkills(config).shotMastery.level * 3
+  : 0;
+
+export const samuraiArcheryFlatWeaponATKPassive = (config: Config) =>
+  isUsingMainBOW(config) && isUsingSubKTN(config) ?
+    Math.min(
+      Math.floor(
+        config.equipments.subweapon.ATK *
+          0.1 *
+          shotSkills(config).samuraiArchery.level,
+      ),
+      Math.floor(
+        config.equipments.mainweapon.ATK *
+          Math.floor(config.equipments.mainweapon.stability / 100) *
+          0.1 *
+          shotSkills(config).samuraiArchery.level,
+      ),
+    )
+  : 0;
+
+export const martialMasteryPercentWeaponATKPassive = (config: Config) =>
+  isUsingMainKN(config) ?
+    martialSkills(config).martialMastery.level * 3
+  : 0;
+
+export const magicMasteryPercentWeaponATKPassive = (config: Config) =>
+  isUsingMainSTF(config) || isUsingMainMD(config) ?
+    magicSkills(config).magicMastery.level * 3
+  : 0;
+
+export const halberdMasteryPercentWeaponATKPassive = (config: Config) =>
+  isUsingMainHAL(config) ?
+    halberdSkills(config).halberdMastery.level * 3
+  : 0;
+
+export const flashBlastPercentMainWeaponATKBuff = (config: Config) =>
+  dualSwordSkills(config).flashblast.buffIsActive ?
+    (
+      isUsingDualSwords(config) &&
+      dualSwordSkills(config).flashblast.level > 0
+    ) ?
+      25
+    : 0
+  : 0;
+
+export const busterBladePercentWeaponATKBuff = (config: Config) =>
+  isUsingMainOHS(config) || isUsingMainTHS(config) ?
+    bladeSkills(config).busterBlade.buffIsActive ?
+      bladeSkills(config).busterBlade.level
+    : 0
+  : 0;
+
+export const bushidoPercentWeaponATKPassive = (config: Config) =>
+  isUsingMainKTN(config) ? mononofuSkills(config).bushido.level * 3 : 0;
+
+export const braveAuraPercentWeaponATKBuff = (config: Config) =>
+  supportSkills(config).braveAura.buffIsActive ?
+    10 + supportSkills(config).braveAura.level * 2
+  : 0;
+
+export const swordMasteryPercentWeaponATKPassive = (config: Config) =>
+  isUsingMainOHS(config) || isUsingMainTHS(config) ?
+    bladeSkills(config).swordMastery.level * 3
+  : 0;
 
 export const totalMainWeaponRefinementBonusMainWeaponATK = (
   config: Config,
@@ -43,15 +145,15 @@ export const totalPercentWeaponATKFromEquipment = (config: Config) =>
     .reduce(add, 0);
 
 export const totalPercentWeaponATKFromSkills = (config: Config) =>
-  swordMasteryTotalPercentWeaponATK(config) +
-  shotMasteryTotalPercentWeaponATK(config) +
-  martialMasteryTotalPercentWeaponATK(config) +
-  magicMasteryTotalPercentWeaponATK(config) +
-  halberdMasteryTotalPercentWeaponATK(config) +
-  bushidoTotalPercentWeaponATK(config) +
-  twoHandedTotalPercentWeaponATK(config) +
-  braveAuraTotalPercentWeaponATK(config) +
-  busterBladeTotalPercentWeaponATK(config);
+  swordMasteryPercentWeaponATKPassive(config) +
+  shotMasteryPercentWeaponATKPassive(config) +
+  martialMasteryPercentWeaponATKPassive(config) +
+  magicMasteryPercentWeaponATKPassive(config) +
+  halberdMasteryPercentWeaponATKPassive(config) +
+  bushidoPercentWeaponATKPassive(config) +
+  twoHandedTotalPercentWeaponATKPassive(config) +
+  braveAuraPercentWeaponATKBuff(config) +
+  busterBladePercentWeaponATKBuff(config);
 
 export const totalPercentWeaponATK = (config: Config) =>
   totalPercentWeaponATKFromEquipment(config) +
@@ -64,8 +166,8 @@ export const totalFlatWeaponATKFromEquipment = (config: Config) =>
     .reduce(add, 0);
 
 export const totalFlatWeaponATKFromSkills = (config: Config) =>
-  samuraiArcheryTotalFlatWeaponATK(config) +
-  unarmedMasteryTotalFlatWeaponATK(config);
+  samuraiArcheryFlatWeaponATKPassive(config) +
+  unarmedMasteryFlatWeaponATKPassive(config);
 
 export const totalFlatWeaponATK = (config: Config) =>
   totalFlatWeaponATKFromEquipment(config) +
@@ -75,7 +177,7 @@ export const totalMainWeaponATK = (config: Config) =>
   total(
     config.equipments.mainweapon.ATK,
     totalPercentWeaponATK(config) +
-      flashBlastTotalPercentMainWeaponATK(config),
+      flashBlastPercentMainWeaponATKBuff(config),
     totalFlatWeaponATK(config) +
       totalMainWeaponRefinementBonusMainWeaponATK(config),
   );

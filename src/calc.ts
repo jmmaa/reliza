@@ -65,7 +65,7 @@ const defaultConfig: Config = {
 
   equipments: {
     mainweapon: {
-      type: "BARE_HAND",
+      type: "MAIN_BH",
       ATK: 0,
       refinement: 0,
       stability: 0,
@@ -76,7 +76,7 @@ const defaultConfig: Config = {
     },
 
     subweapon: {
-      type: "NONE",
+      type: "SUB_NONE",
       ATK: 0,
       DEF: 0,
       refinement: 0,
@@ -120,21 +120,35 @@ const defaultConfig: Config = {
 
   statModifiers: {
     bladeSkills: {
-      astute: {
-        buffIsActive: false,
-        level: 0,
-      },
-
+      swordMastery: { level: 0 },
+      quickSlash: { level: 0 },
+      astute: { level: 0, buffIsActive: false },
+      triggerSlash: { level: 0, buffIsActive: false },
       berserk: { level: 0, buffIsActive: false },
+      rampage: { level: 0, buffIsActive: false },
+      warCry: { level: 0, buffIsActive: false },
+      busterBlade: { level: 0, buffIsActive: false },
     },
 
     battleSkills: {
+      attackUP: { level: 0 },
       criticalUP: { level: 0 },
       spellBurst: { level: 0 },
+      accuracyUP: { level: 0 },
+      intimidatingPower: { level: 0 },
+      defenseMastery: { level: 0 },
+      defenseUP: { level: 0 },
+      dodgeUP: { level: 0 },
+
+      magicUP: { level: 0 },
+      increasedEnergy: { level: 0 },
     },
 
     mononofuSkills: {
       twoHanded: { level: 0 },
+      bushido: { level: 0 },
+
+      shukuchi: { level: 0, buffIsActive: false },
     },
 
     ninjaSkills: {
@@ -143,17 +157,70 @@ const defaultConfig: Config = {
 
     halberdSkills: {
       criticalSpear: { level: 0 },
+      halberdMastery: { level: 0 },
+
+      godspeedWield: {
+        level: 0,
+        buffIsActive: false,
+        stacks: 0,
+      },
+
+      almightyWield: { level: 0 },
+
+      quickAura: { level: 0, buffIsActive: false },
+    },
+
+    wizardSkills: {
+      castMastery: {
+        level: 0,
+        numberOfskillPointsSpentOnWizardSkills: 0,
+        numberOfWizardSkillsLearned: 0,
+      },
+
+      overlimit: { level: 0, buffIsActive: false },
+
+      sorceryGuide: { level: 0 },
+    },
+
+    hunterSkills: {
+      hunterBowgun: { level: 0 },
     },
 
     dualSwordSkills: {
-      dualSwordControl: { level: 0 },
       dualSwordMastery: { level: 0 },
+      dualSwordControl: { level: 0 },
+      crossParry: {
+        level: 0,
+        buffIsActive: false,
+        inAction: false,
+      },
+      shadowStep: { level: 0, buffIsActive: false },
+
+      saberAura: { level: 0, stacks: 0 },
+      crescentSaber: { level: 0 }, // TODO HOW TO REPRESENT THIS
+      saberAuraAndCrescentSaberInteraction: {
+        buffUsed: "SABER_AURA",
+        buffIsActive: false,
+      },
+
+      godspeed: { level: 0 },
+      flashblast: { level: 0, buffIsActive: false },
+    },
+
+    survivalSkills: {
+      safeRest: { level: 0 },
+      shortRest: { level: 0 },
+      HPBoost: { level: 0 },
+      MPBoost: { level: 0 },
     },
 
     magicBladeSkills: {
       magicWarriorMastery: { level: 0 },
 
-      conversion: { level: 0, buffIsActive: false },
+      conversion: {
+        level: 0,
+        buffIsActive: false, // this flag doesnt do anything for now
+      },
 
       dualBringer: {
         level: 0,
@@ -163,11 +230,69 @@ const defaultConfig: Config = {
         buffIsApplicable: false, // means that dual bringer buff is used in the stat calculation
       },
 
+      magicSkin: { level: 0 },
+
       resonance: {
         level: 0,
         buffIsActive: false,
         set: "A",
       },
+
+      etherFlare: { level: 0, isTargetInflictedWithIgnite: false },
+
+      siphonBarrier: { level: 0, buffIsActive: false },
+    },
+
+    priestSkills: {
+      prayer: { level: 0, buffIsActive: false },
+    },
+
+    magicSkills: {
+      magicMastery: { level: 0, buffIsActive: false },
+    },
+
+    shotSkills: {
+      samuraiArchery: { level: 0, stacks: 0 },
+      shotMastery: { level: 0 },
+    },
+
+    martialSkills: {
+      martialMastery: { level: 0 },
+      martialDiscipline: { level: 0 },
+      aggravate: { level: 0 },
+      chakra: { level: 0, buffIsActive: false },
+    },
+
+    bareHandSkills: {
+      unarmedMastery: { level: 0 },
+      ultimaQiCharge: { level: 0 },
+      hiddenTalent: { level: 0 },
+    },
+
+    guardSkills: {
+      heavyArmorMastery: { level: 0 },
+    },
+
+    shieldSkills: {
+      shieldMastery: { level: 0 },
+      forceShield: { level: 0 },
+      magicalShield: { level: 0 },
+    },
+
+    supportSkills: {
+      braveAura: { level: 0, buffIsActive: false },
+      highCycle: { level: 0, buffIsActive: false },
+    },
+
+    regislets: {
+      physicalAttackBoost: { level: 0 },
+      magicAttackBoost: { level: 0 },
+
+      attackSpeedBoost: { level: 0 },
+      magicSpeedBoost: { level: 0 },
+
+      maxHPBoost: { level: 0 },
+      maxMPBoost: { level: 0 },
     },
   },
 

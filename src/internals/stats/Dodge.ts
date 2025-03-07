@@ -1,8 +1,10 @@
 import { type Config } from "../data";
-import { add, flattenedStats, total } from "../utils";
+import { add, battleSkills, flattenedStats, total } from "../utils";
 
-import { dodgeUPTotalFlatDodge } from "..";
 import { totalAGI } from "./AGI";
+
+export const dodgeUPFlatDodgePassive = (config: Config) =>
+  battleSkills(config).dodgeUP.level;
 
 export const normalArmorBaseDodge = (config: Config) =>
   config.properties.level + totalAGI(config);
@@ -36,7 +38,7 @@ export const totalFlatDodge = (config: Config) =>
   flattenedStats(config)
     .filter((stat) => stat[0] === "FLAT_DODGE")
     .map((stat) => stat[1])
-    .reduce(add, 0) + dodgeUPTotalFlatDodge(config);
+    .reduce(add, 0) + dodgeUPFlatDodgePassive(config);
 
 export const totalDodge = (config: Config) =>
   total(

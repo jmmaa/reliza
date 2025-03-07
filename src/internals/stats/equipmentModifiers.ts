@@ -1,8 +1,28 @@
-import {
-  magicWarriorMasteryTotalPercentATKPenaltyReduction,
-  shieldMasteryPercentASPDPenaltyReduction,
-} from "..";
 import { type Config } from "../data";
+import {
+  isUsingMainOHS,
+  isUsingSubArrow,
+  isUsingSubKN,
+  isUsingSubMD,
+  isUsingSubShield,
+  magicBladeSkills,
+  shieldSkills,
+} from "../utils";
+
+export const shieldMasteryPercentASPDPenaltyReduction = (
+  config: Config,
+) =>
+  isUsingSubShield(config) ?
+    shieldSkills(config).shieldMastery.level * 5
+  : 0;
+
+export const magicWarriorMasteryPercentATKPenaltyReduction = (
+  config: Config,
+) =>
+  isUsingSubMD(config) ?
+    magicBladeSkills(config).magicWarriorMastery.level +
+    (isUsingMainOHS(config) ? 5 : 0)
+  : 0;
 
 export const armorTypePercentASPDModifier = (config: Config) =>
   config.equipments.armor.type === "LIGHT_ARMOR" ? 50
@@ -10,23 +30,23 @@ export const armorTypePercentASPDModifier = (config: Config) =>
   : 0;
 
 export const subWeaponMagicDevicePercentATKModifier = (config: Config) =>
-  config.equipments.subweapon.type === "MAGIC_DEVICE" ?
-    -15 + magicWarriorMasteryTotalPercentATKPenaltyReduction(config)
+  isUsingSubMD(config) ?
+    -15 + magicWarriorMasteryPercentATKPenaltyReduction(config)
   : 0;
 
 export const subWeaponShieldPercentASPDModifier = (config: Config) =>
-  config.equipments.subweapon.type === "SHIELD" ?
+  isUsingSubShield(config) ?
     -50 + shieldMasteryPercentASPDPenaltyReduction(config)
   : 0;
 
 export const subWeaponKnucklePercentMATKModifier = (config: Config) =>
-  config.equipments.subweapon.type === "KNUCKLES" ? -15 : 0;
+  isUsingSubKN(config) ? -15 : 0;
 
 export const subWeaponArrowPercentMDEFModifier = (config: Config) =>
-  config.equipments.subweapon.type === "ARROW" ? -25 : 0;
+  isUsingSubArrow(config) ? -25 : 0;
 
 export const subWeaponArrowPercentDEFModifier = (config: Config) =>
-  config.equipments.subweapon.type === "ARROW" ? -25 : 0;
+  isUsingSubArrow(config) ? -25 : 0;
 
 export const calculateEquipmentModifiers = (config: Config) => ({
   armorTypePercentASPDModifier: armorTypePercentASPDModifier(config),

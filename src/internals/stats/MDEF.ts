@@ -1,19 +1,40 @@
 import { type Config } from "../data";
-import { add, flattenedStats, total } from "../utils";
+import {
+  add,
+  battleSkills,
+  bladeSkills,
+  flattenedStats,
+  isUsingDualSwords,
+  isUsingMainOHS,
+  isUsingSubShield,
+  shieldSkills,
+  total,
+} from "../utils";
 
 import { totalINT } from "./INT";
 import { totalEquipmentDEF } from "./defensiveRelated";
 import { subWeaponArrowPercentMDEFModifier } from "./equipmentModifiers";
 
-import { berserkTotalPercentMDEF } from "..";
+export const berserkPercentMDEFReduction = (config: Config) =>
+  bladeSkills(config).berserk.buffIsActive ?
+    isUsingMainOHS(config) && !isUsingDualSwords(config) ?
+      Math.floor((100 - bladeSkills(config).berserk.level) / 2)
+    : 100 - bladeSkills(config).berserk.level
+  : 0;
 
-import {
-  magicalShieldTotalFlatMDEF,
-  magicalShieldTotalPercentMDEF,
-} from "..";
+export const magicalShieldFlatMDEFPassive = (config: Config) =>
+  isUsingSubShield(config) ?
+    shieldSkills(config).magicalShield.level * 2
+  : 0;
 
-import { defenseMasteryTotalFlatMDEF, defenseUPTotalFlatMDEF } from "..";
-import { rampageBuffIsActive } from "../bladeSkills/rampage";
+export const magicalShieldPercentMDEFPassive = (config: Config) =>
+  isUsingSubShield(config) ? shieldSkills(config).magicalShield.level : 0;
+
+export const defenseMasteryFlatMDEFPassive = (config: Config) =>
+  battleSkills(config).defenseMastery.level;
+
+export const defenseUPFlatMDEFPassive = (config: Config) =>
+  battleSkills(config).defenseUP.level;
 
 export const normalArmorBaseMDEF = (config: Config) =>
   config.properties.level + totalINT(config) + totalEquipmentDEF(config);
@@ -55,7 +76,8 @@ export const totalPercentMDEFFromEquipment = (config: Config) =>
     .reduce(add, 0) + subWeaponArrowPercentMDEFModifier(config);
 
 export const totalPercentMDEFFromSkills = (config: Config) =>
-  berserkTotalPercentMDEF(config) + magicalShieldTotalPercentMDEF(config);
+  berserkPercentMDEFReduction(config) +
+  magicalShieldPercentMDEFPassive(config);
 
 export const totalPercentMDEF = (config: Config) =>
   totalPercentMDEFFromEquipment(config) +
@@ -68,9 +90,9 @@ export const totalFlatMDEFFromEquipment = (config: Config) =>
     .reduce(add, 0);
 
 export const totalFlatMDEFFromSkills = (config: Config) =>
-  magicalShieldTotalFlatMDEF(config) +
-  defenseUPTotalFlatMDEF(config) +
-  defenseMasteryTotalFlatMDEF(config);
+  magicalShieldFlatMDEFPassive(config) +
+  defenseUPFlatMDEFPassive(config) +
+  defenseMasteryFlatMDEFPassive(config);
 
 export const totalFlatMDEF = (config: Config) =>
   totalFlatMDEFFromEquipment(config) + totalFlatMDEFFromSkills(config);
@@ -83,9 +105,14 @@ export const totalMDEF = (config: Config) =>
   );
 
 export const calculateMDEF = (config: Config) => ({
-  totalBaseMDEF: rampageBuffIsActive(config) ? totalBaseMDEF(config) : 0,
+  totalBaseMDEF:
+    bladeSkills(config).rampage.buffIsActive ? totalBaseMDEF(config) : 0,
   totalPercentMDEF:
-    rampageBuffIsActive(config) ? totalPercentMDEF(config) : 0,
-  totalFlatMDEF: rampageBuffIsActive(config) ? totalFlatMDEF(config) : 0,
-  totalMDEF: rampageBuffIsActive(config) ? totalMDEF(config) : 0,
+    bladeSkills(config).rampage.buffIsActive ?
+      totalPercentMDEF(config)
+    : 0,
+  totalFlatMDEF:
+    bladeSkills(config).rampage.buffIsActive ? totalFlatMDEF(config) : 0,
+  totalMDEF:
+    bladeSkills(config).rampage.buffIsActive ? totalMDEF(config) : 0,
 });

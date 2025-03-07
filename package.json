@@ -33,6 +33,7 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "bitset": "^5.2.3",
     "mergician": "^2.0.2"
   }
 }
