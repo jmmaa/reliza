@@ -1,6 +1,6 @@
-export { calculate } from "./calc";
+export { calculate } from "./stats";
 export {
-  type Config,
+  type StatCalcConfig as Config,
   type Stat,
   type StatMapBuilder,
-} from "./internals/data";
+} from "./stats/types";
