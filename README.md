@@ -20,3 +20,6 @@ console.log(myCharacter.totalCriticalDamage); // 221
 ```
 
 ## Todo
+
+- [ ] Damage calculation
+- [ ] More precise calculations
