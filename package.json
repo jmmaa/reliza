@@ -1,7 +1,7 @@
 {
   "name": "reliza",
   "version": "0.0.1",
-  "description": "a bindless, easy-to-use library for status and damage calculation in Toram Online",
+  "description": "an easy-to-use library for status and damage calculation in Toram Online",
   "main": "./lib/index.js",
   "module": "./lib/index.esm.js",
   "types": "./lib/types/index.d.ts",
