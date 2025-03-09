@@ -102,6 +102,10 @@ const calculations = calculate({
       sorceryGuide: { level: 10 },
     },
 
+    survivalSkills: {
+      shortRest: { level: 10 },
+    },
+
     regislets: {
       magicAttackBoost: { level: 30 },
       magicSpeedBoost: { level: 100 },
