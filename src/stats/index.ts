@@ -39,8 +39,8 @@ import {
   calculateWeaponATK,
 } from "./calculations";
 
-import { mergician } from "mergician";
 import { Stat, StatCalcConfig, StatMapBuilder } from "./types";
+import { merge } from "./utils";
 
 type RecursePartial<T> = {
   [K in keyof T]?: T[K] extends Stat[] ? T[K]
@@ -51,7 +51,7 @@ type RecursePartial<T> = {
 export type UserDefinedConfig = RecursePartial<StatCalcConfig>;
 export type Status = ReturnType<typeof calculate>;
 
-const defaultConfig: StatCalcConfig = {
+export const defaultConfig: StatCalcConfig = {
   properties: {
     level: 1,
     STR: 1,
@@ -382,11 +382,8 @@ export const calculateAll = (config: StatCalcConfig) => ({
   ...calculateWeaponATK(config),
 });
 
-const merge = <L extends object, R extends object>(a: L, b: R): L & R =>
-  mergician(a, b) as L & R;
+export const calculate = (config: UserDefinedConfig) =>
+  calculateAll(mergeDefaultConfig(config));
 
 export const mergeDefaultConfig = (config: UserDefinedConfig) =>
   merge(defaultConfig, config);
-
-export const calculate = (config: UserDefinedConfig) =>
-  calculateAll(mergeDefaultConfig(config));

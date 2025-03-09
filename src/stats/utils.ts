@@ -1,10 +1,16 @@
 import BitSet from "bitset";
+import { mergician } from "mergician";
 import {
   MainWeaponTypeName,
   SubWeaponTypeName,
   type Stat,
   type StatCalcConfig,
 } from "./types";
+
+export const merge = <L extends object, R extends object>(
+  a: L,
+  b: R,
+): L & R => mergician(a, b) as L & R;
 
 export const add = (a: number, b: number) => a + b;
 
