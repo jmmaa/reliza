@@ -1,3 +1,7 @@
+import Decimal from "decimal.js";
+
+Decimal.set({ precision: 15, rounding: 1 });
+
 export type DamageCalcConfig = {
   player: {
     level: number;
@@ -26,9 +30,10 @@ export type DamageCalcConfig = {
 
     totalPercentUnsht: number;
     totalFlatUnsht: number;
-    totalStab: number;
-    totalSRD: number;
-    totalLRD: number;
+    totalPercentStab: number;
+    totalPercentSRD: number;
+    totalPercentLRD: number;
+    totalPercentFinalCDMG: number;
   };
 
   target: {
@@ -37,6 +42,7 @@ export type DamageCalcConfig = {
     defense: number;
     currentProrationValue: number;
     weaponResistance: number;
+    element: "LIGHT" | "DARK" | "EARTH" | "WIND" | "FIRE" | "WATER";
   };
 
   damage: {
@@ -106,62 +112,132 @@ export type DamageInstance = {
   ultimaLionRageMultiplier: number;
 };
 
-export const baseDamage = (d: DamageInstance) =>
-  (d.base + d.sourceLevel - d.targetLevel) * ((100 - d.resistance) / 100);
+export const d = (n: Decimal.Value) => new Decimal(n);
 
-export const effectiveDefense = (d: DamageInstance) =>
-  d.defense * (1 - d.pierce / 100);
+export const baseDamage = (dmgInstance: DamageInstance) =>
+  // FORMULA
+  // (dmgInstance.base + dmgInstance.sourceLevel - d.targetLevel) *
+  // ((100 - d.resistance) / 100);
+  d(dmgInstance.base)
+    .plus(d(dmgInstance.sourceLevel))
+    .minus(d(dmgInstance.targetLevel))
+    .times(d(d(100).minus(d(dmgInstance.resistance))).dividedBy(100));
 
-export const calculateGenericDamage = (d: DamageInstance) => {
-  let dmg;
+export const effectiveDefense = (dmgInstance: DamageInstance) =>
+  // FORMULA
+  // dmgInstance.defense * (1 - dmgInstance.pierce / 100);
 
-  dmg = Math.round(baseDamage(d)) - Math.round(effectiveDefense(d));
-  dmg = Math.round(dmg);
+  d(dmgInstance.defense).times(
+    d(d(100).minus(dmgInstance.pierce).dividedBy(100)),
+  );
 
-  dmg += d.constant;
+// export const multiplierSources = (dmgInstance: DamageInstance) =>
 
-  dmg += d.flatUnsheatheAttack;
+export const damage = (dmgInstance: DamageInstance) => {
+  let dmg = baseDamage(dmgInstance).minus(effectiveDefense(dmgInstance));
 
-  dmg *= d.criticalDamageMultiplier;
-  dmg = Math.round(dmg);
+  dmg = dmg.plus(d(dmgInstance.constant));
+  dmg = Decimal.round(dmg);
 
-  dmg *= d.elementRelatedMultiplier;
-  dmg = Math.round(dmg);
+  dmg = dmg.plus(d(dmgInstance.flatUnsheatheAttack));
+  dmg = Decimal.round(dmg);
 
-  dmg *= d.innateMultiplier;
-  dmg = Math.round(dmg);
+  dmg = dmg.times(d(dmgInstance.criticalDamageMultiplier));
+  dmg = Decimal.round(dmg);
 
-  dmg *= d.percentUnsheatheAttack;
-  dmg = Math.round(dmg);
+  dmg = dmg.times(d(dmgInstance.elementRelatedMultiplier));
+  dmg = Decimal.round(dmg);
 
-  dmg *= d.stabilityMultiplier;
-  dmg = Math.round(dmg);
+  dmg = dmg.times(d(dmgInstance.innateMultiplier));
+  dmg = Decimal.round(dmg);
 
-  dmg *= d.prorationMultiplier;
-  dmg = Math.round(dmg);
+  dmg = dmg.times(d(dmgInstance.percentUnsheatheAttack));
+  dmg = Decimal.round(dmg);
 
-  dmg *= d.skillRelatedMultiplier;
-  dmg = Math.round(dmg);
+  dmg = dmg.times(d(dmgInstance.stabilityMultiplier));
+  dmg = Decimal.round(dmg);
 
-  dmg *= d.distanceRelatedMultiplier;
-  dmg = Math.round(dmg);
+  dmg = dmg.times(d(dmgInstance.prorationMultiplier));
+  dmg = Decimal.round(dmg);
 
-  dmg *= d.lethargyMultiplier;
-  dmg = Math.round(dmg);
+  dmg = dmg.times(d(dmgInstance.skillRelatedMultiplier));
+  dmg = Decimal.round(dmg);
 
-  dmg *= d.lastDamageMultiplier;
-  dmg = Math.round(dmg);
+  dmg = dmg.times(d(dmgInstance.distanceRelatedMultiplier));
+  dmg = Decimal.round(dmg);
 
-  dmg *= d.comboRelatedMultiplier;
-  dmg = Math.round(dmg);
+  dmg = dmg.times(d(dmgInstance.lethargyMultiplier));
+  dmg = Decimal.round(dmg);
 
-  dmg *= d.dropRateGemRelatedMultiplier;
-  dmg = Math.round(dmg);
+  dmg = dmg.times(d(dmgInstance.lastDamageMultiplier));
+  dmg = Decimal.round(dmg);
 
-  dmg *= d.ultimaLionRageMultiplier;
-  dmg = Math.round(dmg);
+  dmg = dmg.times(d(dmgInstance.comboRelatedMultiplier));
+  dmg = Decimal.round(dmg);
+
+  dmg = dmg.times(d(dmgInstance.dropRateGemRelatedMultiplier));
+  dmg = Decimal.round(dmg);
+
+  dmg = dmg.times(d(dmgInstance.ultimaLionRageMultiplier));
+  dmg = Decimal.round(dmg);
 
   return dmg;
 };
 
 // TODO: finish these calculations
+
+// console.log(ensureDecimal(123));
+
+// console.log(
+//   effectiveDefense({
+//     sourceLevel: 290,
+//     targetLevel: 1,
+//     base: 5078,
+//     pierce: 100,
+//     resistance: 0,
+//     defense: 1,
+//     constant: 600,
+//     flatUnsheatheAttack: 0,
+//     criticalDamageMultiplier: 301,
+//     elementRelatedMultiplier: 100,
+//     innateMultiplier: 1500,
+//     percentUnsheatheAttack: 100,
+//     stabilityMultiplier: 100,
+//     prorationMultiplier: 100,
+//     skillRelatedMultiplier: 100,
+//     distanceRelatedMultiplier: 100,
+//     lethargyMultiplier: 100,
+//     lastDamageMultiplier: 100,
+//     comboRelatedMultiplier: 110,
+//     dropRateGemRelatedMultiplier: 100,
+//     guardMultiplier: 100,
+//     ultimaLionRageMultiplier: 100,
+//   }),
+// );
+
+console.log(
+  damage({
+    sourceLevel: 290,
+    targetLevel: 1,
+    base: 5078,
+    pierce: 50,
+    resistance: 0,
+    defense: 3210,
+    constant: 600,
+    flatUnsheatheAttack: 0,
+    criticalDamageMultiplier: 3.01,
+    elementRelatedMultiplier: 1,
+    innateMultiplier: 15,
+    percentUnsheatheAttack: 1,
+    stabilityMultiplier: 1,
+    prorationMultiplier: 1,
+    skillRelatedMultiplier: 1,
+    distanceRelatedMultiplier: 1,
+    lethargyMultiplier: 1,
+    lastDamageMultiplier: 1,
+    comboRelatedMultiplier: 1.1,
+    dropRateGemRelatedMultiplier: 1,
+    guardMultiplier: 1,
+    ultimaLionRageMultiplier: 1,
+  }),
+);
