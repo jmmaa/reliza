@@ -9,9 +9,11 @@ export const shortRestPercentSkillNMPRPassive = (config: StatCalcConfig) =>
   survivalSkills(config).shortRest.level * 5;
 
 export const totalBaseNMPR = (config: StatCalcConfig) =>
-  Math.floor(totalMaxMP(config) / 100) *
-    ((100 + totalPercentNMPRFromEquipment(config)) / 100) +
-  totalFlatNMPRFromEquipment(config);
+  Math.floor(
+    Math.floor(totalMaxMP(config) / 100) *
+      ((100 + totalPercentNMPRFromEquipment(config)) / 100) +
+      totalFlatNMPRFromEquipment(config),
+  );
 
 export const totalPercentNMPRFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
@@ -44,7 +46,7 @@ export const calculateNMPR = (config: StatCalcConfig) => ({
   totalFlatNMPRFromSkills: totalFlatNMPRFromSkills(config),
   totalPercentNMPRFromSkills: totalPercentNMPRFromSkills(config),
   totalFlatNMPRFromEquipment: totalFlatNMPRFromEquipment(config),
-  totalNMPR,
+  totalNMPR: totalNMPR(config),
 });
 
 // TODO:
