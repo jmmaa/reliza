@@ -5,54 +5,48 @@ export const mainWeaponElement = (config: StatCalcConfig) =>
     .stats(config)
     .filter(
       (stat) =>
-        (stat[0] === "EARTH_ELEMENT" ||
-          stat[0] === "FIRE_ELEMENT" ||
-          stat[0] === "WIND_ELEMENT" ||
-          stat[0] === "WATER_ELEMENT" ||
-          stat[0] === "DARK_ELEMENT" ||
-          stat[0] === "LIGHT_ELEMENT") &&
+        (stat[0] === "EARTH" ||
+          stat[0] === "FIRE" ||
+          stat[0] === "WIND" ||
+          stat[0] === "WATER" ||
+          stat[0] === "DARK" ||
+          stat[0] === "LIGHT") &&
         stat[1] > 0,
     )
     .map((stat) =>
-      stat[0] === "EARTH_ELEMENT" ? "EARTH_ELEMENT"
-      : stat[0] === "FIRE_ELEMENT" ? "FIRE_ELEMENT"
-      : stat[0] === "WIND_ELEMENT" ? "WIND_ELEMENT"
-      : stat[0] === "WATER_ELEMENT" ? "WATER_ELEMENT"
-      : stat[0] === "DARK_ELEMENT" ? "DARK_ELEMENT"
-      : stat[0] === "LIGHT_ELEMENT" ? "LIGHT_ELEMENT"
-      : "NEUTRAL_ELEMENT",
+      stat[0] === "EARTH" ? "EARTH"
+      : stat[0] === "FIRE" ? "FIRE"
+      : stat[0] === "WIND" ? "WIND"
+      : stat[0] === "WATER" ? "WATER"
+      : stat[0] === "DARK" ? "DARK"
+      : stat[0] === "LIGHT" ? "LIGHT"
+      : "NEUTRAL",
     )
-    .reduce(
-      (prev, curr) => (curr !== "NEUTRAL_ELEMENT" ? curr : prev),
-      "NEUTRAL_ELEMENT",
-    );
+    .reduce((prev, curr) => (curr !== "NEUTRAL" ? curr : prev), "NEUTRAL");
 
 export const subWeaponElement = (config: StatCalcConfig) =>
   config.equipments.subweapon
     .stats(config)
     .filter(
       (stat) =>
-        (stat[0] === "EARTH_ELEMENT" ||
-          stat[0] === "FIRE_ELEMENT" ||
-          stat[0] === "WIND_ELEMENT" ||
-          stat[0] === "WATER_ELEMENT" ||
-          stat[0] === "DARK_ELEMENT" ||
-          stat[0] === "LIGHT_ELEMENT") &&
+        (stat[0] === "EARTH" ||
+          stat[0] === "FIRE" ||
+          stat[0] === "WIND" ||
+          stat[0] === "WATER" ||
+          stat[0] === "DARK" ||
+          stat[0] === "LIGHT") &&
         stat[1] > 0,
     )
     .map((stat) =>
-      stat[0] === "EARTH_ELEMENT" ? "EARTH_ELEMENT"
-      : stat[0] === "FIRE_ELEMENT" ? "FIRE_ELEMENT"
-      : stat[0] === "WIND_ELEMENT" ? "WIND_ELEMENT"
-      : stat[0] === "WATER_ELEMENT" ? "WATER_ELEMENT"
-      : stat[0] === "DARK_ELEMENT" ? "DARK_ELEMENT"
-      : stat[0] === "LIGHT_ELEMENT" ? "LIGHT_ELEMENT"
-      : "NEUTRAL_ELEMENT",
+      stat[0] === "EARTH" ? "EARTH"
+      : stat[0] === "FIRE" ? "FIRE"
+      : stat[0] === "WIND" ? "WIND"
+      : stat[0] === "WATER" ? "WATER"
+      : stat[0] === "DARK" ? "DARK"
+      : stat[0] === "LIGHT" ? "LIGHT"
+      : "NEUTRAL",
     )
-    .reduce(
-      (prev, curr) => (curr !== "NEUTRAL_ELEMENT" ? curr : prev),
-      "NEUTRAL_ELEMENT",
-    );
+    .reduce((prev, curr) => (curr !== "NEUTRAL" ? curr : prev), "NEUTRAL");
 
 export const calculateElement = (config: StatCalcConfig) => ({
   mainWeaponElement: mainWeaponElement(config),
