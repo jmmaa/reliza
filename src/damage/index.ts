@@ -20,6 +20,12 @@ export type DamageCalcConfig = {
     manaRechargeLevel: number;
     isManaRechargeBuffActive: boolean;
 
+    auraBladeLevel: number;
+    isAuraBladeBuffActive: boolean;
+
+    flashBlinkLevel: number;
+    isFlashBlinkBuffActive: boolean;
+
     spellBurstLevel: number;
 
     longRangeLevel: number;
@@ -34,6 +40,13 @@ export type DamageCalcConfig = {
     totalPercentSRD: number;
     totalPercentLRD: number;
     totalPercentFinalCDMG: number;
+    totalDTEarth: number;
+    totalDTFire: number;
+    totalDTWater: number;
+    totalDTWind: number;
+    totalDTLight: number;
+    totalDTDark: number;
+    totalDTNeutral: number;
   };
 
   target: {
@@ -42,32 +55,68 @@ export type DamageCalcConfig = {
     defense: number;
     currentProrationValue: number;
     weaponResistance: number;
-    element: "LIGHT" | "DARK" | "EARTH" | "WIND" | "FIRE" | "WATER";
+    element:
+      | "LIGHT"
+      | "DARK"
+      | "EARTH"
+      | "WIND"
+      | "FIRE"
+      | "WATER"
+      | "NEUTRAL";
   };
 
   damage: {
-    pierce: number;
-    base: number;
-    constant: number;
-    flatUnsheatheAttack: number;
-    criticalDamageMultiplier: number;
-    elementRelatedMultiplier: number;
-    innateMultiplier: number;
-    percentUnsheatheAttack: number;
-    stabilityMultiplier: number;
-    prorationMultiplier: number;
-    skillRelatedMultiplier: number;
-    distanceRelatedMultiplier: number;
-    lethargyMultiplier: number;
-    lastDamageMultiplier: number;
-    comboRelatedMultiplier: number;
-    dropRateGemRelatedMultiplier: number;
-    guardMultiplier: number;
-    ultimaLionRageMultiplier: number;
+    damageSource:
+      | "DUAL_SWORDS"
+      | "MAGICAL"
+      | "PHYSICAL"
+      | "WIZARD"
+      | "MAGIC_WARRIOR"
+      | "DRACONIC_CHARGE_2ND_HIT";
 
-    isGuarded: boolean;
+    base: number;
+    pierce: number;
+    constant: number;
+    innateMultiplier: number;
+
+    // --- crit-related ---
+    criticalDamageMultiplierCalculation:
+      | "PHYSICAL"
+      | "MAGICAL"
+      | "DUAL_BRINGER";
+
+    // --- distance-related ---
+    distanceMultiplierCalculation: "SRD" | "LRD" | "PLACED";
+
+    // --- stability-related ---
+    stabilityCalculation: "MAGICAL" | "PHYSICAL";
+    isGrazed: boolean;
 
     // --- element-related ---
+    fixedElement:
+      | "LIGHT"
+      | "DARK"
+      | "EARTH"
+      | "WIND"
+      | "FIRE"
+      | "WATER"
+      | "NEUTRAL";
+    mainWeaponElement:
+      | "LIGHT"
+      | "DARK"
+      | "EARTH"
+      | "WIND"
+      | "FIRE"
+      | "WATER"
+      | "NEUTRAL";
+    subWeaponElement:
+      | "LIGHT"
+      | "DARK"
+      | "EARTH"
+      | "WIND"
+      | "FIRE"
+      | "WATER"
+      | "NEUTRAL";
     isAffectedByBonusDTEFromINT: boolean;
 
     // --- skill-related ---
@@ -77,20 +126,24 @@ export type DamageCalcConfig = {
     isAffectedByWhack: boolean;
     isAffectedByConcentrate: boolean;
 
-    // --- combo related ---
+    // --- combo-related ---
     numberOfConsecutiveTagsInCombo: number; // shud be from 1-9
     positionAfterSaveTaggedSkill: number; // shud be from 1-9
     isAfterSmiteTaggedSkill: boolean;
     isBloodsuckerSpiritEffectActive: boolean;
     comboCount: number; // shud be from 1-9
     comboTagUsed: "SAVE" | "CONSECUTIVE" | "SMITE" | "BLOODSUCKER";
+
+    // --- other multipliers ---
+    dropRateGemRelatedMultiplier: number;
+    isGuarded: boolean;
   };
 };
 
 export type DamageInstance = {
   sourceLevel: number;
   targetLevel: number;
-  base: number;
+  effectiveSource: number;
   pierce: number;
   resistance: number;
   defense: number;
@@ -112,13 +165,10 @@ export type DamageInstance = {
   ultimaLionRageMultiplier: number;
 };
 
-export const d = (n: Decimal.Value) => new Decimal(n);
+export const d = Decimal;
 
 export const baseDamage = (dmgInstance: DamageInstance) =>
-  // FORMULA
-  // (dmgInstance.base + dmgInstance.sourceLevel - d.targetLevel) *
-  // ((100 - d.resistance) / 100);
-  d(dmgInstance.base)
+  d(dmgInstance.effectiveSource)
     .plus(d(dmgInstance.sourceLevel))
     .minus(d(dmgInstance.targetLevel))
     .times(d(d(100).minus(d(dmgInstance.resistance))).dividedBy(100));
@@ -130,8 +180,6 @@ export const effectiveDefense = (dmgInstance: DamageInstance) =>
   d(dmgInstance.defense).times(
     d(d(100).minus(dmgInstance.pierce).dividedBy(100)),
   );
-
-// export const multiplierSources = (dmgInstance: DamageInstance) =>
 
 export const damage = (dmgInstance: DamageInstance) => {
   let dmg = baseDamage(dmgInstance).minus(effectiveDefense(dmgInstance));
@@ -219,7 +267,7 @@ console.log(
   damage({
     sourceLevel: 290,
     targetLevel: 1,
-    base: 5078,
+    effectiveSource: 5078,
     pierce: 50,
     resistance: 0,
     defense: 3210,
@@ -241,3 +289,4 @@ console.log(
     ultimaLionRageMultiplier: 1,
   }),
 );
+// TODO  maybe finish this
