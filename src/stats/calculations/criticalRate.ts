@@ -19,6 +19,7 @@ import {
   magicBladeSkills,
   mononofuSkills,
   ninjaSkills,
+  regislets,
   total,
 } from "../utils";
 
@@ -30,12 +31,17 @@ export const berserkFlatCritRateBuff = (config: StatCalcConfig) =>
 export const resonanceFlatCritRateBuff = (config: StatCalcConfig) =>
   (
     magicBladeSkills(config).resonance.buffIsActive &&
-    magicBladeSkills(config).resonance.set === "A" &&
+    magicBladeSkills(config).resonance.set === "C" &&
     isUsingSubMD(config)
   ) ?
-    10 +
-    magicBladeSkills(config).resonance.level * 2 +
-    config.equipments.subweapon.refinement * 3
+    Math.floor(
+      (10 +
+        magicBladeSkills(config).resonance.level * 2 +
+        config.equipments.subweapon.refinement * 3) *
+        (regislets(config).focusResonance.level >= 1 ?
+          (95 - 5 * regislets(config).focusResonance.level) / 100
+        : 1),
+    )
   : 0;
 
 export const astuteFlatCritRateBuff = (config: StatCalcConfig) =>
@@ -181,6 +187,7 @@ export const calculateCriticalRate = (config: StatCalcConfig) => ({
   totalBaseCriticalRate: totalBaseCriticalRate(config),
   totalPercentCriticalRate: totalPercentCriticalRate(config),
   totalFlatCriticalRate: totalFlatCriticalRate(config),
+  totalCriticalRate: totalCriticalRate(config),
   totalMagicCriticalRate: totalMagicCriticalRate(config),
 });
 

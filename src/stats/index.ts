@@ -293,6 +293,10 @@ export const defaultConfig: StatCalcConfig = {
 
       maxHPBoost: { level: 0 },
       maxMPBoost: { level: 0 },
+
+      speedResonance: { level: 0 },
+      powerResonance: { level: 0 },
+      focusResonance: { level: 0 },
     },
   },
 

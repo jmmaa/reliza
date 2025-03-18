@@ -41,6 +41,12 @@ export const totalDamageToWater = (config: StatCalcConfig) =>
     .map((stat) => stat[1])
     .reduce(add, 0);
 
+export const totalDamageToNeutral = (config: StatCalcConfig) =>
+  flattenedStats(config)
+    .filter((stat) => stat[0] === "DAMAGE_TO_NEUTRAL")
+    .map((stat) => stat[1])
+    .reduce(add, 0);
+
 export const calculateDamageToElement = (config: StatCalcConfig) => ({
   totalMagicDamageToElementBasedFromINT:
     totalMagicDamageToElementBasedFromINT(config),
@@ -50,4 +56,5 @@ export const calculateDamageToElement = (config: StatCalcConfig) => ({
   totalDamageToWind: totalDamageToWind(config),
   totalDamageToDark: totalDamageToDark(config),
   totalDamageToLight: totalDamageToLight(config),
+  totalDamageToNeutral: totalDamageToNeutral(config),
 });

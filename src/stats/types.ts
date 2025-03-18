@@ -119,6 +119,7 @@ export type StatName =
   | "DAMAGE_TO_WATER"
   | "DAMAGE_TO_FIRE"
   | "DAMAGE_TO_WIND"
+  | "DAMAGE_TO_NEUTRAL"
   | "AGGRO"
   | "TUMBLE_UNAVAILABLE"
   | "FLINCH_UNAVAILABLE"
@@ -166,7 +167,7 @@ export interface Equipments {
     refinement: number;
     stability: number;
 
-    stats: StatMapBuilder; // change this later with type callable | xtal name
+    stats: StatMapBuilder;
     crystal1: StatMapBuilder;
     crystal2: StatMapBuilder;
   };
@@ -384,6 +385,10 @@ export interface StatModifiers {
 
     maxHPBoost: { level: number };
     maxMPBoost: { level: number };
+
+    focusResonance: { level: number };
+    speedResonance: { level: number };
+    powerResonance: { level: number };
   };
 
   // shotSkills: ShotSkills;
@@ -930,3 +935,5 @@ export type SpecialGearUpgradeCrystalName =
   | "Zelbuse";
 
 // export type CrystalName =
+
+// NEW DATA CONFIG CONCEPT
