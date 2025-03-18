@@ -26,7 +26,7 @@ const calculations = calculate({
       refinement: 15,
       stability: 60,
       stats: (config) => [
-        ["FIRE_ELEMENT", 1],
+        ["FIRE", 1],
         ["PERCENT_MATK", 10],
         ["FLAT_CRITICAL_DAMAGE", 23],
         ["DAMAGE_TO_EARTH", 23],
@@ -39,11 +39,13 @@ const calculations = calculate({
 
     subweapon: {
       type: "SUB_MD",
-      stats: (config) => [["FIRE_ELEMENT", 1]],
+      stats: (config) => [["FIRE", 1]],
+
+      refinement: 15,
     },
     additionalGear: {
       DEF: 0,
-      refinement: 15,
+
       stats: cookieWings,
       crystal1: jibrilIII,
       crystal2: mieli,
@@ -78,6 +80,7 @@ const calculations = calculate({
   statModifiers: {
     magicBladeSkills: {
       magicWarriorMastery: { level: 10 },
+      resonance: { level: 10, buffIsActive: true, set: "C" },
     },
 
     // magicSkills: {
@@ -110,6 +113,8 @@ const calculations = calculate({
       magicAttackBoost: { level: 30 },
       magicSpeedBoost: { level: 100 },
       attackSpeedBoost: { level: 100 },
+
+      focusResonance: { level: 9 },
     },
   },
 
@@ -133,4 +138,4 @@ const calculations = calculate({
   ],
 });
 
-console.log(calculations);
+console.log(calculations.totalCriticalRate);
