@@ -72,8 +72,7 @@ export const totalBaseCSPD = (config: StatCalcConfig) =>
 
 export const totalPercentCSPDFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_CSPD")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentCSPD)
     .reduce(add, 0);
 
 export const totalPercentCSPDFromSkills = (config: StatCalcConfig) =>
@@ -87,8 +86,7 @@ export const totalPercentCSPD = (config: StatCalcConfig) =>
 
 export const totalFlatCSPDFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_CSPD")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatCSPD)
     .reduce(add, 0) + regisletMagicSpeedBoostFlatCSPD(config);
 
 export const totalFlatCSPDFromSkills = (config: StatCalcConfig) =>

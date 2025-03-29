@@ -155,8 +155,7 @@ export const totalBaseMATK = (config: StatCalcConfig) =>
 
 export const totalPercentMATKFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_MATK")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentMATK)
     .reduce(add, 0) + subWeaponKnucklePercentMATKModifier(config);
 
 export const totalPercentMATKFromSkills = (config: StatCalcConfig) =>
@@ -168,8 +167,7 @@ export const totalPercentMATK = (config: StatCalcConfig) =>
 
 export const totalFlatMATKFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_MATK")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatMATK)
     .reduce(add, 0) + regisletMagicAttackBoostFlatMATK(config);
 
 export const totalFlatMATKFromSkills = (config: StatCalcConfig) =>

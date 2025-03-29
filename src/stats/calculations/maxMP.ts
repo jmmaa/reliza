@@ -33,14 +33,12 @@ export const totalBaseMaxMP = (config: StatCalcConfig) =>
 
 export const totalPercentMaxMP = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_MAX_MP")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentMaxMP)
     .reduce(add, 0);
 
 export const totalFlatMaxMPFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_MAX_MP")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatMaxMP)
     .reduce(add, 0) + regisletMaxMPBoostFlatMaxMP(config);
 
 export const totalFlatMaxMPFromSkills = (config: StatCalcConfig) =>

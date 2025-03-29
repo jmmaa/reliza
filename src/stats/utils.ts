@@ -1,9 +1,11 @@
 import BitSet from "bitset";
 import { mergician } from "mergician";
+import { createDefaultStatGroup } from ".";
 import {
   MainWeaponTypeName,
+  StatGroup,
+  StatMap,
   SubWeaponTypeName,
-  type Stat,
   type StatCalcConfig,
 } from "./types";
 
@@ -99,55 +101,187 @@ export const isUsingLightArmor = (config: StatCalcConfig) =>
 export const isUsingSubKTN = (config: StatCalcConfig) =>
   config.equipments.subweapon.type === "SUB_KTN";
 
+// (
+//   Object.entries(config.equipments.mainweapon.stats)
+// ).flatMap(
+//   ([key, _]) =>
+//     key === "default" ||
+//     (key === "withArrow" && isUsingSubArrow(config)) ||
+//     (key === "withBowguns" && isUsingMainBWG(config)) ||
+//     (key === "withBows" && isUsingMainBOW(config)) ||
+//     (key === "withDagger" && isUsingSubDagger(config)) ||
+//     (key === "withMagicTools" &&
+//       (isUsingMainMD(config) || isUsingSubMD(config))) ||
+//     (key === "withKnuckles" &&
+//       (isUsingMainKN(config) || isUsingSubKN(config))) ||
+//     (key === "withHalberds" && isUsingMainHAL(config)) ||
+//     (key === "withKatanas" && isUsingMainKTN(config)) ||
+//     (key === "withStaffs" && isUsingMainSTF(config)) ||
+//     (key === "withOneHandedSwords" && isUsingMainOHS(config)) ||
+//     (key === "withTwoHandedSwords" && isUsingMainTHS(config)) ||
+//     (key === "withNinjutsuScroll" && isUsingSubScroll(config)) ||
+//     (key === "withShield" && isUsingSubShield(config)) ||
+//     (key === "withDualSwords" && isUsingDualSwords(config)) ||
+//     (key === "withHeavyArmor" &&
+//       config.equipments.armor.type === "HEAVY_ARMOR") ||
+//     (key === "withLightArmor" &&
+//       config.equipments.armor.type === "LIGHT_ARMOR") ? ,
+// ); // FINISH THIS
+
+export const collectStatGroupsFromStatMap = (
+  config: StatCalcConfig,
+  statMap: StatMap,
+) => {
+  let accumulated = [];
+
+  accumulated.push(statMap.default);
+
+  if (isUsingMainBWG(config)) {
+    accumulated.push(statMap.withBowguns);
+  }
+
+  if (isUsingMainBOW(config)) {
+    accumulated.push(statMap.withBows);
+  }
+
+  if (isUsingSubArrow(config)) {
+    accumulated.push(statMap.withArrow);
+  }
+
+  if (isUsingSubDagger(config)) {
+    accumulated.push(statMap.withDagger);
+  }
+
+  if (isUsingMainHAL(config)) {
+    accumulated.push(statMap.withHalberds);
+  }
+
+  if (isUsingMainKTN(config)) {
+    accumulated.push(statMap.withKatanas);
+  }
+
+  if (isUsingMainOHS(config)) {
+    accumulated.push(statMap.withOneHandedSwords);
+  }
+
+  if (isUsingMainTHS(config)) {
+    accumulated.push(statMap.withTwoHandedSwords);
+  }
+
+  if (isUsingDualSwords(config)) {
+    accumulated.push(statMap.withDualSwords);
+  }
+
+  if (isUsingMainSTF(config)) {
+    accumulated.push(statMap.withStaffs);
+  }
+
+  if (isUsingSubShield(config)) {
+    accumulated.push(statMap.withShield);
+  }
+
+  if (isUsingSubScroll(config)) {
+    accumulated.push(statMap.withNinjutsuScroll);
+  }
+
+  if (isUsingHeavyArmor(config)) {
+    accumulated.push(statMap.withHeavyArmor);
+  }
+
+  if (isUsingLightArmor(config)) {
+    accumulated.push(statMap.withLightArmor);
+  }
+
+  if (isUsingMainMD(config) || isUsingSubMD(config)) {
+    accumulated.push(statMap.withMagicTools);
+  }
+
+  if (isUsingMainKN(config) || isUsingSubKN(config)) {
+    accumulated.push(statMap.withKnuckles);
+  }
+
+  return accumulated;
+};
+
 export const flattenedStatsFromMainWeapon = (config: StatCalcConfig) =>
-  config.equipments.mainweapon.stats(config);
+  collectStatGroupsFromStatMap(config, config.equipments.mainweapon.stats);
 
 export const flattenedStatsFromMainWeaponCrystal1 = (
   config: StatCalcConfig,
-) => config.equipments.mainweapon.crystal1(config);
+) =>
+  collectStatGroupsFromStatMap(
+    config,
+    config.equipments.mainweapon.crystal1,
+  );
 
 export const flattenedStatsFromMainWeaponCrystal2 = (
   config: StatCalcConfig,
-) => config.equipments.mainweapon.crystal2(config);
+) =>
+  collectStatGroupsFromStatMap(
+    config,
+    config.equipments.mainweapon.crystal2,
+  );
 
 export const flattenedStatsFromSubWeapon = (config: StatCalcConfig) =>
   isUsingStatAccessibleSubWeapon(config) ?
-    config.equipments.subweapon.stats(config)
+    collectStatGroupsFromStatMap(config, config.equipments.subweapon.stats)
   : [];
 
 export const flattenedStatsFromArmor = (config: StatCalcConfig) =>
-  config.equipments.armor.stats(config);
+  collectStatGroupsFromStatMap(config, config.equipments.armor.stats);
 
 export const flattenedStatsFromArmorCrystal1 = (config: StatCalcConfig) =>
-  config.equipments.armor.crystal1(config);
+  collectStatGroupsFromStatMap(config, config.equipments.armor.crystal1);
 
 export const flattenedStatsFromArmorCrystal2 = (config: StatCalcConfig) =>
-  config.equipments.armor.crystal2(config);
+  collectStatGroupsFromStatMap(config, config.equipments.armor.crystal2);
 
 export const flattenedStatsFromAdditionalGear = (config: StatCalcConfig) =>
-  config.equipments.additionalGear.stats(config);
+  collectStatGroupsFromStatMap(
+    config,
+    config.equipments.additionalGear.stats,
+  );
 
 export const flattenedStatsFromAdditionalGearCrystal1 = (
   config: StatCalcConfig,
-) => config.equipments.additionalGear.crystal1(config);
+) =>
+  collectStatGroupsFromStatMap(
+    config,
+    config.equipments.additionalGear.crystal1,
+  );
 
 export const flattenedStatsFromAdditionalGearCrystal2 = (
   config: StatCalcConfig,
-) => config.equipments.additionalGear.crystal2(config);
+) =>
+  collectStatGroupsFromStatMap(
+    config,
+    config.equipments.additionalGear.crystal2,
+  );
 
 export const flattenedStatsFromSpecialGear = (config: StatCalcConfig) =>
-  config.equipments.specialGear.stats(config);
+  collectStatGroupsFromStatMap(
+    config,
+    config.equipments.specialGear.stats,
+  );
 
 export const flattenedStatsFromSpecialGearCrystal1 = (
   config: StatCalcConfig,
-) => config.equipments.specialGear.crystal1(config);
+) =>
+  collectStatGroupsFromStatMap(
+    config,
+    config.equipments.specialGear.crystal1,
+  );
 
 export const flattenedStatsFromSpecialGearCrystal2 = (
   config: StatCalcConfig,
-) => config.equipments.specialGear.crystal2(config);
+) =>
+  collectStatGroupsFromStatMap(
+    config,
+    config.equipments.specialGear.crystal2,
+  );
 
 export const flattenedStats = (config: StatCalcConfig) =>
-  ([] as Stat[]).concat(
+  ([] as StatGroup[]).concat(
     flattenedStatsFromMainWeapon(config),
     flattenedStatsFromMainWeaponCrystal1(config),
     flattenedStatsFromMainWeaponCrystal2(config),
@@ -161,8 +295,14 @@ export const flattenedStats = (config: StatCalcConfig) =>
     flattenedStatsFromSpecialGear(config),
     flattenedStatsFromSpecialGearCrystal1(config),
     flattenedStatsFromSpecialGearCrystal2(config),
-    config.consumables,
-    config.foodBuffs,
+    config.consumables.map((stat) => ({
+      ...createDefaultStatGroup(),
+      ...stat,
+    })),
+    config.foodBuffs.map((stat) => ({
+      ...createDefaultStatGroup(),
+      ...stat,
+    })),
   );
 
 export const bladeSkills = (config: StatCalcConfig) =>

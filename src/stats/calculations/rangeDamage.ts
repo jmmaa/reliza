@@ -3,14 +3,12 @@ import { add, flattenedStats } from "../utils";
 
 export const totalLongRangeDamage = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "LONG_RANGE_DAMAGE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.longRangeDamage)
     .reduce(add, 0);
 
 export const totalShortRangeDamage = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "SHORT_RANGE_DAMAGE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.shortRangeDamage)
     .reduce(add, 0);
 
 export const calculateRangeDamage = (config: StatCalcConfig) => ({

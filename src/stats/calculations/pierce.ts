@@ -3,14 +3,12 @@ import { add, flattenedStats } from "../utils";
 
 export const totalMagicPierce = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "MAGIC_PIERCE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.magicPierce)
     .reduce(add, 0);
 
 export const totalPhysicalPierce = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PHYSICAL_PIERCE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.physicalPierce)
     .reduce(add, 0);
 
 export const calculatePierce = (config: StatCalcConfig) => ({

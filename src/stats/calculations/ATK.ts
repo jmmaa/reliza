@@ -218,8 +218,7 @@ export const totalBaseATK = (config: StatCalcConfig) =>
 
 export const totalPercentATKFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_ATK")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentATK)
     .reduce(add, 0) + subWeaponMagicDevicePercentATKModifier(config);
 
 export const totalPercentATKFromSkills = (config: StatCalcConfig) =>
@@ -239,8 +238,7 @@ export const totalPercentATK = (config: StatCalcConfig) =>
 
 export const totalFlatATKFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_ATK")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatATK)
     .reduce(add, 0) + regisletPhysicalAttackBoostFlatATK(config);
 
 export const totalFlatATKFromSkills = (config: StatCalcConfig) =>

@@ -25,13 +25,15 @@ const calculations = calculate({
       ATK: 584,
       refinement: 15,
       stability: 60,
-      stats: (config) => [
-        ["FIRE", 1],
-        ["PERCENT_MATK", 10],
-        ["FLAT_CRITICAL_DAMAGE", 23],
-        ["DAMAGE_TO_EARTH", 23],
-        ["FLAT_CRITICAL_RATE", 29],
-      ],
+      stats: {
+        default: {
+          fireElement: 1,
+          damageToEarth: 23,
+          percentMATK: 10,
+          flatCriticalDamage: 23,
+          flatCriticalRate: 29,
+        },
+      },
 
       crystal1: diark,
       crystal2: vatudo,
@@ -39,7 +41,9 @@ const calculations = calculate({
 
     subweapon: {
       type: "SUB_MD",
-      stats: (config) => [["FIRE", 1]],
+      stats: {
+        default: { fireElement: 1 },
+      },
 
       refinement: 15,
     },
@@ -54,16 +58,14 @@ const calculations = calculate({
     armor: {
       DEF: 0,
       type: "LIGHT_ARMOR",
-      stats: (config) => [
-        ["DAMAGE_TO_EARTH", 22],
-        ["PERCENT_CRITICAL_DAMAGE", 11],
-        ["FLAT_CRITICAL_DAMAGE", 22],
-        ["FLAT_CRITICAL_RATE", 28],
-        ["PERCENT_ATK", -14],
-        ["PHYSICAL_PIERCE", -8],
-        ["FLAT_ACCURACY", -22],
-        ["PERCENT_ACCURACY", -6],
-      ],
+      stats: {
+        default: {
+          damageToEarth: 22,
+          percentCriticalDamage: 11,
+          flatCriticalDamage: 22,
+          flatCriticalRate: 28,
+        },
+      },
       crystal1: bangrudom,
       crystal2: gegner,
     },
@@ -119,23 +121,23 @@ const calculations = calculate({
   },
 
   consumables: [
-    ["MAGIC_PIERCE", 10],
-    ["PERCENT_MATK", 13],
-    ["FLAT_MATK", 300], // from maximizer buff
-    ["PERCENT_WEAPON_ATK", 30],
-    ["FLAT_CRITICAL_DAMAGE", 12],
-    ["FLAT_CSPD", 800],
-    ["MAGIC_PIERCE", 23], // from ava
-    ["MOTION_SPEED", 25], // from ebarrier
+    { magicPierce: 10 },
+    { percentMATK: 13 },
+    { flatMATK: 300 }, // from maximizer buff
+    { percentWeaponATK: 30 },
+    { flatCriticalDamage: 12 },
+    { flatCSPD: 800 },
+    { magicPierce: 23 }, // from ava
+    { motionSpeed: 25 }, // from ebarrier
   ],
 
   foodBuffs: [
-    ["FLAT_CRITICAL_RATE", 30],
-    ["FLAT_MAX_MP", 1000],
-    ["FLAT_STR", 30],
-    ["DAMAGE_TO_EARTH", 15],
-    ["FLAT_WEAPON_ATK", 100],
+    { flatCriticalRate: 30 },
+    { flatMaxMP: 1000 },
+    { flatSTR: 30 },
+    { damageToEarth: 15 },
+    { flatWeaponATK: 100 },
   ],
 });
 
-console.log(calculations.totalCriticalRate);
+console.log(calculations);

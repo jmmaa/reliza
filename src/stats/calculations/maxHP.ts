@@ -40,8 +40,7 @@ export const totalBaseMaxHP = (config: StatCalcConfig) =>
 
 export const totalPercentMaxHPFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_MAX_HP")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentMaxHP)
     .reduce(add, 0);
 
 export const totalPercentMaxHPFromSkills = (config: StatCalcConfig) =>
@@ -53,8 +52,7 @@ export const totalPercentMaxHP = (config: StatCalcConfig) =>
 
 export const totalFlatMaxHPFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_MAX_HP")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatMaxHP)
     .reduce(add, 0) + regisletMaxHPBoostFlatMaxHP(config);
 
 export const totalFlatMaxHPFromSkills = (config: StatCalcConfig) =>

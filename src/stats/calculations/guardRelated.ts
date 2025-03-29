@@ -36,8 +36,7 @@ export const totalBaseGuardPower = (config: StatCalcConfig) =>
 
 export const totalPercentGuardPower = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "GUARD_POWER")
-    .map((stat) => stat[1])
+    .map((stat) => stat.guardPower)
     .reduce(add, 0);
 
 export const totalGuardPower = (config: StatCalcConfig) =>
@@ -72,8 +71,7 @@ export const totalBaseGuardRecharge = (config: StatCalcConfig) =>
 
 export const totalPercentGuardRecharge = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "GUARD_RECHARGE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.guardRecharge)
     .reduce(add, 0) + heavyArmorMasteryGuardRecharge(config);
 
 export const totalGuardRecharge = (config: StatCalcConfig) =>
@@ -91,8 +89,7 @@ export const calculateGuardRecharge = (config: StatCalcConfig) => ({
 // guard break
 export const totalGuardBreak = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "GUARD_BREAK")
-    .map((stat) => stat[1])
+    .map((stat) => stat.guardBreak)
     .reduce(add, 0);
 
 export const calculateGuardRelated = (config: StatCalcConfig) => ({

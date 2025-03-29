@@ -71,8 +71,7 @@ export const totalBaseEvasionRecharge = (config: StatCalcConfig) =>
 
 export const totalPercentEvasionRecharge = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "EVASION_RECHARGE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.evasionRecharge)
     .reduce(add, 0) + godspeedWieldPercentEvasionRechargeBuff(config);
 
 // NOTE: Not sure for this calculations atm, so i might not be finishing this for now

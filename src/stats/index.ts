@@ -42,7 +42,7 @@ import {
 import { Stat, StatCalcConfig, StatMapBuilder } from "./types";
 import { merge } from "./utils";
 
-type RecursePartial<T> = {
+export type RecursePartial<T> = {
   [K in keyof T]?: T[K] extends Stat[] ? T[K]
   : T[K] extends StatMapBuilder ? T[K]
   : RecursePartial<T[K]>;
@@ -50,6 +50,144 @@ type RecursePartial<T> = {
 
 export type UserDefinedConfig = RecursePartial<StatCalcConfig>;
 export type Status = ReturnType<typeof calculate>;
+
+export const createDefaultStatGroup = () => ({
+  flatSTR: 0,
+  percentSTR: 0,
+  flatINT: 0,
+  percentINT: 0,
+  flatDEX: 0,
+  percentDEX: 0,
+  flatVIT: 0,
+  percentVIT: 0,
+  flatAGI: 0,
+  percentAGI: 0,
+  flatWeaponATK: 0,
+  percentWeaponATK: 0,
+  flatMATK: 0,
+  percentMATK: 0,
+  flatATK: 0,
+  percentATK: 0,
+  flatASPD: 0,
+  percentASPD: 0,
+  flatCSPD: 0,
+  percentCSPD: 0,
+  flatCriticalRate: 0,
+  percentCriticalRate: 0,
+  flatCriticalDamage: 0,
+  percentCriticalDamage: 0,
+  flatMaxHP: 0,
+  percentMaxHP: 0,
+  flatMaxMP: 0,
+  percentMaxMP: 0,
+  flatAccuracy: 0,
+  percentAccuracy: 0,
+  flatDodge: 0,
+  percentDodge: 0,
+  flatDEF: 0,
+  percentDEF: 0,
+  flatMDEF: 0,
+  percentMDEF: 0,
+  flatUnsheatheATK: 0,
+  percentUnsheatheATK: 0,
+  flatAMPR: 0,
+  percentAMPR: 0,
+  flatNHPR: 0,
+  percentNHPR: 0,
+  flatNMPR: 0,
+  percentNMPR: 0,
+  stability: 0,
+  magicPierce: 0,
+  physicalPierce: 0,
+  longRangeDamage: 0,
+  shortRangeDamage: 0,
+  motionSpeed: 0,
+  ATKUPSTR: 0,
+  ATKUPINT: 0,
+  ATKUPDEX: 0,
+  ATKUPVIT: 0,
+  ATKUPAGI: 0,
+  MATKUPSTR: 0,
+  MATKUPINT: 0,
+  MATKUPDEX: 0,
+  MATKUPVIT: 0,
+  MATKUPAGI: 0,
+  ATKDOWNSTR: 0,
+  ATKDOWNINT: 0,
+  ATKDOWNDEX: 0,
+  ATKDOWNVIT: 0,
+  ATKDOWNAGI: 0,
+  MATKDOWNSTR: 0,
+  MATKDOWNINT: 0,
+  MATKDOWNDEX: 0,
+  MATKDOWNVIT: 0,
+  MATKDOWNAGI: 0,
+  magicResistance: 0,
+  physicalResistance: 0,
+  lightResistance: 0,
+  darkResistance: 0,
+  fireResistance: 0,
+  waterResistance: 0,
+  earthResistance: 0,
+  windResistance: 0,
+  neutralResistance: 0,
+  ailmentResistance: 0,
+  damageToDark: 0,
+  damageToLight: 0,
+  damageToEarth: 0,
+  damageToWater: 0,
+  damageToFire: 0,
+  damageToWind: 0,
+  damageToNeutral: 0,
+  aggro: 0,
+  tumbleUnavailable: 0,
+  flinchUnavailable: 0,
+  stunUnavailable: 0,
+  darkElement: 0,
+  lightElement: 0,
+  earthElement: 0,
+  waterElement: 0,
+  fireElement: 0,
+  windElement: 0,
+  guardPower: 0,
+  guardRecharge: 0,
+  guardBreak: 0,
+  evasionRecharge: 0,
+  anticipate: 0,
+  itemCooldown: 0,
+  invincibleAid: 0,
+  absoluteAccuracy: 0,
+  absoluteDodge: 0,
+  physicalBarrier: 0,
+  magicBarrier: 0,
+  fractionalBarrier: 0,
+  barrierCooldown: 0,
+  additionalMelee: 0,
+  additionalMagic: 0,
+});
+
+export const createDefaultStatMap = () => ({
+  default: createDefaultStatGroup(),
+
+  withMagicTools: createDefaultStatGroup(),
+  withDualSwords: createDefaultStatGroup(),
+  withKnuckles: createDefaultStatGroup(),
+  withOneHandedSwords: createDefaultStatGroup(),
+  withTwoHandedSwords: createDefaultStatGroup(),
+  withStaffs: createDefaultStatGroup(),
+  withBowguns: createDefaultStatGroup(),
+  withHalberds: createDefaultStatGroup(),
+  withBows: createDefaultStatGroup(),
+  withKatanas: createDefaultStatGroup(),
+
+  withDagger: createDefaultStatGroup(),
+  withArrow: createDefaultStatGroup(),
+  withShield: createDefaultStatGroup(),
+  withNinjutsuScroll: createDefaultStatGroup(),
+
+  withHeavyArmor: createDefaultStatGroup(),
+  withLightArmor: createDefaultStatGroup(),
+});
 
 export const defaultConfig: StatCalcConfig = {
   properties: {
@@ -70,9 +208,9 @@ export const defaultConfig: StatCalcConfig = {
       refinement: 0,
       stability: 0,
 
-      stats: (_) => [],
-      crystal1: (_) => [],
-      crystal2: (_) => [],
+      stats: createDefaultStatMap(),
+      crystal1: createDefaultStatMap(),
+      crystal2: createDefaultStatMap(),
     },
 
     subweapon: {
@@ -82,9 +220,9 @@ export const defaultConfig: StatCalcConfig = {
       refinement: 0,
       stability: 0,
 
-      stats: (_) => [],
-      crystal1: (_) => [],
-      crystal2: (_) => [],
+      stats: createDefaultStatMap(),
+      crystal1: createDefaultStatMap(),
+      crystal2: createDefaultStatMap(),
 
       // for ninja scroll
       scrollCastTimeReduction: 0,
@@ -96,25 +234,25 @@ export const defaultConfig: StatCalcConfig = {
       type: "NO_ARMOR",
       refinement: 0,
 
-      stats: (_) => [],
-      crystal1: (_) => [],
-      crystal2: (_) => [],
+      stats: createDefaultStatMap(),
+      crystal1: createDefaultStatMap(),
+      crystal2: createDefaultStatMap(),
     },
 
     additionalGear: {
       DEF: 0,
       refinement: 0,
 
-      stats: (_) => [],
-      crystal1: (_) => [],
-      crystal2: (_) => [],
+      stats: createDefaultStatMap(),
+      crystal1: createDefaultStatMap(),
+      crystal2: createDefaultStatMap(),
     },
 
     specialGear: {
       DEF: 0,
-      stats: (_) => [],
-      crystal1: (_) => [],
-      crystal2: (_) => [],
+      stats: createDefaultStatMap(),
+      crystal1: createDefaultStatMap(),
+      crystal2: createDefaultStatMap(),
     },
   },
 
@@ -391,3 +529,5 @@ export const calculate = (config: UserDefinedConfig) =>
 
 export const mergeDefaultConfig = (config: UserDefinedConfig) =>
   merge(defaultConfig, config);
+
+// REFACTOR THIS SHIETTT

@@ -4,16 +4,14 @@ import { add, flattenedStats } from "../utils";
 export const totalBaseATKValueFromATKDOWNAGI = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "ATK_DOWN_AGI")
-      .map((stat) => stat[1])
+      .map((stat) => stat.ATKDOWNAGI)
       .reduce(add, 0) / 100,
   ) * config.properties.AGI;
 
 export const totalBaseATKValueFromATKDOWNDEX = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "ATK_DOWN_DEX")
-      .map((stat) => stat[1])
+      .map((stat) => stat.ATKDOWNDEX)
       .reduce(add, 0) /
       100 /
       100,
@@ -22,8 +20,7 @@ export const totalBaseATKValueFromATKDOWNDEX = (config: StatCalcConfig) =>
 export const totalBaseATKValueFromATKDOWNINT = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "ATK_DOWN_INT")
-      .map((stat) => stat[1])
+      .map((stat) => stat.ATKDOWNINT)
       .reduce(add, 0) /
       100 /
       100,
@@ -32,8 +29,7 @@ export const totalBaseATKValueFromATKDOWNINT = (config: StatCalcConfig) =>
 export const totalBaseATKValueFromATKDOWNSTR = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "ATK_DOWN_STR")
-      .map((stat) => stat[1])
+      .map((stat) => stat.ATKDOWNSTR)
       .reduce(add, 0) /
       100 /
       100,
@@ -42,8 +38,7 @@ export const totalBaseATKValueFromATKDOWNSTR = (config: StatCalcConfig) =>
 export const totalBaseATKValueFromATKDOWNVIT = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "ATK_DOWN_VIT")
-      .map((stat) => stat[1])
+      .map((stat) => stat.ATKDOWNVIT)
       .reduce(add, 0) /
       100 /
       100,
@@ -63,16 +58,14 @@ export const totalBaseATKValueFromATKDOWN = (config: StatCalcConfig) =>
 export const totalBaseATKValueFromATKUPAGI = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "ATK_UP_AGI")
-      .map((stat) => stat[1])
+      .map((stat) => stat.ATKUPAGI)
       .reduce(add, 0) / 100,
   ) * config.properties.AGI;
 
 export const totalBaseATKValueFromATKUPDEX = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "ATK_UP_DEX")
-      .map((stat) => stat[1])
+      .map((stat) => stat.ATKUPDEX)
       .reduce(add, 0) /
       100 /
       100,
@@ -81,8 +74,7 @@ export const totalBaseATKValueFromATKUPDEX = (config: StatCalcConfig) =>
 export const totalBaseATKValueFromATKUPINT = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "ATK_UP_INT")
-      .map((stat) => stat[1])
+      .map((stat) => stat.ATKUPINT)
       .reduce(add, 0) /
       100 /
       100,
@@ -91,8 +83,7 @@ export const totalBaseATKValueFromATKUPINT = (config: StatCalcConfig) =>
 export const totalBaseATKValueFromATKUPSTR = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "ATK_UP_STR")
-      .map((stat) => stat[1])
+      .map((stat) => stat.ATKUPSTR)
       .reduce(add, 0) /
       100 /
       100,
@@ -101,8 +92,7 @@ export const totalBaseATKValueFromATKUPSTR = (config: StatCalcConfig) =>
 export const totalBaseATKValueFromATKUPVIT = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "ATK_UP_VIT")
-      .map((stat) => stat[1])
+      .map((stat) => stat.ATKUPVIT)
       .reduce(add, 0) /
       100 /
       100,

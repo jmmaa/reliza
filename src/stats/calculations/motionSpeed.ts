@@ -16,8 +16,7 @@ export const totalMotionSpeedFromASPD = (config: StatCalcConfig) =>
 
 export const totalMotionSpeedFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "MOTION_SPEED")
-    .map((stat) => stat[1])
+    .map((stat) => stat.motionSpeed)
     .reduce(add, 0);
 
 export const totalMotionSpeedFromSkills = (config: StatCalcConfig) =>

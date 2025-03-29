@@ -30,14 +30,12 @@ export const totalBaseDodge = (config: StatCalcConfig) =>
 
 export const totalPercentDodge = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_DODGE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentDodge)
     .reduce(add, 0);
 
 export const totalFlatDodge = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_DODGE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatDodge)
     .reduce(add, 0) + dodgeUPFlatDodgePassive(config);
 
 export const totalDodge = (config: StatCalcConfig) =>

@@ -7,44 +7,37 @@ export const totalMagicDamageToElementBasedFromINT = (
 
 export const totalDamageToDark = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "DAMAGE_TO_DARK")
-    .map((stat) => stat[1])
+    .map((stat) => stat.damageToDark)
     .reduce(add, 0);
 
 export const totalDamageToLight = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "DAMAGE_TO_LIGHT")
-    .map((stat) => stat[1])
+    .map((stat) => stat.damageToLight)
     .reduce(add, 0);
 
 export const totalDamageToFire = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "DAMAGE_TO_FIRE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.damageToFire)
     .reduce(add, 0);
 
 export const totalDamageToEarth = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "DAMAGE_TO_EARTH")
-    .map((stat) => stat[1])
+    .map((stat) => stat.damageToEarth)
     .reduce(add, 0);
 
 export const totalDamageToWind = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "DAMAGE_TO_WIND")
-    .map((stat) => stat[1])
+    .map((stat) => stat.damageToWind)
     .reduce(add, 0);
 
 export const totalDamageToWater = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "DAMAGE_TO_WATER")
-    .map((stat) => stat[1])
+    .map((stat) => stat.damageToWater)
     .reduce(add, 0);
 
 export const totalDamageToNeutral = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "DAMAGE_TO_NEUTRAL")
-    .map((stat) => stat[1])
+    .map((stat) => stat.damageToNeutral)
     .reduce(add, 0);
 
 export const calculateDamageToElement = (config: StatCalcConfig) => ({

@@ -3,8 +3,7 @@ import { add, flattenedStats, total } from "../utils";
 
 export const totalPercentDEXFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_DEX")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentDEX)
     .reduce(add, 0);
 
 export const totalPercentDEX = (config: StatCalcConfig) =>
@@ -12,8 +11,7 @@ export const totalPercentDEX = (config: StatCalcConfig) =>
 
 export const totalFlatDEXFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_DEX")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatDEX)
     .reduce(add, 0);
 
 export const totalFlatDEX = (config: StatCalcConfig) =>

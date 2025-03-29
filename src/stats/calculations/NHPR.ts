@@ -16,14 +16,12 @@ export const totalBaseNHPR = (config: StatCalcConfig) =>
 
 export const totalPercentNHPRFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_NATURAL_HP_REGEN")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentNHPR)
     .reduce(add, 0);
 
 export const totalFlatNHPRFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_NATURAL_HP_REGEN")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatNHPR)
     .reduce(add, 0);
 
 export const totalPercentNHPRFromSkills = (config: StatCalcConfig) =>

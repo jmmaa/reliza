@@ -1,52 +1,70 @@
 import { type StatCalcConfig } from "../types";
+import {
+  flattenedStatsFromMainWeapon,
+  flattenedStatsFromSubWeapon,
+} from "../utils";
 
 export const mainWeaponElement = (config: StatCalcConfig) =>
-  config.equipments.mainweapon
-    .stats(config)
+  flattenedStatsFromMainWeapon(config)
     .filter(
       (stat) =>
-        (stat[0] === "EARTH" ||
-          stat[0] === "FIRE" ||
-          stat[0] === "WIND" ||
-          stat[0] === "WATER" ||
-          stat[0] === "DARK" ||
-          stat[0] === "LIGHT") &&
-        stat[1] > 0,
+        stat.earthElement > 0 ||
+        stat.fireElement > 0 ||
+        stat.waterElement > 0 ||
+        stat.windElement ||
+        stat.darkElement > 0 ||
+        stat.lightElement > 0,
     )
+
     .map((stat) =>
-      stat[0] === "EARTH" ? "EARTH"
-      : stat[0] === "FIRE" ? "FIRE"
-      : stat[0] === "WIND" ? "WIND"
-      : stat[0] === "WATER" ? "WATER"
-      : stat[0] === "DARK" ? "DARK"
-      : stat[0] === "LIGHT" ? "LIGHT"
-      : "NEUTRAL",
+      // group element stats from stat groups
+      [
+        ["earthElement", stat.earthElement],
+        ["fireElement", stat.fireElement],
+        ["windElement", stat.windElement],
+        ["waterElement", stat.waterElement],
+        ["darkElement", stat.darkElement],
+        ["lightElement", stat.lightElement],
+      ].reduce(
+        (prev, curr) => (curr[1] > prev[1] ? curr : prev),
+        ["neutralElement", 0],
+      ),
     )
-    .reduce((prev, curr) => (curr !== "NEUTRAL" ? curr : prev), "NEUTRAL");
+    .reduce(
+      (prev, curr) => (curr[1] > prev[1] ? curr : prev),
+      ["neutralElement", 0],
+    )[1];
 
 export const subWeaponElement = (config: StatCalcConfig) =>
-  config.equipments.subweapon
-    .stats(config)
+  flattenedStatsFromSubWeapon(config)
     .filter(
       (stat) =>
-        (stat[0] === "EARTH" ||
-          stat[0] === "FIRE" ||
-          stat[0] === "WIND" ||
-          stat[0] === "WATER" ||
-          stat[0] === "DARK" ||
-          stat[0] === "LIGHT") &&
-        stat[1] > 0,
+        stat.earthElement > 0 ||
+        stat.fireElement > 0 ||
+        stat.waterElement > 0 ||
+        stat.windElement ||
+        stat.darkElement > 0 ||
+        stat.lightElement > 0,
     )
+
     .map((stat) =>
-      stat[0] === "EARTH" ? "EARTH"
-      : stat[0] === "FIRE" ? "FIRE"
-      : stat[0] === "WIND" ? "WIND"
-      : stat[0] === "WATER" ? "WATER"
-      : stat[0] === "DARK" ? "DARK"
-      : stat[0] === "LIGHT" ? "LIGHT"
-      : "NEUTRAL",
+      // group element stats from stat groups
+      [
+        ["earthElement", stat.earthElement],
+        ["fireElement", stat.fireElement],
+        ["windElement", stat.windElement],
+        ["waterElement", stat.waterElement],
+        ["darkElement", stat.darkElement],
+        ["lightElement", stat.lightElement],
+      ].reduce(
+        (prev, curr) => (curr[1] > prev[1] ? curr : prev),
+        ["neutralElement", 0],
+      ),
     )
-    .reduce((prev, curr) => (curr !== "NEUTRAL" ? curr : prev), "NEUTRAL");
+    .reduce(
+      (prev, curr) => (curr[1] > prev[1] ? curr : prev),
+      ["neutralElement", 0],
+    )[1];
 
 export const calculateElement = (config: StatCalcConfig) => ({
   mainWeaponElement: mainWeaponElement(config),

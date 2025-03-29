@@ -3,8 +3,7 @@ import { add, flattenedStats, total } from "../utils";
 
 export const totalPercentINTFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_INT")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentINT)
     .reduce(add, 0);
 
 export const totalPercentINT = (config: StatCalcConfig) =>
@@ -12,8 +11,7 @@ export const totalPercentINT = (config: StatCalcConfig) =>
 
 export const totalFlatINTFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_INT")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatINT)
     .reduce(add, 0);
 
 export const totalFlatINT = (config: StatCalcConfig) =>

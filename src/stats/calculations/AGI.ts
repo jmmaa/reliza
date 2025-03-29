@@ -20,19 +20,20 @@ export const godSpeedFlatAGIPassive = (config: StatCalcConfig) => {
   );
 };
 
-export const totalPercentAGIFromEquipment = (config: StatCalcConfig) =>
-  flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_AGI")
-    .map((stat) => stat[1])
-    .reduce(add, 0);
+export const totalPercentAGIFromEquipment = (config: StatCalcConfig) => {
+  const stats = flattenedStats(config).map((stat) => stat.percentAGI);
+
+  console.log(stats);
+
+  return stats.reduce(add, 0);
+};
 
 export const totalPercentAGI = (config: StatCalcConfig) =>
   totalPercentAGIFromEquipment(config);
 
 export const totalFlatAGIFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_AGI")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatAGI)
     .reduce(add, 0);
 
 export const totalFlatAGI = (config: StatCalcConfig) =>

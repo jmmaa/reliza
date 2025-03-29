@@ -17,14 +17,12 @@ export const totalBaseNMPR = (config: StatCalcConfig) =>
 
 export const totalPercentNMPRFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_NATURAL_MP_REGEN")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentNMPR)
     .reduce(add, 0);
 
 export const totalFlatNMPRFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_NATURAL_MP_REGEN")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatNMPR)
     .reduce(add, 0);
 
 export const totalNMPR = (config: StatCalcConfig) =>

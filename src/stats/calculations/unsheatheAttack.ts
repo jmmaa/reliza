@@ -22,8 +22,7 @@ export const totalPercentUnsheatheAttackFromEquipment = (
   config: StatCalcConfig,
 ) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_UNSHEATHE_ATTACK")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentUnsheatheATK)
     .reduce(add, 0);
 
 export const totalPercentUnsheatheAttackFromSkills = (
@@ -38,8 +37,7 @@ export const totalPercentUnsheatheAttack = (config: StatCalcConfig) =>
 
 export const totalFlatUnsheatheAttack = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_UNSHEATHE_ATTACK")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatUnsheatheATK)
     .reduce(add, 0);
 
 export const calculateUnsheatheAttack = (config: StatCalcConfig) => ({

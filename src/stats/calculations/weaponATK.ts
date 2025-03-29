@@ -160,8 +160,7 @@ export const totalPercentWeaponATKFromEquipment = (
   config: StatCalcConfig,
 ) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_WEAPON_ATK")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentWeaponATK)
     .reduce(add, 0);
 
 export const totalPercentWeaponATKFromSkills = (config: StatCalcConfig) =>
@@ -181,8 +180,7 @@ export const totalPercentWeaponATK = (config: StatCalcConfig) =>
 
 export const totalFlatWeaponATKFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_WEAPON_ATK")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatWeaponATK)
     .reduce(add, 0);
 
 export const totalFlatWeaponATKFromSkills = (config: StatCalcConfig) =>

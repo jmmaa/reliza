@@ -6,8 +6,7 @@ export const totalBaseMATKValueFromMATKDOWNAGI = (
 ) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "MATK_DOWN_AGI")
-      .map((stat) => stat[1])
+      .map((stat) => stat.MATKDOWNAGI)
       .reduce(add, 0) / 100,
   ) * config.properties.AGI;
 
@@ -16,8 +15,7 @@ export const totalBaseMATKValueFromMATKDOWNDEX = (
 ) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "MATK_DOWN_DEX")
-      .map((stat) => stat[1])
+      .map((stat) => stat.MATKDOWNDEX)
       .reduce(add, 0) /
       100 /
       100,
@@ -28,8 +26,7 @@ export const totalBaseMATKValueFromMATKDOWNINT = (
 ) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "MATK_DOWN_INT")
-      .map((stat) => stat[1])
+      .map((stat) => stat.MATKDOWNINT)
       .reduce(add, 0) /
       100 /
       100,
@@ -40,8 +37,7 @@ export const totalBaseMATKValueFromMATKDOWNSTR = (
 ) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "MATK_DOWN_STR")
-      .map((stat) => stat[1])
+      .map((stat) => stat.MATKDOWNSTR)
       .reduce(add, 0) /
       100 /
       100,
@@ -52,8 +48,7 @@ export const totalBaseMATKValueFromMATKDOWNVIT = (
 ) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "MATK_DOWN_VIT")
-      .map((stat) => stat[1])
+      .map((stat) => stat.MATKDOWNVIT)
       .reduce(add, 0) /
       100 /
       100,
@@ -73,16 +68,14 @@ export const totalBaseMATKValueFromMATKDOWN = (config: StatCalcConfig) =>
 export const totalBaseMATKValueFromMATKUPAGI = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "MATK_UP_AGI")
-      .map((stat) => stat[1])
+      .map((stat) => stat.MATKUPAGI)
       .reduce(add, 0) / 100,
   ) * config.properties.AGI;
 
 export const totalBaseMATKValueFromMATKUPDEX = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "MATK_UP_DEX")
-      .map((stat) => stat[1])
+      .map((stat) => stat.MATKUPDEX)
       .reduce(add, 0) /
       100 /
       100,
@@ -91,8 +84,7 @@ export const totalBaseMATKValueFromMATKUPDEX = (config: StatCalcConfig) =>
 export const totalBaseMATKValueFromMATKUPINT = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "MATK_UP_INT")
-      .map((stat) => stat[1])
+      .map((stat) => stat.MATKUPINT)
       .reduce(add, 0) /
       100 /
       100,
@@ -101,8 +93,7 @@ export const totalBaseMATKValueFromMATKUPINT = (config: StatCalcConfig) =>
 export const totalBaseMATKValueFromMATKUPSTR = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "MATK_UP_STR")
-      .map((stat) => stat[1])
+      .map((stat) => stat.MATKUPSTR)
       .reduce(add, 0) /
       100 /
       100,
@@ -111,8 +102,7 @@ export const totalBaseMATKValueFromMATKUPSTR = (config: StatCalcConfig) =>
 export const totalBaseMATKValueFromMATKUPVIT = (config: StatCalcConfig) =>
   Math.floor(
     flattenedStats(config)
-      .filter((stat) => stat[0] === "MATK_UP_VIT")
-      .map((stat) => stat[1])
+      .map((stat) => stat.MATKUPVIT)
       .reduce(add, 0) /
       100 /
       100,
@@ -125,7 +115,7 @@ export const totalBaseMATKValueFromMATKUP = (config: StatCalcConfig) =>
     totalBaseMATKValueFromMATKUPINT(config),
     totalBaseMATKValueFromMATKUPSTR(config),
     totalBaseMATKValueFromMATKUPVIT(config),
-  ].reduce(add, 0);
+  ].reduce(add);
 
 export const calculateDerivativeMATK = (config: StatCalcConfig) => ({
   // TODO: Maybe add other derivative MATK funcs?

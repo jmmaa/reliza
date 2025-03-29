@@ -3,8 +3,7 @@ import { add, flattenedStats, total } from "../utils";
 
 export const totalPercentVITFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_VIT")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentVIT)
     .reduce(add, 0);
 
 export const totalPercentVIT = (config: StatCalcConfig) =>
@@ -12,8 +11,7 @@ export const totalPercentVIT = (config: StatCalcConfig) =>
 
 export const totalFlatVITFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_VIT")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatVIT)
     .reduce(add, 0);
 
 export const totalFlatVIT = (config: StatCalcConfig) =>

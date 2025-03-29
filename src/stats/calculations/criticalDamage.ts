@@ -23,8 +23,7 @@ export const totalPercentCriticalDamageFromEquipment = (
   config: StatCalcConfig,
 ) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_CRITICAL_DAMAGE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentCriticalDamage)
     .reduce(add, 0);
 
 export const totalPercentCriticalDamageFromSkills = (
@@ -37,8 +36,7 @@ export const totalPercentCriticalDamage = (config: StatCalcConfig) =>
 
 export const totalFlatCriticalDamage = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_CRITICAL_DAMAGE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatCriticalDamage)
     .reduce(add, 0);
 
 export const totalCriticalDamage = (config: StatCalcConfig) => {

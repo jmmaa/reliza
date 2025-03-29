@@ -127,8 +127,7 @@ export const totalBaseStability = (config: StatCalcConfig) =>
 
 export const totalStabilityFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "STABILITY")
-    .map((stat) => stat[1])
+    .map((stat) => stat.stability)
     .reduce(add, 0);
 
 export const totalStabilityFromSkills = (config: StatCalcConfig) =>

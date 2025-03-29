@@ -50,8 +50,7 @@ export const totalPhysicalResistanceFromEquipment = (
   config: StatCalcConfig,
 ) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PHYSICAL_RESISTANCE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.physicalResistance)
     .reduce(add, 0);
 
 export const totalPhysicalResistanceFromSkills = (
@@ -69,8 +68,7 @@ export const totalMagicResistanceFromEquipment = (
   config: StatCalcConfig,
 ) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "MAGIC_RESISTANCE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.magicResistance)
     .reduce(add, 0);
 
 export const totalMagicResistanceFromSkills = (config: StatCalcConfig) =>
@@ -84,46 +82,41 @@ export const totalMagicResistance = (config: StatCalcConfig) =>
 
 export const totalLightResistance = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "LIGHT_RESISTANCE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.lightResistance)
     .reduce(add, 0);
 
 export const totalDarkResistance = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "DARK_RESISTANCE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.darkResistance)
     .reduce(add, 0);
 
 export const totalFireResistance = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FIRE_RESISTANCE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.fireResistance)
     .reduce(add, 0);
 
 export const totalEarthResistance = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "EARTH_RESISTANCE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.earthResistance)
     .reduce(add, 0);
 
 export const totalWindResistance = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "WIND_RESISTANCE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.windResistance)
     .reduce(add, 0);
 
 export const totalWaterResistance = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "WATER_RESISTANCE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.waterResistance)
     .reduce(add, 0);
 
 export const calculateResistance = (config: StatCalcConfig) => ({
   totalPhysicalResistance: totalPhysicalResistance(config),
   totalMagicResistance: totalMagicResistance(config),
-
   totalEarthResistance: totalEarthResistance(config),
   totalFireResistance: totalFireResistance(config),
   totalWaterResistance: totalWaterResistance(config),
   totalWindResistance: totalWindResistance(config),
+  totalDarkResistance: totalDarkResistance(config),
+  totalLightResistance: totalLightResistance(config),
 });

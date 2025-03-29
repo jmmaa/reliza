@@ -141,14 +141,13 @@ export const totalBaseAMPR = (config: StatCalcConfig) =>
 
 export const totalPercentAMPR = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_ATTACK_MP_RECOVERY")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentAMPR)
+
     .reduce(add, 0);
 
 export const totalFlatAMPRFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_ATTACK_MP_RECOVERY")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatAMPR)
     .reduce(add, 0);
 
 export const totalFlatAMPRFromSkills = (config: StatCalcConfig) =>

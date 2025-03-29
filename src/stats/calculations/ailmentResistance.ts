@@ -5,8 +5,7 @@ export const totalAilmentResistanceFromEquipment = (
   config: StatCalcConfig,
 ) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "AILMENT_RESISTANCE")
-    .map((stat) => stat[1])
+    .map((stat) => stat.ailmentResistance)
     .reduce(add, 0);
 
 export const totalAilmentResistanceFromMTL = (config: StatCalcConfig) =>

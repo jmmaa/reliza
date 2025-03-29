@@ -191,8 +191,7 @@ export const totalBaseASPD = (config: StatCalcConfig) =>
 
 export const totalPercentASPDFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_ASPD")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentASPD)
     .reduce(add, 0) +
   armorTypePercentASPDModifier(config) +
   subWeaponShieldPercentASPDModifier(config);
@@ -209,8 +208,7 @@ export const totalPercentASPD = (config: StatCalcConfig) =>
 
 export const totalFlatASPDFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_ASPD")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatASPD)
     .reduce(add, 0) + regisletAttackSpeedBoostFlatASPD(config);
 
 export const totalFlatASPDFromSkills = (config: StatCalcConfig) =>

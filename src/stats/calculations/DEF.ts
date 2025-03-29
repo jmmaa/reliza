@@ -71,8 +71,7 @@ export const totalBaseDEF = (config: StatCalcConfig) =>
 
 export const totalPercentDEFFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "PERCENT_DEF")
-    .map((stat) => stat[1])
+    .map((stat) => stat.percentDEF)
     .reduce(add, 0) + subWeaponArrowPercentDEFModifier(config);
 
 export const totalPercentDEFFromSkills = (config: StatCalcConfig) =>
@@ -84,8 +83,7 @@ export const totalPercentDEF = (config: StatCalcConfig) =>
 
 export const totalFlatDEFFromEquipment = (config: StatCalcConfig) =>
   flattenedStats(config)
-    .filter((stat) => stat[0] === "FLAT_DEF")
-    .map((stat) => stat[1])
+    .map((stat) => stat.flatDEF)
     .reduce(add, 0);
 
 export const totalFlatDEFFromSkills = (config: StatCalcConfig) =>
