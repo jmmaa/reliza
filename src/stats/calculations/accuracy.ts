@@ -1,5 +1,4 @@
 import { type StatCalcConfig } from "../types";
-
 import {
   add,
   battleSkills,
@@ -21,41 +20,55 @@ import {
 
 import { totalDEX } from "./DEX";
 
-export const samuraiArcheryPercentHITBuff = (config: StatCalcConfig) =>
-  isUsingMainBOW(config) && isUsingSubKTN(config) ?
-    shotSkills(config).samuraiArchery.level *
-    shotSkills(config).samuraiArchery.stacks
-  : 0;
+export const samuraiArcheryPercentHITBuff = (config: StatCalcConfig) => {
+  const IS_USING_BOW = isUsingMainBOW(config);
+  const IS_USING_SUB_KTN = isUsingSubKTN(config);
+  const SAMURAI_ARCHERY_LEVEL = shotSkills(config).samuraiArchery.level;
+  const STACKS = shotSkills(config).samuraiArchery.stacks;
+
+  return IS_USING_BOW && IS_USING_SUB_KTN ?
+      SAMURAI_ARCHERY_LEVEL * STACKS
+    : 0;
+};
 
 export const dualSwordControlPercentHITPassive = (
   config: StatCalcConfig,
-) =>
-  isUsingDualSwords(config) ?
-    5 + dualSwordSkills(config).dualSwordControl.level * 3
-  : 0;
+) => {
+  const IS_USING_DUALSWORDS = isUsingDualSwords(config);
+  const DUAL_SWORD_CONTROL_LEVEL =
+    dualSwordSkills(config).dualSwordControl.level;
+
+  return IS_USING_DUALSWORDS ? 5 + DUAL_SWORD_CONTROL_LEVEL * 3 : 0;
+};
 
 export const dualSwordMasteryPercentHITPassive = (
   config: StatCalcConfig,
-) =>
-  isUsingDualSwords(config) ?
-    -55 + dualSwordSkills(config).dualSwordMastery.level * 3
-  : 0;
+) => {
+  const IS_USING_DUALSWORDS = isUsingDualSwords(config);
+  const DUAL_SWORD_MASTERY_LEVEL =
+    dualSwordSkills(config).dualSwordMastery.level;
+
+  return IS_USING_DUALSWORDS ? 5 + DUAL_SWORD_MASTERY_LEVEL * 3 : 0;
+};
 
 export const twoHandedPercentHITPassive = (config: StatCalcConfig) => {
-  const ninjaSpiritLevel = ninjaSkills(config).ninjaSpirit.level;
-  const twoHandedLevel = mononofuSkills(config).twoHanded.level;
-  const mainOHS = isUsingMainOHS(config);
-  const mainMD = isUsingMainMD(config);
-  const mainKTN = isUsingMainKTN(config);
-  const hasSubScroll = isUsingSubScroll(config);
-  const noSub = isNotUsingSubWeapon(config);
+  const IS_USING_MAIN_KTN = isUsingMainKTN(config);
+  const IS_USING_MAIN_OHS = isUsingMainOHS(config);
+  const IS_USING_MAIN_MD = isUsingMainMD(config);
+  const IS_USING_SUB_SCROLL = isUsingSubScroll(config);
+  const IS_NOT_USING_SUB = isNotUsingSubWeapon(config);
+  const TWO_HANDED_LEVEL = mononofuSkills(config).twoHanded.level;
+  const NINJA_SPIRIT_LEVEL = ninjaSkills(config).ninjaSpirit.level;
 
   return (
-    mainKTN || mainOHS || mainMD ?
-      (hasSubScroll && ninjaSpiritLevel === 10) || noSub ?
-        twoHandedLevel
+    IS_USING_MAIN_KTN || IS_USING_MAIN_OHS || IS_USING_MAIN_MD ?
+      (
+        (IS_USING_SUB_SCROLL && NINJA_SPIRIT_LEVEL === 10) ||
+        IS_NOT_USING_SUB
+      ) ?
+        TWO_HANDED_LEVEL
       : 0
-    : noSub ? twoHandedLevel
+    : IS_NOT_USING_SUB ? TWO_HANDED_LEVEL
     : 0
   );
 };
@@ -66,21 +79,23 @@ export const bushidoFlatHITPassive = (config: StatCalcConfig) =>
 export const accuracyUPFlatHITPassive = (config: StatCalcConfig) =>
   battleSkills(config).accuracyUP.level;
 
-export const saberAuraFlatHITBuff = (config: StatCalcConfig) =>
-  (
+export const saberAuraFlatHITBuff = (config: StatCalcConfig) => {
+  const SABER_OR_CRESCENT_ACTIVE =
     dualSwordSkills(config).saberAuraAndCrescentSaberInteraction
-      .buffIsActive &&
-    dualSwordSkills(config).saberAuraAndCrescentSaberInteraction
-      .buffUsed === "SABER_AURA" &&
-    isUsingDualSwords(config)
-  ) ?
-    5 *
-    dualSwordSkills(config).saberAura.level *
-    dualSwordSkills(config).saberAura.stacks
-  : 0;
+      .buffIsActive;
+  const USED_SABER_AURA =
+    dualSwordSkills(config).saberAuraAndCrescentSaberInteraction.buffUsed;
+  const USING_DUALSWORDS = isUsingDualSwords(config);
+  const SABER_AURA_LEVEL = dualSwordSkills(config).saberAura.level;
+  const SABER_AURA_STACKS = dualSwordSkills(config).saberAura.stacks;
+
+  return SABER_OR_CRESCENT_ACTIVE && USED_SABER_AURA && USING_DUALSWORDS ?
+      5 * SABER_AURA_LEVEL * SABER_AURA_STACKS
+    : 0;
+};
 
 export const totalBaseAccuracy = (config: StatCalcConfig) =>
-  Math.floor(config.properties.level + totalDEX(config));
+  config.properties.level + totalDEX(config);
 
 export const totalPercentAccuracyFromEquipment = (
   config: StatCalcConfig,

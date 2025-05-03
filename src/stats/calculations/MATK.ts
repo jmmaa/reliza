@@ -34,6 +34,9 @@ import { totalINT } from "./INT";
 
 import { totalMainWeaponATK } from "./weaponATK";
 
+// export const rapidChargeFlatMATKBuff = (config: StatCalcConfig) =>
+//   isUsingMainSTF(config) ?   add this later
+
 export const magicUPFlatMATKPassive = (config: StatCalcConfig) =>
   Math.floor(
     (config.properties.level *
@@ -192,3 +195,5 @@ export const calculateMATK = (config: StatCalcConfig) => ({
   totalFlatMATK: totalFlatMATK(config),
   totalMATK: totalMATK(config),
 });
+
+// Maximizer buff

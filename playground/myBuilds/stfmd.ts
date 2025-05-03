@@ -85,14 +85,13 @@ const calculations = calculate({
       resonance: { level: 10, buffIsActive: true, set: "C" },
     },
 
-    // magicSkills: {
-    //   magicburst: { level: 10 },
-    //   magicmastery: { level: 10 },
-    // },
+    magicSkills: {
+      magicMastery: { level: 10 },
+
+      // maximizer: {}
+    },
+
     battleSkills: {
-      // magicup: { level: 10 },
-      // increasedenergy: { level: 10 },
-      // criticalup: { level: 10 },
       spellBurst: { level: 10 },
     },
 
@@ -115,20 +114,20 @@ const calculations = calculate({
       magicAttackBoost: { level: 30 },
       magicSpeedBoost: { level: 100 },
       attackSpeedBoost: { level: 100 },
-
       focusResonance: { level: 9 },
     },
   },
 
   consumables: [
     { magicPierce: 10 },
-    { percentMATK: 13 },
+    { percentMATK: 10 },
     { flatMATK: 300 }, // from maximizer buff
     { percentWeaponATK: 30 },
     { flatCriticalDamage: 12 },
     { flatCSPD: 800 },
     { magicPierce: 23 }, // from ava
     { motionSpeed: 25 }, // from ebarrier
+    { percentMATK: 3 },
   ],
 
   foodBuffs: [

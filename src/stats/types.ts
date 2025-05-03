@@ -601,6 +601,12 @@ export interface StatModifiers {
 
   magicSkills: {
     magicMastery: { level: number; buffIsActive: boolean };
+
+    rapidCharge: {
+      mpRestored: number;
+      level: number;
+      buffIsActive: boolean;
+    };
   };
 
   shotSkills: {
@@ -718,8 +724,7 @@ export interface StatCalcConfig {
   statModifiers: StatModifiers;
   consumables: StatGroup[];
   foodBuffs: StatGroup[];
-  ailments: Ailments;
-  regislets: Regislets;
+  // regislets: Regislets;
 }
 
 export type NormalCrystalName =

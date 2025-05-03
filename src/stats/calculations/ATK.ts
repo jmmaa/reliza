@@ -3,7 +3,6 @@ import {
   add,
   battleSkills,
   bladeSkills,
-  createRestrictionFrom,
   flattenedStats,
   halberdSkills,
   hunterSkills,
@@ -19,12 +18,10 @@ import {
   isUsingMainSTF,
   isUsingMainTHS,
   isUsingSubArrow,
-  mainWeaponType,
   martialSkills,
   mononofuSkills,
   regislets,
   shotSkills,
-  subWeaponType,
   total,
   wizardSkills,
 } from "../utils";
@@ -38,11 +35,6 @@ import {
 } from "./derivativeATK";
 import { subWeaponMagicDevicePercentATKModifier } from "./equipmentModifiers";
 import { totalMainWeaponATK } from "./weaponATK";
-
-export const wizardSkillWeaponRestriction = createRestrictionFrom([
-  "MAIN_STF",
-  "MAIN_MD",
-]);
 
 export const attackUPFlatATKPassive = (config: StatCalcConfig) =>
   Math.floor(
@@ -60,10 +52,9 @@ export const bushidoPercentATKPassive = (config: StatCalcConfig) =>
 
 export const castMasteryPercentATKReduction = (config: StatCalcConfig) =>
   (
-    createRestrictionFrom(["MAIN_STF", "MAIN_MD"]).satisfies(
-      mainWeaponType(config),
-      subWeaponType(config),
-    ) && wizardSkills(config).castMastery.level > 0
+    isUsingMainSTF(config) &&
+    isUsingMainMD(config) &&
+    wizardSkills(config).castMastery.level > 0
   ) ?
     -Math.ceil(50 - 2.5 * wizardSkills(config).castMastery.level)
   : 0;

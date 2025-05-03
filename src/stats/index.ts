@@ -51,7 +51,7 @@ export type RecursePartial<T> = {
 export type UserDefinedConfig = RecursePartial<StatCalcConfig>;
 export type Status = ReturnType<typeof calculate>;
 
-export const createDefaultStatGroup = () => ({
+export const defaultStatGroup = {
   flatSTR: 0,
   percentSTR: 0,
   flatINT: 0,
@@ -164,30 +164,30 @@ export const createDefaultStatGroup = () => ({
   barrierCooldown: 0,
   additionalMelee: 0,
   additionalMagic: 0,
-});
+};
 
-export const createDefaultStatMap = () => ({
-  default: createDefaultStatGroup(),
+export const defaultStatMap = {
+  default: defaultStatGroup,
 
-  withMagicTools: createDefaultStatGroup(),
-  withDualSwords: createDefaultStatGroup(),
-  withKnuckles: createDefaultStatGroup(),
-  withOneHandedSwords: createDefaultStatGroup(),
-  withTwoHandedSwords: createDefaultStatGroup(),
-  withStaffs: createDefaultStatGroup(),
-  withBowguns: createDefaultStatGroup(),
-  withHalberds: createDefaultStatGroup(),
-  withBows: createDefaultStatGroup(),
-  withKatanas: createDefaultStatGroup(),
+  withMagicTools: defaultStatGroup,
+  withDualSwords: defaultStatGroup,
+  withKnuckles: defaultStatGroup,
+  withOneHandedSwords: defaultStatGroup,
+  withTwoHandedSwords: defaultStatGroup,
+  withStaffs: defaultStatGroup,
+  withBowguns: defaultStatGroup,
+  withHalberds: defaultStatGroup,
+  withBows: defaultStatGroup,
+  withKatanas: defaultStatGroup,
 
-  withDagger: createDefaultStatGroup(),
-  withArrow: createDefaultStatGroup(),
-  withShield: createDefaultStatGroup(),
-  withNinjutsuScroll: createDefaultStatGroup(),
+  withDagger: defaultStatGroup,
+  withArrow: defaultStatGroup,
+  withShield: defaultStatGroup,
+  withNinjutsuScroll: defaultStatGroup,
 
-  withHeavyArmor: createDefaultStatGroup(),
-  withLightArmor: createDefaultStatGroup(),
-});
+  withHeavyArmor: defaultStatGroup,
+  withLightArmor: defaultStatGroup,
+};
 
 export const defaultConfig: StatCalcConfig = {
   properties: {
@@ -208,9 +208,9 @@ export const defaultConfig: StatCalcConfig = {
       refinement: 0,
       stability: 0,
 
-      stats: createDefaultStatMap(),
-      crystal1: createDefaultStatMap(),
-      crystal2: createDefaultStatMap(),
+      stats: defaultStatMap,
+      crystal1: defaultStatMap,
+      crystal2: defaultStatMap,
     },
 
     subweapon: {
@@ -220,9 +220,9 @@ export const defaultConfig: StatCalcConfig = {
       refinement: 0,
       stability: 0,
 
-      stats: createDefaultStatMap(),
-      crystal1: createDefaultStatMap(),
-      crystal2: createDefaultStatMap(),
+      stats: defaultStatMap,
+      crystal1: defaultStatMap,
+      crystal2: defaultStatMap,
 
       // for ninja scroll
       scrollCastTimeReduction: 0,
@@ -234,25 +234,25 @@ export const defaultConfig: StatCalcConfig = {
       type: "NO_ARMOR",
       refinement: 0,
 
-      stats: createDefaultStatMap(),
-      crystal1: createDefaultStatMap(),
-      crystal2: createDefaultStatMap(),
+      stats: defaultStatMap,
+      crystal1: defaultStatMap,
+      crystal2: defaultStatMap,
     },
 
     additionalGear: {
       DEF: 0,
       refinement: 0,
 
-      stats: createDefaultStatMap(),
-      crystal1: createDefaultStatMap(),
-      crystal2: createDefaultStatMap(),
+      stats: defaultStatMap,
+      crystal1: defaultStatMap,
+      crystal2: defaultStatMap,
     },
 
     specialGear: {
       DEF: 0,
-      stats: createDefaultStatMap(),
-      crystal1: createDefaultStatMap(),
-      crystal2: createDefaultStatMap(),
+      stats: defaultStatMap,
+      crystal1: defaultStatMap,
+      crystal2: defaultStatMap,
     },
   },
 
@@ -387,6 +387,7 @@ export const defaultConfig: StatCalcConfig = {
 
     magicSkills: {
       magicMastery: { level: 0, buffIsActive: false },
+      rapidCharge: { mpRestored: 0, level: 0, buffIsActive: false },
     },
 
     shotSkills: {
@@ -441,46 +442,45 @@ export const defaultConfig: StatCalcConfig = {
   foodBuffs: [],
   consumables: [],
 
-  ailments: {
-    weaken: false,
-    flinch: false,
-    tumble: false,
-    stun: false,
-    knockback: false,
-    poison: false,
-    paralysis: false,
-    blindness: false,
-    ignition: false,
-    freeze: false,
-    armorbreak: false,
-    slow: false,
-    stop: false,
-    fear: false,
-    dizzy: false,
-    lethargy: false,
-    silence: false,
-    bleed: false,
-    fatigue: false,
-    dazzled: false,
-  },
-  regislets: {
-    zerostance: 0,
-    maxhpboost: 0,
-    maxmpboost: 0,
-    magicattackboost: 0,
-    physicalattackboost: 0,
-    magicdefenseboost: 0,
-    physicaldefenseboost: 0,
-    attackspeedboost: 0,
-    magicspeedboost: 0,
-    dodgeboost: 0,
-    accuracyboost: 0,
-    focusresonance: 0,
-    speedresonance: 0,
-    powerresonance: 0,
-
-    remedialRampage: 0,
-  },
+  // ailments: {
+  //   weaken: false,
+  //   flinch: false,
+  //   tumble: false,
+  //   stun: false,
+  //   knockback: false,
+  //   poison: false,
+  //   paralysis: false,
+  //   blindness: false,
+  //   ignition: false,
+  //   freeze: false,
+  //   armorbreak: false,
+  //   slow: false,
+  //   stop: false,
+  //   fear: false,
+  //   dizzy: false,
+  //   lethargy: false,
+  //   silence: false,
+  //   bleed: false,
+  //   fatigue: false,
+  //   dazzled: false,
+  // },
+  // regislets: {
+  //   zerostance: 0,
+  //   maxhpboost: 0,
+  //   maxmpboost: 0,
+  //   magicattackboost: 0,
+  //   physicalattackboost: 0,
+  //   magicdefenseboost: 0,
+  //   physicaldefenseboost: 0,
+  //   attackspeedboost: 0,
+  //   magicspeedboost: 0,
+  //   dodgeboost: 0,
+  //   accuracyboost: 0,
+  //   focusresonance: 0,
+  //   speedresonance: 0,
+  //   powerresonance: 0,
+  //   remedialRampage: 0,
+  // },
 };
 
 export const calculateAll = (config: StatCalcConfig) => ({
@@ -529,5 +529,3 @@ export const calculate = (config: UserDefinedConfig) =>
 
 export const mergeDefaultConfig = (config: UserDefinedConfig) =>
   merge(defaultConfig, config);
-
-// REFACTOR THIS SHIETTT

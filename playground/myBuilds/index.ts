@@ -195,3 +195,14 @@ export const vatudo: RecursePartial<StatMap> =
       magicPierce: 7,
     },
   };
+
+export const macaronHead: RecursePartial<StatMap> = {
+  default: {
+    flatCSPD: 750,
+    percentCSPD: 50,
+    magicPierce: 25,
+  },
+  withNinjutsuScroll: {
+    physicalPierce: 25,
+  },
+};

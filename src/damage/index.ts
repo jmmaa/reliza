@@ -1,6 +1,6 @@
-import Decimal from "decimal.js";
+// import D from "decimal.js";
 
-Decimal.set({ precision: 15, rounding: 1 });
+import { D } from "../stats/utils";
 
 export type DamageCalcConfig = {
   player: {
@@ -165,76 +165,78 @@ export type DamageInstance = {
   ultimaLionRageMultiplier: number;
 };
 
-export const d = Decimal;
+export const baseDamage = (dmgInstance: DamageInstance) => {
+  const EFF_SRC = D(dmgInstance.effectiveSource);
+  const PLAYER_LVL = D(dmgInstance.sourceLevel);
+  const TARGET_LVL = D(dmgInstance.targetLevel);
+  const RES = D(dmgInstance.resistance);
 
-export const baseDamage = (dmgInstance: DamageInstance) =>
-  d(dmgInstance.effectiveSource)
-    .plus(d(dmgInstance.sourceLevel))
-    .minus(d(dmgInstance.targetLevel))
-    .times(d(d(100).minus(d(dmgInstance.resistance))).dividedBy(100));
-
-export const effectiveDefense = (dmgInstance: DamageInstance) =>
-  // FORMULA
-  // dmgInstance.defense * (1 - dmgInstance.pierce / 100);
-
-  d(dmgInstance.defense).times(
-    d(d(100).minus(dmgInstance.pierce).dividedBy(100)),
+  return D(EFF_SRC.plus(PLAYER_LVL).minus(TARGET_LVL)).times(
+    D(D(100).minus(RES)).dividedBy(D(100)),
   );
+};
+
+export const effectiveDefense = (dmgInstance: DamageInstance) => {
+  const DEF = D(dmgInstance.defense);
+  const PIERCE = D(dmgInstance.pierce);
+
+  return DEF.times(D(D(100).minus(PIERCE).dividedBy(100)));
+};
 
 export const damage = (dmgInstance: DamageInstance) => {
   let dmg = baseDamage(dmgInstance).minus(effectiveDefense(dmgInstance));
 
-  dmg = dmg.plus(d(dmgInstance.constant));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.plus(D(dmgInstance.constant));
+  dmg = D.round(dmg);
 
-  dmg = dmg.plus(d(dmgInstance.flatUnsheatheAttack));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.plus(D(dmgInstance.flatUnsheatheAttack));
+  dmg = D.round(dmg);
 
-  dmg = dmg.times(d(dmgInstance.criticalDamageMultiplier));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.times(D(dmgInstance.criticalDamageMultiplier));
+  dmg = D.round(dmg);
 
-  dmg = dmg.times(d(dmgInstance.elementRelatedMultiplier));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.times(D(dmgInstance.elementRelatedMultiplier));
+  dmg = D.round(dmg);
 
-  dmg = dmg.times(d(dmgInstance.innateMultiplier));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.times(D(dmgInstance.innateMultiplier));
+  dmg = D.round(dmg);
 
-  dmg = dmg.times(d(dmgInstance.percentUnsheatheAttack));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.times(D(dmgInstance.percentUnsheatheAttack));
+  dmg = D.round(dmg);
 
-  dmg = dmg.times(d(dmgInstance.stabilityMultiplier));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.times(D(dmgInstance.stabilityMultiplier));
+  dmg = D.round(dmg);
 
-  dmg = dmg.times(d(dmgInstance.prorationMultiplier));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.times(D(dmgInstance.prorationMultiplier));
+  dmg = D.round(dmg);
 
-  dmg = dmg.times(d(dmgInstance.skillRelatedMultiplier));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.times(D(dmgInstance.skillRelatedMultiplier));
+  dmg = D.round(dmg);
 
-  dmg = dmg.times(d(dmgInstance.distanceRelatedMultiplier));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.times(D(dmgInstance.distanceRelatedMultiplier));
+  dmg = D.round(dmg);
 
-  dmg = dmg.times(d(dmgInstance.lethargyMultiplier));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.times(D(dmgInstance.lethargyMultiplier));
+  dmg = D.round(dmg);
 
-  dmg = dmg.times(d(dmgInstance.lastDamageMultiplier));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.times(D(dmgInstance.lastDamageMultiplier));
+  dmg = D.round(dmg);
 
-  dmg = dmg.times(d(dmgInstance.comboRelatedMultiplier));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.times(D(dmgInstance.comboRelatedMultiplier));
+  dmg = D.round(dmg);
 
-  dmg = dmg.times(d(dmgInstance.dropRateGemRelatedMultiplier));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.times(D(dmgInstance.dropRateGemRelatedMultiplier));
+  dmg = D.round(dmg);
 
-  dmg = dmg.times(d(dmgInstance.ultimaLionRageMultiplier));
-  dmg = Decimal.round(dmg);
+  dmg = dmg.times(D(dmgInstance.ultimaLionRageMultiplier));
+  dmg = D.round(dmg);
 
   return dmg;
 };
 
 // TODO: finish these calculations
 
-// console.log(ensureDecimal(123));
+// console.log(ensureD(123));
 
 // console.log(
 //   effectiveDefense({

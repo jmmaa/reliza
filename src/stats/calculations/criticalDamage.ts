@@ -73,3 +73,5 @@ export const calculateCriticalDamage = (config: StatCalcConfig) => ({
   totalCriticalDamage: totalCriticalDamage(config),
   totalMagicCriticalDamage: totalMagicCriticalDamage(config),
 });
+
+// TODO: MAKE THIS MORE ACCURATE

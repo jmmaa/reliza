@@ -3,6 +3,7 @@ import {
   add,
   bareHandSkills,
   bladeSkills,
+  D,
   dualSwordSkills,
   flattenedStats,
   isNotUsingSubWeapon,
@@ -65,6 +66,7 @@ export const shadowStepFlatAMPRBuff = (config: StatCalcConfig) =>
     dualSwordSkills(config).shadowStep.level
   : 0;
 
+// TODO
 export const saberAuraFlatAMPRBuff = (config: StatCalcConfig) =>
   (
     isUsingDualSwords(config) &&
@@ -137,12 +139,11 @@ export const chakraFlatAMPRBuff = (config: StatCalcConfig) =>
   : 0;
 
 export const totalBaseAMPR = (config: StatCalcConfig) =>
-  Math.floor(10 + totalMaxMP(config) / 100);
+  D.floor(D(totalMaxMP(config)).dividedBy(100).plus(10)).toNumber();
 
 export const totalPercentAMPR = (config: StatCalcConfig) =>
   flattenedStats(config)
     .map((stat) => stat.percentAMPR)
-
     .reduce(add, 0);
 
 export const totalFlatAMPRFromEquipment = (config: StatCalcConfig) =>

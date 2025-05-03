@@ -1,5 +1,5 @@
 import { type StatCalcConfig } from "../types";
-import { add, flattenedStats } from "../utils";
+import { add, D, flattenedStats } from "../utils";
 
 export const totalAilmentResistanceFromEquipment = (
   config: StatCalcConfig,
@@ -8,10 +8,14 @@ export const totalAilmentResistanceFromEquipment = (
     .map((stat) => stat.ailmentResistance)
     .reduce(add, 0);
 
-export const totalAilmentResistanceFromMTL = (config: StatCalcConfig) =>
-  config.properties.personalStatName === "MTL" ?
-    Math.floor(config.properties.personalStatValue / 3.4)
-  : 0;
+export const totalAilmentResistanceFromMTL = (config: StatCalcConfig) => {
+  const PERSONAL_STAT = config.properties.personalStatName;
+  const PERSONAL_STAT_VALUE = D(config.properties.personalStatValue);
+
+  return PERSONAL_STAT === "MTL" ?
+      D.floor(PERSONAL_STAT_VALUE.dividedBy(D(3.4))).toNumber()
+    : 0;
+};
 
 export const totalAilmentResistance = (config: StatCalcConfig) =>
   totalAilmentResistanceFromEquipment(config) +

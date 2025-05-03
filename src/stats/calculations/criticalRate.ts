@@ -4,6 +4,7 @@ import {
   add,
   battleSkills,
   bladeSkills,
+  D,
   dualSwordSkills,
   flattenedStats,
   halberdSkills,
@@ -23,26 +24,46 @@ import {
   total,
 } from "../utils";
 
-export const berserkFlatCritRateBuff = (config: StatCalcConfig) =>
-  bladeSkills(config).berserk.buffIsActive ?
-    Math.floor(bladeSkills(config).berserk.level * 2.5)
-  : 0;
+export const berserkFlatCritRateBuff = (config: StatCalcConfig) => {
+  const BERSERK_BUFF_IS_ACTIVE = bladeSkills(config).berserk.buffIsActive;
+  const BERSERK_LEVEL = D(bladeSkills(config).berserk.level);
+
+  return BERSERK_BUFF_IS_ACTIVE ?
+      D.floor(BERSERK_LEVEL.times(D(2.5))).toNumber()
+    : 0;
+};
 
 export const resonanceFlatCritRateBuff = (config: StatCalcConfig) =>
-  (
-    magicBladeSkills(config).resonance.buffIsActive &&
-    magicBladeSkills(config).resonance.set === "C" &&
-    isUsingSubMD(config)
-  ) ?
-    Math.floor(
-      (10 +
-        magicBladeSkills(config).resonance.level * 2 +
-        config.equipments.subweapon.refinement * 3) *
-        (regislets(config).focusResonance.level >= 1 ?
-          (95 - 5 * regislets(config).focusResonance.level) / 100
-        : 1),
-    )
-  : 0;
+
+  {
+    const RESONANCE_BUFF_IS_ACTIVE =
+      magicBladeSkills(config).resonance.buffIsActive;
+    const RESONANCE_LEVEL = magicBladeSkills(config).resonance.level;
+    const RESONANCE_SET = magicBladeSkills(config).resonance.set;
+    const IS_USING_SUB_MD = isUsingSubMD(config);
+    const MD_REFINE = config.equipments.subweapon.refinement;
+    const FOCUS_RESONANCE_LEVEL = regislets(config).focusResonance.level;
+
+    const total =
+      (
+        RESONANCE_BUFF_IS_ACTIVE &&
+        RESONANCE_SET === "C" &&
+        IS_USING_SUB_MD
+      ) ?
+        D.floor(
+          D(
+            (10 + RESONANCE_LEVEL * 2 + MD_REFINE * 3) *
+              (FOCUS_RESONANCE_LEVEL >= 1 ?
+                D(95 - 5 * FOCUS_RESONANCE_LEVEL)
+                  .dividedBy(100)
+                  .toNumber()
+              : 1),
+          ),
+        ).toNumber()
+      : 0;
+
+    return total;
+  };
 
 export const astuteFlatCritRateBuff = (config: StatCalcConfig) =>
   bladeSkills(config).astute.buffIsActive ?
@@ -53,7 +74,9 @@ export const astuteFlatCritRateBuff = (config: StatCalcConfig) =>
   : 0;
 
 export const criticalUPFlatCritRatePassive = (config: StatCalcConfig) =>
-  Math.floor(battleSkills(config).criticalUP.level / 2);
+  D.floor(
+    D(battleSkills(config).criticalUP.level).dividedBy(2),
+  ).toNumber();
 
 export const twoHandedFlatCritRatePassive = (config: StatCalcConfig) => {
   const ninjaSpiritLevel = ninjaSkills(config).ninjaSpirit.level;
@@ -68,10 +91,11 @@ export const twoHandedFlatCritRatePassive = (config: StatCalcConfig) => {
     mainKTN || mainOHS || mainMD ?
       (hasSubScroll && ninjaSpiritLevel === 10) || noSub ?
         mainKTN ? twoHandedLevel
-        : mainOHS || mainMD ? Math.floor(twoHandedLevel * 0.5)
+        : mainOHS || mainMD ?
+          D.floor(D(twoHandedLevel).times(0.5)).toNumber()
         : 0
       : 0
-    : noSub ? Math.floor(twoHandedLevel * 0.5)
+    : noSub ? D.floor(D(twoHandedLevel).times(0.5)).toNumber()
     : 0
   );
 };
@@ -80,14 +104,18 @@ export const criticalSpearFlatCritRatePassive = (
   config: StatCalcConfig,
 ) =>
   isUsingMainHAL(config) ?
-    Math.floor(halberdSkills(config).criticalSpear.level * 0.5 + 0.5)
+    D.floor(
+      D(halberdSkills(config).criticalSpear.level).times(0.5).plus(0.5),
+    ).toNumber()
   : 0;
 
 export const criticalSpearPercentCritRatePassive = (
   config: StatCalcConfig,
 ) =>
   isUsingMainHAL(config) ?
-    Math.floor(halberdSkills(config).criticalSpear.level * 0.5)
+    D.floor(
+      D(halberdSkills(config).criticalSpear.level).times(0.5),
+    ).toNumber()
   : 0;
 
 export const dualSwordControlPercentCritRatePassive = (
@@ -107,7 +135,9 @@ export const dualSwordMasteryPercentCritRatePassive = (
 export const totalBaseCriticalRate = (config: StatCalcConfig) =>
   25 +
   (config.properties.personalStatName === "CRT" ?
-    Math.floor(config.properties.personalStatValue / 3.4)
+    D.floor(
+      D(config.properties.personalStatValue).dividedBy(3.4),
+    ).toNumber()
   : 0);
 
 export const totalPercentCriticalRateFromEquipment = (
@@ -160,13 +190,14 @@ export const totalCriticalRate = (config: StatCalcConfig) =>
  * several factors that can increase the `mcdmg` conversion.
  */
 export const totalMagicCriticalRateConversion = (config: StatCalcConfig) =>
-  battleSkills(config).spellBurst.level * 2.5 +
+  D(battleSkills(config).spellBurst.level).times(2.5).plus(
   ((
     magicBladeSkills(config).dualBringer.buffIsActive &&
     magicBladeSkills(config).dualBringer.buffIsApplicable
   ) ?
-    magicBladeSkills(config).dualBringer.level * 2.5
-  : 0);
+    
+    D(magicBladeSkills(config).dualBringer.level).times(2.5)
+  : 0)).toNumber();
 
 export const totalMagicCriticalRate = (config: StatCalcConfig) =>
   Math.floor(
