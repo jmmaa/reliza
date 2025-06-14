@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Document</title>
+
+    <script src="../../lib/index.iife.js"></script>
+
+    <script>
+      const stats = [
+        "flatSTR",
+        "percentSTR",
+        "flatINT",
+        "percentINT",
+        "flatDEX",
+        "percentDEX",
+        "flatVIT",
+        "percentVIT",
+        "flatAGI",
+        "percentAGI",
+        "flatWeaponATK",
+        "percentWeaponATK",
+        "flatMATK",
+        "percentMATK",
+        "flatATK",
+        "percentATK",
+        "flatASPD",
+        "percentASPD",
+        "flatCSPD",
+        "percentCSPD",
+        "flatCriticalRate",
+        "percentCriticalRate",
+        "flatCriticalDamage",
+        "percentCriticalDamage",
+        "flatMaxHP",
+        "percentMaxHP",
+        "flatMaxMP",
+        "percentMaxMP",
+        "flatAccuracy",
+        "percentAccuracy",
+        "flatDodge",
+        "percentDodge",
+        "flatDEF",
+        "percentDEF",
+        "flatMDEF",
+        "percentMDEF",
+        "flatUnsheatheATK",
+        "percentUnsheatheATK",
+        "flatAMPR",
+        "percentAMPR",
+        "flatNHPR",
+        "percentNHPR",
+        "flatNMPR",
+        "percentNMPR",
+        "stability",
+        "magicPierce",
+        "physicalPierce",
+        "longRangeDamage",
+        "shortRangeDamage",
+        "motionSpeed",
+        "ATKUPSTR",
+        "ATKUPINT",
+        "ATKUPDEX",
+        "ATKUPVIT",
+        "ATKUPAGI",
+        "MATKUPSTR",
+        "MATKUPINT",
+        "MATKUPDEX",
+        "MATKUPVIT",
+        "MATKUPAGI",
+        "ATKDOWNSTR",
+        "ATKDOWNINT",
+        "ATKDOWNDEX",
+        "ATKDOWNVIT",
+        "ATKDOWNAGI",
+        "MATKDOWNSTR",
+        "MATKDOWNINT",
+        "MATKDOWNDEX",
+        "MATKDOWNVIT",
+        "MATKDOWNAGI",
+        "magicResistance",
+        "physicalResistance",
+        "lightResistance",
+        "darkResistance",
+        "fireResistance",
+        "waterResistance",
+        "earthResistance",
+        "windResistance",
+        "neutralResistance",
+        "ailmentResistance",
+        "damageToDark",
+        "damageToLight",
+        "damageToEarth",
+        "damageToWater",
+        "damageToFire",
+        "damageToWind",
+        "damageToNeutral",
+        "aggro",
+        "tumbleUnavailable",
+        "flinchUnavailable",
+        "stunUnavailable",
+        "darkElement",
+        "lightElement",
+        "earthElement",
+        "waterElement",
+        "fireElement",
+        "windElement",
+        "guardPower",
+        "guardRecharge",
+        "guardBreak",
+        "evasionRecharge",
+        "anticipate",
+        "itemCooldown",
+        "invincibleAid",
+        "absoluteAccuracy",
+        "absoluteDodge",
+        "physicalBarrier",
+        "magicBarrier",
+        "fractionalBarrier",
+        "barrierCooldown",
+        "additionalMelee",
+        "additionalMagic",
+      ];
+
+      const statGroups = [
+        "default",
+        "withMagicTools",
+        "withDualSwords",
+        "withKnuckles",
+        "withOneHandedSwords",
+        "withTwoHandedSwords",
+        "withStaffs",
+        "withBowguns",
+        "withHalberds",
+        "withBows",
+        "withKatanas",
+        "withDagger",
+        "withArrow",
+        "withShield",
+        "withNinjutsuScroll",
+        "withHeavyArmor",
+        "withLightArmor",
+      ];
+
+      const reliza = __reliza__;
+
+      const addStatInput = (e) => {
+        // for containing the select element and input element (stat declaration)
+        const newLiElement = document.createElement("li");
+        const newSelectElement = document.createElement("select");
+        const newDeleteButtonElement = document.createElement("button");
+
+        // for the input in new list element, should be the same in the element in the stat list
+        const newInputElement = document.createElement("input");
+        newInputElement.setAttribute("type", "number");
+        newInputElement.setAttribute("value", "0");
+
+        // for up and down buttons
+
+        // for delete button
+        newDeleteButtonElement.innerHTML = "x";
+        newDeleteButtonElement.onclick = () => newLiElement.remove();
+
+        // for creating the stat list as options for the new stat
+        stats.forEach((stat) => {
+          const newOptionElement = document.createElement("option");
+          newOptionElement.innerHTML = stat;
+          newSelectElement.appendChild(newOptionElement);
+        });
+
+        // append all elements
+        newLiElement.appendChild(newSelectElement);
+        newLiElement.appendChild(newInputElement);
+        newLiElement.appendChild(newDeleteButtonElement);
+
+        e.appendChild(newLiElement);
+      };
+
+      const sortStatGroupList = () => {
+        const statGroupList = document.getElementById("stat-group-list");
+
+        const sortedStatGroupListElements = [
+          ...statGroupList.children,
+        ].sort(
+          (child1, child2) =>
+            child1.firstChild.selectedIndex -
+            child2.firstChild.selectedIndex,
+        );
+
+        statGroupList.innerHTML = "";
+
+        sortedStatGroupListElements.forEach((element) =>
+          statGroupList.appendChild(element),
+        );
+      };
+
+      const addStatGroupInput = (e) => {
+        // for creating stat declarations widget
+        const newLiElement = document.createElement("li");
+        const newSelectElement = document.createElement("select");
+        const newUlElement = document.createElement("ul");
+        const newAddStatInputButtonElement =
+          document.createElement("button");
+        const newDeleteStatGroupButtonElement =
+          document.createElement("button");
+
+        // for stat group options
+        statGroups.forEach((statGroup) => {
+          const newOptionElement = document.createElement("option");
+          newOptionElement.innerHTML = statGroup;
+          newSelectElement.appendChild(newOptionElement);
+        });
+
+        newAddStatInputButtonElement.innerHTML = "add stat";
+        newAddStatInputButtonElement.onclick = () =>
+          addStatInput(newUlElement);
+
+        newDeleteStatGroupButtonElement.innerHTML = "delete stat group";
+        newDeleteStatGroupButtonElement.onclick = () =>
+          newLiElement.remove();
+
+        // append all elements
+        newLiElement.appendChild(newSelectElement);
+        newLiElement.appendChild(newUlElement);
+        newLiElement.appendChild(newAddStatInputButtonElement);
+        newLiElement.appendChild(newDeleteStatGroupButtonElement);
+
+        e.appendChild(newLiElement);
+
+        sortStatGroupList();
+      };
+    </script>
+  </head>
+  <body>
+    <h1>Stat and Damage Calculator for Toram Online</h1>
+
+    <h2>Character Properties</h2>
+    <ul>
+      <li>Level<input type="number" size="10" value="1" /></li>
+
+      <li>INT<input type="number" size="10" value="1" /></li>
+      <li>STR<input type="number" size="10" value="1" /></li>
+      <li>DEX<input type="number" size="10" value="1" /></li>
+      <li>VIT<input type="number" size="10" value="1" /></li>
+      <li>AGI<input type="number" size="10" value="1" /></li>
+
+      <li>
+        Personal Stat
+        <select>
+          <option>-</option>
+          <option>TEC</option>
+          <option>CRT</option>
+          <option>LUK</option>
+          <option>MTL</option>
+        </select>
+      </li>
+
+      <li>
+        Personal Stat Value<input type="number" size="10" value="0" />
+      </li>
+    </ul>
+
+    <h2>Equipments</h2>
+
+    <h3>Main Weapon</h3>
+    <ul>
+      <li>
+        type
+        <select>
+          <option>MAIN_OHS</option>
+          <option>MAIN_THS</option>
+          <option>MAIN_BOW</option>
+          <option>MAIN_BWG</option>
+          <option>MAIN_STF</option>
+          <option>MAIN_MD</option>
+          <option>MAIN_HAL</option>
+          <option>MAIN_KTN</option>
+          <option>MAIN_KN</option>
+          <option>MAIN_BH</option>
+        </select>
+      </li>
+
+      <li>ATK <input type="number" size="10" value="0" /></li>
+      <li>
+        refinement
+        <select>
+          <option>+S</option>
+          <option>+A</option>
+          <option>+B</option>
+          <option>+C</option>
+          <option>+D</option>
+          <option>+E</option>
+          <option>+9</option>
+          <option>+8</option>
+          <option>+7</option>
+          <option>+6</option>
+          <option>+5</option>
+          <option>+4</option>
+          <option>+3</option>
+          <option>+2</option>
+          <option>+1</option>
+          <option>+0</option>
+        </select>
+      </li>
+      <li>stability <input type="number" size="10" value="0" /></li>
+
+      <li>
+        <!-- <details>
+          <summary>stats</summary>
+
+          <ul id="stat-group-list"></ul>
+          <button
+            onclick="addStatGroupInput(document.getElementById('stat-group-list'))"
+          >
+            add stat group
+          </button>
+        </details> -->
+
+        <details>
+          <summary>stats</summary>
+
+          <details>
+            <summary>default Stats</summary>
+            <ul>
+              <li>
+                <details>
+                  <summary>Basic Stats</summary>
+
+                  <li>flatSTR <input type="number" /></li>
+                  <li>percentSTR <input type="number" /></li>
+                  <li>flatINT <input type="number" /></li>
+                  <li>percentINT <input type="number" /></li>
+                  <li>flatDEX <input type="number" /></li>
+                  <li>percentDEX <input type="number" /></li>
+                  <li>flatVIT <input type="number" /></li>
+                  <li>percentVIT <input type="number" /></li>
+                  <li>flatAGI <input type="number" /></li>
+                  <li>percentAGI <input type="number" /></li>
+                </details>
+              </li>
+              <li>
+                <details>
+                  <summary>Offensive Stats</summary>
+
+                  <li>flatWeaponATK <input type="number" /></li>
+                  <li>percentWeaponATK <input type="number" /></li>
+                  <li>flatMATK <input type="number" /></li>
+                  <li>percentMATK <input type="number" /></li>
+                  <li>flatATK <input type="number" /></li>
+                  <li>percentATK <input type="number" /></li>
+
+                  <li>flatCriticalRate <input type="number" /></li>
+                  <li>percentCriticalRate <input type="number" /></li>
+                  <li>flatCriticalDamage <input type="number" /></li>
+                  <li>percentCriticalDamage <input type="number" /></li>
+
+                  <li>flatUnsheatheATK <input type="number" /></li>
+                  <li>percentUnsheatheATK <input type="number" /></li>
+
+                  <li>magicPierce <input type="number" /></li>
+                  <li>physicalPierce <input type="number" /></li>
+                  <li>longRangeDamage <input type="number" /></li>
+                  <li>shortRangeDamage <input type="number" /></li>
+
+                  <li>stability <input type="number" /></li>
+
+                  <li>damageToDark <input type="number" /></li>
+                  <li>damageToLight <input type="number" /></li>
+                  <li>damageToEarth <input type="number" /></li>
+                  <li>damageToWater <input type="number" /></li>
+                  <li>damageToFire <input type="number" /></li>
+                  <li>damageToWind <input type="number" /></li>
+                  <li>damageToNeutral <input type="number" /></li>
+                  <li>darkElement <input type="number" /></li>
+                  <li>lightElement <input type="number" /></li>
+                  <li>earthElement <input type="number" /></li>
+                  <li>waterElement <input type="number" /></li>
+                  <li>fireElement <input type="number" /></li>
+                  <li>windElement <input type="number" /></li>
+                </details>
+              </li>
+              <li>
+                <details>
+                  <summary>Utility Stats</summary>
+
+                  <li>flatASPD <input type="number" /></li>
+                  <li>percentASPD <input type="number" /></li>
+                  <li>flatCSPD <input type="number" /></li>
+                  <li>percentCSPD <input type="number" /></li>
+                  <li>motionSpeed <input type="number" /></li>
+
+                  <li>flatAMPR <input type="number" /></li>
+                  <li>percentAMPR <input type="number" /></li>
+                  <li>flatNHPR <input type="number" /></li>
+                  <li>percentNHPR <input type="number" /></li>
+                  <li>flatNMPR <input type="number" /></li>
+                  <li>percentNMPR <input type="number" /></li>
+
+                  <li>aggro <input type="number" /></li>
+                  <li>tumbleUnavailable <input type="number" /></li>
+                  <li>flinchUnavailable <input type="number" /></li>
+                  <li>stunUnavailable <input type="number" /></li>
+
+                  <li>guardPower <input type="number" /></li>
+                  <li>guardRecharge <input type="number" /></li>
+                  <li>guardBreak <input type="number" /></li>
+                  <li>evasionRecharge <input type="number" /></li>
+                  <li>anticipate <input type="number" /></li>
+                  <li>itemCooldown <input type="number" /></li>
+                  <li>invincibleAid <input type="number" /></li>
+                  <li>absoluteAccuracy <input type="number" /></li>
+                  <li>absoluteDodge <input type="number" /></li>
+                  <li>physicalBarrier <input type="number" /></li>
+                  <li>magicBarrier <input type="number" /></li>
+                  <li>fractionalBarrier <input type="number" /></li>
+                  <li>barrierCooldown <input type="number" /></li>
+                  <li>additionalMelee <input type="number" /></li>
+                  <li>additionalMagic <input type="number" /></li>
+                </details>
+              </li>
+              <li>
+                <details>
+                  <summary>Derivative Stats</summary>
+
+                  <li>ATKUPSTR <input type="number" /></li>
+                  <li>ATKUPINT <input type="number" /></li>
+                  <li>ATKUPDEX <input type="number" /></li>
+                  <li>ATKUPVIT <input type="number" /></li>
+                  <li>ATKUPAGI <input type="number" /></li>
+                  <li>MATKUPSTR <input type="number" /></li>
+                  <li>MATKUPINT <input type="number" /></li>
+                  <li>MATKUPDEX <input type="number" /></li>
+                  <li>MATKUPVIT <input type="number" /></li>
+                  <li>MATKUPAGI <input type="number" /></li>
+                  <li>ATKDOWNSTR <input type="number" /></li>
+                  <li>ATKDOWNINT <input type="number" /></li>
+                  <li>ATKDOWNDEX <input type="number" /></li>
+                  <li>ATKDOWNVIT <input type="number" /></li>
+                  <li>ATKDOWNAGI <input type="number" /></li>
+                  <li>MATKDOWNSTR <input type="number" /></li>
+                  <li>MATKDOWNINT <input type="number" /></li>
+                  <li>MATKDOWNDEX <input type="number" /></li>
+                  <li>MATKDOWNVIT <input type="number" /></li>
+                  <li>MATKDOWNAGI <input type="number" /></li>
+                </details>
+              </li>
+
+              <li>
+                <details>
+                  <summary>Defensive Stats</summary>
+
+                  <li>ailmentResistance <input type="number" /></li>
+                  <li>flatMaxHP <input type="number" /></li>
+                  <li>percentMaxHP <input type="number" /></li>
+                  <li>flatMaxMP <input type="number" /></li>
+                  <li>percentMaxMP <input type="number" /></li>
+                  <li>flatAccuracy <input type="number" /></li>
+                  <li>percentAccuracy <input type="number" /></li>
+                  <li>flatDodge <input type="number" /></li>
+                  <li>percentDodge <input type="number" /></li>
+                  <li>flatDEF <input type="number" /></li>
+                  <li>percentDEF <input type="number" /></li>
+                  <li>flatMDEF <input type="number" /></li>
+                  <li>percentMDEF <input type="number" /></li>
+
+                  <li>lightResistance <input type="number" /></li>
+                  <li>darkResistance <input type="number" /></li>
+                  <li>fireResistance <input type="number" /></li>
+                  <li>waterResistance <input type="number" /></li>
+                  <li>earthResistance <input type="number" /></li>
+                  <li>windResistance <input type="number" /></li>
+                  <li>neutralResistance <input type="number" /></li>
+
+                  <li>magicResistance <input type="number" /></li>
+                  <li>physicalResistance <input type="number" /></li>
+                </details>
+              </li>
+            </ul>
+          </details>
+        </details>
+      </li>
+    </ul>
+  </body>
+</html>
+
+<!-- TODOOO FINISH THISS -->

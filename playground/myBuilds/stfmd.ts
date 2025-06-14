@@ -21,7 +21,7 @@ const calculations = calculate({
   },
   equipments: {
     mainweapon: {
-      type: "MAIN_STF",
+      type: "STF",
       ATK: 584,
       refinement: 15,
       stability: 60,
@@ -40,7 +40,7 @@ const calculations = calculate({
     },
 
     subweapon: {
-      type: "SUB_MD",
+      type: "MD",
       stats: {
         default: { fireElement: 1 },
       },
