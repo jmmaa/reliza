@@ -1,7 +1,8 @@
 {
   "name": "reliza",
-  "version": "1.0.1",
+  "version": "0.0.1-dev",
   "description": "an easy-to-use library for status and damage calculation in Toram Online",
+  "browser": "./lib/index.iife.js",
   "main": "./lib/index.js",
   "module": "./lib/index.esm.js",
   "types": "./lib/types/index.d.ts",
@@ -26,7 +27,7 @@
     "globals": "^15.0.0",
     "jest": "^29.5.0",
     "prettier-plugin-organize-imports": "^4.1.0",
-    "reliza": "file:release/reliza-0.0.1.tgz",
+    "reliza": "file:release/reliza-0.0.1-dev.tgz",
     "ts-arithmetic": "^0.1.1",
     "ts-jest": "^29.1.0",
     "tsx": "^4.7.1",
