@@ -38,31 +38,31 @@ export const isUsingStatAccessibleSubWeapon = (config: StatCalcConfig) =>
   isUsingSubShield(config);
 
 export const isUsingMainOHS = (config: StatCalcConfig) =>
-  config.equipments.mainweapon.type === "MAIN_OHS";
+  config.equipments.mainweapon.type === "OHS";
 
 export const isUsingSubOHS = (config: StatCalcConfig) =>
-  config.equipments.subweapon.type === "SUB_OHS";
+  config.equipments.subweapon.type === "OHS";
 
 export const isUsingMainTHS = (config: StatCalcConfig) =>
-  config.equipments.mainweapon.type === "MAIN_THS";
+  config.equipments.mainweapon.type === "THS";
 
 export const isUsingMainHAL = (config: StatCalcConfig) =>
-  config.equipments.mainweapon.type === "MAIN_HAL";
+  config.equipments.mainweapon.type === "HAL";
 
 export const isUsingMainBOW = (config: StatCalcConfig) =>
-  config.equipments.mainweapon.type === "MAIN_BOW";
+  config.equipments.mainweapon.type === "BOW";
 
 export const isUsingMainSTF = (config: StatCalcConfig) =>
-  config.equipments.mainweapon.type === "MAIN_STF";
+  config.equipments.mainweapon.type === "STF";
 
 export const isUsingMainMD = (config: StatCalcConfig) =>
-  config.equipments.mainweapon.type === "MAIN_MD";
+  config.equipments.mainweapon.type === "MD";
 
 export const isUsingMainKTN = (config: StatCalcConfig) =>
-  config.equipments.mainweapon.type === "MAIN_KTN";
+  config.equipments.mainweapon.type === "KTN";
 
 export const isUsingBareHand = (config: StatCalcConfig) =>
-  config.equipments.mainweapon.type === "MAIN_BH";
+  config.equipments.mainweapon.type === "BH";
 
 export const isUsingDualSwords = (config: StatCalcConfig) =>
   isUsingMainOHS(config) &&
@@ -70,31 +70,31 @@ export const isUsingDualSwords = (config: StatCalcConfig) =>
   dualSwordSkills(config).dualSwordMastery.level > 0;
 
 export const isUsingMainBWG = (config: StatCalcConfig) =>
-  config.equipments.mainweapon.type === "MAIN_BWG";
+  config.equipments.mainweapon.type === "BWG";
 
 export const isUsingMainKN = (config: StatCalcConfig) =>
-  config.equipments.mainweapon.type === "MAIN_KN";
+  config.equipments.mainweapon.type === "KN";
 
 export const isUsingSubMD = (config: StatCalcConfig) =>
-  config.equipments.subweapon.type === "SUB_MD";
+  config.equipments.subweapon.type === "MD";
 
 export const isUsingSubKN = (config: StatCalcConfig) =>
-  config.equipments.subweapon.type === "SUB_KN";
+  config.equipments.subweapon.type === "KN";
 
 export const isUsingSubArrow = (config: StatCalcConfig) =>
-  config.equipments.subweapon.type === "SUB_ARROW";
+  config.equipments.subweapon.type === "ARROW";
 
 export const isUsingSubDagger = (config: StatCalcConfig) =>
-  config.equipments.subweapon.type === "SUB_DAGGER";
+  config.equipments.subweapon.type === "DAGGER";
 
 export const isUsingSubShield = (config: StatCalcConfig) =>
-  config.equipments.subweapon.type === "SUB_SHIELD";
+  config.equipments.subweapon.type === "SHIELD";
 
 export const isUsingSubScroll = (config: StatCalcConfig) =>
-  config.equipments.subweapon.type === "SUB_SCROLL";
+  config.equipments.subweapon.type === "SCROLL";
 
 export const isNotUsingSubWeapon = (config: StatCalcConfig) =>
-  config.equipments.subweapon.type === "SUB_NONE";
+  config.equipments.subweapon.type === "NONE";
 
 export const isUsingHeavyArmor = (config: StatCalcConfig) =>
   config.equipments.armor.type === "HEAVY_ARMOR";
@@ -103,11 +103,11 @@ export const isUsingLightArmor = (config: StatCalcConfig) =>
   config.equipments.armor.type === "LIGHT_ARMOR";
 
 export const isUsingSubKTN = (config: StatCalcConfig) =>
-  config.equipments.subweapon.type === "SUB_KTN";
+  config.equipments.subweapon.type === "KTN";
 
 export const collectStatGroupsFromStatMap = (
   config: StatCalcConfig,
-  statMap: StatMap,
+  statMap: StatGroup,
 ) => {
   let accumulated = [];
 
@@ -258,7 +258,7 @@ export const flattenedStatsFromSpecialGearCrystal2 = (
   );
 
 export const flattenedStats = (config: StatCalcConfig) =>
-  ([] as StatGroup[]).concat(
+  ([] as StatMap[]).concat(
     flattenedStatsFromMainWeapon(config),
     flattenedStatsFromMainWeaponCrystal1(config),
     flattenedStatsFromMainWeaponCrystal2(config),
@@ -341,25 +341,25 @@ export const regislets = (config: StatCalcConfig) =>
 // TODO: MAKE SUBWEAPON RESTRICTIONS TO ALSO INCLUDE MAIN WEAPON
 
 // enum WeaponFlags {
-//   MAIN_BH,
-//   MAIN_OHS,
-//   MAIN_THS,
-//   MAIN_BOW,
+//   BH,
+//   OHS,
+//   THS,
+//   BOW,
 //   MAIN_BWG,
 //   MAIN_STF,
 //   MAIN_MD,
 //   MAIN_KN,
 //   MAIN_HAL,
 //   MAIN_KTN,
-//   SUB_MD,
-//   SUB_ARROW,
-//   SUB_SHIELD,
-//   SUB_DAGGER,
-//   SUB_SCROLL,
-//   SUB_KN,
-//   SUB_OHS,
-//   SUB_KTN,
-//   SUB_NONE,
+//   MD,
+//   ARROW,
+//   SHIELD,
+//   DAGGER,
+//   SCROLL,
+//   KN,
+//   OHS,
+//   KTN,
+//   NONE,
 // }
 
 // const convertWeaponRestrictionToBitSet = (
@@ -370,96 +370,96 @@ export const regislets = (config: StatCalcConfig) =>
 //   if (restriction === "MAIN_BH") {
 //     bitSet.set(WeaponFlags.MAIN_BH);
 
-//     bitSet.set(WeaponFlags.SUB_NONE);
-//     bitSet.set(WeaponFlags.SUB_SHIELD);
-//     bitSet.set(WeaponFlags.SUB_DAGGER);
-//     bitSet.set(WeaponFlags.SUB_ARROW);
-//     bitSet.set(WeaponFlags.SUB_MD);
-//     bitSet.set(WeaponFlags.SUB_KN);
-//     bitSet.set(WeaponFlags.SUB_SCROLL);
+//     bitSet.set(WeaponFlags.NONE);
+//     bitSet.set(WeaponFlags.SHIELD);
+//     bitSet.set(WeaponFlags.DAGGER);
+//     bitSet.set(WeaponFlags.ARROW);
+//     bitSet.set(WeaponFlags.MD);
+//     bitSet.set(WeaponFlags.KN);
+//     bitSet.set(WeaponFlags.SCROLL);
 //   } else if (restriction === "MAIN_OHS") {
 //     bitSet.set(WeaponFlags.MAIN_OHS);
 
-//     bitSet.set(WeaponFlags.SUB_NONE);
-//     bitSet.set(WeaponFlags.SUB_SHIELD);
-//     bitSet.set(WeaponFlags.SUB_DAGGER);
-//     bitSet.set(WeaponFlags.SUB_ARROW);
-//     bitSet.set(WeaponFlags.SUB_OHS);
-//     bitSet.set(WeaponFlags.SUB_MD);
-//     bitSet.set(WeaponFlags.SUB_KN);
-//     bitSet.set(WeaponFlags.SUB_SCROLL);
+//     bitSet.set(WeaponFlags.NONE);
+//     bitSet.set(WeaponFlags.SHIELD);
+//     bitSet.set(WeaponFlags.DAGGER);
+//     bitSet.set(WeaponFlags.ARROW);
+//     bitSet.set(WeaponFlags.OHS);
+//     bitSet.set(WeaponFlags.MD);
+//     bitSet.set(WeaponFlags.KN);
+//     bitSet.set(WeaponFlags.SCROLL);
 //   } else if (restriction === "MAIN_THS") {
 //     bitSet.set(WeaponFlags.MAIN_THS);
 
-//     bitSet.set(WeaponFlags.SUB_NONE);
+//     bitSet.set(WeaponFlags.NONE);
 //   } else if (restriction === "MAIN_BOW") {
 //     bitSet.set(WeaponFlags.MAIN_BOW);
 
-//     bitSet.set(WeaponFlags.SUB_NONE);
-//     bitSet.set(WeaponFlags.SUB_ARROW);
-//     bitSet.set(WeaponFlags.SUB_KTN);
+//     bitSet.set(WeaponFlags.NONE);
+//     bitSet.set(WeaponFlags.ARROW);
+//     bitSet.set(WeaponFlags.KTN);
 //   } else if (restriction === "MAIN_BWG") {
 //     bitSet.set(WeaponFlags.MAIN_BWG);
 
-//     bitSet.set(WeaponFlags.SUB_NONE);
-//     bitSet.set(WeaponFlags.SUB_SHIELD);
-//     bitSet.set(WeaponFlags.SUB_ARROW);
-//     bitSet.set(WeaponFlags.SUB_DAGGER);
-//     bitSet.set(WeaponFlags.SUB_MD);
-//     bitSet.set(WeaponFlags.SUB_KN);
+//     bitSet.set(WeaponFlags.NONE);
+//     bitSet.set(WeaponFlags.SHIELD);
+//     bitSet.set(WeaponFlags.ARROW);
+//     bitSet.set(WeaponFlags.DAGGER);
+//     bitSet.set(WeaponFlags.MD);
+//     bitSet.set(WeaponFlags.KN);
 //   } else if (restriction === "MAIN_STF") {
 //     bitSet.set(WeaponFlags.MAIN_STF);
 
-//     bitSet.set(WeaponFlags.SUB_NONE);
-//     bitSet.set(WeaponFlags.SUB_SHIELD);
-//     bitSet.set(WeaponFlags.SUB_DAGGER);
-//     bitSet.set(WeaponFlags.SUB_ARROW);
-//     bitSet.set(WeaponFlags.SUB_OHS);
-//     bitSet.set(WeaponFlags.SUB_MD);
-//     bitSet.set(WeaponFlags.SUB_KN);
-//     bitSet.set(WeaponFlags.SUB_SCROLL);
+//     bitSet.set(WeaponFlags.NONE);
+//     bitSet.set(WeaponFlags.SHIELD);
+//     bitSet.set(WeaponFlags.DAGGER);
+//     bitSet.set(WeaponFlags.ARROW);
+//     bitSet.set(WeaponFlags.OHS);
+//     bitSet.set(WeaponFlags.MD);
+//     bitSet.set(WeaponFlags.KN);
+//     bitSet.set(WeaponFlags.SCROLL);
 //   } else if (restriction === "MAIN_MD") {
 //     bitSet.set(WeaponFlags.MAIN_MD);
 
-//     bitSet.set(WeaponFlags.SUB_NONE);
-//     bitSet.set(WeaponFlags.SUB_SCROLL);
+//     bitSet.set(WeaponFlags.NONE);
+//     bitSet.set(WeaponFlags.SCROLL);
 //   } else if (restriction === "MAIN_KN") {
 //     bitSet.set(WeaponFlags.MAIN_KN);
 
-//     bitSet.set(WeaponFlags.SUB_NONE);
-//     bitSet.set(WeaponFlags.SUB_SHIELD);
-//     bitSet.set(WeaponFlags.SUB_DAGGER);
-//     bitSet.set(WeaponFlags.SUB_ARROW);
-//     bitSet.set(WeaponFlags.SUB_MD);
+//     bitSet.set(WeaponFlags.NONE);
+//     bitSet.set(WeaponFlags.SHIELD);
+//     bitSet.set(WeaponFlags.DAGGER);
+//     bitSet.set(WeaponFlags.ARROW);
+//     bitSet.set(WeaponFlags.MD);
 //   } else if (restriction === "MAIN_HAL") {
 //     bitSet.set(WeaponFlags.MAIN_HAL);
 
-//     bitSet.set(WeaponFlags.SUB_NONE);
-//     bitSet.set(WeaponFlags.SUB_DAGGER);
-//     bitSet.set(WeaponFlags.SUB_ARROW);
+//     bitSet.set(WeaponFlags.NONE);
+//     bitSet.set(WeaponFlags.DAGGER);
+//     bitSet.set(WeaponFlags.ARROW);
 //   } else if (restriction === "MAIN_KTN") {
 //     bitSet.set(WeaponFlags.MAIN_KTN);
 
-//     bitSet.set(WeaponFlags.SUB_NONE);
-//     bitSet.set(WeaponFlags.SUB_DAGGER);
-//     bitSet.set(WeaponFlags.SUB_SCROLL);
-//   } else if (restriction === "SUB_MD") {
+//     bitSet.set(WeaponFlags.NONE);
+//     bitSet.set(WeaponFlags.DAGGER);
+//     bitSet.set(WeaponFlags.SCROLL);
+//   } else if (restriction === "MD") {
 //     bitSet.set(WeaponFlags.MAIN_BH);
 //     bitSet.set(WeaponFlags.MAIN_OHS);
 //     bitSet.set(WeaponFlags.MAIN_BWG);
 //     bitSet.set(WeaponFlags.MAIN_STF);
 //     bitSet.set(WeaponFlags.MAIN_KN);
 
-//     bitSet.set(WeaponFlags.SUB_MD);
-//   } else if (restriction === "SUB_SHIELD") {
+//     bitSet.set(WeaponFlags.MD);
+//   } else if (restriction === "SHIELD") {
 //     bitSet.set(WeaponFlags.MAIN_BH);
 //     bitSet.set(WeaponFlags.MAIN_OHS);
 //     bitSet.set(WeaponFlags.MAIN_BWG);
 //     bitSet.set(WeaponFlags.MAIN_STF);
 //     bitSet.set(WeaponFlags.MAIN_KN);
 
-//     bitSet.set(WeaponFlags.SUB_SHIELD);
-//   } else if (restriction === "SUB_ARROW") {
+//     bitSet.set(WeaponFlags.SHIELD);
+//   } else if (restriction === "ARROW") {
 //     bitSet.set(WeaponFlags.MAIN_BH);
 //     bitSet.set(WeaponFlags.MAIN_OHS);
 //     bitSet.set(WeaponFlags.MAIN_BOW);
@@ -468,8 +468,8 @@ export const regislets = (config: StatCalcConfig) =>
 //     bitSet.set(WeaponFlags.MAIN_KN);
 //     bitSet.set(WeaponFlags.MAIN_HAL);
 
-//     bitSet.set(WeaponFlags.SUB_ARROW);
-//   } else if (restriction === "SUB_DAGGER") {
+//     bitSet.set(WeaponFlags.ARROW);
+//   } else if (restriction === "DAGGER") {
 //     bitSet.set(WeaponFlags.MAIN_BH);
 //     bitSet.set(WeaponFlags.MAIN_OHS);
 //     bitSet.set(WeaponFlags.MAIN_BWG);
@@ -477,8 +477,8 @@ export const regislets = (config: StatCalcConfig) =>
 //     bitSet.set(WeaponFlags.MAIN_KN);
 //     bitSet.set(WeaponFlags.MAIN_HAL);
 
-//     bitSet.set(WeaponFlags.SUB_DAGGER);
-//   } else if (restriction === "SUB_SCROLL") {
+//     bitSet.set(WeaponFlags.DAGGER);
+//   } else if (restriction === "SCROLL") {
 //     bitSet.set(WeaponFlags.MAIN_BH);
 //     bitSet.set(WeaponFlags.MAIN_OHS);
 //     bitSet.set(WeaponFlags.MAIN_STF);
@@ -486,23 +486,23 @@ export const regislets = (config: StatCalcConfig) =>
 //     bitSet.set(WeaponFlags.MAIN_KN);
 //     bitSet.set(WeaponFlags.MAIN_KTN);
 
-//     bitSet.set(WeaponFlags.SUB_SCROLL);
-//   } else if (restriction === "SUB_KN") {
+//     bitSet.set(WeaponFlags.SCROLL);
+//   } else if (restriction === "KN") {
 //     bitSet.set(WeaponFlags.MAIN_BH);
 //     bitSet.set(WeaponFlags.MAIN_OHS);
 //     bitSet.set(WeaponFlags.MAIN_BWG);
 //     bitSet.set(WeaponFlags.MAIN_STF);
 
-//     bitSet.set(WeaponFlags.SUB_KN);
-//   } else if (restriction === "SUB_OHS") {
+//     bitSet.set(WeaponFlags.KN);
+//   } else if (restriction === "OHS") {
 //     bitSet.set(WeaponFlags.MAIN_OHS);
 
-//     bitSet.set(WeaponFlags.SUB_OHS);
-//   } else if (restriction === "SUB_KTN") {
+//     bitSet.set(WeaponFlags.OHS);
+//   } else if (restriction === "KTN") {
 //     bitSet.set(WeaponFlags.MAIN_BOW);
 
-//     bitSet.set(WeaponFlags.SUB_KTN);
-//   } else if (restriction === "SUB_NONE") {
+//     bitSet.set(WeaponFlags.KTN);
+//   } else if (restriction === "NONE") {
 //     bitSet.set(WeaponFlags.MAIN_BH);
 //     bitSet.set(WeaponFlags.MAIN_OHS);
 //     bitSet.set(WeaponFlags.MAIN_THS);
@@ -514,7 +514,7 @@ export const regislets = (config: StatCalcConfig) =>
 //     bitSet.set(WeaponFlags.MAIN_HAL);
 //     bitSet.set(WeaponFlags.MAIN_KTN);
 
-//     bitSet.set(WeaponFlags.SUB_NONE);
+//     bitSet.set(WeaponFlags.NONE);
 //   }
 
 //   return bitSet;
@@ -559,24 +559,24 @@ export const regislets = (config: StatCalcConfig) =>
 //     bitSet.set(WeaponFlags.MAIN_HAL);
 //   } else if (weapon === "MAIN_KTN") {
 //     bitSet.set(WeaponFlags.MAIN_KTN);
-//   } else if (weapon === "SUB_MD") {
-//     bitSet.set(WeaponFlags.SUB_MD);
-//   } else if (weapon === "SUB_SHIELD") {
-//     bitSet.set(WeaponFlags.SUB_SHIELD);
-//   } else if (weapon === "SUB_ARROW") {
-//     bitSet.set(WeaponFlags.SUB_ARROW);
-//   } else if (weapon === "SUB_DAGGER") {
-//     bitSet.set(WeaponFlags.SUB_DAGGER);
-//   } else if (weapon === "SUB_SCROLL") {
-//     bitSet.set(WeaponFlags.SUB_SCROLL);
-//   } else if (weapon === "SUB_KN") {
-//     bitSet.set(WeaponFlags.SUB_KN);
-//   } else if (weapon === "SUB_OHS") {
-//     bitSet.set(WeaponFlags.SUB_OHS);
-//   } else if (weapon === "SUB_KTN") {
-//     bitSet.set(WeaponFlags.SUB_KTN);
-//   } else if (weapon === "SUB_NONE") {
-//     bitSet.set(WeaponFlags.SUB_NONE);
+//   } else if (weapon === "MD") {
+//     bitSet.set(WeaponFlags.MD);
+//   } else if (weapon === "SHIELD") {
+//     bitSet.set(WeaponFlags.SHIELD);
+//   } else if (weapon === "ARROW") {
+//     bitSet.set(WeaponFlags.ARROW);
+//   } else if (weapon === "DAGGER") {
+//     bitSet.set(WeaponFlags.DAGGER);
+//   } else if (weapon === "SCROLL") {
+//     bitSet.set(WeaponFlags.SCROLL);
+//   } else if (weapon === "KN") {
+//     bitSet.set(WeaponFlags.KN);
+//   } else if (weapon === "OHS") {
+//     bitSet.set(WeaponFlags.OHS);
+//   } else if (weapon === "KTN") {
+//     bitSet.set(WeaponFlags.KTN);
+//   } else if (weapon === "NONE") {
+//     bitSet.set(WeaponFlags.NONE);
 //   }
 
 //   return bitSet;

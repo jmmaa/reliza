@@ -1,3 +1,5 @@
+import { UserDefinedStatCalcConfig } from "./types";
+
 import {
   calculateAccuracy,
   calculateAGI,
@@ -38,17 +40,10 @@ import {
   calculateVIT,
   calculateWeaponATK,
 } from "./calculations";
+import { StatCalcConfig } from "./types";
 
-import { Stat, StatCalcConfig, StatMapBuilder } from "./types";
 import { merge } from "./utils";
 
-export type RecursePartial<T> = {
-  [K in keyof T]?: T[K] extends Stat[] ? T[K]
-  : T[K] extends StatMapBuilder ? T[K]
-  : RecursePartial<T[K]>;
-};
-
-export type UserDefinedConfig = RecursePartial<StatCalcConfig>;
 export type Status = ReturnType<typeof calculate>;
 
 export const defaultStatGroup = {
@@ -167,26 +162,26 @@ export const defaultStatGroup = {
 };
 
 export const defaultStatMap = {
-  default: defaultStatGroup,
+  default: structuredClone(defaultStatGroup),
 
-  withMagicTools: defaultStatGroup,
-  withDualSwords: defaultStatGroup,
-  withKnuckles: defaultStatGroup,
-  withOneHandedSwords: defaultStatGroup,
-  withTwoHandedSwords: defaultStatGroup,
-  withStaffs: defaultStatGroup,
-  withBowguns: defaultStatGroup,
-  withHalberds: defaultStatGroup,
-  withBows: defaultStatGroup,
-  withKatanas: defaultStatGroup,
+  withMagicTools: structuredClone(defaultStatGroup),
+  withDualSwords: structuredClone(defaultStatGroup),
+  withKnuckles: structuredClone(defaultStatGroup),
+  withOneHandedSwords: structuredClone(defaultStatGroup),
+  withTwoHandedSwords: structuredClone(defaultStatGroup),
+  withStaffs: structuredClone(defaultStatGroup),
+  withBowguns: structuredClone(defaultStatGroup),
+  withHalberds: structuredClone(defaultStatGroup),
+  withBows: structuredClone(defaultStatGroup),
+  withKatanas: structuredClone(defaultStatGroup),
 
-  withDagger: defaultStatGroup,
-  withArrow: defaultStatGroup,
-  withShield: defaultStatGroup,
-  withNinjutsuScroll: defaultStatGroup,
+  withDagger: structuredClone(defaultStatGroup),
+  withArrow: structuredClone(defaultStatGroup),
+  withShield: structuredClone(defaultStatGroup),
+  withNinjutsuScroll: structuredClone(defaultStatGroup),
 
-  withHeavyArmor: defaultStatGroup,
-  withLightArmor: defaultStatGroup,
+  withHeavyArmor: structuredClone(defaultStatGroup),
+  withLightArmor: structuredClone(defaultStatGroup),
 };
 
 export const defaultConfig: StatCalcConfig = {
@@ -203,7 +198,7 @@ export const defaultConfig: StatCalcConfig = {
 
   equipments: {
     mainweapon: {
-      type: "MAIN_BH",
+      type: "BH",
       ATK: 0,
       refinement: 0,
       stability: 0,
@@ -214,7 +209,7 @@ export const defaultConfig: StatCalcConfig = {
     },
 
     subweapon: {
-      type: "SUB_NONE",
+      type: "NONE",
       ATK: 0,
       DEF: 0,
       refinement: 0,
@@ -524,8 +519,8 @@ export const calculateAll = (config: StatCalcConfig) => ({
   ...calculateWeaponATK(config),
 });
 
-export const calculate = (config: UserDefinedConfig) =>
+export const calculate = (config: UserDefinedStatCalcConfig) =>
   calculateAll(mergeDefaultConfig(config));
 
-export const mergeDefaultConfig = (config: UserDefinedConfig) =>
+export const mergeDefaultConfig = (config: UserDefinedStatCalcConfig) =>
   merge(defaultConfig, config);

@@ -1,27 +1,29 @@
-export type Stat = [StatName, number];
+export type RecursePartial<T> = {
+  [K in keyof T]?: T[K] extends object ? RecursePartial<T[K]> : T[K];
+};
 
 export type MainWeaponTypeName =
-  | "MAIN_OHS"
-  | "MAIN_THS"
-  | "MAIN_BOW"
-  | "MAIN_BWG"
-  | "MAIN_STF"
-  | "MAIN_MD"
-  | "MAIN_HAL"
-  | "MAIN_KTN"
-  | "MAIN_KN"
-  | "MAIN_BH";
+  | "OHS"
+  | "THS"
+  | "BOW"
+  | "BWG"
+  | "STF"
+  | "MD"
+  | "HAL"
+  | "KTN"
+  | "KN"
+  | "BH";
 
 export type SubWeaponTypeName =
-  | "SUB_OHS"
-  | "SUB_KTN"
-  | "SUB_KN"
-  | "SUB_MD"
-  | "SUB_SCROLL"
-  | "SUB_ARROW"
-  | "SUB_SHIELD"
-  | "SUB_DAGGER"
-  | "SUB_NONE";
+  | "OHS"
+  | "KTN"
+  | "KN"
+  | "MD"
+  | "SCROLL"
+  | "ARROW"
+  | "SHIELD"
+  | "DAGGER"
+  | "NONE";
 
 export type ArmorTypeName =
   | "LIGHT_ARMOR"
@@ -30,240 +32,8 @@ export type ArmorTypeName =
   | "NO_ARMOR";
 
 export type PersonalStatName = "LUK" | "MTL" | "TEC" | "CRT" | "NONE";
-export type ResonanceSetName = "ATK_MATK" | "ACC_CRIT" | "ASPD_CSPD";
 
-export type StatName =
-  | "FLAT_STR"
-  | "PERCENT_STR"
-  | "FLAT_INT"
-  | "PERCENT_INT"
-  | "FLAT_DEX"
-  | "PERCENT_DEX"
-  | "FLAT_VIT"
-  | "PERCENT_VIT"
-  | "FLAT_AGI"
-  | "PERCENT_AGI"
-  | "FLAT_WEAPON_ATK"
-  | "PERCENT_WEAPON_ATK"
-  | "FLAT_MATK"
-  | "PERCENT_MATK"
-  | "FLAT_ATK"
-  | "PERCENT_ATK"
-  | "FLAT_ASPD"
-  | "PERCENT_ASPD"
-  | "FLAT_CSPD"
-  | "PERCENT_CSPD"
-  | "FLAT_CRITICAL_RATE"
-  | "PERCENT_CRITICAL_RATE"
-  | "FLAT_CRITICAL_DAMAGE"
-  | "PERCENT_CRITICAL_DAMAGE"
-  | "FLAT_MAX_HP"
-  | "PERCENT_MAX_HP"
-  | "FLAT_MAX_MP"
-  | "PERCENT_MAX_MP"
-  | "FLAT_ACCURACY"
-  | "PERCENT_ACCURACY"
-  | "FLAT_DODGE"
-  | "PERCENT_DODGE"
-  | "FLAT_DEF"
-  | "PERCENT_DEF"
-  | "FLAT_MDEF"
-  | "PERCENT_MDEF"
-  | "FLAT_UNSHEATHE_ATTACK"
-  | "PERCENT_UNSHEATHE_ATTACK"
-  | "FLAT_ATTACK_MP_RECOVERY"
-  | "PERCENT_ATTACK_MP_RECOVERY"
-  | "FLAT_NATURAL_HP_REGEN"
-  | "PERCENT_NATURAL_HP_REGEN"
-  | "FLAT_NATURAL_MP_REGEN"
-  | "PERCENT_NATURAL_MP_REGEN"
-  | "STABILITY"
-  | "MAGIC_PIERCE"
-  | "PHYSICAL_PIERCE"
-  | "LONG_RANGE_DAMAGE"
-  | "SHORT_RANGE_DAMAGE"
-  | "MOTION_SPEED"
-  | "ATK_UP_STR"
-  | "ATK_UP_INT"
-  | "ATK_UP_DEX"
-  | "ATK_UP_VIT"
-  | "ATK_UP_AGI"
-  | "MATK_UP_STR"
-  | "MATK_UP_INT"
-  | "MATK_UP_DEX"
-  | "MATK_UP_VIT"
-  | "MATK_UP_AGI"
-  | "ATK_DOWN_STR"
-  | "ATK_DOWN_INT"
-  | "ATK_DOWN_DEX"
-  | "ATK_DOWN_VIT"
-  | "ATK_DOWN_AGI"
-  | "MATK_DOWN_STR"
-  | "MATK_DOWN_INT"
-  | "MATK_DOWN_DEX"
-  | "MATK_DOWN_VIT"
-  | "MATK_DOWN_AGI"
-  | "MAGIC_RESISTANCE"
-  | "PHYSICAL_RESISTANCE"
-  | "LIGHT_RESISTANCE"
-  | "DARK_RESISTANCE"
-  | "FIRE_RESISTANCE"
-  | "WATER_RESISTANCE"
-  | "EARTH_RESISTANCE"
-  | "WIND_RESISTANCE"
-  | "NEUTRAL_RESISTANCE"
-  | "AILMENT_RESISTANCE"
-  | "DAMAGE_TO_DARK"
-  | "DAMAGE_TO_LIGHT"
-  | "DAMAGE_TO_EARTH"
-  | "DAMAGE_TO_WATER"
-  | "DAMAGE_TO_FIRE"
-  | "DAMAGE_TO_WIND"
-  | "DAMAGE_TO_NEUTRAL"
-  | "AGGRO"
-  | "TUMBLE_UNAVAILABLE"
-  | "FLINCH_UNAVAILABLE"
-  | "STUN_UNAVAILABLE"
-  | "DARK"
-  | "LIGHT"
-  | "EARTH"
-  | "WATER"
-  | "FIRE"
-  | "WIND"
-  | "NEUTRAL"
-  | "GUARD_POWER"
-  | "GUARD_RECHARGE"
-  | "GUARD_BREAK"
-  | "EVASION_RECHARGE"
-  | "ANTICIPATE"
-  | "ITEM_COOLDOWN"
-  | "INVINCIBLE_AID"
-  | "ABSOLUTE_ACCURACY"
-  | "ABSOLUTE_DODGE"
-  | "PHYSICAL_BARRIER"
-  | "MAGIC_BARRIER"
-  | "FRACTIONAL_BARRIER"
-  | "BARRIER_COOLDOWN"
-  | "ADDITIONAL_MELEE"
-  | "ADDITIONAL_MAGIC";
-
-// export type StatMap = {
-//   FLAT_STR: number;
-//   PERCENT_STR: number;
-//   FLAT_INT: number;
-//   PERCENT_INT: number;
-//   FLAT_DEX: number;
-//   PERCENT_DEX: number;
-//   FLAT_VIT: number;
-//   PERCENT_VIT: number;
-//   FLAT_AGI: number;
-//   PERCENT_AGI: number;
-//   FLAT_WEAPON_ATK: number;
-//   PERCENT_WEAPON_ATK: number;
-//   FLAT_MATK: number;
-//   PERCENT_MATK: number;
-//   FLAT_ATK: number;
-//   PERCENT_ATK: number;
-//   FLAT_ASPD: number;
-//   PERCENT_ASPD: number;
-//   FLAT_CSPD: number;
-//   PERCENT_CSPD: number;
-//   FLAT_CRITICAL_RATE: number;
-//   PERCENT_CRITICAL_RATE: number;
-//   FLAT_CRITICAL_DAMAGE: number;
-//   PERCENT_CRITICAL_DAMAGE: number;
-//   FLAT_MAX_HP: number;
-//   PERCENT_MAX_HP: number;
-//   FLAT_MAX_MP: number;
-//   PERCENT_MAX_MP: number;
-//   FLAT_ACCURACY: number;
-//   PERCENT_ACCURACY: number;
-//   FLAT_DODGE: number;
-//   PERCENT_DODGE: number;
-//   FLAT_DEF: number;
-//   PERCENT_DEF: number;
-//   FLAT_MDEF: number;
-//   PERCENT_MDEF: number;
-//   FLAT_UNSHEATHE_ATTACK: number;
-//   PERCENT_UNSHEATHE_ATTACK: number;
-//   FLAT_ATTACK_MP_RECOVERY: number;
-//   PERCENT_ATTACK_MP_RECOVERY: number;
-//   FLAT_NATURAL_HP_REGEN: number;
-//   PERCENT_NATURAL_HP_REGEN: number;
-//   FLAT_NATURAL_MP_REGEN: number;
-//   PERCENT_NATURAL_MP_REGEN: number;
-//   STABILITY: number;
-//   MAGIC_PIERCE: number;
-//   PHYSICAL_PIERCE: number;
-//   LONG_RANGE_DAMAGE: number;
-//   SHORT_RANGE_DAMAGE: number;
-//   MOTION_SPEED: number;
-//   ATK_UP_STR: number;
-//   ATK_UP_INT: number;
-//   ATK_UP_DEX: number;
-//   ATK_UP_VIT: number;
-//   ATK_UP_AGI: number;
-//   MATK_UP_STR: number;
-//   MATK_UP_INT: number;
-//   MATK_UP_DEX: number;
-//   MATK_UP_VIT: number;
-//   MATK_UP_AGI: number;
-//   ATK_DOWN_STR: number;
-//   ATK_DOWN_INT: number;
-//   ATK_DOWN_DEX: number;
-//   ATK_DOWN_VIT: number;
-//   ATK_DOWN_AGI: number;
-//   MATK_DOWN_STR: number;
-//   MATK_DOWN_INT: number;
-//   MATK_DOWN_DEX: number;
-//   MATK_DOWN_VIT: number;
-//   MATK_DOWN_AGI: number;
-//   MAGIC_RESISTANCE: number;
-//   PHYSICAL_RESISTANCE: number;
-//   LIGHT_RESISTANCE: number;
-//   DARK_RESISTANCE: number;
-//   FIRE_RESISTANCE: number;
-//   WATER_RESISTANCE: number;
-//   EARTH_RESISTANCE: number;
-//   WIND_RESISTANCE: number;
-//   NEUTRAL_RESISTANCE: number;
-//   AILMENT_RESISTANCE: number;
-//   DAMAGE_TO_DARK: number;
-//   DAMAGE_TO_LIGHT: number;
-//   DAMAGE_TO_EARTH: number;
-//   DAMAGE_TO_WATER: number;
-//   DAMAGE_TO_FIRE: number;
-//   DAMAGE_TO_WIND: number;
-//   DAMAGE_TO_NEUTRAL: number;
-//   AGGRO: number;
-//   TUMBLE_UNAVAILABLE: number;
-//   FLINCH_UNAVAILABLE: number;
-//   STUN_UNAVAILABLE: number;
-//   DARK: number;
-//   LIGHT: number;
-//   EARTH: number;
-//   WATER: number;
-//   FIRE: number;
-//   WIND: number;
-//   NEUTRAL: number;
-//   GUARD_POWER: number;
-//   GUARD_RECHARGE: number;
-//   GUARD_BREAK: number;
-//   EVASION_RECHARGE: number;
-//   ANTICIPATE: number;
-//   ITEM_COOLDOWN: number;
-//   INVINCIBLE_AID: number;
-//   ABSOLUTE_ACCURACY: number;
-//   ABSOLUTE_DODGE: number;
-//   PHYSICAL_BARRIER: number;
-//   MAGIC_BARRIER: number;
-//   FRACTIONAL_BARRIER: number;
-//   BARRIER_COOLDOWN: number;
-//   ADDITIONAL_MELEE: number;
-//   ADDITIONAL_MAGIC: number;
-// };
-
-export type StatGroup = {
+export type StatMap = {
   flatSTR: number;
   percentSTR: number;
   flatINT: number;
@@ -382,32 +152,28 @@ export type Entries<T> = {
   [K in keyof T]-?: [K, T[K]];
 }[keyof T][];
 
-export type StatMap = {
-  default: StatGroup;
+export type StatGroup = {
+  default: StatMap;
 
-  withMagicTools: StatGroup;
-  withDualSwords: StatGroup;
-  withKnuckles: StatGroup;
-  withOneHandedSwords: StatGroup;
-  withTwoHandedSwords: StatGroup;
-  withStaffs: StatGroup;
-  withBowguns: StatGroup;
-  withHalberds: StatGroup;
-  withBows: StatGroup;
-  withKatanas: StatGroup;
+  withMagicTools: StatMap;
+  withDualSwords: StatMap;
+  withKnuckles: StatMap;
+  withOneHandedSwords: StatMap;
+  withTwoHandedSwords: StatMap;
+  withStaffs: StatMap;
+  withBowguns: StatMap;
+  withHalberds: StatMap;
+  withBows: StatMap;
+  withKatanas: StatMap;
 
-  withDagger: StatGroup;
-  withArrow: StatGroup;
-  withShield: StatGroup;
-  withNinjutsuScroll: StatGroup;
+  withDagger: StatMap;
+  withArrow: StatMap;
+  withShield: StatMap;
+  withNinjutsuScroll: StatMap;
 
-  withHeavyArmor: StatGroup;
-  withLightArmor: StatGroup;
+  withHeavyArmor: StatMap;
+  withLightArmor: StatMap;
 };
-
-// TODO: Change the Data Format of the Stats
-
-export type StatMapBuilder = (_: StatCalcConfig) => Stat[];
 
 export interface Properties {
   level: number;
@@ -427,9 +193,9 @@ export interface Equipments {
     refinement: number;
     stability: number;
 
-    stats: StatMap;
-    crystal1: StatMap;
-    crystal2: StatMap;
+    stats: StatGroup;
+    crystal1: StatGroup;
+    crystal2: StatGroup;
   };
 
   subweapon: {
@@ -438,9 +204,9 @@ export interface Equipments {
     DEF: number;
     refinement: number;
     stability: number;
-    stats: StatMap;
-    crystal1: StatMap;
-    crystal2: StatMap;
+    stats: StatGroup;
+    crystal1: StatGroup;
+    crystal2: StatGroup;
     scrollCastTimeReduction: number;
     scrollMPReduction: number;
   };
@@ -449,24 +215,24 @@ export interface Equipments {
     DEF: number;
     type: ArmorTypeName;
     refinement: number;
-    stats: StatMap;
-    crystal1: StatMap;
-    crystal2: StatMap;
+    stats: StatGroup;
+    crystal1: StatGroup;
+    crystal2: StatGroup;
   };
 
   additionalGear: {
     DEF: number;
     refinement: number;
-    stats: StatMap;
-    crystal1: StatMap;
-    crystal2: StatMap;
+    stats: StatGroup;
+    crystal1: StatGroup;
+    crystal2: StatGroup;
   };
 
   specialGear: {
     DEF: number;
-    stats: StatMap;
-    crystal1: StatMap;
-    crystal2: StatMap;
+    stats: StatGroup;
+    crystal1: StatGroup;
+    crystal2: StatGroup;
   };
 }
 
@@ -722,10 +488,14 @@ export interface StatCalcConfig {
   properties: Properties;
   equipments: Equipments;
   statModifiers: StatModifiers;
-  consumables: StatGroup[];
-  foodBuffs: StatGroup[];
+  consumables: StatMap[];
+  foodBuffs: StatMap[];
   // regislets: Regislets;
 }
+
+export type UserDefinedStatGroup = RecursePartial<StatGroup>;
+
+export type UserDefinedStatCalcConfig = RecursePartial<StatCalcConfig>;
 
 export type NormalCrystalName =
   | "Accuracy+10"

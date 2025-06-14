@@ -1,9 +1,9 @@
-export { calculate } from "./stats";
 export {
-  type StatCalcConfig as Config,
-  type Stat,
-  type StatMapBuilder,
+  type RecursePartial,
+  type StatCalcConfig,
+  type StatGroup,
+  type UserDefinedStatCalcConfig,
+  type UserDefinedStatGroup,
 } from "./stats/types";
 
-// BIG TASK:
-// REDO THE STATCALC CONFIG, FLATTEN IT CUZ IT SEEMS LIKE MERGICIAN IS FAILING TO MERGE SOME DATA
+export { calculate } from "./stats";
