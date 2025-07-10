@@ -4,6 +4,7 @@ import { defaultStatGroup } from ".";
 import { StatGroup, StatMap, type StatCalcConfig } from "./types";
 
 Decimal.set({ precision: 15, rounding: 1 });
+
 export const D = Decimal;
 
 export const merge = <L extends object, R extends object>(
