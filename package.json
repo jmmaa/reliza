@@ -1,5 +1,5 @@
 {
-  "name": "reliza",
+  "name": "@jmmaa/reliza",
   "version": "0.0.1-dev",
   "description": "an easy-to-use library for status and damage calculation in Toram Online",
   "browser": "./lib/index.iife.js",
@@ -18,7 +18,7 @@
     "build:test": "npm run lint && npm run build && npm run release && npm install file:release/reliza-0.0.1.tgz"
   },
   "keywords": [],
-  "author": "",
+  "author": "jmmaa",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.5.2",
@@ -38,5 +38,17 @@
     "decimal.js": "^10.5.0",
     "mathjs": "^14.4.0",
     "mergician": "^2.0.2"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmmaa/reliza.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jmmaa/reliza/issues"
+  },
+  "homepage": "https://github.com/jmmaa/reliza#readme"
 }
