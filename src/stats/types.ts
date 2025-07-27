@@ -186,54 +186,64 @@ export interface Properties {
   personalStatValue: number;
 }
 
+export interface MainWeapon {
+  type: MainWeaponTypeName;
+  ATK: number;
+  refinement: number;
+  stability: number;
+
+  stats: StatGroup;
+  crystal1: StatGroup;
+  crystal2: StatGroup;
+}
+
+export interface SubWeapon {
+  type: SubWeaponTypeName;
+  ATK: number;
+  DEF: number;
+  refinement: number;
+  stability: number;
+  stats: StatGroup;
+  crystal1: StatGroup;
+  crystal2: StatGroup;
+  scrollCastTimeReduction: number;
+  scrollMPReduction: number;
+}
+
+export interface Armor {
+  DEF: number;
+  type: ArmorTypeName;
+  refinement: number;
+  stats: StatGroup;
+  crystal1: StatGroup;
+  crystal2: StatGroup;
+}
+
+export interface AdditionalGear {
+  DEF: number;
+  refinement: number;
+  stats: StatGroup;
+  crystal1: StatGroup;
+  crystal2: StatGroup;
+}
+
+export interface SpecialGear {
+  DEF: number;
+  stats: StatGroup;
+  crystal1: StatGroup;
+  crystal2: StatGroup;
+}
+
 export interface Equipments {
-  mainweapon: {
-    type: MainWeaponTypeName;
-    ATK: number;
-    refinement: number;
-    stability: number;
+  mainweapon: MainWeapon;
 
-    stats: StatGroup;
-    crystal1: StatGroup;
-    crystal2: StatGroup;
-  };
+  subweapon: SubWeapon;
 
-  subweapon: {
-    type: SubWeaponTypeName;
-    ATK: number;
-    DEF: number;
-    refinement: number;
-    stability: number;
-    stats: StatGroup;
-    crystal1: StatGroup;
-    crystal2: StatGroup;
-    scrollCastTimeReduction: number;
-    scrollMPReduction: number;
-  };
+  armor: Armor;
 
-  armor: {
-    DEF: number;
-    type: ArmorTypeName;
-    refinement: number;
-    stats: StatGroup;
-    crystal1: StatGroup;
-    crystal2: StatGroup;
-  };
+  additionalGear: AdditionalGear;
 
-  additionalGear: {
-    DEF: number;
-    refinement: number;
-    stats: StatGroup;
-    crystal1: StatGroup;
-    crystal2: StatGroup;
-  };
-
-  specialGear: {
-    DEF: number;
-    stats: StatGroup;
-    crystal1: StatGroup;
-    crystal2: StatGroup;
-  };
+  specialGear: SpecialGear;
 }
 
 export interface StatModifiers {
@@ -265,8 +275,8 @@ export interface StatModifiers {
   mononofuSkills: {
     twoHanded: { level: number };
     bushido: { level: number };
-
     shukuchi: { level: number; buffIsActive: boolean };
+    kairikiRanshin: { level: number; buffIsActive: boolean };
   };
 
   ninjaSkills: {
@@ -493,9 +503,7 @@ export interface StatCalcConfig {
   // regislets: Regislets;
 }
 
-export type UserDefinedStatGroup = RecursePartial<StatGroup>;
-
-export type UserDefinedStatCalcConfig = RecursePartial<StatCalcConfig>;
+export type UserDefined<T> = RecursePartial<T>;
 
 export type NormalCrystalName =
   | "Accuracy+10"

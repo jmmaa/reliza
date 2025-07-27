@@ -65,8 +65,8 @@ export const regisletPhysicalAttackBoostFlatATK = (
 
 export const warCryPercentATKBuff = (config: StatCalcConfig) =>
   bladeSkills(config).warCry.buffIsActive ?
-    isUsingMainTHS(config) ? bladeSkills(config).warCry.level * 10 + 5
-    : bladeSkills(config).warCry.level * 10
+    isUsingMainTHS(config) ? bladeSkills(config).warCry.level + 5
+    : bladeSkills(config).warCry.level
   : 0;
 
 export const swordMasteryPercentATKPassive = (config: StatCalcConfig) =>
@@ -222,7 +222,7 @@ export const totalPercentATKFromSkills = (config: StatCalcConfig) =>
 
 export const totalPercentATK = (config: StatCalcConfig) =>
   totalPercentATKFromEquipment(config) +
-  totalPercentATKFromSkills(config) +
+  totalPercentATKFromSkills(config) + // tis shiet is bugged
   castMasteryPercentATKReduction(config); // this one is a special case, so im not going to include it in skills func;
 
 // this fuhction is only dedicated for wizard atk calculation

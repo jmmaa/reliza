@@ -27,7 +27,7 @@ export const rampageFlatAMPRBuff = (config: StatCalcConfig) =>
     (isUsingMainOHS(config) || isUsingMainTHS(config)) &&
     bladeSkills(config).rampage.buffIsActive
   ) ?
-    Math.floor(2.5 * bladeSkills(config).rampage.level)
+    D.floor(D(2.5).times(bladeSkills(config).rampage.level)).toNumber()
   : 0;
 
 export const triggerSlashFlatAMPRBuff = (config: StatCalcConfig) =>
@@ -35,12 +35,12 @@ export const triggerSlashFlatAMPRBuff = (config: StatCalcConfig) =>
     (isUsingMainOHS(config) || isUsingMainTHS(config)) &&
     bladeSkills(config).triggerSlash.buffIsActive
   ) ?
-    bladeSkills(config).triggerSlash.level * 2
+    D(bladeSkills(config).triggerSlash.level).times(2).toNumber()
   : 0;
 
 export const aggravateFlatAMPRPassive = (config: StatCalcConfig) =>
   isUsingMainKN(config) ?
-    Math.floor(martialSkills(config).aggravate.level * 0.5)
+    D.floor(D(martialSkills(config).aggravate.level).times(0.5)).toNumber()
   : 0;
 
 export const etherFlareFlatAMPRBuff = (config: StatCalcConfig) =>
@@ -48,9 +48,21 @@ export const etherFlareFlatAMPRBuff = (config: StatCalcConfig) =>
     isUsingSubMD(config) &&
     magicBladeSkills(config).etherFlare.isTargetInflictedWithIgnite
   ) ?
-    15 +
-    Math.floor(magicBladeSkills(config).etherFlare.level / 6) * 5 +
-    Math.floor(magicBladeSkills(config).etherFlare.level / 5) * 5
+    D(15)
+      .plus(
+        D(
+          D.floor(
+            D(magicBladeSkills(config).etherFlare.level).dividedBy(6),
+          ).times(5),
+        ).plus(
+          D(
+            D.floor(
+              D(magicBladeSkills(config).etherFlare.level).dividedBy(5),
+            ).times(5),
+          ),
+        ),
+      )
+      .toNumber()
   : 0;
 
 export const ultimaQiChargeFlatAMPRPassive = (config: StatCalcConfig) =>
@@ -112,8 +124,8 @@ export const shukuchiFlatAMPRBuff = (config: StatCalcConfig) => {
 };
 
 export const kairikiRanshinFlatAMPRBuff = (config: StatCalcConfig) => {
-  const level = mononofuSkills(config).shukuchi.level;
-  const isActive = mononofuSkills(config).shukuchi.buffIsActive;
+  const level = mononofuSkills(config).kairikiRanshin.level;
+  const isActive = mononofuSkills(config).kairikiRanshin.buffIsActive;
 
   return (
     isActive ?

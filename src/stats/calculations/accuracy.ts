@@ -102,7 +102,7 @@ export const totalPercentAccuracyFromEquipment = (
 ) =>
   flattenedStats(config)
     .map((stat) => stat.percentAccuracy)
-    .reduce(add, 0); // FINISH THIS
+    .reduce(add, 0);
 
 export const totalPercentAccuracyFromSkills = (config: StatCalcConfig) =>
   dualSwordMasteryPercentHITPassive(config) +
@@ -141,3 +141,5 @@ export const calculateAccuracy = (config: StatCalcConfig) => ({
   totalFlatAccuracy: totalFlatAccuracy(config),
   totalAccuracy: totalAccuracy(config),
 });
+
+// ACCURACY CHECKED

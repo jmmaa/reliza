@@ -49,3 +49,5 @@ export const calculateAGI = (config: StatCalcConfig) => ({
   totalFlatAGI: totalFlatAGI(config),
   totalAGI: totalAGI(config),
 });
+
+// ACCURACY CHECKED

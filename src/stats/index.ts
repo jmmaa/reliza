@@ -1,4 +1,4 @@
-import { UserDefinedStatCalcConfig } from "./types";
+import { UserDefined } from "./types";
 
 import {
   calculateAccuracy,
@@ -282,6 +282,7 @@ export const defaultConfig: StatCalcConfig = {
       bushido: { level: 0 },
 
       shukuchi: { level: 0, buffIsActive: false },
+      kairikiRanshin: { level: 0, buffIsActive: false },
     },
 
     ninjaSkills: {
@@ -519,8 +520,8 @@ export const calculateAll = (config: StatCalcConfig) => ({
   ...calculateWeaponATK(config),
 });
 
-export const calculate = (config: UserDefinedStatCalcConfig) =>
+export const calculate = (config: UserDefined<StatCalcConfig>) =>
   calculateAll(mergeDefaultConfig(config));
 
-export const mergeDefaultConfig = (config: UserDefinedStatCalcConfig) =>
+export const mergeDefaultConfig = (config: UserDefined<StatCalcConfig>) =>
   merge(defaultConfig, config);

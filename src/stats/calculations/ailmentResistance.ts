@@ -27,3 +27,5 @@ export const calculateAilmentResistance = (config: StatCalcConfig) => ({
   totalAilmentResistanceFromMTL: totalAilmentResistanceFromMTL(config),
   totalAilmentResistance: totalAilmentResistance(config),
 });
+
+// ACCURACY CHECKED

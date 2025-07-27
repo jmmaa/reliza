@@ -1,6 +1,6 @@
-import { UserDefinedStatGroup } from "../../src";
+import { StatGroup, UserDefined } from "../../src";
 
-export const fullBlossomCharmstone: UserDefinedStatGroup = {
+export const fullBlossomCharmstone: UserDefined<StatGroup> = {
   default: {
     flatCSPD: 750,
     flatASPD: 750,
@@ -9,7 +9,7 @@ export const fullBlossomCharmstone: UserDefinedStatGroup = {
   },
 };
 
-export const starWizard: UserDefinedStatGroup = {
+export const starWizard: UserDefined<StatGroup> = {
   default: {
     percentMATK: 9,
     percentCSPD: 9,
@@ -25,7 +25,7 @@ export const starWizard: UserDefinedStatGroup = {
   },
 };
 
-export const screamShadow: UserDefinedStatGroup = {
+export const screamShadow: UserDefined<StatGroup> = {
   default: {
     flatMaxMP: 300,
     percentDEF: -40,
@@ -34,7 +34,7 @@ export const screamShadow: UserDefinedStatGroup = {
   },
 };
 
-export const cookieWings: UserDefinedStatGroup = {
+export const cookieWings: UserDefined<StatGroup> = {
   default: {
     percentDEX: 5,
     longRangeDamage: 10,
@@ -48,7 +48,7 @@ export const cookieWings: UserDefinedStatGroup = {
   },
 };
 
-export const jibrilIII: UserDefinedStatGroup = {
+export const jibrilIII: UserDefined<StatGroup> = {
   default: {
     longRangeDamage: 11,
     shortRangeDamage: 9,
@@ -60,7 +60,7 @@ export const jibrilIII: UserDefinedStatGroup = {
   },
 };
 
-export const mieli: UserDefinedStatGroup = {
+export const mieli: UserDefined<StatGroup> = {
   default: {
     flatASPD: 400,
     flatCSPD: 400,
@@ -70,7 +70,7 @@ export const mieli: UserDefinedStatGroup = {
   },
 };
 
-export const bangrudom: UserDefinedStatGroup = {
+export const bangrudom: UserDefined<StatGroup> = {
   default: {
     percentMaxHP: -20,
     percentATK: 10,
@@ -86,7 +86,7 @@ export const bangrudom: UserDefinedStatGroup = {
   },
 };
 
-export const gegner: UserDefinedStatGroup = {
+export const gegner: UserDefined<StatGroup> = {
   default: {
     percentINT: 6,
     percentMATK: 10,
@@ -95,7 +95,7 @@ export const gegner: UserDefinedStatGroup = {
   },
 };
 
-export const torexesa: UserDefinedStatGroup = {
+export const torexesa: UserDefined<StatGroup> = {
   default: {
     percentMATK: 10,
     percentATK: 10,
@@ -104,7 +104,7 @@ export const torexesa: UserDefinedStatGroup = {
   },
 };
 
-export const diark: UserDefinedStatGroup = {
+export const diark: UserDefined<StatGroup> = {
   default: {
     percentMATK: 8,
     percentCSPD: -16,
@@ -112,7 +112,7 @@ export const diark: UserDefinedStatGroup = {
   },
 };
 
-export const vatudo: UserDefinedStatGroup = {
+export const vatudo: UserDefined<StatGroup> = {
   default: {
     percentMATK: 10,
     percentMDEF: -30,
@@ -121,7 +121,7 @@ export const vatudo: UserDefinedStatGroup = {
   },
 };
 
-export const macaronHead: UserDefinedStatGroup = {
+export const macaronHead: UserDefined<StatGroup> = {
   default: {
     flatCSPD: 750,
     percentCSPD: 50,

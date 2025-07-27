@@ -27,7 +27,7 @@ const myCharacter = calculate({
 
   equipments: {
     mainweapon: {
-      type: "MAIN_OHS",
+      type: "OHS",
     },
   },
 
